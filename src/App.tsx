@@ -10,6 +10,7 @@ import HtmlTags from "./pages/HtmlTags";
 import CssProperties from "./pages/CssProperties";
 import CssSelectors from "./pages/CssSelectors";
 import Examples from "./pages/Examples";
+import PopularSiteExamples from "./pages/PopularSiteExamples"; // Import the new page
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/css-properties" element={<CssProperties />} />
             <Route path="/css-selectors" element={<CssSelectors />} />
             <Route path="/examples" element={<Examples />} />
+            <Route path="/popular-examples" element={<PopularSiteExamples />} /> {/* New route */}
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

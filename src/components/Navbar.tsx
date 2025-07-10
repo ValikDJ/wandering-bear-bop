@@ -22,6 +22,9 @@ const Navbar: React.FC = () => {
           <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20">
             <Link to="/examples">Приклади</Link>
           </Button>
+          <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20">
+            <Link to="/popular-examples">Приклади Сайтів</Link>
+          </Button> {/* New link */}
         </div>
       </div>
     </nav>
