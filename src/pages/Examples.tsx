@@ -1,5 +1,6 @@
 import React from "react";
 import LessonCard from "@/components/LessonCard";
+import LiveCodeEditor from "@/components/LiveCodeEditor"; // Import the new component
 
 const Examples: React.FC = () => {
   return (
@@ -10,6 +11,31 @@ const Examples: React.FC = () => {
       </p>
 
       <div className="space-y-8">
+        {/* New Live Code Editor Section */}
+        <LiveCodeEditor
+          title="Твій власний редактор коду!"
+          description="Спробуй змінити текст, додати нові теги або змінити кольори. Експериментуй!"
+          initialHtml={`<h1>Привіт, Веб-Майстер!</h1>
+<p>Це твій перший інтерактивний код.</p>
+<button>Натисни мене</button>`}
+          initialCss={`h1 {
+  color: #4CAF50; /* Зелений */
+  text-align: center;
+}
+p {
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 18px;
+}
+button {
+  background-color: #008CBA; /* Синій */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}`}
+        />
+
         <LessonCard
           title="Як зробити заголовок червоним?"
           description="Використаємо тег <h1> та CSS властивість `color`."
