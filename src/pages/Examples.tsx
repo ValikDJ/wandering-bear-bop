@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link
+import { Link } from "react-router-dom";
 import LessonCard from "@/components/LessonCard";
 import LiveCodeEditor from "@/components/LiveCodeEditor";
-import { Button } from "@/components/ui/button"; // Import Button
+import HtmlElementCreator from "@/components/HtmlElementCreator"; // Import the new component
+import { Button } from "@/components/ui/button";
 
 const Examples: React.FC = () => {
   return (
@@ -36,6 +37,9 @@ button {
   cursor: pointer;
 }`}
         />
+
+        {/* New HTML Element Creator */}
+        <HtmlElementCreator />
 
         <div className="text-center mt-12 mb-8">
           <h2 className="text-3xl font-bold mb-4 text-primary">Більше Прикладів та Натхнення</h2>
