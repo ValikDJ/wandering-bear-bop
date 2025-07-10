@@ -125,6 +125,43 @@ const CssProperties: React.FC = () => {
           language="css"
           result={<a href="#" style={{ textDecoration: 'none', color: 'green' }}>Посилання без підкреслення.</a>}
         />
+
+        {/* New Interactive CSS Properties */}
+        <InteractiveCssProperty
+          title="opacity: Прозорість (Інтерактивно!)"
+          description="Властивість `opacity` встановлює рівень прозорості елемента. Значення від 0 (повністю прозорий) до 1 (повністю непрозорий)."
+          cssProperty="opacity"
+          unit=""
+          min={0}
+          max={100}
+          initialValue={100}
+          exampleContent={<div style={{ width: '150px', height: '80px', backgroundColor: '#8A2BE2', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>Прозорий блок</div>}
+          baseStyle={{}}
+        />
+
+        <InteractiveCssProperty
+          title="width: Ширина (Інтерактивно!)"
+          description="Властивість `width` встановлює ширину елемента. Перетягни повзунок, щоб змінити ширину!"
+          cssProperty="width"
+          unit="px"
+          min={50}
+          max={300}
+          initialValue={150}
+          exampleContent={<div style={{ height: '80px', backgroundColor: '#FF4500', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>Блок змінної ширини</div>}
+          baseStyle={{}}
+        />
+
+        <InteractiveCssProperty
+          title="height: Висота (Інтерактивно!)"
+          description="Властивість `height` встановлює висоту елемента. Перетягни повзунок, щоб змінити висоту!"
+          cssProperty="height"
+          unit="px"
+          min={30}
+          max={200}
+          initialValue={100}
+          exampleContent={<div style={{ width: '150px', backgroundColor: '#1E90FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>Блок змінної висоти</div>}
+          baseStyle={{}}
+        />
       </div>
     </div>
   );
