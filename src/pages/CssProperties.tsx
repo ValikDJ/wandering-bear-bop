@@ -1,6 +1,7 @@
 import React from "react";
 import LessonCard from "@/components/LessonCard";
-import InteractiveCssProperty from "@/components/InteractiveCssProperty"; // Import the new component
+import InteractiveCssProperty from "@/components/InteractiveCssProperty";
+import CssBoxModelVisualizer from "@/components/CssBoxModelVisualizer"; // Import the new component
 
 const CssProperties: React.FC = () => {
   return (
@@ -87,6 +88,9 @@ const CssProperties: React.FC = () => {
           exampleContent={<div style={{ backgroundColor: '#FFB6C1', border: '1px solid #333' }}>Цей блок має внутрішні відступи.</div>}
           baseStyle={{}}
         />
+
+        {/* New Box Model Visualizer */}
+        <CssBoxModelVisualizer />
 
         <LessonCard
           title="border: Рамка"
