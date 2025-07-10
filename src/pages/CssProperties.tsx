@@ -1,6 +1,5 @@
 import React from "react";
 import LessonCard from "@/components/LessonCard";
-import InteractiveCssProperty from "@/components/InteractiveCssProperty"; // Import the new component
 
 const CssProperties: React.FC = () => {
   return (
@@ -11,31 +10,6 @@ const CssProperties: React.FC = () => {
       </p>
 
       <div className="space-y-8">
-        {/* New Interactive CSS Property sections */}
-        <InteractiveCssProperty
-          title="Інтерактивний font-size"
-          description="Спробуй змінити розмір шрифту за допомогою повзунка!"
-          cssProperty="fontSize"
-          initialValue={24}
-          min={12}
-          max={60}
-          step={1}
-          unit="px"
-          exampleText="Цей текст змінює свій розмір!"
-        />
-
-        <InteractiveCssProperty
-          title="Інтерактивний border-radius"
-          description="Зроби кути цього блоку більш або менш заокругленими!"
-          cssProperty="borderRadius"
-          initialValue={10}
-          min={0}
-          max={50}
-          step={1}
-          unit="px"
-          exampleHtml={`<div style="width: 100px; height: 100px; background-color: #60A5FA; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">Блок</div>`}
-        />
-
         <LessonCard
           title="color: Колір Тексту"
           description="Властивість `color` змінює колір тексту елемента."
