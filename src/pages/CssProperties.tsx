@@ -30,7 +30,7 @@ const CssProperties: React.FC = () => {
           max={48}
           initialValue={24}
           exampleHtml="<p>Цей текст змінює свій розмір.</p>"
-          previewStyle={{}} // No specific initial style needed, as font-size will be applied dynamically
+          previewStyle={{}}
         />
 
         <LessonCard
@@ -64,25 +64,28 @@ const CssProperties: React.FC = () => {
           result={<h2 style={{ textAlign: 'center' }}>Заголовок по центру</h2>}
         />
 
-        <LessonCard
-          title="margin: Зовнішні Відступи"
-          description="Властивість `margin` створює простір навколо елемента, відштовхуючи його від інших елементів. Можна вказати для всіх сторін або окремо (top, right, bottom, left)."
-          codeExample={`img {
-  margin: 20px;
-}`}
-          language="css"
-          result={<img src="https://via.placeholder.com/80" alt="Приклад зображення" style={{ margin: '20px', display: 'block' }} className="rounded-md shadow-sm" />}
+        <InteractiveCssProperty
+          title="margin: Зовнішні Відступи (Інтерактивно!)"
+          description="Властивість `margin` створює простір *навколо* елемента, відштовхуючи його від інших елементів. Перетягни повзунок, щоб побачити, як змінюється зовнішній відступ цього блоку."
+          cssProperty="margin"
+          unit="px"
+          min={0}
+          max={50}
+          initialValue={20}
+          exampleHtml={`<div style="background-color: #ADD8E6; border: 1px solid #333; padding: 10px;">Цей блок має зовнішні відступи.</div>`}
+          previewStyle={{}}
         />
 
-        <LessonCard
-          title="padding: Внутрішні Відступи"
-          description="Властивість `padding` створює простір між вмістом елемента та його рамкою (border). Можна вказати для всіх сторін або окремо."
-          codeExample={`div {
-  padding: 15px;
-  border: 1px solid gray;
-}`}
-          language="css"
-          result={<div style={{ padding: '15px', border: '1px solid gray' }}>Це блок з внутрішнім відступом.</div>}
+        <InteractiveCssProperty
+          title="padding: Внутрішні Відступи (Інтерактивно!)"
+          description="Властивість `padding` створює простір *між вмістом* елемента та його рамкою. Перетягни повзунок, щоб побачити, як змінюється внутрішній відступ цього блоку."
+          cssProperty="padding"
+          unit="px"
+          min={0}
+          max={50}
+          initialValue={15}
+          exampleHtml={`<div style="background-color: #FFB6C1; border: 1px solid #333;">Цей блок має внутрішні відступи.</div>`}
+          previewStyle={{}}
         />
 
         <LessonCard
@@ -105,7 +108,7 @@ const CssProperties: React.FC = () => {
           max={50}
           initialValue={15}
           exampleHtml={`<div style="width: 100px; height: 100px; background-color: #FFD700; display: flex; align-items: center; justify-content: center; color: #333; font-weight: bold;">Блок</div>`}
-          previewStyle={{ border: '2px solid purple' }} // Add a border for better visibility of radius
+          previewStyle={{ border: '2px solid purple' }}
         />
 
         <LessonCard
