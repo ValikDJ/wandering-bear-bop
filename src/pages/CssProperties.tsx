@@ -29,8 +29,8 @@ const CssProperties: React.FC = () => {
           min={12}
           max={48}
           initialValue={24}
-          exampleHtml="<p>Цей текст змінює свій розмір.</p>"
-          previewStyle={{}}
+          exampleContent={<p>Цей текст змінює свій розмір.</p>}
+          baseStyle={{}}
         />
 
         <LessonCard
@@ -72,8 +72,8 @@ const CssProperties: React.FC = () => {
           min={0}
           max={50}
           initialValue={20}
-          exampleHtml={`<div style="background-color: #ADD8E6; border: 1px solid #333; padding: 10px;">Цей блок має зовнішні відступи.</div>`}
-          previewStyle={{}}
+          exampleContent={<div style={{ backgroundColor: '#ADD8E6', border: '1px solid #333', padding: '10px' }}>Цей блок має зовнішні відступи.</div>}
+          baseStyle={{}}
         />
 
         <InteractiveCssProperty
@@ -84,8 +84,8 @@ const CssProperties: React.FC = () => {
           min={0}
           max={50}
           initialValue={15}
-          exampleHtml={`<div style="background-color: #FFB6C1; border: 1px solid #333;">Цей блок має внутрішні відступи.</div>`}
-          previewStyle={{}}
+          exampleContent={<div style={{ backgroundColor: '#FFB6C1', border: '1px solid #333' }}>Цей блок має внутрішні відступи.</div>}
+          baseStyle={{}}
         />
 
         <LessonCard
@@ -107,8 +107,8 @@ const CssProperties: React.FC = () => {
           min={0}
           max={50}
           initialValue={15}
-          exampleHtml={`<div style="width: 100px; height: 100px; background-color: #FFD700; display: flex; align-items: center; justify-content: center; color: #333; font-weight: bold;">Блок</div>`}
-          previewStyle={{ border: '2px solid purple' }}
+          exampleContent={<div style={{ width: '100px', height: '100px', backgroundColor: '#FFD700', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#333', fontWeight: 'bold' }}>Блок</div>}
+          baseStyle={{ border: '2px solid purple' }}
         />
 
         <LessonCard

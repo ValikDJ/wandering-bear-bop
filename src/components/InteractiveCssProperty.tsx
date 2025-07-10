@@ -13,8 +13,8 @@ interface InteractiveCssPropertyProps {
   min: number;
   max: number;
   initialValue: number;
-  exampleHtml: string;
-  previewStyle: React.CSSProperties;
+  exampleContent: React.ReactNode; // Змінено з string на React.ReactNode
+  baseStyle?: React.CSSProperties; // Базові стилі для елемента прикладу
 }
 
 const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
@@ -25,20 +25,27 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
   min,
   max,
   initialValue,
-  exampleHtml,
-  previewStyle,
+  exampleContent,
+  baseStyle = {},
 }) => {
   const [value, setValue] = useState<number[]>([initialValue]);
 
   const currentCssValue = `${value[0]}${unit}`;
   const dynamicStyle: React.CSSProperties = {
-    ...previewStyle,
     [cssProperty]: currentCssValue,
   };
 
-  const codeExample = `p {
+  const codeExample = `/* CSS */
+.my-element {
   ${cssProperty}: ${currentCssValue};
 }`;
+
+  // Клонуємо exampleContent, щоб застосувати динамічні стилі безпосередньо до нього
+  const styledExampleContent = React.isValidElement(exampleContent)
+    ? React.cloneElement(exampleContent as React.ReactElement, {
+        style: { ...baseStyle, ...dynamicStyle, ...(exampleContent.props.style || {}) },
+      })
+    : exampleContent; // Запасний варіант, якщо це не дійсний React-елемент
 
   return (
     <Card className="mb-6 bg-card shadow-md">
@@ -72,7 +79,7 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
 
         <div className="mt-4 p-4 border border-border rounded-md bg-background">
           <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Результат:</h4>
-          <div dangerouslySetInnerHTML={{ __html: exampleHtml }} style={dynamicStyle} />
+          {styledExampleContent}
         </div>
       </CardContent>
     </Card>
