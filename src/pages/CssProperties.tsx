@@ -1,5 +1,6 @@
 import React from "react";
 import LessonCard from "@/components/LessonCard";
+import InteractiveCssProperty from "@/components/InteractiveCssProperty"; // Import the new component
 
 const CssProperties: React.FC = () => {
   return (
@@ -20,14 +21,16 @@ const CssProperties: React.FC = () => {
           result={<p style={{ color: 'blue' }}>Цей текст синій.</p>}
         />
 
-        <LessonCard
-          title="font-size: Розмір Шрифту"
-          description="Властивість `font-size` встановлює розмір тексту. Можна використовувати пікселі (px), відсотки (%) або інші одиниці."
-          codeExample={`h1 {
-  font-size: 32px;
-}`}
-          language="css"
-          result={<h1 style={{ fontSize: '32px' }}>Великий заголовок</h1>}
+        <InteractiveCssProperty
+          title="font-size: Розмір Шрифту (Інтерактивно!)"
+          description="Властивість `font-size` встановлює розмір тексту. Перетягни повзунок, щоб побачити, як змінюється розмір!"
+          cssProperty="fontSize"
+          unit="px"
+          min={12}
+          max={48}
+          initialValue={24}
+          exampleHtml="<p>Цей текст змінює свій розмір.</p>"
+          previewStyle={{}} // No specific initial style needed, as font-size will be applied dynamically
         />
 
         <LessonCard
@@ -93,16 +96,16 @@ const CssProperties: React.FC = () => {
           result={<p style={{ border: '2px solid red', padding: '5px' }}>Текст з червоною рамкою.</p>}
         />
 
-        <LessonCard
-          title="border-radius: Заокруглення Кутів"
-          description="Властивість `border-radius` заокруглює кути елемента. Чим більше значення, тим кругліші кути."
-          codeExample={`div {
-  border: 2px solid purple;
-  border-radius: 15px;
-  padding: 10px;
-}`}
-          language="css"
-          result={<div style={{ border: '2px solid purple', borderRadius: '15px', padding: '10px' }}>Блок із заокругленими кутами.</div>}
+        <InteractiveCssProperty
+          title="border-radius: Заокруглення Кутів (Інтерактивно!)"
+          description="Властивість `border-radius` заокруглює кути елемента. Перетягни повзунок, щоб побачити, як змінюється заокруглення!"
+          cssProperty="borderRadius"
+          unit="px"
+          min={0}
+          max={50}
+          initialValue={15}
+          exampleHtml={`<div style="width: 100px; height: 100px; background-color: #FFD700; display: flex; align-items: center; justify-content: center; color: #333; font-weight: bold;">Блок</div>`}
+          previewStyle={{ border: '2px solid purple' }} // Add a border for better visibility of radius
         />
 
         <LessonCard
