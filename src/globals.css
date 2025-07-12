@@ -100,6 +100,10 @@
   }
 
   body {
-    @apply bg-background text-foreground min-h-full; /* Забезпечуємо, що body займає всю висоту та застосовує фон */
+    @apply bg-background text-foreground min-h-screen; /* Забезпечуємо, що body займає всю висоту та застосовує фон */
+  }
+
+  #root {
+    @apply min-h-screen; /* Забезпечуємо, що кореневий div також займає всю висоту */
   }
 }
