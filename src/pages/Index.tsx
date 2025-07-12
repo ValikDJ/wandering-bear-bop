@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"; // Import Badge component
 
 const Index: React.FC = () => {
   return (
-    <div className="min-h-[calc(100vh-16rem)] flex flex-col items-center justify-center py-8">
+    <div className="min-h-[calc(100vh-16rem)] flex flex-col items-center justify-center py-8 bg-background">
       <h1 className="text-5xl font-extrabold text-center mb-6 text-primary">
         Привіт, юний Веб-Майстер!
       </h1>
