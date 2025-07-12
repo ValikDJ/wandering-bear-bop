@@ -14,4 +14,6 @@ export default defineConfig(() => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // Додано base для GitHub Pages
+  base: '/веб-майстерня-для-дітей/', // Замініть 'веб-майстерня-для-дітей' на назву вашого репозиторію
 }));

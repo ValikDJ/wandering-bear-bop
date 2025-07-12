@@ -10,16 +10,20 @@ import HtmlTags from "./pages/HtmlTags";
 import CssProperties from "./pages/CssProperties";
 import CssSelectors from "./pages/CssSelectors";
 import Examples from "./pages/Examples";
-import PopularSiteExamples from "./pages/PopularSiteExamples"; // Import the new page
+import PopularSiteExamples from "./pages/PopularSiteExamples";
 
 const queryClient = new QueryClient();
+
+// Визначте basename динамічно або статично
+// Для GitHub Pages це зазвичай назва вашого репозиторію
+const basename = import.meta.env.BASE_URL;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename={basename}> {/* Додано basename */}
         <Layout>
           <Routes>
             <Route path="/" element={<Index />} />
@@ -27,7 +31,7 @@ const App = () => (
             <Route path="/css-properties" element={<CssProperties />} />
             <Route path="/css-selectors" element={<CssSelectors />} />
             <Route path="/examples" element={<Examples />} />
-            <Route path="/popular-examples" element={<PopularSiteExamples />} /> {/* New route */}
+            <Route path="/popular-examples" element={<PopularSiteExamples />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
