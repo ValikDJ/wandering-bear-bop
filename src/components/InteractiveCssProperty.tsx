@@ -35,9 +35,16 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
     [cssProperty]: currentCssValue,
   };
 
+  // Helper to convert camelCase to kebab-case for CSS property names in code example
+  const getKebabCase = (camelCaseString: string) => {
+    return camelCaseString.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+  };
+
+  const cssPropertyKebabCase = getKebabCase(cssProperty);
+
   const codeExample = `/* CSS */
 .my-element {
-  ${cssProperty}: ${currentCssValue};
+  ${cssPropertyKebabCase}: ${currentCssValue};
 }`;
 
   // Клонуємо exampleContent, щоб застосувати динамічні стилі безпосередньо до нього
@@ -57,7 +64,7 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
         
         <div className="mb-6">
           <Label htmlFor="css-slider" className="text-lg font-semibold text-secondary-foreground mb-2 block">
-            Змінити значення {cssProperty}: {currentCssValue}
+            Змінити значення {cssPropertyKebabCase}: {currentCssValue}
           </Label>
           <Slider
             id="css-slider"
