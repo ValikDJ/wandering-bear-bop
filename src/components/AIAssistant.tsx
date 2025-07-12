@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Send, X, MessageSquareText } from 'lucide-react';
-import { searchIndex } from '@/data/searchIndex';
+import { searchIndex, SearchItem } from '@/data/searchIndex'; // Import SearchItem type
 import { glossaryData } from '@/data/glossaryData';
 import { expandQueryWithSynonyms } from '@/data/synonymMap';
 import Fuse from 'fuse.js';
@@ -17,6 +17,18 @@ interface Message {
   sender: 'user' | 'ai';
   text: string;
 }
+
+// Helper function for emojis (moved here from SearchResultsPage.tsx)
+const getEmojiForType = (type: SearchItem['type']) => {
+  switch (type) {
+    case 'lesson': return '📚';
+    case 'example': return '💡';
+    case 'quiz': return '🎮';
+    case 'project-template': return '🚀';
+    case 'glossary': return '📖';
+    default: return '';
+  }
+};
 
 // Fuse.js options for searching the knowledge base
 const fuseOptions = {
