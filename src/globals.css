@@ -95,7 +95,11 @@
     @apply border-border;
   }
 
+  html {
+    @apply h-full; /* Забезпечуємо, що html займає всю висоту */
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground min-h-full; /* Забезпечуємо, що body займає всю висоту та застосовує фон */
   }
 }
