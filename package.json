@@ -79,5 +79,5 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://ВАШ_КОРИСТУВАЧ_GITHUB.github.io/НАЗВА_ВАШОГО_РЕПОЗИТОРІЮ"
+  "homepage": "https://ValikDJ.github.io/wandering-bear-bop"
 }
