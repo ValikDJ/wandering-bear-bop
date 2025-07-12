@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MadeWithDyad } from "@/components/made-with-dyad";
+import { Badge } from "@/components/ui/badge"; // Import Badge component
 
 const Index: React.FC = () => {
   return (
@@ -59,6 +60,22 @@ const Index: React.FC = () => {
             <p className="text-muted-foreground mb-4">Спробуй свої сили на реальних завданнях.</p>
             <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/80">
               <Link to="/examples">Почати</Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* New Card for Project Template */}
+        <Card className="bg-card hover:shadow-lg transition-shadow duration-300 relative">
+          <CardHeader>
+            <CardTitle className="text-2xl text-primary flex justify-between items-center">
+              Шаблон Проекту
+              <Badge variant="destructive" className="ml-2">Важливо!</Badge>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-4">Готовий шаблон для твого власного веб-проекту.</p>
+            <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/80">
+              <Link to="/project-template">Переглянути</Link>
             </Button>
           </CardContent>
         </Card>
