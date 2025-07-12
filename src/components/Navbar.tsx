@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { FileText, Menu, BookOpenText } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
-import SearchInputWithSuggestions from "./SearchInputWithSuggestions"; // Import the new component
+import SearchInputWithSuggestions from "./SearchInputWithSuggestions";
+import ThemeToggle from "./ThemeToggle"; // Імпортуємо ThemeToggle
 
 const Navbar: React.FC = () => {
   const isMobile = useIsMobile();
@@ -46,7 +47,8 @@ const Navbar: React.FC = () => {
           Веб-Майстерня для Дітей
         </Link>
         <div className="flex items-center gap-2">
-          <SearchInputWithSuggestions /> {/* Use the new search component */}
+          <SearchInputWithSuggestions />
+          <ThemeToggle /> {/* Додаємо перемикач теми */}
 
           {isMobile ? (
             <Sheet>
