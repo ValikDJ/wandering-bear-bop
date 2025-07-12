@@ -16,7 +16,8 @@ serve(async (req) => {
     const { query } = await req.json();
 
     // Get the OpenAI API key from environment variables
-    const openaiApiKey = Deno.env.get('OPENAI_API_KEY');
+    // Змінено назву секрету на нижній регістр згідно з вимогами Supabase UI
+    const openaiApiKey = Deno.env.get('openai_api_key');
 
     if (!openaiApiKey) {
       throw new Error('OPENAI_API_KEY is not set in environment variables.');
