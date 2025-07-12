@@ -4,8 +4,7 @@ import LessonCard from "@/components/LessonCard";
 import LiveCodeEditor from "@/components/LiveCodeEditor";
 import HtmlElementCreator from "@/components/HtmlElementCreator";
 import { Button } from "@/components/ui/button";
-import LessonNavigation from "@/components/LessonNavigation";
-import FlexboxVisualizer from "@/components/FlexboxVisualizer"; // Import the new component
+import LessonNavigation from "@/components/LessonNavigation"; // Import the new component
 
 const Examples: React.FC = () => {
   return (
@@ -41,9 +40,6 @@ button {
         />
 
         <HtmlElementCreator />
-
-        {/* New Flexbox Visualizer */}
-        <FlexboxVisualizer />
 
         {/* Existing Lesson Cards (kept here as they are general examples) */}
         <LessonCard
