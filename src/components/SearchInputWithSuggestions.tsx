@@ -40,7 +40,7 @@ const fuseOptions = {
     { name: 'keywords', weight: 0.9 },
   ],
   includeScore: true,
-  threshold: 0.4,
+  threshold: 0.7, // Збільшено поріг для більш гнучкого пошуку
   ignoreLocation: true,
   minMatchCharLength: 2,
 };
@@ -86,8 +86,8 @@ const SearchInputWithSuggestions: React.FC = () => {
 
     if (searchTerm.trim().length > 1) {
       debounceTimeoutRef.current = setTimeout(() => {
-        const expandedQueryArray = expandQueryWithSynonyms(searchTerm); // Передаємо масив
-        const results = fuse.search(expandedQueryArray); // Fuse.js обробляє масив краще
+        const expandedQueryArray = expandQueryWithSynonyms(searchTerm);
+        const results = fuse.search(expandedQueryArray);
         const mappedResults = results.map(result => result.item).slice(0, 7);
         setSuggestions(mappedResults);
         setOpen(true);

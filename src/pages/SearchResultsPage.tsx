@@ -31,7 +31,7 @@ const fuseOptions = {
     // 'term' та 'definition' не потрібні як окремі ключі, оскільки вони вже включені в 'title' та 'description' для словника
   ],
   includeScore: true,
-  threshold: 0.4,
+  threshold: 0.7, // Збільшено поріг для більш гнучкого пошуку
   ignoreLocation: true,
   minMatchCharLength: 2,
 };
@@ -55,8 +55,8 @@ const SearchResultsPage: React.FC = () => {
 
     // 2. Filter page results using Fuse.js with synonym expansion
     if (query) {
-      const expandedQueryArray = expandQueryWithSynonyms(query); // Передаємо масив
-      const results = fuse.search(expandedQueryArray); // Fuse.js обробляє масив краще
+      const expandedQueryArray = expandQueryWithSynonyms(query);
+      const results = fuse.search(expandedQueryArray);
       const mappedResults = results.map(result => result.item);
 
       // Remove the direct glossary term from general results if it was found
