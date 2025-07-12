@@ -4,25 +4,33 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { searchIndex, SearchItem } from "@/data/searchIndex";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { glossaryData, GlossaryTerm } from "@/data/glossaryData"; // Import glossaryData
 
 const SearchResultsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentSearchTerm, setCurrentSearchTerm] = useState(searchParams.get("query") || "");
-  const [filteredResults, setFilteredResults] = useState<SearchItem[]>([]);
+  const [filteredPageResults, setFilteredPageResults] = useState<SearchItem[]>([]);
+  const [directTermDefinition, setDirectTermDefinition] = useState<GlossaryTerm | null>(null);
 
   useEffect(() => {
     const query = searchParams.get("query") || "";
     setCurrentSearchTerm(query);
+    const lowerCaseQuery = query.toLowerCase();
+
+    // 1. Check for direct term definition
+    const foundTerm = glossaryData.find(item => item.term.toLowerCase() === lowerCaseQuery);
+    setDirectTermDefinition(foundTerm || null);
+
+    // 2. Filter page results based on query
     if (query) {
-      const lowerCaseQuery = query.toLowerCase();
-      const results = searchIndex.filter(item =>
+      const pageResults = searchIndex.filter(item =>
         item.title.toLowerCase().includes(lowerCaseQuery) ||
         item.description.toLowerCase().includes(lowerCaseQuery) ||
         item.keywords.some(keyword => keyword.toLowerCase().includes(lowerCaseQuery))
       );
-      setFilteredResults(results);
+      setFilteredPageResults(pageResults);
     } else {
-      setFilteredResults([]);
+      setFilteredPageResults([]);
     }
   }, [searchParams]);
 
@@ -34,6 +42,8 @@ const SearchResultsPage: React.FC = () => {
       setSearchParams({}); // Clear search params if empty
     }
   };
+
+  const hasResults = directTermDefinition || filteredPageResults.length > 0;
 
   return (
     <div className="py-8">
@@ -56,21 +66,39 @@ const SearchResultsPage: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredResults.length > 0 ? (
-          filteredResults.map((item, index) => (
-            <Card key={index} className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <CardTitle className="text-xl text-primary">{item.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">{item.description}</p>
-                <Link to={item.path} className="text-blue-600 hover:underline font-medium">
-                  Перейти до уроку
-                </Link>
-              </CardContent>
-            </Card>
-          ))
-        ) : (
+        {directTermDefinition && (
+          <Card className="bg-card shadow-lg border-2 border-blue-500 col-span-full mb-6">
+            <CardHeader>
+              <CardTitle className="text-2xl text-blue-600">
+                Термін: {directTermDefinition.term}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground text-lg">{directTermDefinition.definition}</p>
+            </CardContent>
+          </Card>
+        )}
+
+        {filteredPageResults.length > 0 && (
+          <>
+            {directTermDefinition && <h2 className="col-span-full text-2xl font-bold text-primary mt-8 mb-4">Також знайдено в уроках:</h2>}
+            {filteredPageResults.map((item, index) => (
+              <Card key={index} className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <CardTitle className="text-xl text-primary">{item.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">{item.description}</p>
+                  <Link to={item.path} className="text-blue-600 hover:underline font-medium">
+                    Перейти до уроку
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
+          </>
+        )}
+
+        {!hasResults && (
           <p className="col-span-full text-center text-muted-foreground text-lg">
             Нічого не знайдено за запитом "{currentSearchTerm}". Спробуй інші ключові слова.
           </p>
