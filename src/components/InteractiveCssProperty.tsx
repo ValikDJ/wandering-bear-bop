@@ -49,12 +49,22 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
   ${cssPropertyKebabCase}: ${currentCssValue};
 }`;
 
+  // Визначаємо адаптивні стилі для фону та тексту прикладів
+  const exampleBgClass = "bg-accent";
+  const exampleTextColorClass = "text-accent-foreground";
+  const exampleBorderClass = "border-border";
+
   // Клонуємо exampleContent, щоб застосувати динамічні стилі безпосередньо до нього
   const styledExampleContent = React.isValidElement(exampleContent)
     ? React.cloneElement(exampleContent as React.ReactElement, {
+        className: `${exampleBgClass} ${exampleTextColorClass} border ${exampleBorderClass} rounded-md p-2`, // Додаємо класи
         style: { ...baseStyle, ...dynamicStyle, ...(exampleContent.props.style || {}) },
       })
-    : exampleContent; // Запасний варіант, якщо це не дійсний React-елемент
+    : (
+        <div className={`${exampleBgClass} ${exampleTextColorClass} border ${exampleBorderClass} rounded-md p-2`} style={{ ...baseStyle, ...dynamicStyle }}>
+          {exampleContent}
+        </div>
+      );
 
   return (
     <Card id={id} className="mb-6 bg-card shadow-md"> {/* Apply ID here */}

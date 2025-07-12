@@ -24,10 +24,10 @@ const CssBoxModelVisualizer: React.FC = () => {
   width: ${currentContentWidth}px;
   height: ${currentContentHeight}px;
   padding: ${currentPadding}px;
-  border: ${currentBorderWidth}px solid #3498db; /* Синя рамка */
+  border: ${currentBorderWidth}px solid hsl(var(--box-model-border-text));
   margin: ${currentMargin}px;
-  background-color: #2ecc71; /* Зелений фон вмісту */
-  color: white;
+  background-color: hsl(var(--box-model-content-bg));
+  color: hsl(var(--box-model-content-text));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -127,8 +127,10 @@ const CssBoxModelVisualizer: React.FC = () => {
                 style={{
                   margin: `${currentMargin}px`,
                   position: 'relative', // For absolute positioning of labels
+                  backgroundColor: `hsl(var(--box-model-margin-bg))`,
+                  color: `hsl(var(--box-model-margin-text))`,
                 }}
-                className="bg-red-200 border-dashed border-2 border-red-400 flex items-center justify-center text-red-800 text-sm"
+                className="border-dashed border-2 border-[var(--box-model-margin-text)] flex items-center justify-center text-sm"
               >
                 <span className="absolute -top-5 text-xs font-semibold">Margin ({currentMargin}px)</span>
                 <span className="absolute -bottom-5 text-xs font-semibold">Margin ({currentMargin}px)</span>
@@ -138,10 +140,12 @@ const CssBoxModelVisualizer: React.FC = () => {
                 {/* Border layer */}
                 <div
                   style={{
-                    border: `${currentBorderWidth}px solid #3498db`, // Blue border
+                    border: `${currentBorderWidth}px solid hsl(var(--box-model-border-text))`,
                     position: 'relative',
+                    backgroundColor: `hsl(var(--box-model-border-bg))`,
+                    color: `hsl(var(--box-model-border-text))`,
                   }}
-                  className="bg-blue-200 flex items-center justify-center text-blue-800 text-sm"
+                  className="flex items-center justify-center text-sm"
                 >
                   <span className="absolute -top-5 text-xs font-semibold">Border ({currentBorderWidth}px)</span>
                   <span className="absolute -bottom-5 text-xs font-semibold">Border ({currentBorderWidth}px)</span>
@@ -153,8 +157,10 @@ const CssBoxModelVisualizer: React.FC = () => {
                     style={{
                       padding: `${currentPadding}px`,
                       position: 'relative',
+                      backgroundColor: `hsl(var(--box-model-padding-bg))`,
+                      color: `hsl(var(--box-model-padding-text))`,
                     }}
-                    className="bg-yellow-200 flex items-center justify-center text-yellow-800 text-sm"
+                    className="flex items-center justify-center text-sm"
                   >
                     <span className="absolute -top-5 text-xs font-semibold">Padding ({currentPadding}px)</span>
                     <span className="absolute -bottom-5 text-xs font-semibold">Padding ({currentPadding}px)</span>
@@ -166,8 +172,8 @@ const CssBoxModelVisualizer: React.FC = () => {
                       style={{
                         width: `${currentContentWidth}px`,
                         height: `${currentContentHeight}px`,
-                        backgroundColor: '#2ecc71', // Green for content area
-                        color: 'white',
+                        backgroundColor: `hsl(var(--box-model-content-bg))`,
+                        color: `hsl(var(--box-model-content-text))`,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
