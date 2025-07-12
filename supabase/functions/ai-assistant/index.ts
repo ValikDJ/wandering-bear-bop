@@ -23,7 +23,7 @@ serve(async (req) => {
     }
 
     const genAI = new GoogleGenerativeAI(geminiApiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // Використовуємо модель gemini-pro
+    const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro" }); // Змінено модель на gemini-1.0-pro
 
     const chat = model.startChat({
       generationConfig: {
