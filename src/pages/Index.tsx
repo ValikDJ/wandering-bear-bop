@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MadeWithDyad } from "@/components/made-with-dyad";
-import { Badge } from "@/components/ui/badge"; // Import Badge component
+import { Badge } from "@/components/ui/badge";
 
 const Index: React.FC = () => {
   return (
@@ -89,6 +89,19 @@ const Index: React.FC = () => {
             <p className="text-muted-foreground mb-4">Пройди короткий тест з HTML та CSS.</p>
             <Button asChild size="lg" className="w-full bg-primary text-primary-foreground hover:bg-primary/80">
               <Link to="/quiz">Розпочати Тест</Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* New Card for Glossary */}
+        <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
+          <CardHeader>
+            <CardTitle className="text-2xl text-primary">Словник Термінів</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-4">Швидко знайди визначення основних термінів.</p>
+            <Button asChild size="lg" className="w-full bg-primary text-primary-foreground hover:bg-primary/80">
+              <Link to="/glossary">Відкрити Словник</Link>
             </Button>
           </CardContent>
         </Card>

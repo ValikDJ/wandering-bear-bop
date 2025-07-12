@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, Menu } from "lucide-react";
+import { FileText, Menu, BookOpenText } from "lucide-react"; // Import BookOpenText icon
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -25,6 +25,14 @@ const Navbar: React.FC = () => {
       <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20 w-full justify-start">
         <Link to="/project-template">
           <FileText className="mr-2 h-4 w-4" /> Шаблон Проекту
+        </Link>
+      </Button>
+      <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20 w-full justify-start">
+        <Link to="/quiz">Тест</Link>
+      </Button>
+      <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20 w-full justify-start">
+        <Link to="/glossary">
+          <BookOpenText className="mr-2 h-4 w-4" /> Словник
         </Link>
       </Button>
     </>
