@@ -14,7 +14,7 @@ import ProjectTemplate from "./pages/ProjectTemplate";
 import QuizPage from "./pages/QuizPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
-import CharacterGuide from "./components/CharacterGuide"; // Changed from AIAssistant
+import AIAssistant from "./components/AIAssistant";
 import { ThemeProvider } from "@/hooks/use-theme";
 import React, { useState, useEffect, useCallback } from "react";
 
@@ -61,7 +61,7 @@ const App = () => {
             </Layout>
           </BrowserRouter>
         </TooltipProvider>
-        {selectedCharacter && <CharacterGuide characterType={selectedCharacter} />}
+        {selectedCharacter && <AIAssistant characterType={selectedCharacter} />}
       </ThemeProvider>
     </QueryClientProvider>
   );
