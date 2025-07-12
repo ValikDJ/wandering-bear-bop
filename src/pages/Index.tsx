@@ -93,8 +93,8 @@ const Index: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Removed Card for Glossary */}
-        {/* <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
+        {/* New Card for Glossary */}
+        <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
             <CardTitle className="text-2xl text-primary">Словник Термінів</CardTitle>
           </CardHeader>
@@ -104,7 +104,7 @@ const Index: React.FC = () => {
               <Link to="/glossary">Відкрити Словник</Link>
             </Button>
           </CardContent>
-        </Card> */}
+        </Card>
       </div>
       <MadeWithDyad />
     </div>

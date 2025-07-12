@@ -31,6 +31,11 @@ const Navbar: React.FC = () => {
       <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20 w-full justify-start">
         <Link to="/quiz">Тест</Link>
       </Button>
+      <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20 w-full justify-start">
+        <Link to="/glossary">
+          <BookOpenText className="mr-2 h-4 w-4" /> Словник
+        </Link>
+      </Button>
     </>
   );
 
