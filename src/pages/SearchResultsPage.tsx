@@ -31,9 +31,11 @@ const fuseOptions = {
     // 'term' та 'definition' не потрібні як окремі ключі, оскільки вони вже включені в 'title' та 'description' для словника
   ],
   includeScore: true,
-  threshold: 0.7, // Збільшено поріг для більш гнучкого пошуку
+  includeMatches: true, // Додано для діагностики та підсвічування
+  threshold: 0.1, // Зменшено для більш точного збігу
+  distance: 5, // Зменшено для більш точного збігу
   ignoreLocation: true,
-  minMatchCharLength: 2,
+  minMatchCharLength: 1, // Дозволяє шукати односимвольні теги, наприклад 'a', 'p'
 };
 
 const fuse = new Fuse(searchIndex, fuseOptions);

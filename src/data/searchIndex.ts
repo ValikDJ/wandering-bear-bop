@@ -17,8 +17,13 @@ export const searchIndex: SearchItem[] = [
   ...glossaryData.map(term => ({
     title: `Словник Термінів: ${term.term}`,
     description: term.definition,
+    keywords: [
+      term.term.toLowerCase(),
+      term.term, // Додаємо оригінальний термін
+      ...term.definition.toLowerCase().split(/\s+/).filter(word => word.length > 2), // Basic keyword extraction from definition
+      ...(term.codeExample ? term.codeExample.toLowerCase().split(/\s+|[<>/{}();:]+/).filter(word => word.length > 0) : []), // Додаємо слова з прикладу коду
+    ],
     path: "/glossary",
-    keywords: [term.term.toLowerCase(), ...term.definition.toLowerCase().split(' ').filter(word => word.length > 2)], // Basic keyword extraction from definition
     type: "glossary" as const, // Assign type 'glossary' with const assertion
   })),
 ];

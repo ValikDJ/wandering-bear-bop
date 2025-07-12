@@ -40,9 +40,11 @@ const fuseOptions = {
     { name: 'keywords', weight: 0.9 },
   ],
   includeScore: true,
-  threshold: 0.7, // Збільшено поріг для більш гнучкого пошуку
+  includeMatches: true, // Додано для діагностики та підсвічування
+  threshold: 0.1, // Зменшено для більш точного збігу
+  distance: 5, // Зменшено для більш точного збігу
   ignoreLocation: true,
-  minMatchCharLength: 2,
+  minMatchCharLength: 1, // Дозволяє шукати односимвольні теги, наприклад 'a', 'p'
 };
 
 const fuse = new Fuse(searchIndex, fuseOptions);
@@ -84,7 +86,7 @@ const SearchInputWithSuggestions: React.FC = () => {
       clearTimeout(debounceTimeoutRef.current);
     }
 
-    if (searchTerm.trim().length > 1) {
+    if (searchTerm.trim().length > 0) { // Змінено на > 0 для миттєвого пошуку коротких термінів
       debounceTimeoutRef.current = setTimeout(() => {
         const expandedQueryArray = expandQueryWithSynonyms(searchTerm);
         const results = fuse.search(expandedQueryArray);
@@ -95,8 +97,6 @@ const SearchInputWithSuggestions: React.FC = () => {
     } else if (searchTerm.trim().length === 0) {
       setSuggestions([]);
       setOpen(false);
-    } else {
-      setSuggestions([]);
     }
 
     return () => {
@@ -152,7 +152,7 @@ const SearchInputWithSuggestions: React.FC = () => {
             aria-label="Поле пошуку в підказках"
           />
           <CommandList>
-            {searchTerm.trim().length > 1 ? (
+            {searchTerm.trim().length > 0 ? ( // Змінено на > 0
               suggestions.length === 0 ? (
                 <CommandEmpty>Нічого не знайдено.</CommandEmpty>
               ) : (
