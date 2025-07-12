@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { FileText, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { ThemeToggle } from "./ThemeToggle"; // Import ThemeToggle
 
 const Navbar: React.FC = () => {
   const isMobile = useIsMobile();
@@ -36,25 +37,28 @@ const Navbar: React.FC = () => {
         <Link to="/" className="text-2xl font-bold hover:text-accent-foreground transition-colors">
           Веб-Майстерня для Дітей
         </Link>
-        {isMobile ? (
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/20">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Відкрити меню</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-primary text-primary-foreground p-4">
-              <div className="flex flex-col gap-2 pt-8">
-                <SheetClose asChild>{navLinks}</SheetClose>
-              </div>
-            </SheetContent>
-          </Sheet>
-        ) : (
-          <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
-            {navLinks}
-          </div>
-        )}
+        <div className="flex items-center gap-2"> {/* Wrapper for toggle and menu */}
+          <ThemeToggle /> {/* Add ThemeToggle here */}
+          {isMobile ? (
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/20">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Відкрити меню</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-primary text-primary-foreground p-4">
+                <div className="flex flex-col gap-2 pt-8">
+                  <SheetClose asChild>{navLinks}</SheetClose>
+                </div>
+              </SheetContent>
+            </Sheet>
+          ) : (
+            <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
+              {navLinks}
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );
