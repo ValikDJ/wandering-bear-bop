@@ -14,7 +14,7 @@ import ProjectTemplate from "./pages/ProjectTemplate";
 import QuizPage from "./pages/QuizPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
-import { ThemeProvider } from "@/hooks/use-theme"; // Імпортуємо ThemeProvider
+import { ThemeProvider } from "@/hooks/use-theme"; // Оновлено імпорт на .tsx
 
 const queryClient = new QueryClient();
 
