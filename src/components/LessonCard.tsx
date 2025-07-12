@@ -16,7 +16,7 @@ const LessonCard: React.FC<LessonCardProps> = ({ id, title, description, codeExa
   return (
     <Card id={id} className="mb-6 bg-card shadow-md"> {/* Apply ID here */}
       <CardHeader>
-        <CardTitle className="text-2xl text-primary">{title}</CardTitle>
+        <CardTitle className="text-2xl text-foreground">{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-muted-foreground">{description}</p>

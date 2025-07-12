@@ -39,7 +39,7 @@ const CssBoxModelVisualizer: React.FC = () => {
   return (
     <Card className="mb-6 bg-card shadow-md">
       <CardHeader>
-        <CardTitle className="text-2xl text-primary">Інтерактивна Блокова Модель CSS</CardTitle>
+        <CardTitle className="text-2xl text-foreground">Інтерактивна Блокова Модель CSS</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-muted-foreground">

@@ -88,7 +88,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
   return (
     <Card id={id} className="mb-6 bg-card shadow-md">
       <CardHeader>
-        <CardTitle className="text-2xl text-primary">{title}</CardTitle>
+        <CardTitle className="text-2xl text-foreground">{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-muted-foreground">{description}</p>
