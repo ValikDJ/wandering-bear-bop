@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -95,13 +97,13 @@ const SearchInputWithSuggestions: React.FC<SearchInputWithSuggestionsProps> = ({
             placeholder="Пошук..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-8 pr-8 py-1 rounded-md bg-primary-foreground/10 text-primary-foreground placeholder:text-primary-foreground/70 focus:bg-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50" {/* Increased pr to make space for clear button */}
+            className="pl-8 pr-8 py-1 rounded-md bg-primary-foreground/10 text-primary-foreground placeholder:text-primary-foreground/70 focus:bg-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50"
             onFocus={() => searchTerm.length > 1 && setOpen(true)}
           />
           <Search className="absolute left-2 h-4 w-4 text-primary-foreground/70" />
-          {searchTerm && ( {/* Conditionally render clear button */}
+          {searchTerm && (
             <Button
-              type="button" {/* Important: prevent form submission */}
+              type="button"
               onClick={handleClearSearch}
               variant="ghost"
               size="icon"
