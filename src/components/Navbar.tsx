@@ -1,12 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, Menu, BookOpenText } from "lucide-react"; // Import BookOpenText icon
+import { FileText, Menu, Search } from "lucide-react"; // Removed BookOpenText icon, added Search
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Input } from "@/components/ui/input"; // Import Input component
 
 const Navbar: React.FC = () => {
   const isMobile = useIsMobile();
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm(""); // Clear search term after navigating
+    }
+  };
 
   const navLinks = (
     <>
@@ -30,11 +41,12 @@ const Navbar: React.FC = () => {
       <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20 w-full justify-start">
         <Link to="/quiz">Тест</Link>
       </Button>
-      <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20 w-full justify-start">
+      {/* Removed Glossary Link */}
+      {/* <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20 w-full justify-start">
         <Link to="/glossary">
           <BookOpenText className="mr-2 h-4 w-4" /> Словник
         </Link>
-      </Button>
+      </Button> */}
     </>
   );
 
@@ -44,7 +56,18 @@ const Navbar: React.FC = () => {
         <Link to="/" className="text-2xl font-bold hover:text-accent-foreground transition-colors">
           Веб-Майстерня для Дітей
         </Link>
-        <div className="flex items-center gap-2"> {/* Wrapper for toggle and menu */}
+        <div className="flex items-center gap-2">
+          <form onSubmit={handleSearch} className="relative flex items-center">
+            <Input
+              type="text"
+              placeholder="Пошук..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-8 pr-2 py-1 rounded-md bg-primary-foreground/10 text-primary-foreground placeholder:text-primary-foreground/70 focus:bg-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50"
+            />
+            <Search className="absolute left-2 h-4 w-4 text-primary-foreground/70" />
+          </form>
+
           {isMobile ? (
             <Sheet>
               <SheetTrigger asChild>
