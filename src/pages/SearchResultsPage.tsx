@@ -99,7 +99,10 @@ const SearchResultsPage: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground mb-4">{item.description}</p>
-                  <Link to={item.path} className="text-blue-600 hover:underline font-medium">
+                  <Link
+                    to={`${item.path}${item.sectionId ? `#${item.sectionId}` : ''}`} // Use sectionId in the link
+                    className="text-blue-600 hover:underline font-medium"
+                  >
                     Перейти до уроку
                   </Link>
                 </CardContent>

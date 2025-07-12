@@ -4,9 +4,12 @@ import LessonCard from "@/components/LessonCard";
 import LiveCodeEditor from "@/components/LiveCodeEditor";
 import HtmlElementCreator from "@/components/HtmlElementCreator";
 import { Button } from "@/components/ui/button";
-import LessonNavigation from "@/components/LessonNavigation"; // Import the new component
+import LessonNavigation from "@/components/LessonNavigation";
+import { useScrollToHash } from "@/hooks/use-scroll-to-hash"; // Import the new hook
 
 const Examples: React.FC = () => {
+  useScrollToHash(); // Use the hook here
+
   return (
     <div className="py-8">
       <h1 className="text-4xl font-bold text-center mb-8 text-primary">Практичні Приклади: Створюємо Разом!</h1>
@@ -16,6 +19,7 @@ const Examples: React.FC = () => {
 
       <div className="space-y-8">
         <LiveCodeEditor
+          id="example-live-editor" // Added ID
           title="Твій власний редактор коду!"
           description="Спробуй змінити текст, додати нові теги або змінити кольори. Експериментуй!"
           initialHtml={`<h1>Привіт, Веб-Майстер!</h1>
@@ -39,10 +43,11 @@ button {
 }`}
         />
 
-        <HtmlElementCreator />
+        <HtmlElementCreator id="example-html-creator" /> {/* Added ID */}
 
         {/* Existing Lesson Cards (kept here as they are general examples) */}
         <LessonCard
+          id="example-red-heading" // Added ID
           title="Як зробити заголовок червоним?"
           description="Використаємо тег <h1> та CSS властивість `color`."
           codeExample={`<h1 style="color: red;">Привіт, червоний заголовок!</h1>`}
@@ -51,6 +56,7 @@ button {
         />
 
         <LessonCard
+          id="example-rounded-image" // Added ID
           title="Як додати рамку до картинки та заокруглити її?"
           description="Використаємо тег <img> та CSS властивості `border` і `border-radius`."
           codeExample={`<img src="https://via.placeholder.com/100" alt="Кругла картинка" style="border: 3px solid blue; border-radius: 50%;">`}
@@ -59,6 +65,7 @@ button {
         />
 
         <LessonCard
+          id="example-styled-button" // Added ID
           title="Як створити кнопку з яскравим фоном та білим текстом?"
           description="Використаємо тег <button> та CSS властивості `background-color`, `color`, `padding` та `border-radius`."
           codeExample={`<button style="background-color: #FF6347; color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer;">Натисни мене!</button>`}
@@ -67,6 +74,7 @@ button {
         />
 
         <LessonCard
+          id="example-centered-text" // Added ID
           title="Як вирівняти текст по центру та змінити його розмір?"
           description="Використаємо тег <p> та CSS властивості `text-align` і `font-size`."
           codeExample={`<p style="text-align: center; font-size: 20px;">Цей текст буде по центру і великим!</p>`}
@@ -75,6 +83,7 @@ button {
         />
 
         <LessonCard
+          id="example-bordered-table" // Added ID
           title="Як зробити таблицю з рамками?"
           description="Використаємо теги <table>, <tr>, <td> та CSS властивість `border`."
           codeExample={`<table style="border-collapse: collapse; width: 100%;">

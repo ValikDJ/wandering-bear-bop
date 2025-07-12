@@ -1,10 +1,13 @@
 import React from "react";
 import LessonCard from "@/components/LessonCard";
 import InteractiveCssProperty from "@/components/InteractiveCssProperty";
-import CssBoxModelVisualizer from "@/components/CssBoxModelVisualizer"; // Import the new component
-import LessonNavigation from "@/components/LessonNavigation"; // Import the new component
+import CssBoxModelVisualizer from "@/components/CssBoxModelVisualizer";
+import LessonNavigation from "@/components/LessonNavigation";
+import { useScrollToHash } from "@/hooks/use-scroll-to-hash"; // Import the new hook
 
 const CssProperties: React.FC = () => {
+  useScrollToHash(); // Use the hook here
+
   return (
     <div className="py-8">
       <h1 className="text-4xl font-bold text-center mb-8 text-primary">CSS Властивості: Робимо Сторінку Красивою</h1>
@@ -14,6 +17,7 @@ const CssProperties: React.FC = () => {
 
       <div className="space-y-8">
         <LessonCard
+          id="css-color" // Added ID
           title="color: Колір Тексту"
           description="Властивість `color` змінює колір тексту елемента."
           codeExample={`p {
@@ -24,6 +28,7 @@ const CssProperties: React.FC = () => {
         />
 
         <InteractiveCssProperty
+          id="css-font-size" // Added ID
           title="font-size: Розмір Шрифту (Інтерактивно!)"
           description="Властивість `font-size` встановлює розмір тексту. Перетягни повзунок, щоб побачити, як змінюється розмір!"
           cssProperty="fontSize"
@@ -36,6 +41,7 @@ const CssProperties: React.FC = () => {
         />
 
         <LessonCard
+          id="css-font-family" // Added ID
           title="font-family: Тип Шрифту"
           description="Властивість `font-family` змінює тип шрифту тексту. Можна вказати кілька шрифтів через кому, якщо перший недоступний."
           codeExample={`p {
@@ -46,6 +52,7 @@ const CssProperties: React.FC = () => {
         />
 
         <LessonCard
+          id="css-background-color" // Added ID
           title="background-color: Колір Фону"
           description="Властивість `background-color` встановлює колір фону елемента."
           codeExample={`div {
@@ -57,6 +64,7 @@ const CssProperties: React.FC = () => {
         />
 
         <LessonCard
+          id="css-text-align" // Added ID
           title="text-align: Вирівнювання Тексту"
           description="Властивість `text-align` вирівнює текст всередині елемента: `left` (ліворуч), `right` (праворуч), `center` (по центру), `justify` (по ширині)."
           codeExample={`h2 {
@@ -67,6 +75,7 @@ const CssProperties: React.FC = () => {
         />
 
         <InteractiveCssProperty
+          id="css-margin" // Added ID
           title="margin: Зовнішні Відступи (Інтерактивно!)"
           description="Властивість `margin` створює простір *навколо* елемента, відштовхуючи його від інших елементів. Перетягни повзунок, щоб побачити, як змінюється зовнішній відступ цього блоку."
           cssProperty="margin"
@@ -79,6 +88,7 @@ const CssProperties: React.FC = () => {
         />
 
         <InteractiveCssProperty
+          id="css-padding" // Added ID
           title="padding: Внутрішні Відступи (Інтерактивно!)"
           description="Властивість `padding` створює простір *між вмістом* елемента та його рамкою. Перетягни повзунок, щоб побачити, як змінюється внутрішній відступ цього блоку."
           cssProperty="padding"
@@ -94,6 +104,7 @@ const CssProperties: React.FC = () => {
         <CssBoxModelVisualizer />
 
         <LessonCard
+          id="css-border" // Added ID
           title="border: Рамка"
           description="Властивість `border` додає рамку навколо елемента. Вказується товщина, стиль (solid, dotted, dashed) та колір."
           codeExample={`p {
@@ -105,6 +116,7 @@ const CssProperties: React.FC = () => {
         />
 
         <InteractiveCssProperty
+          id="css-border-radius" // Added ID
           title="border-radius: Заокруглення Кутів (Інтерактивно!)"
           description="Властивість `border-radius` заокруглює кути елемента. Перетягни повзунок, щоб побачити, як змінюється заокруглення!"
           cssProperty="borderRadius"
@@ -117,6 +129,7 @@ const CssProperties: React.FC = () => {
         />
 
         <LessonCard
+          id="css-text-decoration" // Added ID
           title="text-decoration: Оформлення Тексту"
           description="Властивість `text-decoration` додає або видаляє лінії під текстом, над текстом або через текст. Наприклад, `none` видаляє підкреслення у посилань."
           codeExample={`a {
@@ -129,6 +142,7 @@ const CssProperties: React.FC = () => {
 
         {/* New Interactive CSS Properties */}
         <InteractiveCssProperty
+          id="css-opacity" // Added ID
           title="opacity: Прозорість (Інтерактивно!)"
           description="Властивість `opacity` встановлює рівень прозорості елемента. Значення від 0 (повністю прозорий) до 1 (повністю непрозорий)."
           cssProperty="opacity"
@@ -141,6 +155,7 @@ const CssProperties: React.FC = () => {
         />
 
         <InteractiveCssProperty
+          id="css-width" // Added ID
           title="width: Ширина (Інтерактивно!)"
           description="Властивість `width` встановлює ширину елемента. Перетягни повзунок, щоб змінити ширину!"
           cssProperty="width"
@@ -153,6 +168,7 @@ const CssProperties: React.FC = () => {
         />
 
         <InteractiveCssProperty
+          id="css-height" // Added ID
           title="height: Висота (Інтерактивно!)"
           description="Властивість `height` встановлює висоту елемента. Перетягни повзунок, щоб змінити висоту!"
           cssProperty="height"

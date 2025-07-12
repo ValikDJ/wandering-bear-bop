@@ -14,14 +14,14 @@ interface SearchInputWithSuggestionsProps {
 const SearchInputWithSuggestions: React.FC<SearchInputWithSuggestionsProps> = ({ initialSearchTerm = "" }) => {
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [open, setOpen] = useState(false);
-  const [suggestions, setSuggestions] = useState<Array<{ type: 'term' | 'page'; value: string; path?: string; }>>([]);
+  const [suggestions, setSuggestions] = useState<Array<{ type: 'term' | 'page'; value: string; path?: string; sectionId?: string; }>>([]); // Added sectionId
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (searchTerm.length > 1) {
       const lowerCaseSearchTerm = searchTerm.toLowerCase();
-      const newSuggestions: Array<{ type: 'term' | 'page'; value: string; path?: string; }> = [];
+      const newSuggestions: Array<{ type: 'term' | 'page'; value: string; path?: string; sectionId?: string; }> = [];
 
       // Add glossary terms as suggestions
       glossaryData.forEach(term => {
@@ -38,7 +38,7 @@ const SearchInputWithSuggestions: React.FC<SearchInputWithSuggestionsProps> = ({
         ) {
           // Avoid duplicate suggestions if a term is also a page keyword
           if (!newSuggestions.some(s => s.value.toLowerCase() === item.title.toLowerCase())) {
-            newSuggestions.push({ type: 'page', value: item.title, path: item.path });
+            newSuggestions.push({ type: 'page', value: item.title, path: item.path, sectionId: item.sectionId }); // Pass sectionId
           }
         }
       });
@@ -52,13 +52,13 @@ const SearchInputWithSuggestions: React.FC<SearchInputWithSuggestionsProps> = ({
     }
   }, [searchTerm]);
 
-  const handleSelect = (value: string, type: 'term' | 'page', path?: string) => {
+  const handleSelect = (value: string, type: 'term' | 'page', path?: string, sectionId?: string) => { // Added sectionId
     setSearchTerm(value); // Set the input to the selected suggestion
     setOpen(false); // Close the popover
     if (type === 'term') {
       navigate(`/search?query=${encodeURIComponent(value)}`);
     } else if (path) {
-      navigate(path); // Navigate directly to the page if it's a page suggestion
+      navigate(`${path}${sectionId ? `#${sectionId}` : ''}`); // Navigate with sectionId
     }
     if (inputRef.current) {
       inputRef.current.blur(); // Remove focus from input
@@ -102,7 +102,7 @@ const SearchInputWithSuggestions: React.FC<SearchInputWithSuggestionsProps> = ({
               {suggestions.map((suggestion, index) => (
                 <CommandItem
                   key={index}
-                  onSelect={() => handleSelect(suggestion.value, suggestion.type, suggestion.path)}
+                  onSelect={() => handleSelect(suggestion.value, suggestion.type, suggestion.path, suggestion.sectionId)} // Pass sectionId
                   className="cursor-pointer"
                 >
                   {suggestion.type === 'term' ? `Термін: ${suggestion.value}` : `Урок: ${suggestion.value}`}

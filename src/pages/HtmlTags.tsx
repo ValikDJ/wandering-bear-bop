@@ -1,8 +1,11 @@
 import React from "react";
 import LessonCard from "@/components/LessonCard";
-import LessonNavigation from "@/components/LessonNavigation"; // Import the new component
+import LessonNavigation from "@/components/LessonNavigation";
+import { useScrollToHash } from "@/hooks/use-scroll-to-hash"; // Import the new hook
 
 const HtmlTags: React.FC = () => {
+  useScrollToHash(); // Use the hook here
+
   return (
     <div className="py-8">
       <h1 className="text-4xl font-bold text-center mb-8 text-primary">HTML Теги: Будуємо Веб-Сторінку</h1>
@@ -12,6 +15,7 @@ const HtmlTags: React.FC = () => {
 
       <div className="space-y-8">
         <LessonCard
+          id="html-h1-h2-h3" // Added ID
           title="<h1>, <h2>, <h3>: Заголовки"
           description="Ці теги використовуються для створення заголовків різного рівня. <h1> - найважливіший заголовок, <h3> - менш важливий."
           codeExample={`<h1>Мій Перший Заголовок</h1>
@@ -28,6 +32,7 @@ const HtmlTags: React.FC = () => {
         />
 
         <LessonCard
+          id="html-p" // Added ID
           title="<p>: Параграф"
           description="Тег <p> використовується для звичайного тексту, абзаців."
           codeExample={`<p>Це мій перший абзац тексту на веб-сторінці. Тут я розповідаю про щось цікаве.</p>
@@ -42,6 +47,7 @@ const HtmlTags: React.FC = () => {
         />
 
         <LessonCard
+          id="html-img" // Added ID
           title="<img>: Зображення"
           description="Тег <img> дозволяє додати картинку на твою сторінку. Атрибут 'src' вказує шлях до картинки, а 'alt' - опис для неї (важливо для доступності!)."
           codeExample={`<img src="https://via.placeholder.com/150" alt="Приклад зображення" width="150" height="150">`}
@@ -52,6 +58,7 @@ const HtmlTags: React.FC = () => {
         />
 
         <LessonCard
+          id="html-a" // Added ID
           title="<a>: Посилання"
           description="Тег <a> створює посилання, яке веде на іншу сторінку або сайт. Атрибут 'href' вказує адресу посилання."
           codeExample={`<a href="https://www.google.com" target="_blank">Перейти до Google</a>`}
@@ -62,6 +69,7 @@ const HtmlTags: React.FC = () => {
         />
 
         <LessonCard
+          id="html-body" // Added ID
           title="<body>: Тіло Документа"
           description="Тег <body> містить весь видимий вміст твоєї веб-сторінки: текст, зображення, посилання, тощо."
           codeExample={`<!DOCTYPE html>
@@ -81,6 +89,7 @@ const HtmlTags: React.FC = () => {
         />
 
         <LessonCard
+          id="html-table" // Added ID
           title="<table>: Таблиця"
           description="Тег <table> використовується для створення таблиць. Всередині нього є <tr> (рядки таблиці) та <td> (комірки даних)."
           codeExample={`<table>
@@ -113,6 +122,7 @@ const HtmlTags: React.FC = () => {
         />
 
         <LessonCard
+          id="html-main" // Added ID
           title="<main>: Основний Вміст"
           description="Тег <main> позначає основний, унікальний вміст документа. На сторінці має бути лише один тег <main>."
           codeExample={`<main>
@@ -126,6 +136,7 @@ const HtmlTags: React.FC = () => {
         />
 
         <LessonCard
+          id="html-footer" // Added ID
           title="<footer>: Нижній Колонтитул"
           description="Тег <footer> містить інформацію про автора, авторські права, посилання на пов'язані документи тощо."
           codeExample={`<footer>
@@ -138,6 +149,7 @@ const HtmlTags: React.FC = () => {
         />
 
         <LessonCard
+          id="html-header" // Added ID
           title="<header>: Заголовок Розділу"
           description="Тег <header> представляє вступний вміст, зазвичай містить групу навігаційних посилань, заголовки, логотипи."
           codeExample={`<header>
@@ -160,6 +172,7 @@ const HtmlTags: React.FC = () => {
         />
 
         <LessonCard
+          id="html-head" // Added ID
           title="<head>: Метадані Документа"
           description="Тег <head> містить метадані про HTML-документ, які не відображаються безпосередньо на сторінці (наприклад, заголовок сторінки, посилання на CSS-файли)."
           codeExample={`<!DOCTYPE html>

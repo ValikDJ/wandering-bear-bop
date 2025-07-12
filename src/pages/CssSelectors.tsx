@@ -1,8 +1,11 @@
 import React from "react";
 import LessonCard from "@/components/LessonCard";
-import LessonNavigation from "@/components/LessonNavigation"; // Import the new component
+import LessonNavigation from "@/components/LessonNavigation";
+import { useScrollToHash } from "@/hooks/use-scroll-to-hash"; // Import the new hook
 
 const CssSelectors: React.FC = () => {
+  useScrollToHash(); // Use the hook here
+
   return (
     <div className="py-8">
       <h1 className="text-4xl font-bold text-center mb-8 text-primary">CSS Селектори: Вибираємо Елементи</h1>
@@ -12,6 +15,7 @@ const CssSelectors: React.FC = () => {
 
       <div className="space-y-8">
         <LessonCard
+          id="css-selector-tag" // Added ID
           title="Селектор за Тегом"
           description="Вибирає всі елементи певного HTML-тегу. Наприклад, `p` вибере всі абзаци."
           codeExample={`p {
@@ -27,6 +31,7 @@ const CssSelectors: React.FC = () => {
         />
 
         <LessonCard
+          id="css-selector-class" // Added ID
           title="Селектор за Класом"
           description="Вибирає елементи, які мають певний клас. Клас починається з крапки (`.`). Один елемент може мати багато класів."
           codeExample={`.highlight {
@@ -46,6 +51,7 @@ const CssSelectors: React.FC = () => {
         />
 
         <LessonCard
+          id="css-selector-contextual" // Added ID
           title="Контекстні Селектори (Нащадки)"
           description="Вибирає елементи, які є нащадками іншого елемента. Наприклад, `div p` вибере всі абзаци, які знаходяться всередині тегу `div`."
           codeExample={`div p {
@@ -69,6 +75,7 @@ const CssSelectors: React.FC = () => {
         />
 
         <LessonCard
+          id="css-selector-cascading" // Added ID
           title="Каскадність Стилів"
           description="Каскадність означає, що якщо до одного елемента застосовуються різні стилі, то браузер вирішує, який з них застосувати, за певними правилами: важливість, специфічність, порядок. Стилі, які йдуть пізніше, зазвичай перекривають попередні."
           codeExample={`/* style.css */

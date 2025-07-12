@@ -6,6 +6,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface InteractiveCssPropertyProps {
+  id?: string; // New: Optional ID for direct linking
   title: string;
   description: string;
   cssProperty: string;
@@ -18,6 +19,7 @@ interface InteractiveCssPropertyProps {
 }
 
 const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
+  id, // Destructure id
   title,
   description,
   cssProperty,
@@ -55,7 +57,7 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
     : exampleContent; // Запасний варіант, якщо це не дійсний React-елемент
 
   return (
-    <Card className="mb-6 bg-card shadow-md">
+    <Card id={id} className="mb-6 bg-card shadow-md"> {/* Apply ID here */}
       <CardHeader>
         <CardTitle className="text-2xl text-primary">{title}</CardTitle>
       </CardHeader>

@@ -4,6 +4,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface LessonCardProps {
+  id?: string; // New: Optional ID for direct linking
   title: string;
   description: string;
   codeExample: string;
@@ -11,9 +12,9 @@ interface LessonCardProps {
   result?: React.ReactNode; // Optional: for displaying the actual rendered result
 }
 
-const LessonCard: React.FC<LessonCardProps> = ({ title, description, codeExample, language, result }) => {
+const LessonCard: React.FC<LessonCardProps> = ({ id, title, description, codeExample, language, result }) => {
   return (
-    <Card className="mb-6 bg-card shadow-md">
+    <Card id={id} className="mb-6 bg-card shadow-md"> {/* Apply ID here */}
       <CardHeader>
         <CardTitle className="text-2xl text-primary">{title}</CardTitle>
       </CardHeader>
