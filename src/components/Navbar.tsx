@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { FileText } from "lucide-react";
 
 const Navbar: React.FC = () => {
   return (
@@ -21,6 +22,11 @@ const Navbar: React.FC = () => {
           </Button>
           <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20">
             <Link to="/examples">Приклади</Link>
+          </Button>
+          <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20">
+            <Link to="/project-template">
+              <FileText className="mr-2 h-4 w-4" /> Шаблон Проекту
+            </Link>
           </Button>
         </div>
       </div>
