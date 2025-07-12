@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import LessonCard from "@/components/LessonCard";
 import LiveCodeEditor from "@/components/LiveCodeEditor";
-import HtmlElementCreator from "@/components/HtmlElementCreator"; // Import the new component
+import HtmlElementCreator from "@/components/HtmlElementCreator";
 import { Button } from "@/components/ui/button";
 
 const Examples: React.FC = () => {
@@ -41,7 +41,8 @@ button {
         {/* New HTML Element Creator */}
         <HtmlElementCreator />
 
-        <div className="text-center mt-12 mb-8">
+        {/* Видалено секцію з посиланням на 'Приклади Популярних Сайтів' */}
+        {/* <div className="text-center mt-12 mb-8">
           <h2 className="text-3xl font-bold mb-4 text-primary">Більше Прикладів та Натхнення</h2>
           <p className="text-lg text-muted-foreground mb-6">
             Хочеш побачити, як виглядають типові елементи на відомих сайтах?
@@ -49,7 +50,7 @@ button {
           <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/80">
             <Link to="/popular-examples">Переглянути Приклади Популярних Сайтів</Link>
           </Button>
-        </div>
+        </div> */}
 
         {/* Existing Lesson Cards (kept here as they are general examples) */}
         <LessonCard
