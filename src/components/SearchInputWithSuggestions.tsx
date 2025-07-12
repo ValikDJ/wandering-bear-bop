@@ -89,7 +89,9 @@ const SearchInputWithSuggestions: React.FC = () => {
     if (searchTerm.trim().length > 0) { // Змінено на > 0 для миттєвого пошуку коротких термінів
       debounceTimeoutRef.current = setTimeout(() => {
         const expandedQueryArray = expandQueryWithSynonyms(searchTerm);
-        const results = fuse.search(expandedQueryArray);
+        // Виправлення: Fuse.js search очікує рядок, тому об'єднуємо масив
+        const queryForFuse = expandedQueryArray.join(' ');
+        const results = fuse.search(queryForFuse);
         const mappedResults = results.map(result => result.item).slice(0, 7);
         setSuggestions(mappedResults);
         setOpen(true);
