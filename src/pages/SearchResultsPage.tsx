@@ -4,7 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { searchIndex, SearchItem } from "@/data/searchIndex";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { glossaryData, GlossaryTerm } from "@/data/glossaryData"; // Import glossaryData
+import { glossaryData, GlossaryTerm } from "@/data/glossaryData";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const SearchResultsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -74,7 +76,15 @@ const SearchResultsPage: React.FC = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground text-lg">{directTermDefinition.definition}</p>
+              <p className="text-muted-foreground text-lg mb-4">{directTermDefinition.definition}</p>
+              {directTermDefinition.codeExample && directTermDefinition.language && (
+                <div className="mt-4">
+                  <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Приклад коду:</h4>
+                  <SyntaxHighlighter language={directTermDefinition.language} style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em' }}>
+                    {directTermDefinition.codeExample}
+                  </SyntaxHighlighter>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
