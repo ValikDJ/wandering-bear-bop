@@ -2,12 +2,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Send, X, MessageSquareText } from 'lucide-react';
-import { searchIndex, SearchItem } from '@/data/searchIndex'; // Import SearchItem type
-import { glossaryData, GlossaryTerm } from '@/data/glossaryData'; // Import GlossaryTerm type
-import { expandQueryWithSynonyms } from '@/data/synonymMap';
-import Fuse from 'fuse.js';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/integrations/supabase/client'; // Import Supabase client
 
 interface AIAssistantProps {
   characterType: 'robot' | 'cat' | 'owl';
@@ -17,33 +14,6 @@ interface Message {
   sender: 'user' | 'ai';
   text: string;
 }
-
-// Helper function for emojis
-const getEmojiForType = (type: SearchItem['type']) => {
-  switch (type) {
-    case 'lesson': return '📚';
-    case 'example': return '💡';
-    case 'quiz': return '🎮';
-    case 'project-template': return '🚀';
-    case 'glossary': return '📖';
-    default: return '';
-  }
-};
-
-// Fuse.js options for searching the knowledge base
-const fuseOptions = {
-  keys: [
-    { name: 'title', weight: 0.7 },
-    { name: 'description', weight: 0.5 },
-    { name: 'keywords', weight: 0.9 },
-  ],
-  threshold: 0.3, // Increased threshold for broader matches
-  distance: 100,
-  ignoreLocation: true,
-  minMatchCharLength: 1, // Added for better short-word/typo matching
-};
-
-const fuse = new Fuse(searchIndex, fuseOptions);
 
 const AIAssistant: React.FC<AIAssistantProps> = ({ characterType }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -106,61 +76,28 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ characterType }) => {
     }
   }, [characterType, isTyping]);
 
-  const processAIResponse = useCallback((query: string) => {
+  const processAIResponse = useCallback(async (query: string) => {
     setIsTyping(true);
-    const lowerCaseQuery = query.toLowerCase();
-    const expandedQuery = expandQueryWithSynonyms(lowerCaseQuery).join(' ');
+    let aiResponseText = "Вибач, сталася помилка при отриманні відповіді від помічника.";
 
-    let response = "Вибач, я не зовсім зрозумів твоє запитання. Спробуй перефразувати або запитати про щось інше з HTML/CSS.";
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-assistant', {
+        body: { query },
+      });
 
-    // 1. Try to find direct glossary term match (exact match for the term itself)
-    const directGlossaryMatch = glossaryData.find(term => term.term.toLowerCase() === lowerCaseQuery);
-    if (directGlossaryMatch) {
-      response = `📖 ${directGlossaryMatch.term}: ${directGlossaryMatch.definition}`;
-      if (directGlossaryMatch.codeExample) {
-        response += `\n\nПриклад:\n\`\`\`${directGlossaryMatch.language || 'html'}\n${directGlossaryMatch.codeExample}\n\`\`\``;
+      if (error) {
+        console.error('Supabase function error:', error);
+        aiResponseText = `Вибач, сталася помилка: ${error.message}`;
+      } else if (data && data.message) {
+        aiResponseText = data.message;
       }
-      setTimeout(() => { setMessages((prev) => [...prev, { sender: 'ai', text: response }]); setIsTyping(false); }, 1500);
-      return; // Exit early if direct match found
-    }
-
-    // 2. Use Fuse.js for broader search in searchIndex (lessons, examples, other glossary terms)
-    const results = fuse.search(expandedQuery);
-
-    if (results.length > 0) {
-      const bestMatch = results[0].item;
-      let typeEmoji = getEmojiForType(bestMatch.type);
-      response = `Здається, ти питаєш про "${bestMatch.title}" ${typeEmoji}. ${bestMatch.description}`;
-
-      // If the best match is a glossary term, include its code example
-      if (bestMatch.type === 'glossary') {
-          // Find the original glossary item from glossaryData using its term
-          const glossaryItem = glossaryData.find(g => g.term === bestMatch.title.replace('Словник Термінів: ', ''));
-          if (glossaryItem && glossaryItem.codeExample) {
-              response += `\n\nПриклад:\n\`\`\`${glossaryItem.language || 'html'}\n${glossaryItem.codeExample}\n\`\`\``;
-          }
-      }
-
-      if (bestMatch.path) {
-        response += ` Ти можеш дізнатися більше тут: ${bestMatch.path}`;
-      }
-    } else {
-      // 3. Fallback and simple ambiguity handling if no strong Fuse.js match
-      if (lowerCaseQuery.includes("back")) {
-        response = "Ти мав на увазі 'background-color' (колір тла) чи 'back-end' (серверну частину)?";
-      } else if (lowerCaseQuery.includes("color") || lowerCaseQuery.includes("colar")) {
-        response = "Ти питаєш про `color` (колір тексту) чи `background-color` (колір фону)?";
-      } else if (lowerCaseQuery.includes("padin") || lowerCaseQuery.includes("padding")) {
-        response = "Ти питаєш про `padding` (внутрішній відступ) чи `margin` (зовнішній відступ)?";
-      } else if (lowerCaseQuery.includes("привіт") || lowerCaseQuery.includes("як справи")) {
-        response = "Привіт! Я твій помічник з HTML та CSS. Чим можу допомогти?";
-      }
-    }
-
-    setTimeout(() => {
-      setMessages((prev) => [...prev, { sender: 'ai', text: response }]);
+    } catch (e) {
+      console.error('Error invoking AI assistant function:', e);
+      aiResponseText = `Вибач, не вдалося зв'язатися з помічником.`;
+    } finally {
+      setMessages((prev) => [...prev, { sender: 'ai', text: aiResponseText }]);
       setIsTyping(false);
-    }, 1500); // Simulate AI thinking time
+    }
   }, []);
 
   const handleSendMessage = (e: React.FormEvent) => {
