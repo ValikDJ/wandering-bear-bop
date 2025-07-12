@@ -38,19 +38,7 @@ button {
 }`}
         />
 
-        {/* New HTML Element Creator */}
         <HtmlElementCreator />
-
-        {/* Видалено секцію з посиланням на 'Приклади Популярних Сайтів' */}
-        {/* <div className="text-center mt-12 mb-8">
-          <h2 className="text-3xl font-bold mb-4 text-primary">Більше Прикладів та Натхнення</h2>
-          <p className="text-lg text-muted-foreground mb-6">
-            Хочеш побачити, як виглядають типові елементи на відомих сайтах?
-          </p>
-          <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/80">
-            <Link to="/popular-examples">Переглянути Приклади Популярних Сайтів</Link>
-          </Button>
-        </div> */}
 
         {/* Existing Lesson Cards (kept here as they are general examples) */}
         <LessonCard
