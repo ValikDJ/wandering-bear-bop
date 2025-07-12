@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Send, X, MessageSquareText } from 'lucide-react';
 import { searchIndex, SearchItem } from '@/data/searchIndex'; // Import SearchItem type
-import { glossaryData } from '@/data/glossaryData';
+import { glossaryData, GlossaryTerm } from '@/data/glossaryData'; // Import GlossaryTerm type
 import { expandQueryWithSynonyms } from '@/data/synonymMap';
 import Fuse from 'fuse.js';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -120,28 +120,40 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ characterType }) => {
       if (directGlossaryMatch.codeExample) {
         response += `\n\nПриклад:\n\`\`\`${directGlossaryMatch.language || 'html'}\n${directGlossaryMatch.codeExample}\n\`\`\``;
       }
-    } else {
-      // 2. Use Fuse.js for broader search in searchIndex (lessons, examples, other glossary terms)
-      const results = fuse.search(expandedQuery);
+      setTimeout(() => { setMessages((prev) => [...prev, { sender: 'ai', text: response }]); setIsTyping(false); }, 1500);
+      return; // Exit early if direct match found
+    }
 
-      if (results.length > 0) {
-        const bestMatch = results[0].item;
-        let typeEmoji = getEmojiForType(bestMatch.type);
-        response = `Здається, ти питаєш про "${bestMatch.title}" ${typeEmoji}. ${bestMatch.description}`;
-        if (bestMatch.path) {
-          response += ` Ти можеш дізнатися більше тут: ${bestMatch.path}`;
-        }
-      } else {
-        // 3. Fallback and simple ambiguity handling if no strong Fuse.js match
-        if (lowerCaseQuery.includes("back")) {
-          response = "Ти мав на увазі 'background-color' (колір тла) чи 'back-end' (серверну частину)?";
-        } else if (lowerCaseQuery.includes("color") || lowerCaseQuery.includes("colar")) {
-          response = "Ти питаєш про `color` (колір тексту) чи `background-color` (колір фону)?";
-        } else if (lowerCaseQuery.includes("padin") || lowerCaseQuery.includes("padding")) {
-          response = "Ти питаєш про `padding` (внутрішній відступ) чи `margin` (зовнішній відступ)?";
-        } else if (lowerCaseQuery.includes("привіт") || lowerCaseQuery.includes("як справи")) {
-          response = "Привіт! Я твій помічник з HTML та CSS. Чим можу допомогти?";
-        }
+    // 2. Use Fuse.js for broader search in searchIndex (lessons, examples, other glossary terms)
+    const results = fuse.search(expandedQuery);
+
+    if (results.length > 0) {
+      const bestMatch = results[0].item;
+      let typeEmoji = getEmojiForType(bestMatch.type);
+      response = `Здається, ти питаєш про "${bestMatch.title}" ${typeEmoji}. ${bestMatch.description}`;
+
+      // If the best match is a glossary term, include its code example
+      if (bestMatch.type === 'glossary') {
+          // Find the original glossary item from glossaryData using its term
+          const glossaryItem = glossaryData.find(g => g.term === bestMatch.title.replace('Словник Термінів: ', ''));
+          if (glossaryItem && glossaryItem.codeExample) {
+              response += `\n\nПриклад:\n\`\`\`${glossaryItem.language || 'html'}\n${glossaryItem.codeExample}\n\`\`\``;
+          }
+      }
+
+      if (bestMatch.path) {
+        response += ` Ти можеш дізнатися більше тут: ${bestMatch.path}`;
+      }
+    } else {
+      // 3. Fallback and simple ambiguity handling if no strong Fuse.js match
+      if (lowerCaseQuery.includes("back")) {
+        response = "Ти мав на увазі 'background-color' (колір тла) чи 'back-end' (серверну частину)?";
+      } else if (lowerCaseQuery.includes("color") || lowerCaseQuery.includes("colar")) {
+        response = "Ти питаєш про `color` (колір тексту) чи `background-color` (колір фону)?";
+      } else if (lowerCaseQuery.includes("padin") || lowerCaseQuery.includes("padding")) {
+        response = "Ти питаєш про `padding` (внутрішній відступ) чи `margin` (зовнішній відступ)?";
+      } else if (lowerCaseQuery.includes("привіт") || lowerCaseQuery.includes("як справи")) {
+        response = "Привіт! Я твій помічник з HTML та CSS. Чим можу допомогти?";
       }
     }
 

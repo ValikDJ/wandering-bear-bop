@@ -14,6 +14,8 @@ export const synonymMap: { [key: string]: string[] } = {
   "прозорість": ["opacity"],
   "вирівнювання": ["text-align"],
   "команди": ["тег", "властивість"], // Додано для покращення пошуку
+  "фон": ["background-color", "background"], // Додано для запитів про фон
+  "тло": ["background-color", "background"], // Додано для запитів про тло
 };
 
 /**
