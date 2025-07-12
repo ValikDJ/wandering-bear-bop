@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import OpenAI from "https://deno.land/x/openai@v4.52.0/mod.ts"; // Using Deno's OpenAI module
+import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai@0.14.1"; // Імпорт для Gemini API
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -7,7 +7,7 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
-  // Handle CORS preflight requests
+  // Обробка CORS preflight запитів
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -15,29 +15,23 @@ serve(async (req) => {
   try {
     const { query } = await req.json();
 
-    // Get the OpenAI API key from environment variables
-    // Змінено назву секрету на нижній регістр згідно з вимогами Supabase UI
-    const openaiApiKey = Deno.env.get('openai_api_key');
+    // Отримання Gemini API ключа зі змінних оточення
+    const geminiApiKey = Deno.env.get('gemini_api_key'); // Змінено назву секрету
 
-    if (!openaiApiKey) {
-      throw new Error('OPENAI_API_KEY is not set in environment variables.');
+    if (!geminiApiKey) {
+      throw new Error('GEMINI_API_KEY is not set in environment variables.');
     }
 
-    const openai = new OpenAI({
-      apiKey: openaiApiKey,
-    });
+    const genAI = new GoogleGenerativeAI(geminiApiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // Використання моделі Gemini Pro
 
-    const prompt = `Ти - доброзичливий та корисний помічник для дітей, які вивчають HTML та CSS. Твоя мета - надавати прості, зрозумілі та заохочувальні відповіді на їхні запитання. Використовуй українську мову. Якщо питання не стосується HTML, CSS або веб-розробки, ввічливо перенаправ його до теми уроку.
+    const prompt = `Ти - доброзиричливий та корисний помічник для дітей, які вивчають HTML та CSS. Твоя мета - надавати прості, зрозумілі та заохочувальні відповіді на їхні запитання. Використовуй українську мову. Якщо питання не стосується HTML, CSS або веб-розробки, ввічливо перенаправ його до теми уроку.
 
 Ось запитання від дитини: "${query}"`;
 
-    const chatCompletion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo", // Можеш змінити на "gpt-4" або іншу модель, якщо маєш доступ
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 500,
-    });
-
-    const aiResponseText = chatCompletion.choices[0].message.content;
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const aiResponseText = response.text(); // Отримання текстової відповіді від Gemini
 
     return new Response(
       JSON.stringify({ message: aiResponseText }),
