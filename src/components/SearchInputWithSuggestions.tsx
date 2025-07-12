@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Search, X } from "lucide-react"; // Import X icon
+import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { searchIndex } from "@/data/searchIndex";
 import { glossaryData } from "@/data/glossaryData";
+import { Button } from "@/components/ui/button"; // Import Button
 
 interface SearchInputWithSuggestionsProps {
   initialSearchTerm?: string;
@@ -14,7 +15,7 @@ interface SearchInputWithSuggestionsProps {
 const SearchInputWithSuggestions: React.FC<SearchInputWithSuggestionsProps> = ({ initialSearchTerm = "" }) => {
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [open, setOpen] = useState(false);
-  const [suggestions, setSuggestions] = useState<Array<{ type: 'term' | 'page'; value: string; path?: string; sectionId?: string; }>>([]); // Added sectionId
+  const [suggestions, setSuggestions] = useState<Array<{ type: 'term' | 'page'; value: string; path?: string; sectionId?: string; }>>([]);
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -38,30 +39,29 @@ const SearchInputWithSuggestions: React.FC<SearchInputWithSuggestionsProps> = ({
         ) {
           // Avoid duplicate suggestions if a term is also a page keyword
           if (!newSuggestions.some(s => s.value.toLowerCase() === item.title.toLowerCase())) {
-            newSuggestions.push({ type: 'page', value: item.title, path: item.path, sectionId: item.sectionId }); // Pass sectionId
+            newSuggestions.push({ type: 'page', value: item.title, path: item.path, sectionId: item.sectionId });
           }
         }
       });
 
-      // Limit suggestions to a reasonable number
       setSuggestions(newSuggestions.slice(0, 10));
-      setOpen(true);
+      setOpen(newSuggestions.length > 0); // Only open if there are suggestions
     } else {
       setSuggestions([]);
       setOpen(false);
     }
   }, [searchTerm]);
 
-  const handleSelect = (value: string, type: 'term' | 'page', path?: string, sectionId?: string) => { // Added sectionId
-    setSearchTerm(value); // Set the input to the selected suggestion
-    setOpen(false); // Close the popover
+  const handleSelect = (value: string, type: 'term' | 'page', path?: string, sectionId?: string) => {
+    setSearchTerm(value);
+    setOpen(false);
     if (type === 'term') {
       navigate(`/search?query=${encodeURIComponent(value)}`);
     } else if (path) {
-      navigate(`${path}${sectionId ? `#${sectionId}` : ''}`); // Navigate with sectionId
+      navigate(`${path}${sectionId ? `#${sectionId}` : ''}`);
     }
     if (inputRef.current) {
-      inputRef.current.blur(); // Remove focus from input
+      inputRef.current.blur();
     }
   };
 
@@ -69,10 +69,19 @@ const SearchInputWithSuggestions: React.FC<SearchInputWithSuggestionsProps> = ({
     e.preventDefault();
     if (searchTerm.trim()) {
       navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
-      setOpen(false); // Close suggestions on manual submit
+      setOpen(false);
       if (inputRef.current) {
         inputRef.current.blur();
       }
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm("");
+    setSuggestions([]);
+    setOpen(false);
+    if (inputRef.current) {
+      inputRef.current.focus(); // Keep focus on input after clearing
     }
   };
 
@@ -86,10 +95,22 @@ const SearchInputWithSuggestions: React.FC<SearchInputWithSuggestionsProps> = ({
             placeholder="Пошук..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-8 pr-2 py-1 rounded-md bg-primary-foreground/10 text-primary-foreground placeholder:text-primary-foreground/70 focus:bg-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50"
+            className="pl-8 pr-8 py-1 rounded-md bg-primary-foreground/10 text-primary-foreground placeholder:text-primary-foreground/70 focus:bg-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50" {/* Increased pr to make space for clear button */}
             onFocus={() => searchTerm.length > 1 && setOpen(true)}
           />
           <Search className="absolute left-2 h-4 w-4 text-primary-foreground/70" />
+          {searchTerm && ( {/* Conditionally render clear button */}
+            <Button
+              type="button" {/* Important: prevent form submission */}
+              onClick={handleClearSearch}
+              variant="ghost"
+              size="icon"
+              className="absolute right-1 h-6 w-6 text-primary-foreground/70 hover:bg-primary-foreground/30"
+            >
+              <X className="h-4 w-4" />
+              <span className="sr-only">Очистити пошук</span>
+            </Button>
+          )}
         </form>
       </PopoverTrigger>
       <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
@@ -102,7 +123,7 @@ const SearchInputWithSuggestions: React.FC<SearchInputWithSuggestionsProps> = ({
               {suggestions.map((suggestion, index) => (
                 <CommandItem
                   key={index}
-                  onSelect={() => handleSelect(suggestion.value, suggestion.type, suggestion.path, suggestion.sectionId)} // Pass sectionId
+                  onSelect={() => handleSelect(suggestion.value, suggestion.type, suggestion.path, suggestion.sectionId)}
                   className="cursor-pointer"
                 >
                   {suggestion.type === 'term' ? `Термін: ${suggestion.value}` : `Урок: ${suggestion.value}`}
