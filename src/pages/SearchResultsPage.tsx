@@ -28,8 +28,7 @@ const fuseOptions = {
     { name: 'title', weight: 0.7 },
     { name: 'description', weight: 0.5 },
     { name: 'keywords', weight: 0.9 },
-    { name: 'term', weight: 1.0 }, // Для словника
-    { name: 'definition', weight: 0.6 }, // Для словника
+    // 'term' та 'definition' не потрібні як окремі ключі, оскільки вони вже включені в 'title' та 'description' для словника
   ],
   includeScore: true,
   threshold: 0.4,

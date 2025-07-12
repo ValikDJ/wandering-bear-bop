@@ -39,8 +39,7 @@ const fuseOptions = {
     { name: 'title', weight: 0.7 },
     { name: 'description', weight: 0.5 },
     { name: 'keywords', weight: 0.9 },
-    { name: 'term', weight: 1.0 }, // Для словника
-    { name: 'definition', weight: 0.6 }, // Для словника
+    // 'term' та 'definition' не потрібні як окремі ключі, оскільки вони вже включені в 'title' та 'description' для словника
   ],
   includeScore: true,
   threshold: 0.4, // Дозволяє деякі неточності
@@ -95,11 +94,14 @@ const SearchInputWithSuggestions: React.FC = () => {
         const results = fuse.search(expandedQuery);
         const mappedResults = results.map(result => result.item).slice(0, 7);
         setSuggestions(mappedResults);
-        setOpen(true);
+        setOpen(true); // Відкриваємо поповер, коли є підказки
       }, 300); // Debounce for 300ms
-    } else {
+    } else if (searchTerm.trim().length === 0) {
       setSuggestions([]);
-      setOpen(false);
+      setOpen(false); // Закриваємо поповер, тільки коли поле порожнє
+    } else {
+      // Якщо довжина 1, не закриваємо поповер, але очищаємо підказки
+      setSuggestions([]);
     }
 
     return () => {
@@ -111,7 +113,7 @@ const SearchInputWithSuggestions: React.FC = () => {
 
   const handleSelectSuggestion = (item: SearchItem) => {
     saveSearchTerm(searchTerm); // Зберігаємо запит перед переходом
-    setSearchTerm(""); // Clear search term after selection
+    setSearchTerm(""); // Очищаємо поле пошуку після вибору
     setOpen(false);
     navigate(`${item.path}${item.sectionId ? `#${item.sectionId}` : ''}`);
   };
@@ -179,18 +181,21 @@ const SearchInputWithSuggestions: React.FC = () => {
               )
             ) : (
               recentSearches.length > 0 && (
-                <CommandGroup heading="Останні запити">
-                  {recentSearches.map((term, index) => (
-                    <CommandItem
-                      key={index}
-                      onSelect={() => handleRecentSearchClick(term)}
-                      className="cursor-pointer flex items-center gap-2"
-                    >
-                      <History className="h-4 w-4 text-muted-foreground" />
-                      <span>{term}</span>
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
+                <>
+                  <CommandGroup heading="Останні запити">
+                    {recentSearches.map((term, index) => (
+                      <CommandItem
+                        key={index}
+                        onSelect={() => handleRecentSearchClick(term)}
+                        className="cursor-pointer flex items-center gap-2"
+                      >
+                        <History className="h-4 w-4 text-muted-foreground" />
+                        <span>{term}</span>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                  <CommandSeparator />
+                </>
               )
             )}
           </CommandList>
