@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0';
+import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai@0.15.0";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -15,29 +15,23 @@ serve(async (req) => {
   try {
     const { query } = await req.json();
 
-    // Create a Supabase client with the Auth context of the user.
-    // This is important for row-level security.
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-      {
-        global: {
-          headers: { Authorization: req.headers.get('Authorization')! },
-        },
-      }
-    );
+    // Get the Gemini API key from environment variables
+    const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
 
-    // Here will be the advanced AI logic:
-    // 1. Call Gemini 2.5 Pro API
-    // 2. Implement Levenshtein, phonetic matching, error database
-    // 3. Handle confidence levels and dialog logic
-    // 4. Contextual understanding based on current page (if passed from frontend)
-    // 5. Learning from user errors (requires database interaction)
+    if (!geminiApiKey) {
+      throw new Error('GEMINI_API_KEY is not set in environment variables.');
+    }
 
-    let aiResponseText = `Привіт! Ти запитав: "${query}". Я поки що не дуже розумний, але скоро навчуся!`;
+    const genAI = new GoogleGenerativeAI(geminiApiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
-    // Simulate a delay for AI processing
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const prompt = `Ти - доброзичливий та корисний помічник для дітей, які вивчають HTML та CSS. Твоя мета - надавати прості, зрозумілі та заохочувальні відповіді на їхні запитання. Використовуй українську мову. Якщо питання не стосується HTML, CSS або веб-розробки, ввічливо перенаправ його до теми уроку.
+
+Ось запитання від дитини: "${query}"`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const aiResponseText = response.text();
 
     return new Response(
       JSON.stringify({ message: aiResponseText }),
