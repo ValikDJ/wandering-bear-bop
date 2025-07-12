@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { Search } from "lucide-react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Search, History } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { searchIndex, SearchItem } from "@/data/searchIndex";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +13,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import Fuse from 'fuse.js';
+import { expandQueryWithSynonyms } from "@/data/synonymMap"; // Імпортуємо функцію синонімів
+
+const RECENT_SEARCHES_KEY = "recent-searches";
+const MAX_RECENT_SEARCHES = 5;
 
 const getEmojiForType = (type: SearchItem['type']) => {
   switch (type) {
@@ -27,12 +33,56 @@ const getEmojiForType = (type: SearchItem['type']) => {
   }
 };
 
+// Ініціалізуємо Fuse.js для пошуку
+const fuseOptions = {
+  keys: [
+    { name: 'title', weight: 0.7 },
+    { name: 'description', weight: 0.5 },
+    { name: 'keywords', weight: 0.9 },
+    { name: 'term', weight: 1.0 }, // Для словника
+    { name: 'definition', weight: 0.6 }, // Для словника
+  ],
+  includeScore: true,
+  threshold: 0.4, // Дозволяє деякі неточності
+  ignoreLocation: true,
+  minMatchCharLength: 2,
+};
+
+const fuse = new Fuse(searchIndex, fuseOptions);
+
 const SearchInputWithSuggestions: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState<SearchItem[]>([]);
   const [open, setOpen] = useState(false);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const navigate = useNavigate();
   const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Завантажуємо останні пошукові запити при завантаженні компонента
+  useEffect(() => {
+    try {
+      const storedSearches = localStorage.getItem(RECENT_SEARCHES_KEY);
+      if (storedSearches) {
+        setRecentSearches(JSON.parse(storedSearches));
+      }
+    } catch (error) {
+      console.error("Failed to load recent searches from localStorage:", error);
+    }
+  }, []);
+
+  // Зберігаємо пошуковий запит
+  const saveSearchTerm = useCallback((term: string) => {
+    if (!term.trim()) return;
+    setRecentSearches(prevSearches => {
+      const newSearches = [term, ...prevSearches.filter(s => s !== term)].slice(0, MAX_RECENT_SEARCHES);
+      try {
+        localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(newSearches));
+      } catch (error) {
+        console.error("Failed to save recent search to localStorage:", error);
+      }
+      return newSearches;
+    });
+  }, []);
 
   useEffect(() => {
     if (debounceTimeoutRef.current) {
@@ -41,13 +91,10 @@ const SearchInputWithSuggestions: React.FC = () => {
 
     if (searchTerm.trim().length > 1) {
       debounceTimeoutRef.current = setTimeout(() => {
-        const lowerCaseSearchTerm = searchTerm.toLowerCase();
-        const filtered = searchIndex.filter(item =>
-          item.title.toLowerCase().includes(lowerCaseSearchTerm) ||
-          item.description.toLowerCase().includes(lowerCaseSearchTerm) ||
-          item.keywords.some(keyword => keyword.toLowerCase().includes(lowerCaseSearchTerm))
-        ).slice(0, 7); // Limit suggestions to 7
-        setSuggestions(filtered);
+        const expandedQuery = expandQueryWithSynonyms(searchTerm).join(' ');
+        const results = fuse.search(expandedQuery);
+        const mappedResults = results.map(result => result.item).slice(0, 7);
+        setSuggestions(mappedResults);
         setOpen(true);
       }, 300); // Debounce for 300ms
     } else {
@@ -63,6 +110,7 @@ const SearchInputWithSuggestions: React.FC = () => {
   }, [searchTerm]);
 
   const handleSelectSuggestion = (item: SearchItem) => {
+    saveSearchTerm(searchTerm); // Зберігаємо запит перед переходом
     setSearchTerm(""); // Clear search term after selection
     setOpen(false);
     navigate(`${item.path}${item.sectionId ? `#${item.sectionId}` : ''}`);
@@ -71,9 +119,16 @@ const SearchInputWithSuggestions: React.FC = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
+      saveSearchTerm(searchTerm); // Зберігаємо запит перед переходом
       setOpen(false);
       navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
     }
+  };
+
+  const handleRecentSearchClick = (term: string) => {
+    setSearchTerm(term);
+    setOpen(false); // Закриваємо поповер, оскільки ми вже встановили searchTerm
+    navigate(`/search?query=${encodeURIComponent(term)}`);
   };
 
   return (
@@ -100,26 +155,43 @@ const SearchInputWithSuggestions: React.FC = () => {
             aria-label="Поле пошуку в підказках"
           />
           <CommandList>
-            {suggestions.length === 0 && searchTerm.trim().length > 1 ? (
-              <CommandEmpty>Нічого не знайдено.</CommandEmpty>
-            ) : (
-              <CommandGroup heading="Підказки">
-                {suggestions.map((item) => (
-                  <CommandItem
-                    key={`${item.path}-${item.sectionId || item.title}`}
-                    onSelect={() => handleSelectSuggestion(item)}
-                    className="cursor-pointer flex items-center gap-2"
-                  >
-                    <span className="text-lg">{getEmojiForType(item.type)}</span>
-                    <div>
-                      <div className="font-medium">{highlightText(item.title, searchTerm)}</div>
-                      <div className="text-sm text-muted-foreground line-clamp-1">
-                        {highlightText(item.description, searchTerm)}
+            {searchTerm.trim().length > 1 ? (
+              suggestions.length === 0 ? (
+                <CommandEmpty>Нічого не знайдено.</CommandEmpty>
+              ) : (
+                <CommandGroup heading="Підказки">
+                  {suggestions.map((item) => (
+                    <CommandItem
+                      key={`${item.path}-${item.sectionId || item.title}`}
+                      onSelect={() => handleSelectSuggestion(item)}
+                      className="cursor-pointer flex items-center gap-2"
+                    >
+                      <span className="text-lg">{getEmojiForType(item.type)}</span>
+                      <div>
+                        <div className="font-medium">{highlightText(item.title, searchTerm)}</div>
+                        <div className="text-sm text-muted-foreground line-clamp-1">
+                          {highlightText(item.description, searchTerm)}
+                        </div>
                       </div>
-                    </div>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )
+            ) : (
+              recentSearches.length > 0 && (
+                <CommandGroup heading="Останні запити">
+                  {recentSearches.map((term, index) => (
+                    <CommandItem
+                      key={index}
+                      onSelect={() => handleRecentSearchClick(term)}
+                      className="cursor-pointer flex items-center gap-2"
+                    >
+                      <History className="h-4 w-4 text-muted-foreground" />
+                      <span>{term}</span>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )
             )}
           </CommandList>
         </Command>

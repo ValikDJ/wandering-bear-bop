@@ -7,7 +7,9 @@ import { Search } from "lucide-react";
 import { glossaryData, GlossaryTerm } from "@/data/glossaryData";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { highlightText } from "@/lib/utils"; // Import the new utility
+import { highlightText } from "@/lib/utils";
+import Fuse from 'fuse.js';
+import { expandQueryWithSynonyms } from "@/data/synonymMap"; // Імпортуємо функцію синонімів
 
 const getEmojiForType = (type: SearchItem['type']) => {
   switch (type) {
@@ -20,6 +22,23 @@ const getEmojiForType = (type: SearchItem['type']) => {
   }
 };
 
+// Ініціалізуємо Fuse.js для пошуку на сторінці результатів
+const fuseOptions = {
+  keys: [
+    { name: 'title', weight: 0.7 },
+    { name: 'description', weight: 0.5 },
+    { name: 'keywords', weight: 0.9 },
+    { name: 'term', weight: 1.0 }, // Для словника
+    { name: 'definition', weight: 0.6 }, // Для словника
+  ],
+  includeScore: true,
+  threshold: 0.4,
+  ignoreLocation: true,
+  minMatchCharLength: 2,
+};
+
+const fuse = new Fuse(searchIndex, fuseOptions);
+
 const SearchResultsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentSearchTerm, setCurrentSearchTerm] = useState(searchParams.get("query") || "");
@@ -31,31 +50,22 @@ const SearchResultsPage: React.FC = () => {
     setCurrentSearchTerm(query);
     const lowerCaseQuery = query.toLowerCase();
 
-    // 1. Check for direct term definition
+    // 1. Check for direct term definition (exact match for glossary)
     const foundTerm = glossaryData.find(item => item.term.toLowerCase() === lowerCaseQuery);
     setDirectTermDefinition(foundTerm || null);
 
-    // 2. Filter page results based on query
+    // 2. Filter page results using Fuse.js with synonym expansion
     if (query) {
-      const pageResults = searchIndex.filter(item =>
-        item.title.toLowerCase().includes(lowerCaseQuery) ||
-        item.description.toLowerCase().includes(lowerCaseQuery) ||
-        item.keywords.some(keyword => keyword.toLowerCase().includes(lowerCaseQuery))
-      ).sort((a, b) => {
-        // Simple ranking: exact title match first, then title includes, then description/keywords
-        const aTitleMatch = a.title.toLowerCase() === lowerCaseQuery;
-        const bTitleMatch = b.title.toLowerCase() === lowerCaseQuery;
-        if (aTitleMatch && !bTitleMatch) return -1;
-        if (!aTitleMatch && bTitleMatch) return 1;
+      const expandedQuery = expandQueryWithSynonyms(query).join(' ');
+      const results = fuse.search(expandedQuery);
+      const mappedResults = results.map(result => result.item);
 
-        const aTitleIncludes = a.title.toLowerCase().includes(lowerCaseQuery);
-        const bTitleIncludes = b.title.toLowerCase().includes(lowerCaseQuery);
-        if (aTitleIncludes && !bTitleIncludes) return -1;
-        if (!aTitleIncludes && bTitleIncludes) return 1;
+      // Remove the direct glossary term from general results if it was found
+      const finalResults = mappedResults.filter(item =>
+        !(item.type === 'glossary' && item.title.toLowerCase().includes(lowerCaseQuery) && directTermDefinition)
+      );
 
-        return 0;
-      });
-      setFilteredPageResults(pageResults);
+      setFilteredPageResults(finalResults);
     } else {
       setFilteredPageResults([]);
     }
