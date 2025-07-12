@@ -18,7 +18,7 @@ interface Message {
   text: string;
 }
 
-// Helper function for emojis (moved here from SearchResultsPage.tsx)
+// Helper function for emojis
 const getEmojiForType = (type: SearchItem['type']) => {
   switch (type) {
     case 'lesson': return '📚';
@@ -40,6 +40,7 @@ const fuseOptions = {
   threshold: 0.3, // Increased threshold for broader matches
   distance: 100,
   ignoreLocation: true,
+  minMatchCharLength: 1, // Added for better short-word/typo matching
 };
 
 const fuse = new Fuse(searchIndex, fuseOptions);
@@ -112,7 +113,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ characterType }) => {
 
     let response = "Вибач, я не зовсім зрозумів твоє запитання. Спробуй перефразувати або запитати про щось інше з HTML/CSS.";
 
-    // Try to find direct glossary term match
+    // 1. Try to find direct glossary term match (exact match for the term itself)
     const directGlossaryMatch = glossaryData.find(term => term.term.toLowerCase() === lowerCaseQuery);
     if (directGlossaryMatch) {
       response = `📖 ${directGlossaryMatch.term}: ${directGlossaryMatch.definition}`;
@@ -120,8 +121,9 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ characterType }) => {
         response += `\n\nПриклад:\n\`\`\`${directGlossaryMatch.language || 'html'}\n${directGlossaryMatch.codeExample}\n\`\`\``;
       }
     } else {
-      // Use Fuse.js for broader search in searchIndex
+      // 2. Use Fuse.js for broader search in searchIndex (lessons, examples, other glossary terms)
       const results = fuse.search(expandedQuery);
+
       if (results.length > 0) {
         const bestMatch = results[0].item;
         let typeEmoji = getEmojiForType(bestMatch.type);
@@ -129,34 +131,18 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ characterType }) => {
         if (bestMatch.path) {
           response += ` Ти можеш дізнатися більше тут: ${bestMatch.path}`;
         }
+      } else {
+        // 3. Fallback and simple ambiguity handling if no strong Fuse.js match
+        if (lowerCaseQuery.includes("back")) {
+          response = "Ти мав на увазі 'background-color' (колір тла) чи 'back-end' (серверну частину)?";
+        } else if (lowerCaseQuery.includes("color") || lowerCaseQuery.includes("colar")) {
+          response = "Ти питаєш про `color` (колір тексту) чи `background-color` (колір фону)?";
+        } else if (lowerCaseQuery.includes("padin") || lowerCaseQuery.includes("padding")) {
+          response = "Ти питаєш про `padding` (внутрішній відступ) чи `margin` (зовнішній відступ)?";
+        } else if (lowerCaseQuery.includes("привіт") || lowerCaseQuery.includes("як справи")) {
+          response = "Привіт! Я твій помічник з HTML та CSS. Чим можу допомогти?";
+        }
       }
-    }
-
-    // Add specific examples for common queries
-    if (lowerCaseQuery.includes("колір тла") || lowerCaseQuery.includes("background-color")) {
-      response = "🎨 Щоб пофарбувати тло, використай властивість `background-color` у CSS! Наприклад: `background-color: blue;`";
-    } else if (lowerCaseQuery.includes("header") || lowerCaseQuery.includes("хедер")) {
-      response = "🏠 У тегу `<header>` зазвичай розміщують: логотип сайту, меню навігації та головний заголовок сторінки!";
-    } else if (lowerCaseQuery.includes("зображення") || lowerCaseQuery.includes("картинка") || lowerCaseQuery.includes("img")) {
-      response = "🖼️ Щоб додати зображення, використовуй тег `<img>`. Не забудь про `src` (шлях до картинки) та `alt` (опис)! Наприклад: `<img src=\"моя-картинка.jpg\" alt=\"Моя чудова картинка\">`";
-    } else if (lowerCaseQuery.includes("текст") || lowerCaseQuery.includes("параграф") || lowerCaseQuery.includes("p")) {
-      response = "📝 Для звичайного тексту або абзаців використовуй тег `<p>`. Наприклад: `<p>Привіт, це мій текст!</p>`";
-    } else if (lowerCaseQuery.includes("посилання") || lowerCaseQuery.includes("a")) {
-      response = "🔗 Щоб створити посилання, використовуй тег `<a>` та атрибут `href` для адреси. Наприклад: `<a href=\"https://google.com\">Перейти до Google</a>`";
-    } else if (lowerCaseQuery.includes("заголовок") || lowerCaseQuery.includes("h1") || lowerCaseQuery.includes("h2")) {
-      response = "✍️ Для заголовків використовуй теги `<h1>`, `<h2>`, `<h3>` і так далі. `<h1>` - найважливіший! Наприклад: `<h1>Мій Головний Заголовок</h1>`";
-    } else if (lowerCaseQuery.includes("розмір шрифту") || lowerCaseQuery.includes("font-size")) {
-      response = "📏 Щоб змінити розмір тексту, використовуй властивість `font-size` у CSS. Наприклад: `font-size: 18px;`";
-    } else if (lowerCaseQuery.includes("рамка") || lowerCaseQuery.includes("border")) {
-      response = "🖼️ Щоб додати рамку, використовуй властивість `border` у CSS. Наприклад: `border: 2px solid red;`";
-    } else if (lowerCaseQuery.includes("відступ") || lowerCaseQuery.includes("margin") || lowerCaseQuery.includes("padding")) {
-      response = "📦 У CSS є `margin` (зовнішній відступ, відштовхує від інших елементів) та `padding` (внутрішній відступ, простір всередині елемента).";
-    } else if (lowerCaseQuery.includes("що таке html")) {
-      response = "🌐 HTML (HyperText Markup Language) - це мова, яка використовується для створення структури веб-сторінок. Це як кістяк твого сайту!";
-    } else if (lowerCaseQuery.includes("що таке css")) {
-      response = "🎨 CSS (Cascading Style Sheets) - це мова стилів, яка використовується для оформлення зовнішнього вигляду веб-сторінок. Це як одяг для твого сайту!";
-    } else if (lowerCaseQuery.includes("привіт") || lowerCaseQuery.includes("як справи")) {
-      response = "Привіт! Я твій помічник з HTML та CSS. Чим можу допомогти?";
     }
 
     setTimeout(() => {
