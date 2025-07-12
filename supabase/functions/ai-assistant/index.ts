@@ -16,22 +16,17 @@ serve(async (req) => {
     const { query } = await req.json();
 
     // Отримання Gemini API ключа зі змінних оточення
-    const geminiApiKey = Deno.env.get('gemini_api_key'); // Змінено назву секрету
+    const geminiApiKey = Deno.env.get('gemini_api_key');
 
     if (!geminiApiKey) {
       throw new Error('GEMINI_API_KEY is not set in environment variables.');
     }
 
     const genAI = new GoogleGenerativeAI(geminiApiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro" }); // Змінено модель на gemini-1.0-pro
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // Повертаємося до gemini-pro
 
-    const chat = model.startChat({
-      generationConfig: {
-        maxOutputTokens: 150, // Обмеження довжини відповіді
-      },
-    });
-
-    const result = await chat.sendMessage(query);
+    // Використовуємо generateContent безпосередньо
+    const result = await model.generateContent(query);
     const response = await result.response;
     const aiResponseText = response.text();
 
