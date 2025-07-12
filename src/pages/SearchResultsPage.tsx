@@ -55,8 +55,8 @@ const SearchResultsPage: React.FC = () => {
 
     // 2. Filter page results using Fuse.js with synonym expansion
     if (query) {
-      const expandedQuery = expandQueryWithSynonyms(query).join(' ');
-      const results = fuse.search(expandedQuery);
+      const expandedQueryArray = expandQueryWithSynonyms(query); // Передаємо масив
+      const results = fuse.search(expandedQueryArray); // Fuse.js обробляє масив краще
       const mappedResults = results.map(result => result.item);
 
       // Remove the direct glossary term from general results if it was found

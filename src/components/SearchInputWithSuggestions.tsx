@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import Fuse from 'fuse.js';
-import { expandQueryWithSynonyms } from "@/data/synonymMap"; // Імпортуємо функцію синонімів
+import { expandQueryWithSynonyms } from "@/data/synonymMap";
 
 const RECENT_SEARCHES_KEY = "recent-searches";
 const MAX_RECENT_SEARCHES = 5;
@@ -33,16 +33,14 @@ const getEmojiForType = (type: SearchItem['type']) => {
   }
 };
 
-// Ініціалізуємо Fuse.js для пошуку
 const fuseOptions = {
   keys: [
     { name: 'title', weight: 0.7 },
     { name: 'description', weight: 0.5 },
     { name: 'keywords', weight: 0.9 },
-    // 'term' та 'definition' не потрібні як окремі ключі, оскільки вони вже включені в 'title' та 'description' для словника
   ],
   includeScore: true,
-  threshold: 0.4, // Дозволяє деякі неточності
+  threshold: 0.4,
   ignoreLocation: true,
   minMatchCharLength: 2,
 };
@@ -57,7 +55,6 @@ const SearchInputWithSuggestions: React.FC = () => {
   const navigate = useNavigate();
   const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Завантажуємо останні пошукові запити при завантаженні компонента
   useEffect(() => {
     try {
       const storedSearches = localStorage.getItem(RECENT_SEARCHES_KEY);
@@ -69,7 +66,6 @@ const SearchInputWithSuggestions: React.FC = () => {
     }
   }, []);
 
-  // Зберігаємо пошуковий запит
   const saveSearchTerm = useCallback((term: string) => {
     if (!term.trim()) return;
     setRecentSearches(prevSearches => {
@@ -90,17 +86,16 @@ const SearchInputWithSuggestions: React.FC = () => {
 
     if (searchTerm.trim().length > 1) {
       debounceTimeoutRef.current = setTimeout(() => {
-        const expandedQuery = expandQueryWithSynonyms(searchTerm).join(' ');
-        const results = fuse.search(expandedQuery);
+        const expandedQueryArray = expandQueryWithSynonyms(searchTerm); // Передаємо масив
+        const results = fuse.search(expandedQueryArray); // Fuse.js обробляє масив краще
         const mappedResults = results.map(result => result.item).slice(0, 7);
         setSuggestions(mappedResults);
-        setOpen(true); // Відкриваємо поповер, коли є підказки
-      }, 300); // Debounce for 300ms
+        setOpen(true);
+      }, 300);
     } else if (searchTerm.trim().length === 0) {
       setSuggestions([]);
-      setOpen(false); // Закриваємо поповер, тільки коли поле порожнє
+      setOpen(false);
     } else {
-      // Якщо довжина 1, не закриваємо поповер, але очищаємо підказки
       setSuggestions([]);
     }
 
@@ -112,8 +107,8 @@ const SearchInputWithSuggestions: React.FC = () => {
   }, [searchTerm]);
 
   const handleSelectSuggestion = (item: SearchItem) => {
-    saveSearchTerm(searchTerm); // Зберігаємо запит перед переходом
-    setSearchTerm(""); // Очищаємо поле пошуку після вибору
+    saveSearchTerm(searchTerm);
+    setSearchTerm("");
     setOpen(false);
     navigate(`${item.path}${item.sectionId ? `#${item.sectionId}` : ''}`);
   };
@@ -121,7 +116,7 @@ const SearchInputWithSuggestions: React.FC = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      saveSearchTerm(searchTerm); // Зберігаємо запит перед переходом
+      saveSearchTerm(searchTerm);
       setOpen(false);
       navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
     }
@@ -129,7 +124,7 @@ const SearchInputWithSuggestions: React.FC = () => {
 
   const handleRecentSearchClick = (term: string) => {
     setSearchTerm(term);
-    setOpen(false); // Закриваємо поповер, оскільки ми вже встановили searchTerm
+    setOpen(false);
     navigate(`/search?query=${encodeURIComponent(term)}`);
   };
 
