@@ -7,6 +7,7 @@ import { Search } from "lucide-react";
 import { glossaryData, GlossaryTerm } from "@/data/glossaryData";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { highlightText } from "@/lib/utils"; // Import the new utility
 
 const SearchResultsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -72,11 +73,11 @@ const SearchResultsPage: React.FC = () => {
           <Card className="bg-card shadow-lg border-2 border-blue-500 col-span-full mb-6">
             <CardHeader>
               <CardTitle className="text-2xl text-blue-600">
-                Термін: {directTermDefinition.term}
+                Термін: {highlightText(directTermDefinition.term, currentSearchTerm)}
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground text-lg mb-4">{directTermDefinition.definition}</p>
+              <p className="text-muted-foreground text-lg mb-4">{highlightText(directTermDefinition.definition, currentSearchTerm)}</p>
               {directTermDefinition.codeExample && directTermDefinition.language && (
                 <div className="mt-4">
                   <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Приклад коду:</h4>
@@ -95,12 +96,12 @@ const SearchResultsPage: React.FC = () => {
             {filteredPageResults.map((item, index) => (
               <Card key={index} className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300">
                 <CardHeader>
-                  <CardTitle className="text-xl text-primary">{item.title}</CardTitle>
+                  <CardTitle className="text-xl text-primary">{highlightText(item.title, currentSearchTerm)}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground mb-4">{item.description}</p>
+                  <p className="text-muted-foreground mb-4">{highlightText(item.description, currentSearchTerm)}</p>
                   <Link
-                    to={`${item.path}${item.sectionId ? `#${item.sectionId}` : ''}`} // Use sectionId in the link
+                    to={`${item.path}${item.sectionId ? `#${item.sectionId}` : ''}`}
                     className="text-blue-600 hover:underline font-medium"
                   >
                     Перейти до уроку
