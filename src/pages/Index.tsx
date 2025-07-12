@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 const Index: React.FC = () => {
   return (
     <div className="min-h-[calc(100vh-16rem)] flex flex-col items-center justify-center py-8">
-      <h1 className="text-5xl font-extrabold text-center mb-6 text-primary">
+      <h1 className="text-5xl font-extrabold text-center mb-6 text-foreground">
         Привіт, юний Веб-Майстер!
       </h1>
       <p className="text-xl text-center mb-10 max-w-2xl text-muted-foreground">
@@ -18,7 +18,7 @@ const Index: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-5xl">
         <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
-            <CardTitle className="text-2xl text-primary">HTML Теги</CardTitle>
+            <CardTitle className="text-2xl text-card-foreground">HTML Теги</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">Дізнайся, як будувати структуру веб-сторінки.</p>
@@ -30,7 +30,7 @@ const Index: React.FC = () => {
 
         <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
-            <CardTitle className="text-2xl text-primary">CSS Властивості</CardTitle>
+            <CardTitle className="text-2xl text-card-foreground">CSS Властивості</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">Зроби свою сторінку красивою та стильною!</p>
@@ -42,7 +42,7 @@ const Index: React.FC = () => {
 
         <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
-            <CardTitle className="text-2xl text-primary">CSS Селектори</CardTitle>
+            <CardTitle className="text-2xl text-card-foreground">CSS Селектори</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">Навчись вибирати елементи для стилізації.</p>
@@ -54,7 +54,7 @@ const Index: React.FC = () => {
 
         <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
-            <CardTitle className="text-2xl text-primary">Практичні Приклади</CardTitle>
+            <CardTitle className="text-2xl text-card-foreground">Практичні Приклади</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">Спробуй свої сили на реальних завданнях.</p>
@@ -67,7 +67,7 @@ const Index: React.FC = () => {
         {/* New Card for Project Template */}
         <Card className="bg-card hover:shadow-lg transition-shadow duration-300 relative">
           <CardHeader>
-            <CardTitle className="text-2xl text-primary flex justify-between items-center">
+            <CardTitle className="text-2xl text-card-foreground flex justify-between items-center">
               Шаблон Проекту
               <Badge variant="destructive" className="ml-2">Важливо!</Badge>
             </CardTitle>
@@ -83,7 +83,7 @@ const Index: React.FC = () => {
         {/* New Card for Quiz */}
         <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
-            <CardTitle className="text-2xl text-primary">Перевір Знання!</CardTitle>
+            <CardTitle className="text-2xl text-card-foreground">Перевір Знання!</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">Пройди короткий тест з HTML та CSS.</p>
@@ -96,7 +96,7 @@ const Index: React.FC = () => {
         {/* New Card for Glossary */}
         <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
-            <CardTitle className="text-2xl text-primary">Словник Термінів</CardTitle>
+            <CardTitle className="text-2xl text-card-foreground">Словник Термінів</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">Швидко знайди визначення основних термінів.</p>

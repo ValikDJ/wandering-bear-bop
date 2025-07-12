@@ -76,14 +76,14 @@ const ProjectTemplate: React.FC = () => {
 
   return (
     <div className="py-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-primary">Шаблон HTML для Твого Проекту</h1>
+      <h1 className="text-4xl font-bold text-center mb-8 text-foreground">Шаблон HTML для Твого Проекту</h1>
       <p className="text-lg text-center mb-10 text-muted-foreground max-w-3xl mx-auto">
         Цей шаблон допоможе тобі швидко почати створювати власний сайт для відкритого уроку. Просто скопіюй код, встав його у свій файл `index.html` (або інший HTML-файл) і зміни текст та картинки під свою тему!
       </p>
 
       <Card className="mb-6 bg-card shadow-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-primary">HTML Шаблон</CardTitle>
+          <CardTitle className="text-2xl text-card-foreground">HTML Шаблон</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="relative mb-4">
@@ -99,7 +99,7 @@ const ProjectTemplate: React.FC = () => {
             </Button>
           </div>
 
-          <h2 className="text-3xl font-bold mt-8 mb-4 text-primary">Пояснення до HTML Шаблону</h2>
+          <h2 className="text-3xl font-bold mt-8 mb-4 text-foreground">Пояснення до HTML Шаблону</h2>
           <p className="mb-4 text-muted-foreground">
             Давай розберемо, що означає кожен важливий тег у цьому шаблоні:
           </p>

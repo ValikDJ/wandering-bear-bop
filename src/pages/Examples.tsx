@@ -12,7 +12,7 @@ const Examples: React.FC = () => {
 
   return (
     <div className="py-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-primary">Практичні Приклади: Створюємо Разом!</h1>
+      <h1 className="text-4xl font-bold text-center mb-8 text-foreground">Практичні Приклади: Створюємо Разом!</h1>
       <p className="text-lg text-center mb-10 text-muted-foreground max-w-3xl mx-auto">
         Час застосувати свої знання на практиці! Спробуй зрозуміти, як працюють ці приклади, і уяви, як ти можеш їх змінити.
       </p>

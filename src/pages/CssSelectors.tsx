@@ -8,7 +8,7 @@ const CssSelectors: React.FC = () => {
 
   return (
     <div className="py-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-primary">CSS Селектори: Вибираємо Елементи</h1>
+      <h1 className="text-4xl font-bold text-center mb-8 text-foreground">CSS Селектори: Вибираємо Елементи</h1>
       <p className="text-lg text-center mb-10 text-muted-foreground max-w-3xl mx-auto">
         CSS селектори - це як адреси, за якими ми знаходимо потрібні елементи на веб-сторінці, щоб їх стилізувати.
       </p>

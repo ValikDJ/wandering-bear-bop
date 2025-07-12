@@ -8,7 +8,7 @@ import LessonNavigation from "@/components/LessonNavigation"; // Assuming you mi
 const GlossaryPage: React.FC = () => {
   return (
     <div className="py-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-primary">Словник Термінів</h1>
+      <h1 className="text-4xl font-bold text-center mb-8 text-foreground">Словник Термінів</h1>
       <p className="text-lg text-center mb-10 text-muted-foreground max-w-3xl mx-auto">
         Тут ти знайдеш пояснення всіх важливих слів та понять, які використовуються у веб-розробці.
       </p>
@@ -17,7 +17,7 @@ const GlossaryPage: React.FC = () => {
         {glossaryData.map((item, index) => (
           <Card key={index} className="bg-card shadow-md">
             <CardHeader>
-              <CardTitle className="text-xl text-primary">{item.term}</CardTitle>
+              <CardTitle className="text-xl text-card-foreground">{item.term}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-4">{item.definition}</p>

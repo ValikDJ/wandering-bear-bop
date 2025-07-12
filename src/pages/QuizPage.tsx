@@ -44,14 +44,14 @@ const QuizPage: React.FC = () => {
 
   return (
     <div className="py-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-primary">Перевір Свої Знання!</h1>
+      <h1 className="text-4xl font-bold text-center mb-8 text-foreground">Перевір Свої Знання!</h1>
       <p className="text-lg text-center mb-10 text-muted-foreground max-w-3xl mx-auto">
         Пройди цей короткий тест, щоб перевірити, наскільки добре ти засвоїв основи HTML та CSS. Успіхів!
       </p>
 
       <Card className="mb-6 bg-card shadow-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-primary">
+          <CardTitle className="text-2xl text-card-foreground">
             {quizCompleted ? "Результати Тесту" : `Питання ${currentQuestionIndex + 1} з ${quizData.length}`}
           </CardTitle>
         </CardHeader>

@@ -50,7 +50,7 @@ const SearchResultsPage: React.FC = () => {
 
   return (
     <div className="py-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-primary">Результати Пошуку</h1>
+      <h1 className="text-4xl font-bold text-center mb-8 text-foreground">Результати Пошуку</h1>
       <p className="text-lg text-center mb-10 text-muted-foreground max-w-3xl mx-auto">
         Ось що я знайшов за твоїм запитом: "{currentSearchTerm}"
       </p>
@@ -72,7 +72,7 @@ const SearchResultsPage: React.FC = () => {
         {directTermDefinition && (
           <Card className="bg-card shadow-lg border-2 border-blue-500 col-span-full mb-6">
             <CardHeader>
-              <CardTitle className="text-2xl text-blue-600">
+              <CardTitle className="text-2xl text-card-foreground">
                 Термін: {highlightText(directTermDefinition.term, currentSearchTerm)}
               </CardTitle>
             </CardHeader>
@@ -92,11 +92,11 @@ const SearchResultsPage: React.FC = () => {
 
         {filteredPageResults.length > 0 && (
           <>
-            {directTermDefinition && <h2 className="col-span-full text-2xl font-bold text-primary mt-8 mb-4">Також знайдено в уроках:</h2>}
+            {directTermDefinition && <h2 className="col-span-full text-2xl font-bold text-foreground mt-8 mb-4">Також знайдено в уроках:</h2>}
             {filteredPageResults.map((item, index) => (
               <Card key={index} className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300">
                 <CardHeader>
-                  <CardTitle className="text-xl text-primary">{highlightText(item.title, currentSearchTerm)}</CardTitle>
+                  <CardTitle className="text-xl text-card-foreground">{highlightText(item.title, currentSearchTerm)}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground mb-4">{highlightText(item.description, currentSearchTerm)}</p>

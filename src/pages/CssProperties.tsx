@@ -10,7 +10,7 @@ const CssProperties: React.FC = () => {
 
   return (
     <div className="py-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-primary">CSS Властивості: Робимо Сторінку Красивою</h1>
+      <h1 className="text-4xl font-bold text-center mb-8 text-foreground">CSS Властивості: Робимо Сторінку Красивою</h1>
       <p className="text-lg text-center mb-10 text-muted-foreground max-w-3xl mx-auto">
         CSS (Cascading Style Sheets) - це мова, яка допомагає нам стилізувати веб-сторінки. Уяви, що це одяг для твого сайту!
       </p>

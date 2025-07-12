@@ -8,7 +8,7 @@ const HtmlTags: React.FC = () => {
 
   return (
     <div className="py-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-primary">HTML Теги: Будуємо Веб-Сторінку</h1>
+      <h1 className="text-4xl font-bold text-center mb-8 text-foreground">HTML Теги: Будуємо Веб-Сторінку</h1>
       <p className="text-lg text-center mb-10 text-muted-foreground max-w-3xl mx-auto">
         HTML (HyperText Markup Language) - це мова, яка допомагає нам створювати структуру веб-сторінок. Уяви, що це кістяк твого сайту! Кожен елемент на сторінці - це тег.
       </p>
