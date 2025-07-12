@@ -71,13 +71,5 @@
     "typescript-eslint": "^8.0.1",
     "vite": "^6.3.4"
   },
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
-  },
-  "homepage": "https://ВАШ_КОРИСТУВАЧ_GITHUB.github.io/НАЗВА_ВАШОГО_РЕПОЗИТОРІЮ"
+  "homepage": "https://ValikDJ.github.io/wandering-bear-bop/"
 }
