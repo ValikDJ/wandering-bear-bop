@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai@0.14.1"; // Імпорт для Gemini API
+import OpenAI from "https://deno.land/x/openai@v4.38.5/mod.ts"; // Імпорт для OpenAI API
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -15,23 +15,33 @@ serve(async (req) => {
   try {
     const { query } = await req.json();
 
-    // Отримання Gemini API ключа зі змінних оточення
-    const geminiApiKey = Deno.env.get('gemini_api_key'); // Змінено назву секрету
+    // Отримання OpenAI API ключа зі змінних оточення
+    const openaiApiKey = Deno.env.get('openai_api_key'); // Змінено назву секрету
 
-    if (!geminiApiKey) {
-      throw new Error('GEMINI_API_KEY is not set in environment variables.');
+    if (!openaiApiKey) {
+      throw new Error('OPENAI_API_KEY is not set in environment variables.');
     }
 
-    const genAI = new GoogleGenerativeAI(geminiApiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // Використання моделі Gemini Pro
+    const openai = new OpenAI({
+      apiKey: openaiApiKey,
+    });
 
-    const prompt = `Ти - доброзиричливий та корисний помічник для дітей, які вивчають HTML та CSS. Твоя мета - надавати прості, зрозумілі та заохочувальні відповіді на їхні запитання. Використовуй українську мову. Якщо питання не стосується HTML, CSS або веб-розробки, ввічливо перенаправ його до теми уроку.
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo", // Можеш змінити на іншу модель, наприклад "gpt-4"
+      messages: [
+        {
+          role: "system",
+          content: "Ти - доброзиричливий та корисний помічник для дітей, які вивчають HTML та CSS. Твоя мета - надавати прості, зрозумілі та заохочувальні відповіді на їхні запитання. Використовуй українську мову. Якщо питання не стосується HTML, CSS або веб-розробки, ввічливо перенаправ його до теми уроку.",
+        },
+        {
+          role: "user",
+          content: query,
+        },
+      ],
+      max_tokens: 150,
+    });
 
-Ось запитання від дитини: "${query}"`;
-
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const aiResponseText = response.text(); // Отримання текстової відповіді від Gemini
+    const aiResponseText = completion.choices[0].message.content;
 
     return new Response(
       JSON.stringify({ message: aiResponseText }),
