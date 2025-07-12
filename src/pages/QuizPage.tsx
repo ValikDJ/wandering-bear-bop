@@ -41,6 +41,41 @@ const quizData: QuizItem[] = [
     ],
     correctAnswer: "Внутрішній відступ між вмістом та рамкою елемента",
   },
+  {
+    question: "Який HTML-тег використовується для створення невпорядкованого списку (маркованого)?",
+    options: ["<ol>", "<li>", "<ul>", "<dl>"],
+    correctAnswer: "<ul>",
+  },
+  {
+    question: "Який HTML-тег використовується для створення поля введення тексту (наприклад, для імені)?",
+    options: ["<textarea>", "<button>", "<input>", "<select>"],
+    correctAnswer: "<input>",
+  },
+  {
+    question: "Яке значення властивості `display` робить елемент блоковим, займаючи всю доступну ширину?",
+    options: ["inline", "flex", "block", "none"],
+    correctAnswer: "block",
+  },
+  {
+    question: "Яка властивість CSS Flexbox використовується для вирівнювання елементів по горизонталі в контейнері?",
+    options: ["align-items", "flex-direction", "justify-content", "flex-wrap"],
+    correctAnswer: "justify-content",
+  },
+  {
+    question: "Яке значення властивості `box-sizing` включає `padding` та `border` у загальну ширину/висоту елемента?",
+    options: ["content-box", "padding-box", "border-box", "margin-box"],
+    correctAnswer: "border-box",
+  },
+  {
+    question: "Який HTML5 тег використовується для основного, унікального вмісту сторінки?",
+    options: ["<header>", "<footer>", "<main>", "<section>"],
+    correctAnswer: "<main>",
+  },
+  {
+    question: "Яке значення властивості `position` дозволяє елементу залишатися на місці при прокручуванні сторінки?",
+    options: ["relative", "absolute", "fixed", "static"],
+    correctAnswer: "fixed",
+  },
 ];
 
 const QuizPage: React.FC = () => {
