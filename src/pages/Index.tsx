@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Badge } from "@/components/ui/badge";
+import CharacterSelector from "@/components/CharacterSelector"; // Імпортуємо CharacterSelector
+
+const CHARACTER_STORAGE_KEY = "selected-ai-character";
 
 const Index: React.FC = () => {
+  const [selectedCharacter, setSelectedCharacter] = useState<'robot' | 'cat' | 'owl' | null>(null);
+
+  useEffect(() => {
+    // Load selected character from local storage on mount
+    const storedCharacter = localStorage.getItem(CHARACTER_STORAGE_KEY) as 'robot' | 'cat' | 'owl' | null;
+    if (storedCharacter) {
+      setSelectedCharacter(storedCharacter);
+    }
+  }, []);
+
+  const handleCharacterSelect = (character: 'robot' | 'cat' | 'owl') => {
+    setSelectedCharacter(character);
+    localStorage.setItem(CHARACTER_STORAGE_KEY, character);
+  };
+
   return (
     <div className="min-h-[calc(100vh-16rem)] flex flex-col items-center justify-center py-8">
       <h1 className="text-5xl font-extrabold text-center mb-6 text-foreground">
@@ -14,6 +32,12 @@ const Index: React.FC = () => {
       <p className="text-xl text-center mb-10 max-w-2xl text-muted-foreground">
         Ласкаво просимо до Веб-Майстерні, де ти навчишся створювати власні круті веб-сторінки за допомогою HTML та CSS!
       </p>
+
+      {!selectedCharacter && (
+        <div className="mb-10">
+          <CharacterSelector onSelect={handleCharacterSelect} selectedCharacter={selectedCharacter as any} />
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-5xl">
         <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
