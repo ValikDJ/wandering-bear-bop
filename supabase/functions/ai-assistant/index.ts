@@ -23,7 +23,7 @@ serve(async (req) => {
     }
 
     const genAI = new GoogleGenerativeAI(geminiApiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // Повертаємося до gemini-pro
+    const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro-latest" }); // Змінено модель на gemini-1.0-pro-latest
 
     // Використовуємо generateContent безпосередньо
     const result = await model.generateContent(query);
