@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { FileText, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { ThemeToggle } from "./ThemeToggle"; // Import ThemeToggle
 
 const Navbar: React.FC = () => {
   const isMobile = useIsMobile();
@@ -38,7 +37,6 @@ const Navbar: React.FC = () => {
           Веб-Майстерня для Дітей
         </Link>
         <div className="flex items-center gap-2"> {/* Wrapper for toggle and menu */}
-          <ThemeToggle /> {/* Add ThemeToggle here */}
           {isMobile ? (
             <Sheet>
               <SheetTrigger asChild>

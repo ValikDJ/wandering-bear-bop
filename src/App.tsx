@@ -12,7 +12,6 @@ import CssSelectors from "./pages/CssSelectors";
 import Examples from "./pages/Examples";
 import ProjectTemplate from "./pages/ProjectTemplate";
 import QuizPage from "./pages/QuizPage";
-import { ThemeProvider } from "./components/ThemeProvider"; // Import ThemeProvider
 
 const queryClient = new QueryClient();
 
@@ -20,27 +19,25 @@ const basename = import.meta.env.BASE_URL;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme"> {/* Add ThemeProvider */}
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter basename={basename}>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/html-tags" element={<HtmlTags />} />
-              <Route path="/css-properties" element={<CssProperties />} />
-              <Route path="/css-selectors" element={<CssSelectors />} />
-              <Route path="/examples" element={<Examples />} />
-              <Route path="/project-template" element={<ProjectTemplate />} />
-              <Route path="/quiz" element={<QuizPage />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Layout>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ThemeProvider>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter basename={basename}>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/html-tags" element={<HtmlTags />} />
+            <Route path="/css-properties" element={<CssProperties />} />
+            <Route path="/css-selectors" element={<CssSelectors />} />
+            <Route path="/examples" element={<Examples />} />
+            <Route path="/project-template" element={<ProjectTemplate />} />
+            <Route path="/quiz" element={<QuizPage />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 
