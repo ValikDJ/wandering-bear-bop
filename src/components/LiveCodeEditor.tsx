@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 
 interface LiveCodeEditorProps {
+  id?: string; // Додано id
   initialHtml?: string;
   initialCss?: string;
   title?: string;
@@ -10,6 +11,7 @@ interface LiveCodeEditorProps {
 }
 
 const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
+  id,
   initialHtml = "<h1>Привіт!</h1>\n<p>Зміни мене!</p>",
   initialCss = "h1 {\n  color: blue;\n}\np {\n  font-family: sans-serif;\n}",
   title = "Спробуй сам!",
@@ -37,7 +39,7 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
   }, [htmlCode, cssCode]);
 
   return (
-    <Card className="mb-6 bg-card shadow-md">
+    <Card id={id} className="mb-6 bg-card shadow-md">
       <CardHeader>
         <CardTitle className="text-2xl text-primary">{title}</CardTitle>
       </CardHeader>

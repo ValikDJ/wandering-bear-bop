@@ -9,11 +9,13 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface HtmlElementCreatorProps {
+  id?: string; // Додано id
   title?: string;
   description?: string;
 }
 
 const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
+  id,
   title = "Створи свій HTML-елемент!",
   description = "Вибери тег, додай вміст або атрибути, і побач, як він виглядає!",
 }) => {
@@ -84,7 +86,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
   };
 
   return (
-    <Card className="mb-6 bg-card shadow-md">
+    <Card id={id} className="mb-6 bg-card shadow-md">
       <CardHeader>
         <CardTitle className="text-2xl text-primary">{title}</CardTitle>
       </CardHeader>
