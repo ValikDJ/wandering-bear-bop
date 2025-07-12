@@ -4,6 +4,7 @@ import LessonCard from "@/components/LessonCard";
 import LiveCodeEditor from "@/components/LiveCodeEditor";
 import HtmlElementCreator from "@/components/HtmlElementCreator";
 import { Button } from "@/components/ui/button";
+import LessonNavigation from "@/components/LessonNavigation"; // Import the new component
 
 const Examples: React.FC = () => {
   return (
@@ -103,6 +104,7 @@ button {
           }
         />
       </div>
+      <LessonNavigation />
     </div>
   );
 };

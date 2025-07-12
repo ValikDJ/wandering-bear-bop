@@ -1,5 +1,6 @@
 import React from "react";
 import LessonCard from "@/components/LessonCard";
+import LessonNavigation from "@/components/LessonNavigation"; // Import the new component
 
 const CssSelectors: React.FC = () => {
   return (
@@ -87,6 +88,7 @@ p {
           }
         />
       </div>
+      <LessonNavigation />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import LessonCard from "@/components/LessonCard";
 import InteractiveCssProperty from "@/components/InteractiveCssProperty";
 import CssBoxModelVisualizer from "@/components/CssBoxModelVisualizer"; // Import the new component
+import LessonNavigation from "@/components/LessonNavigation"; // Import the new component
 
 const CssProperties: React.FC = () => {
   return (
@@ -163,6 +164,7 @@ const CssProperties: React.FC = () => {
           baseStyle={{}}
         />
       </div>
+      <LessonNavigation />
     </div>
   );
 };

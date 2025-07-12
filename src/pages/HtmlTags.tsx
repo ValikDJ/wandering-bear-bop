@@ -1,5 +1,6 @@
 import React from "react";
 import LessonCard from "@/components/LessonCard";
+import LessonNavigation from "@/components/LessonNavigation"; // Import the new component
 
 const HtmlTags: React.FC = () => {
   return (
@@ -178,6 +179,7 @@ const HtmlTags: React.FC = () => {
           }
         />
       </div>
+      <LessonNavigation />
     </div>
   );
 };
