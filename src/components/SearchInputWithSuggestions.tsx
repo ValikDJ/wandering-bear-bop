@@ -2,14 +2,13 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
-import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
+import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandInput } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { searchIndex } from "@/data/searchIndex";
 import { glossaryData } from "@/data/glossaryData";
 import { Button } from "@/components/ui/button";
-import { highlightText } from "@/lib/utils"; // Import the new utility
+import { highlightText } from "@/lib/utils";
 
 interface SearchSuggestion {
   type: 'term' | 'page';
@@ -25,7 +24,7 @@ const SearchInputWithSuggestions: React.FC = () => {
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
-  const popoverRef = useRef<HTMLDivElement>(null); // Ref for the popover content
+  const popoverContentRef = useRef<HTMLDivElement>(null); // Ref for the popover content
 
   // Function to filter and prepare suggestions
   const getSuggestions = useCallback((query: string): SearchSuggestion[] => {
@@ -84,7 +83,8 @@ const SearchInputWithSuggestions: React.FC = () => {
   useEffect(() => {
     const newSuggestions = getSuggestions(searchTerm);
     setSuggestions(newSuggestions);
-    setOpen(newSuggestions.length > 0);
+    // Only open if there are suggestions AND the search term is long enough
+    setOpen(newSuggestions.length > 0 && searchTerm.length > 1);
   }, [searchTerm, getSuggestions]);
 
   const handleSelect = (suggestion: SearchSuggestion) => {
@@ -122,40 +122,37 @@ const SearchInputWithSuggestions: React.FC = () => {
     }
   };
 
-  // Close popover if clicked outside, but not if clicking inside the input area
-  const handleDocumentClick = useCallback((event: MouseEvent) => {
-    if (popoverRef.current && !popoverRef.current.contains(event.target as Node) &&
-        inputRef.current && !inputRef.current.contains(event.target as Node)) {
-      setOpen(false);
-    }
-  }, []);
-
+  // This effect ensures the input stays focused when the popover opens,
+  // unless focus has explicitly moved elsewhere (e.g., to a CommandItem).
   useEffect(() => {
-    document.addEventListener("mousedown", handleDocumentClick);
-    return () => {
-      document.removeEventListener("mousedown", handleDocumentClick);
-    };
-  }, [handleDocumentClick]);
-
+    if (open && inputRef.current && document.activeElement !== inputRef.current) {
+      // Check if focus is not already on a CommandItem within the popover
+      if (popoverContentRef.current && !popoverContentRef.current.contains(document.activeElement)) {
+        inputRef.current.focus();
+      }
+    }
+  }, [open]);
 
   return (
     <form onSubmit={handleSearchSubmit} className="relative flex items-center w-full max-w-xs">
       <Popover open={open} onOpenChange={setOpen} modal={false}>
         <PopoverTrigger asChild>
           <div className="relative flex items-center w-full">
-            <Input
+            <CommandInput
               ref={inputRef}
-              type="text"
               placeholder="Пошук..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8 pr-8 py-1 rounded-md bg-primary-foreground/10 text-primary-foreground placeholder:text-primary-foreground/70 focus:bg-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50"
-              onKeyDown={(e) => {
-                // Prevent default behavior for arrow keys to allow Command to handle navigation
-                if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-                  e.preventDefault();
+              onValueChange={(value) => {
+                setSearchTerm(value);
+                // Ensure popover opens if there's enough text and suggestions are available
+                if (value.length > 1 && suggestions.length > 0) {
+                  setOpen(true);
+                } else if (value.length <= 1) {
+                  setOpen(false); // Close if search term is too short
                 }
               }}
+              className="pl-8 pr-8 py-1 rounded-md bg-primary-foreground/10 text-primary-foreground placeholder:text-primary-foreground/70 focus:bg-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50"
+              // No need for onKeyDown here, CommandInput handles arrow keys internally
             />
             <Search className="absolute left-2 h-4 w-4 text-primary-foreground/70" />
             {searchTerm && (
@@ -172,7 +169,7 @@ const SearchInputWithSuggestions: React.FC = () => {
             )}
           </div>
         </PopoverTrigger>
-        <PopoverContent ref={popoverRef} className="w-[var(--radix-popover-trigger-width)] p-0 z-50">
+        <PopoverContent ref={popoverContentRef} className="w-[var(--radix-popover-trigger-width)] p-0 z-50">
           <Command>
             <CommandList>
               {suggestions.length === 0 && searchTerm.length > 1 ? (
