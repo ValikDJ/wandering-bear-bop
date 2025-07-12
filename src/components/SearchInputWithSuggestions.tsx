@@ -11,7 +11,6 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem,
   CommandList,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -39,20 +38,21 @@ const SearchInputWithSuggestions: React.FC = () => {
       clearTimeout(debounceTimeoutRef.current);
     }
 
-    if (searchTerm.trim().length > 1) {
+    // Open popover if search term is not empty, and debounce search logic
+    if (searchTerm.trim().length > 0) {
       debounceTimeoutRef.current = setTimeout(() => {
         const lowerCaseSearchTerm = searchTerm.toLowerCase();
         const filtered = searchIndex.filter(item =>
           item.title.toLowerCase().includes(lowerCaseSearchTerm) ||
           item.description.toLowerCase().includes(lowerCaseSearchTerm) ||
           item.keywords.some(keyword => keyword.toLowerCase().includes(lowerCaseSearchTerm))
-        ).slice(0, 7); // Limit suggestions to 7
+        ).slice(0, 7);
         setSuggestions(filtered);
-        setOpen(true);
-      }, 300); // Debounce for 300ms
+        setOpen(true); // Ensure popover is open when suggestions are ready
+      }, 300);
     } else {
       setSuggestions([]);
-      setOpen(false);
+      setOpen(false); // Close popover if search term is empty
     }
 
     return () => {
@@ -68,8 +68,7 @@ const SearchInputWithSuggestions: React.FC = () => {
     navigate(`${item.path}${item.sectionId ? `#${item.sectionId}` : ''}`);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSearchSubmit = () => {
     if (searchTerm.trim()) {
       setOpen(false);
       navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
@@ -79,28 +78,39 @@ const SearchInputWithSuggestions: React.FC = () => {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <form onSubmit={handleSearchSubmit} className="relative flex items-center w-full max-w-xs">
+        {/* This div will now act as the visual search input and trigger */}
+        <div
+          className="relative flex items-center w-full max-w-xs"
+          onClick={() => setOpen(true)} // Open popover on click
+        >
           <Input
             placeholder="Пошук..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-8 pr-8 py-1 rounded-md bg-primary-foreground/10 text-primary-foreground placeholder:text-primary-foreground/70 focus:bg-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50"
+            value={searchTerm} // Display current search term
+            readOnly // Make it read-only, actual typing happens in CommandInput
+            className="pl-8 pr-8 py-1 rounded-md bg-primary-foreground/10 text-primary-foreground placeholder:text-primary-foreground/70 focus:bg-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50 cursor-pointer"
             aria-label="Поле пошуку"
           />
-          <Search className="absolute left-2 h-4 w-4 text-primary-foreground/70" />
-        </form>
+          <Search className="absolute left-2 h-4 w-4 text-primary-foreground/70 pointer-events-none" /> {/* pointer-events-none to allow click on parent div */}
+        </div>
       </PopoverTrigger>
       <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 z-50">
         <Command>
           <CommandInput
             value={searchTerm}
-            onValueChange={setSearchTerm}
+            onValueChange={setSearchTerm} // This is the only place searchTerm is updated by typing
             placeholder="Шукати..."
             className="h-9"
             aria-label="Поле пошуку в підказках"
+            // Handle Enter key press to navigate to search results page
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && searchTerm.trim()) {
+                e.preventDefault(); // Prevent default behavior (e.g., form submission if CommandInput was in a form)
+                handleSearchSubmit();
+              }
+            }}
           />
           <CommandList>
-            {suggestions.length === 0 && searchTerm.trim().length > 1 ? (
+            {suggestions.length === 0 && searchTerm.trim().length > 0 ? (
               <CommandEmpty>Нічого не знайдено.</CommandEmpty>
             ) : (
               <CommandGroup heading="Підказки">
