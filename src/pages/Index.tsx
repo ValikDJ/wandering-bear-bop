@@ -79,6 +79,19 @@ const Index: React.FC = () => {
             </Button>
           </CardContent>
         </Card>
+
+        {/* New Card for Quiz */}
+        <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
+          <CardHeader>
+            <CardTitle className="text-2xl text-primary">Перевір Знання!</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-4">Пройди короткий тест з HTML та CSS.</p>
+            <Button asChild size="lg" className="w-full bg-primary text-primary-foreground hover:bg-primary/80">
+              <Link to="/quiz">Розпочати Тест</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
       <MadeWithDyad />
     </div>

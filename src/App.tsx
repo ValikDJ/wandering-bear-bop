@@ -11,6 +11,7 @@ import CssProperties from "./pages/CssProperties";
 import CssSelectors from "./pages/CssSelectors";
 import Examples from "./pages/Examples";
 import ProjectTemplate from "./pages/ProjectTemplate";
+import QuizPage from "./pages/QuizPage"; // Import the new QuizPage
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/css-selectors" element={<CssSelectors />} />
             <Route path="/examples" element={<Examples />} />
             <Route path="/project-template" element={<ProjectTemplate />} />
+            <Route path="/quiz" element={<QuizPage />} /> {/* New Quiz Route */}
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
