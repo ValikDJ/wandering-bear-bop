@@ -4,6 +4,7 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { cn } from "@/lib/utils"; // Import cn for utility classes
 
 const CssBoxModelVisualizer: React.FC = () => {
   const [margin, setMargin] = useState<number[]>([20]);
@@ -121,47 +122,63 @@ const CssBoxModelVisualizer: React.FC = () => {
           <div className="flex flex-col">
             <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Результат:</h4>
             <div className="p-4 border border-border rounded-md bg-background flex justify-center items-center min-h-[250px]">
+              {/* Outer container for Margin */}
               <div
                 style={{
                   margin: `${currentMargin}px`,
-                  border: `${currentBorderWidth}px solid #3498db`, // Blue border
-                  padding: `${currentPadding}px`,
-                  backgroundColor: '#f1c40f', // Yellow for padding area
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxSizing: 'content-box',
+                  position: 'relative', // For absolute positioning of labels
                 }}
-                className="relative"
+                className="bg-red-200 border-dashed border-2 border-red-400 flex items-center justify-center text-red-800 text-sm"
               >
+                <span className="absolute -top-5 text-xs font-semibold">Margin ({currentMargin}px)</span>
+                <span className="absolute -bottom-5 text-xs font-semibold">Margin ({currentMargin}px)</span>
+                <span className="absolute -left-10 text-xs font-semibold rotate-90">Margin ({currentMargin}px)</span>
+                <span className="absolute -right-10 text-xs font-semibold -rotate-90">Margin ({currentMargin}px)</span>
+
+                {/* Border layer */}
                 <div
                   style={{
-                    width: `${currentContentWidth}px`,
-                    height: `${currentContentHeight}px`,
-                    backgroundColor: '#2ecc71', // Green for content area
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: 'bold',
-                    fontSize: '16px',
+                    border: `${currentBorderWidth}px solid #3498db`, // Blue border
+                    position: 'relative',
                   }}
+                  className="bg-blue-200 flex items-center justify-center text-blue-800 text-sm"
                 >
-                  Вміст
-                </div>
-                {/* Labels for visual clarity */}
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-gray-600">Margin</div>
-                <div className="absolute top-1/2 -left-10 -translate-y-1/2 text-xs text-gray-600">Margin</div>
-                <div className="absolute top-1/2 -right-10 -translate-y-1/2 text-xs text-gray-600">Margin</div>
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-gray-600">Margin</div>
+                  <span className="absolute -top-5 text-xs font-semibold">Border ({currentBorderWidth}px)</span>
+                  <span className="absolute -bottom-5 text-xs font-semibold">Border ({currentBorderWidth}px)</span>
+                  <span className="absolute -left-10 text-xs font-semibold rotate-90">Border ({currentBorderWidth}px)</span>
+                  <span className="absolute -right-10 text-xs font-semibold -rotate-90">Border ({currentBorderWidth}px)</span>
 
-                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none">
-                    <span className="absolute top-1 left-1 text-[10px] text-gray-800">Padding</span>
-                    <span className="absolute bottom-1 right-1 text-[10px] text-gray-800">Padding</span>
-                </div>
-                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none">
-                    <span className="absolute top-1 left-1 text-[10px] text-gray-800">Border</span>
-                    <span className="absolute bottom-1 right-1 text-[10px] text-gray-800">Border</span>
+                  {/* Padding layer */}
+                  <div
+                    style={{
+                      padding: `${currentPadding}px`,
+                      position: 'relative',
+                    }}
+                    className="bg-yellow-200 flex items-center justify-center text-yellow-800 text-sm"
+                  >
+                    <span className="absolute -top-5 text-xs font-semibold">Padding ({currentPadding}px)</span>
+                    <span className="absolute -bottom-5 text-xs font-semibold">Padding ({currentPadding}px)</span>
+                    <span className="absolute -left-10 text-xs font-semibold rotate-90">Padding ({currentPadding}px)</span>
+                    <span className="absolute -right-10 text-xs font-semibold -rotate-90">Padding ({currentPadding}px)</span>
+
+                    {/* Content layer */}
+                    <div
+                      style={{
+                        width: `${currentContentWidth}px`,
+                        height: `${currentContentHeight}px`,
+                        backgroundColor: '#2ecc71', // Green for content area
+                        color: 'white',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: 'bold',
+                        fontSize: '16px',
+                      }}
+                      className="relative"
+                    >
+                      Вміст ({currentContentWidth}x{currentContentHeight}px)
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
