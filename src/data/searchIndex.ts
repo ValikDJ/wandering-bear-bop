@@ -19,6 +19,6 @@ export const searchIndex: SearchItem[] = [
     description: term.definition,
     path: "/glossary",
     keywords: [term.term.toLowerCase(), ...term.definition.toLowerCase().split(' ').filter(word => word.length > 2)], // Basic keyword extraction from definition
-    type: "glossary", // Assign type 'glossary'
+    type: "glossary" as const, // Assign type 'glossary' with const assertion
   })),
 ];
