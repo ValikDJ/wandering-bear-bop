@@ -11,6 +11,7 @@ import { highlightText } from "@/lib/utils";
 import Fuse from 'fuse.js';
 import { expandQueryWithSynonyms } from "@/data/synonymMap"; // Імпортуємо функцію синонімів
 
+// Helper function for emojis (re-added here)
 const getEmojiForType = (type: SearchItem['type']) => {
   switch (type) {
     case 'lesson': return '📚';
