@@ -9,6 +9,17 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { highlightText } from "@/lib/utils"; // Import the new utility
 
+const getEmojiForType = (type: SearchItem['type']) => {
+  switch (type) {
+    case 'lesson': return '📚';
+    case 'example': return '💡';
+    case 'quiz': return '🎮';
+    case 'project-template': return '🚀';
+    case 'glossary': return '📖';
+    default: return '';
+  }
+};
+
 const SearchResultsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentSearchTerm, setCurrentSearchTerm] = useState(searchParams.get("query") || "");
@@ -30,7 +41,20 @@ const SearchResultsPage: React.FC = () => {
         item.title.toLowerCase().includes(lowerCaseQuery) ||
         item.description.toLowerCase().includes(lowerCaseQuery) ||
         item.keywords.some(keyword => keyword.toLowerCase().includes(lowerCaseQuery))
-      );
+      ).sort((a, b) => {
+        // Simple ranking: exact title match first, then title includes, then description/keywords
+        const aTitleMatch = a.title.toLowerCase() === lowerCaseQuery;
+        const bTitleMatch = b.title.toLowerCase() === lowerCaseQuery;
+        if (aTitleMatch && !bTitleMatch) return -1;
+        if (!aTitleMatch && bTitleMatch) return 1;
+
+        const aTitleIncludes = a.title.toLowerCase().includes(lowerCaseQuery);
+        const bTitleIncludes = b.title.toLowerCase().includes(lowerCaseQuery);
+        if (aTitleIncludes && !bTitleIncludes) return -1;
+        if (!aTitleIncludes && bTitleIncludes) return 1;
+
+        return 0;
+      });
       setFilteredPageResults(pageResults);
     } else {
       setFilteredPageResults([]);
@@ -47,13 +71,19 @@ const SearchResultsPage: React.FC = () => {
   };
 
   const hasResults = directTermDefinition || filteredPageResults.length > 0;
+  const totalResultsCount = (directTermDefinition ? 1 : 0) + filteredPageResults.length;
 
   return (
     <div className="py-8">
       <h1 className="text-4xl font-bold text-center mb-8 text-foreground">Результати Пошуку</h1>
-      <p className="text-lg text-center mb-10 text-muted-foreground max-w-3xl mx-auto">
-        Ось що я знайшов за твоїм запитом: "{currentSearchTerm}"
+      <p className="text-lg text-center mb-4 text-muted-foreground max-w-3xl mx-auto">
+        Ось що я знайшов за твоїм запитом: "<span className="font-semibold text-foreground">{currentSearchTerm}</span>"
       </p>
+      {hasResults && (
+        <p className="text-md text-center mb-10 text-muted-foreground">
+          Знайдено {totalResultsCount} {totalResultsCount === 1 ? "результат" : "результатів"}.
+        </p>
+      )}
 
       <div className="mb-6 max-w-xl mx-auto">
         <form onSubmit={handleSearchSubmit} className="relative flex items-center">
@@ -72,8 +102,8 @@ const SearchResultsPage: React.FC = () => {
         {directTermDefinition && (
           <Card className="bg-card shadow-lg border-2 border-blue-500 col-span-full mb-6">
             <CardHeader>
-              <CardTitle className="text-2xl text-card-foreground">
-                Термін: {highlightText(directTermDefinition.term, currentSearchTerm)}
+              <CardTitle className="text-2xl text-card-foreground flex items-center gap-2">
+                {getEmojiForType('glossary')} Термін: {highlightText(directTermDefinition.term, currentSearchTerm)}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -92,11 +122,13 @@ const SearchResultsPage: React.FC = () => {
 
         {filteredPageResults.length > 0 && (
           <>
-            {directTermDefinition && <h2 className="col-span-full text-2xl font-bold text-foreground mt-8 mb-4">Також знайдено в уроках:</h2>}
+            {directTermDefinition && <h2 className="col-span-full text-2xl font-bold text-foreground mt-8 mb-4">Також знайдено в уроках та прикладах:</h2>}
             {filteredPageResults.map((item, index) => (
               <Card key={index} className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300">
                 <CardHeader>
-                  <CardTitle className="text-xl text-card-foreground">{highlightText(item.title, currentSearchTerm)}</CardTitle>
+                  <CardTitle className="text-xl text-card-foreground flex items-center gap-2">
+                    {getEmojiForType(item.type)} {highlightText(item.title, currentSearchTerm)}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground mb-4">{highlightText(item.description, currentSearchTerm)}</p>
@@ -104,7 +136,7 @@ const SearchResultsPage: React.FC = () => {
                     to={`${item.path}${item.sectionId ? `#${item.sectionId}` : ''}`}
                     className="text-blue-600 hover:underline font-medium"
                   >
-                    Перейти до уроку
+                    Перейти до {item.type === 'lesson' ? 'уроку' : item.type === 'example' ? 'прикладу' : item.type === 'quiz' ? 'тесту' : item.type === 'project-template' ? 'шаблону' : 'словника'}
                   </Link>
                 </CardContent>
               </Card>
@@ -114,7 +146,7 @@ const SearchResultsPage: React.FC = () => {
 
         {!hasResults && (
           <p className="col-span-full text-center text-muted-foreground text-lg">
-            Нічого не знайдено за запитом "{currentSearchTerm}". Спробуй інші ключові слова.
+            Нічого не знайдено за запитом "<span className="font-semibold text-foreground">{currentSearchTerm}</span>". Спробуй інші ключові слова.
           </p>
         )}
       </div>
