@@ -1,29 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Badge } from "@/components/ui/badge";
-import CharacterSelector from "@/components/CharacterSelector"; // Імпортуємо CharacterSelector
+import CharacterSelector from "@/components/CharacterSelector";
 
-const CHARACTER_STORAGE_KEY = "selected-ai-character";
+interface IndexProps {
+  selectedCharacter: 'robot' | 'cat' | 'owl' | null;
+  onCharacterSelect: (character: 'robot' | 'cat' | 'owl') => void;
+}
 
-const Index: React.FC = () => {
-  const [selectedCharacter, setSelectedCharacter] = useState<'robot' | 'cat' | 'owl' | null>(null);
-
-  useEffect(() => {
-    // Load selected character from local storage on mount
-    const storedCharacter = localStorage.getItem(CHARACTER_STORAGE_KEY) as 'robot' | 'cat' | 'owl' | null;
-    if (storedCharacter) {
-      setSelectedCharacter(storedCharacter);
-    }
-  }, []);
-
-  const handleCharacterSelect = (character: 'robot' | 'cat' | 'owl') => {
-    setSelectedCharacter(character);
-    localStorage.setItem(CHARACTER_STORAGE_KEY, character);
-  };
-
+const Index: React.FC<IndexProps> = ({ selectedCharacter, onCharacterSelect }) => {
   return (
     <div className="min-h-[calc(100vh-16rem)] flex flex-col items-center justify-center py-8">
       <h1 className="text-5xl font-extrabold text-center mb-6 text-foreground">
@@ -35,7 +23,7 @@ const Index: React.FC = () => {
 
       {!selectedCharacter && (
         <div className="mb-10">
-          <CharacterSelector onSelect={handleCharacterSelect} selectedCharacter={selectedCharacter as any} />
+          <CharacterSelector onSelect={onCharacterSelect} selectedCharacter={selectedCharacter as any} />
         </div>
       )}
 

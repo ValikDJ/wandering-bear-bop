@@ -1,5 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster as Sonner } => "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -14,9 +14,9 @@ import ProjectTemplate from "./pages/ProjectTemplate";
 import QuizPage from "./pages/QuizPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
-import AIAssistant from "./components/AIAssistant"; // Імпортуємо AIAssistant
+import AIAssistant from "./components/AIAssistant";
 import { ThemeProvider } from "@/hooks/use-theme";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 const queryClient = new QueryClient();
 const basename = import.meta.env.BASE_URL;
@@ -32,6 +32,11 @@ const App = () => {
     }
   }, []);
 
+  const handleCharacterSelect = useCallback((character: 'robot' | 'cat' | 'owl') => {
+    setSelectedCharacter(character);
+    localStorage.setItem(CHARACTER_STORAGE_KEY, character);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
@@ -41,7 +46,7 @@ const App = () => {
           <BrowserRouter basename={basename}>
             <Layout>
               <Routes>
-                <Route path="/" element={<Index />} />
+                <Route path="/" element={<Index selectedCharacter={selectedCharacter} onCharacterSelect={handleCharacterSelect} />} />
                 <Route path="/html-tags" element={<HtmlTags />} />
                 <Route path="/css-properties" element={<CssProperties />} />
                 <Route path="/css-selectors" element={<CssSelectors />} />
