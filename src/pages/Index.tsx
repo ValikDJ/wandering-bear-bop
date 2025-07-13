@@ -19,7 +19,7 @@ const Index: React.FC = () => {
       <div className="w-full max-w-5xl space-y-12"> {/* Increased space between sections */}
         {/* Основи HTML та CSS */}
         <section>
-          <h2 className="text-4xl font-bold text-center mb-8 text-primary">Основи HTML та CSS</h2>
+          <h2 className="text-4xl font-bold text-center mb-8 text-foreground">Основи HTML та CSS</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
               <CardHeader>
@@ -63,7 +63,7 @@ const Index: React.FC = () => {
 
         {/* Практика та Проекти */}
         <section>
-          <h2 className="text-4xl font-bold text-center mb-8 text-primary">Практика та Проекти</h2>
+          <h2 className="text-4xl font-bold text-center mb-8 text-foreground">Практика та Проекти</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
               <CardHeader>
@@ -110,7 +110,7 @@ const Index: React.FC = () => {
 
         {/* Перевірка Знань та Довідник */}
         <section>
-          <h2 className="text-4xl font-bold text-center mb-8 text-primary">Перевірка Знань та Довідник</h2>
+          <h2 className="text-4xl font-bold text-center mb-8 text-foreground">Перевірка Знань та Довідник</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
               <CardHeader>
