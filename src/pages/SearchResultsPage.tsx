@@ -7,7 +7,7 @@ import { Search } from "lucide-react";
 import { glossaryData, GlossaryTerm } from "@/data/glossaryData";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { highlightText } from "@/lib/utils";
+import { highlightText, escapeRegExp } from "@/lib/utils"; // Імпортуємо escapeRegExp
 import Fuse from 'fuse.js';
 import { expandQueryWithSynonyms } from "@/data/synonymMap"; // Імпортуємо функцію синонімів
 
@@ -58,8 +58,8 @@ const SearchResultsPage: React.FC = () => {
     // 2. Filter page results using Fuse.js with synonym expansion
     if (query) {
       const expandedQueryArray = expandQueryWithSynonyms(query);
-      // Виправлення: Fuse.js search очікує рядок, тому об'єднуємо масив
-      const queryForFuse = expandedQueryArray.join(' ');
+      // Екрануємо кожен термін перед об'єднанням для Fuse.js
+      const queryForFuse = expandedQueryArray.map(term => escapeRegExp(term)).join(' ');
       const results = fuse.search(queryForFuse);
       const mappedResults = results.map(result => result.item);
 

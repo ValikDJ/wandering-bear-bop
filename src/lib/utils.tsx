@@ -7,6 +7,16 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Екранує спеціальні символи регулярних виразів у рядку.
+ * Це необхідно для безпечного використання вводу користувача в RegExp конструкторі.
+ * @param string Вхідний рядок.
+ * @returns Екранований рядок.
+ */
+export function escapeRegExp(string: string): string {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& означає знайдений підрядок
+}
+
+/**
  * Виділяє входження searchTerm у тексті.
  * @param text Оригінальний текст.
  * @param searchTerm Термін для пошуку та виділення.
@@ -19,11 +29,12 @@ export function highlightText(text: string, searchTerm: string): React.ReactNode
 
   const parts: React.ReactNode[] = [];
   const lowerCaseText = text.toLowerCase();
-  const lowerCaseSearchTerm = searchTerm.toLowerCase();
+  // Екрануємо searchTerm перед створенням RegExp
+  const lowerCaseSearchTermEscaped = escapeRegExp(searchTerm.toLowerCase());
   let lastIndex = 0;
 
   let match;
-  const regex = new RegExp(lowerCaseSearchTerm, 'gi'); // 'gi' for global and case-insensitive
+  const regex = new RegExp(lowerCaseSearchTermEscaped, 'gi'); // 'gi' for global and case-insensitive
 
   while ((match = regex.exec(lowerCaseText)) !== null) {
     const startIndex = match.index;
