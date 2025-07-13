@@ -22,7 +22,8 @@ export const useChatMessages = () => {
     const canViewMessages =
       currentPermissionLevel === 'all' ||
       (currentPermissionLevel === 'authenticated' && user) ||
-      (currentPermissionLevel === 'unauthenticated' && !user);
+      (currentPermissionLevel === 'unauthenticated' && !user) ||
+      isOrganizer; // Organizer can always view
 
     if (!canViewMessages) {
       setMessages([]);
@@ -32,7 +33,7 @@ export const useChatMessages = () => {
 
     const { data, error } = await supabase
       .from('messages')
-      .select('*, profiles(first_name, last_name)')
+      .select('*, profiles(first_name, last_name, avatar_url)') // Додано avatar_url
       .order('created_at', { ascending: true });
 
     if (error) {
@@ -45,13 +46,31 @@ export const useChatMessages = () => {
         console.warn('RLS error fetching messages, likely due to unauthenticated user trying to access protected data.');
       }
     } else {
-      const messagesWithSenderInfo = data.map(msg => ({
-        ...msg,
-        sender_email: msg.sender_id === user?.id ? 'Ви' : (msg.sender_id === null ? 'Анонімний користувач' : (msg.profiles ? `${msg.profiles.first_name || ''} ${msg.profiles.last_name || ''}`.trim() || 'Організатор' : 'Невідомий')),
-      }));
+      const messagesWithSenderInfo = data.map(msg => {
+        const profile = msg.profiles as { first_name: string | null, last_name: string | null, avatar_url: string | null } | null;
+        let senderDisplayName = 'Невідомий';
+        if (msg.sender_id === user?.id) {
+          senderDisplayName = 'Ви';
+        } else if (msg.sender_id === null) {
+          senderDisplayName = 'Анонімний користувач';
+        } else if (profile) {
+          senderDisplayName = `${profile.first_name || ''} ${profile.last_name || ''}`.trim();
+          if (!senderDisplayName) {
+            senderDisplayName = 'Організатор'; // Fallback if name is empty but profile exists
+          }
+        } else if (msg.sender_id === user?.id && user?.email === ORGANIZER_EMAIL) {
+          senderDisplayName = 'Організатор';
+        }
+
+        return {
+          ...msg,
+          sender_display_name: senderDisplayName,
+          sender_profile: profile,
+        };
+      });
       setMessages(messagesWithSenderInfo as Message[]);
     }
-  }, [user]);
+  }, [user, isOrganizer]);
 
   const fetchSettings = useCallback(async () => {
     const { data, error } = await supabase
@@ -103,14 +122,17 @@ export const useChatMessages = () => {
           async (payload) => {
             const newMsg = payload.new as Message;
             let senderDisplayName = 'Невідомий';
+            let senderProfile = null;
+
             if (newMsg.sender_id === user?.id) {
               senderDisplayName = 'Ви';
+              senderProfile = user?.user_metadata as { first_name: string | null, last_name: string | null, avatar_url: string | null } || null;
             } else if (newMsg.sender_id === null) {
               senderDisplayName = 'Анонімний користувач';
             } else {
               const { data: profileData, error: profileError } = await supabase
                 .from('profiles')
-                .select('first_name, last_name')
+                .select('first_name, last_name, avatar_url')
                 .eq('id', newMsg.sender_id)
                 .single();
 
@@ -118,7 +140,11 @@ export const useChatMessages = () => {
                 console.error('Error fetching profile for new message in realtime listener:', profileError);
                 senderDisplayName = 'Інший користувач';
               } else if (profileData) {
-                senderDisplayName = `${profileData.first_name || ''} ${profileData.last_name || ''}`.trim() || 'Організатор';
+                senderDisplayName = `${profileData.first_name || ''} ${profileData.last_name || ''}`.trim();
+                if (!senderDisplayName) {
+                  senderDisplayName = 'Організатор';
+                }
+                senderProfile = profileData;
               } else {
                 senderDisplayName = 'Інший користувач';
               }
@@ -132,7 +158,8 @@ export const useChatMessages = () => {
                 ...prevMessages,
                 {
                   ...newMsg,
-                  sender_email: senderDisplayName,
+                  sender_display_name: senderDisplayName,
+                  sender_profile: senderProfile,
                 },
               ];
             });
@@ -169,7 +196,7 @@ export const useChatMessages = () => {
         supabase.removeChannel(settingsSubscription);
       }
     };
-  }, [isSessionLoading, fetchSettings, fetchMessages, user]);
+  }, [isSessionLoading, fetchSettings, fetchMessages, user, isOrganizer]);
 
   useEffect(() => {
     scrollToBottom();
