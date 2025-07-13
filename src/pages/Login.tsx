@@ -37,7 +37,7 @@ const Login: React.FC = () => {
             supabaseClient={supabase}
             appearance={{ theme: ThemeSupa }}
             theme="dark" // Use dark theme for Auth UI to match our dark mode
-            providers={[]} // No third-party providers for now
+            providers={['google']} // Додано Google як провайдера
             redirectTo={window.location.origin} // Redirect to home after auth
             localization={{
               variables: {
