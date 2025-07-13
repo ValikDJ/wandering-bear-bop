@@ -5,7 +5,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { ChevronDown, Search, History } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn, highlightText, escapeRegExp } from "@/lib/utils"; // Імпортуємо escapeRegExp
+import { cn, highlightText, escapeRegExp } from "@/lib/utils";
 import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import Fuse from 'fuse.js';
 import { expandQueryWithSynonyms } from "@/data/synonymMap";
@@ -91,7 +91,8 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     }
 
     const expandedQueryArray = expandQueryWithSynonyms(searchTerm);
-    const queryForFuse = expandedQueryArray.map(term => escapeRegExp(term)).join(' ');
+    // Видалено escapeRegExp тут, оскільки Fuse.js обробляє це самостійно
+    const queryForFuse = expandedQueryArray.join(' ');
     
     const results = (() => {
       try {

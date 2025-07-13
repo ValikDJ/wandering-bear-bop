@@ -7,9 +7,9 @@ import { Search } from "lucide-react";
 import { glossaryData, GlossaryTerm } from "@/data/glossaryData";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { highlightText, escapeRegExp } from "@/lib/utils"; // Імпортуємо escapeRegExp
+import { highlightText, escapeRegExp } from "@/lib/utils";
 import Fuse from 'fuse.js';
-import { expandQueryWithSynonyms } from "@/data/synonymMap"; // Імпортуємо функцію синонімів
+import { expandQueryWithSynonyms } from "@/data/synonymMap";
 
 const getEmojiForType = (type: SearchItem['type']) => {
   switch (type) {
@@ -22,20 +22,18 @@ const getEmojiForType = (type: SearchItem['type']) => {
   }
 };
 
-// Ініціалізуємо Fuse.js для пошуку на сторінці результатів
 const fuseOptions = {
   keys: [
     { name: 'title', weight: 0.7 },
     { name: 'description', weight: 0.5 },
     { name: 'keywords', weight: 0.9 },
-    // 'term' та 'definition' не потрібні як окремі ключі, оскільки вони вже включені в 'title' та 'description' для словника
   ],
   includeScore: true,
-  includeMatches: true, // Додано для діагностики та підсвічування
-  threshold: 0.1, // Зменшено для більш точного збігу
-  distance: 5, // Зменшено для більш точного збігу
+  includeMatches: true,
+  threshold: 0.1,
+  distance: 5,
   ignoreLocation: true,
-  minMatchCharLength: 1, // Дозволяє шукати односимвольні теги, наприклад 'a', 'p'
+  minMatchCharLength: 1,
 };
 
 const fuse = new Fuse(searchIndex, fuseOptions);
@@ -51,28 +49,26 @@ const SearchResultsPage: React.FC = () => {
     setCurrentSearchTerm(query);
     const lowerCaseQuery = query.toLowerCase();
 
-    // 1. Check for direct term definition (exact match for glossary)
     const foundTerm = glossaryData.find(item => item.term.toLowerCase() === lowerCaseQuery);
     setDirectTermDefinition(foundTerm || null);
 
-    // 2. Filter page results using Fuse.js with synonym expansion
     if (query) {
       const expandedQueryArray = expandQueryWithSynonyms(query);
-      const queryForFuse = expandedQueryArray.map(term => escapeRegExp(term)).join(' ');
+      // Видалено escapeRegExp тут, оскільки Fuse.js обробляє це самостійно
+      const queryForFuse = expandedQueryArray.join(' ');
       
       const results = (() => {
         try {
           return fuse.search(queryForFuse);
         } catch (error) {
           console.error("Помилка під час пошуку Fuse.js у SearchResultsPage:", error);
-          return []; // Повертаємо порожні результати у випадку помилки
+          return [];
         }
       })();
 
-      const matchedItemIds = new Set(results.map(result => result.item.id));
+      const mappedResults = results.map(result => result.item);
 
-      // Remove the direct glossary term from general results if it was found
-      const finalResults = results.map(result => result.item).filter(item =>
+      const finalResults = mappedResults.filter(item =>
         !(item.type === 'glossary' && item.title.toLowerCase().includes(lowerCaseQuery) && directTermDefinition)
       );
 
@@ -87,7 +83,7 @@ const SearchResultsPage: React.FC = () => {
     if (currentSearchTerm.trim()) {
       setSearchParams({ query: currentSearchTerm.trim() });
     } else {
-      setSearchParams({}); // Clear search params if empty
+      setSearchParams({});
     }
   };
 
