@@ -131,6 +131,68 @@
     --playground-element-border: 20 80% 70%; /* Lighter orange */
     --playground-element-text: 0 0% 100%; /* White */
   }
+
+  .cyberpunk {
+    /* Cyberpunk Theme Colors */
+    --background: 240 10% 8%; /* Deep dark blue-purple */
+    --foreground: 180 100% 75%; /* Neon Cyan */
+
+    --card: 240 10% 12%; /* Slightly lighter dark for cards */
+    --card-foreground: 180 100% 75%;
+
+    --popover: 240 10% 15%;
+    --popover-foreground: 180 100% 75%;
+
+    --primary: 260 80% 40%; /* Vibrant Purple */
+    --primary-foreground: 0 0% 100%; /* White text on primary */
+
+    --secondary: 240 15% 20%; /* Darker gray-blue for secondary */
+    --secondary-foreground: 180 100% 75%;
+
+    --muted: 240 10% 15%;
+    --muted-foreground: 200 10% 60%; /* Muted blue-gray */
+
+    --accent: 300 100% 60%; /* Bright Magenta */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 100% 60%; /* Neon Red */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 10% 25%; /* Dark blue-gray border */
+    --input: 240 10% 20%;
+    --ring: 180 100% 75%; /* Neon Cyan ring */
+
+    /* Custom brand colors for cyberpunk */
+    --brand-primary: 220 100% 60%; /* Electric Blue */
+    --brand-primary-hover: 220 100% 50%; /* Darker Electric Blue */
+    --brand-secondary: 240 15% 20%;
+    --brand-secondary-foreground: 180 100% 75%;
+
+    /* Sidebar colors */
+    --sidebar-background: 240 10% 5%; /* Even darker for sidebar */
+    --sidebar-foreground: 180 100% 75%;
+    --sidebar-primary: 220 100% 60%; /* Electric Blue for active */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 15% 20%;
+    --sidebar-accent-foreground: 180 100% 75%;
+    --sidebar-border: 240 10% 25%;
+    --sidebar-ring: 180 100% 75%;
+
+    /* Box Model Visualizer Colors - Cyberpunk Theme */
+    --box-model-margin-bg: 0 80% 15%; /* Dark red */
+    --box-model-margin-text: 0 80% 85%; /* Light red */
+    --box-model-border-bg: 220 80% 15%; /* Dark blue */
+    --box-model-border-text: 220 80% 85%; /* Light blue */
+    --box-model-padding-bg: 60 80% 15%; /* Dark yellow */
+    --box-model-padding-text: 60 80% 85%; /* Light yellow */
+    --box-model-content-bg: 180 80% 25%; /* Darker cyan */
+    --box-model-content-text: 0 0% 100%; /* White */
+
+    /* CSS Playground Colors - Cyberpunk Theme */
+    --playground-element-bg: 280 80% 25%; /* Darker magenta */
+    --playground-element-border: 280 80% 70%; /* Lighter magenta */
+    --playground-element-text: 0 0% 100%; /* White */
+  }
 }
 
 @layer base {

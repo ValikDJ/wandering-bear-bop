@@ -11,6 +11,7 @@ export enum ThemeMode {
   Light = "light",
   Dark = "dark",
   System = "system",
+  Cyberpunk = "cyberpunk", // NEW: Додано режим Cyberpunk
 }
 
 /**
@@ -47,7 +48,7 @@ export class ThemeManager {
 
   /**
    * Застосовує вказану тему до елемента document.documentElement.
-   * @param mode Режим теми для застосування (Light, Dark, System).
+   * @param mode Режим теми для застосування (Light, Dark, System, Cyberpunk).
    * @param isInitialLoad Чи це початкове завантаження теми.
    */
   private _applyTheme(mode: ThemeMode, isInitialLoad: boolean = false): void {
@@ -55,7 +56,7 @@ export class ThemeManager {
     const actualTheme = this._getActualTheme(mode);
 
     // Видаляємо всі можливі класи тем
-    htmlElement.classList.remove(ThemeMode.Light, ThemeMode.Dark);
+    htmlElement.classList.remove(ThemeMode.Light, ThemeMode.Dark, ThemeMode.Cyberpunk); // NEW: Додано Cyberpunk
 
     // Додаємо клас для поточної теми
     htmlElement.classList.add(actualTheme);
@@ -69,11 +70,11 @@ export class ThemeManager {
   }
 
   /**
-   * Визначає фактичну тему (light/dark) на основі обраного режиму та системних налаштувань.
+   * Визначає фактичну тему (light/dark/cyberpunk) на основі обраного режиму та системних налаштувань.
    * @param mode Обраний режим теми.
-   * @returns Фактична тема ('light' або 'dark').
+   * @returns Фактична тема ('light', 'dark' або 'cyberpunk').
    */
-  private _getActualTheme(mode: ThemeMode): "light" | "dark" {
+  private _getActualTheme(mode: ThemeMode): "light" | "dark" | "cyberpunk" { // NEW: Додано cyberpunk
     if (mode === ThemeMode.System) {
       if (typeof window !== "undefined" && window.matchMedia) {
         return window.matchMedia("(prefers-color-scheme: dark)").matches ? ThemeMode.Dark : ThemeMode.Light;
@@ -123,17 +124,17 @@ export class ThemeManager {
 
   /**
    * Встановлює конкретний режим теми.
-   * @param mode Режим теми (Light, Dark, System).
+   * @param mode Режим теми (Light, Dark, System, Cyberpunk).
    */
   public setTheme(mode: ThemeMode): void {
     this._applyTheme(mode);
   }
 
   /**
-   * Перемикає тему між Light, Dark та System.
+   * Перемикає тему між Light, Dark, System та Cyberpunk.
    */
   public toggleTheme(): void {
-    const modes = [ThemeMode.Light, ThemeMode.Dark, ThemeMode.System];
+    const modes = [ThemeMode.Light, ThemeMode.Dark, ThemeMode.System, ThemeMode.Cyberpunk]; // NEW: Додано Cyberpunk
     const currentIndex = modes.indexOf(this.currentMode);
     const nextIndex = (currentIndex + 1) % modes.length;
     this.setTheme(modes[nextIndex]);
@@ -148,10 +149,10 @@ export class ThemeManager {
   }
 
   /**
-   * Повертає фактично застосовану тему ('light' або 'dark').
+   * Повертає фактично застосовану тему ('light', 'dark' або 'cyberpunk').
    * @returns Фактично застосована тема.
    */
-  public getActualTheme(): "light" | "dark" {
+  public getActualTheme(): "light" | "dark" | "cyberpunk" { // NEW: Додано cyberpunk
     return this._getActualTheme(this.currentMode);
   }
 
