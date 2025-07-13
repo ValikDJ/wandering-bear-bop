@@ -14,9 +14,11 @@ import ProjectTemplate from "./pages/ProjectTemplate";
 import QuizPage from "./pages/QuizPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
-import CssPlayground from "./pages/CssPlayground"; // New import
+import CssPlayground from "./pages/CssPlayground";
+import Login from "./pages/Login"; // Import Login page
 import { ThemeProvider } from "@/hooks/use-theme";
-import React, { useState, useEffect, useCallback } from "react";
+import { SessionContextProvider } from "@/components/SessionContextProvider"; // Import SessionContextProvider
+import React, { useState } from "react";
 
 const queryClient = new QueryClient();
 const appBasename = import.meta.env.BASE_URL;
@@ -27,31 +29,34 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter basename={appBasename}>
-            <Layout
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-            >
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/html-tags" element={<HtmlTags />} />
-                <Route path="/css-properties" element={<CssProperties />} />
-                <Route path="/css-selectors" element={<CssSelectors />} />
-                <Route path="/examples" element={<Examples />} />
-                <Route path="/project-template" element={<ProjectTemplate />} />
-                <Route path="/quiz" element={<QuizPage />} />
-                <Route path="/search" element={<SearchResultsPage />} />
-                <Route path="/glossary" element={<GlossaryPage />} />
-                <Route path="/css-playground" element={<CssPlayground />} /> {/* NEW ROUTE */}
-                {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Layout>
-          </BrowserRouter>
-        </TooltipProvider>
+        <SessionContextProvider> {/* Wrap the entire app with SessionContextProvider */}
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter basename={appBasename}>
+              <Layout
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+              >
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/html-tags" element={<HtmlTags />} />
+                  <Route path="/css-properties" element={<CssProperties />} />
+                  <Route path="/css-selectors" element={<CssSelectors />} />
+                  <Route path="/examples" element={<Examples />} />
+                  <Route path="/project-template" element={<ProjectTemplate />} />
+                  <Route path="/quiz" element={<QuizPage />} />
+                  <Route path="/search" element={<SearchResultsPage />} />
+                  <Route path="/glossary" element={<GlossaryPage />} />
+                  <Route path="/css-playground" element={<CssPlayground />} />
+                  <Route path="/login" element={<Login />} /> {/* Add Login route */}
+                  {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Layout>
+            </BrowserRouter>
+          </TooltipProvider>
+        </SessionContextProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
