@@ -7,7 +7,8 @@ import { Send, Paperclip, XCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { Link } from 'react-router-dom'; // Додано імпорт Link
+import { Link } from 'react-router-dom';
+import { SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet'; // Імпортуємо необхідні компоненти
 
 interface Message {
   id: string;
@@ -16,14 +17,13 @@ interface Message {
   type: 'text' | 'file' | 'link';
   file_url?: string;
   created_at: string;
-  sender_email?: string; // To display sender's email
+  sender_email?: string;
 }
 
 interface ChatWindowProps {
   onClose: () => void;
 }
 
-// Hardcode the organizer's email for frontend UI logic
 const ORGANIZER_EMAIL = 'valik.shevhyk@gmail.com';
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
@@ -41,29 +41,25 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Fetch initial messages and subscribe to real-time updates
   useEffect(() => {
     let subscription: any;
 
     const fetchMessages = async () => {
-      // Only fetch if user is authenticated
       if (!user) {
-        setMessages([]); // Clear messages if user logs out or is not authenticated
+        setMessages([]);
         console.warn('Cannot fetch chat messages: User not authenticated.');
         return;
       }
 
       const { data, error } = await supabase
         .from('messages')
-        .select('*, profiles(first_name, last_name)') // Fetch sender's profile info
+        .select('*, profiles(first_name, last_name)')
         .order('created_at', { ascending: true });
 
       if (error) {
         console.error('Error fetching messages:', error);
-        // Логуємо повний об'єкт помилки для детальної діагностики
         console.error('Full Supabase error object:', JSON.stringify(error, null, 2));
 
-        // Only show toast error if it's not an RLS permission error (code '42501')
         if (error.code !== '42501') {
           toast.error('Помилка завантаження повідомлень чату.');
         } else {
@@ -78,11 +74,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       }
     };
 
-    // Call fetchMessages only when session loading is complete and user status is known
     if (!isSessionLoading) {
       fetchMessages();
 
-      // Realtime subscription should also depend on user being present
       if (user) {
         subscription = supabase
           .channel('chat_room')
@@ -91,7 +85,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
             { event: 'INSERT', schema: 'public', table: 'messages' },
             async (payload) => {
               const newMsg = payload.new as Message;
-              // Fetch sender's profile for the new message
               const { data: profileData, error: profileError } = await supabase
                 .from('profiles')
                 .select('first_name, last_name')
@@ -120,7 +113,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
         supabase.removeChannel(subscription);
       }
     };
-  }, [user, isSessionLoading]); // Add user and isSessionLoading to dependencies
+  }, [user, isSessionLoading]);
 
   useEffect(() => {
     scrollToBottom();
@@ -170,7 +163,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       messageType = 'file';
     } else if (newMessage.trim().startsWith('http://') || newMessage.trim().startsWith('https://')) {
       messageType = 'link';
-      fileUrl = newMessage.trim(); // Store link in file_url for consistency
+      fileUrl = newMessage.trim();
     }
 
     const { error } = await supabase.from('messages').insert({
@@ -186,7 +179,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
     } else {
       setNewMessage('');
       setFile(null);
-      fileInputRef.current && (fileInputRef.current.value = ''); // Clear file input
+      fileInputRef.current && (fileInputRef.current.value = '');
     }
     setUploadingFile(false);
   };
@@ -194,10 +187,10 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      if (selectedFile.size > 10 * 1024 * 1024) { // 10MB limit for chat files
+      if (selectedFile.size > 10 * 1024 * 1024) {
         toast.error('Розмір файлу перевищує 10MB.');
         setFile(null);
-        e.target.value = ''; // Clear input
+        e.target.value = '';
         return;
       }
       setFile(selectedFile);
@@ -229,12 +222,13 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
 
   return (
     <div className="flex flex-col h-full bg-card text-card-foreground">
-      <div className="p-4 border-b border-border flex justify-between items-center">
-        <h2 className="text-xl font-bold">Спільний Чат</h2>
+      <SheetHeader className="p-4 border-b border-border flex flex-row justify-between items-center">
+        <SheetTitle className="text-xl font-bold">Спільний Чат</SheetTitle>
+        <SheetDescription className="sr-only">Чат для спілкування з організатором та іншими учасниками.</SheetDescription>
         <Button variant="ghost" size="icon" onClick={onClose}>
           <XCircle className="h-5 w-5" />
         </Button>
-      </div>
+      </SheetHeader>
 
       <ScrollArea className="flex-1 p-4 custom-scrollbar">
         <div className="flex flex-col space-y-4">
@@ -321,8 +315,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
         </div>
       )}
       {!user && !isSessionLoading && (
-        // Якщо користувач не авторизований, поле введення не відображається,
-        // а повідомлення про вхід відображається у ScrollArea.
         null
       )}
     </div>
