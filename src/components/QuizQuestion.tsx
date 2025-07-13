@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 interface QuizQuestionProps {
   question: string;
@@ -19,6 +20,19 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
   selectedAnswer,
   showFeedback,
 }) => {
+  const { sendMessage } = useAssistantMessage(); // Використання хука
+
+  const handleOptionClick = (option: string) => {
+    if (selectedAnswer === null) {
+      onAnswer(option);
+      if (option === correctAnswer) {
+        sendMessage("Правильно! Ти молодець! 🎉");
+      } else {
+        sendMessage("Не зовсім так. Спробуй ще раз або переглянь урок! 🤔");
+      }
+    }
+  };
+
   return (
     <div className="mb-6 p-4 border border-border rounded-lg bg-background shadow-sm">
       <h3 className="text-xl font-semibold mb-4 text-secondary-foreground">{question}</h3>
@@ -31,7 +45,7 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
           return (
             <Button
               key={index}
-              onClick={() => onAnswer(option)}
+              onClick={() => handleOptionClick(option)} // Використовуємо нову функцію
               disabled={selectedAnswer !== null && showFeedback}
               className={cn(
                 "w-full justify-start text-left px-4 py-3 rounded-md transition-colors duration-200",

@@ -167,3 +167,27 @@
 }
 
 /* Анімація speak видалена */
+
+/* New animation for message bubble */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(10px); }
+}
+
+.transition-opacity {
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+.opacity-100 {
+  animation-name: fade-in;
+}
+
+.opacity-0 {
+  animation-name: fade-out;
+}

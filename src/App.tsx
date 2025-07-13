@@ -16,6 +16,7 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import { ThemeProvider } from "@/hooks/use-theme";
 import React, { useState, useEffect, useCallback } from "react";
+import { AssistantMessageProvider } from "@/context/AssistantMessageContext"; // Імпорт провайдера
 
 const queryClient = new QueryClient();
 // Використовуємо BASE_URL з Vite, який буде коректним як для розробки, так і для продакшену
@@ -44,25 +45,26 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter basename={appBasename}> {/* Використовуємо BASE_URL з Vite */}
-            <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm} selectedCharacter={selectedCharacter}>
-              <Routes>
-                <Route path="/" element={<Index selectedCharacter={selectedCharacter} onCharacterSelect={handleCharacterSelect} />} />
-                <Route path="/html-tags" element={<HtmlTags />} />
-                <Route path="/css-properties" element={<CssProperties />} />
-                <Route path="/css-selectors" element={<CssSelectors />} />
-                <Route path="/examples" element={<Examples />} />
-                <Route path="/project-template" element={<ProjectTemplate />} />
-                <Route path="/quiz" element={<QuizPage />} />
-                <Route path="/search" element={<SearchResultsPage />} />
-                <Route path="/glossary" element={<GlossaryPage />} />
-                {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Layout>
-          </BrowserRouter>
+          <AssistantMessageProvider> {/* Обгортаємо тут */}
+            <BrowserRouter basename={appBasename}>
+              <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm} selectedCharacter={selectedCharacter}>
+                <Routes>
+                  <Route path="/" element={<Index selectedCharacter={selectedCharacter} onCharacterSelect={handleCharacterSelect} />} />
+                  <Route path="/html-tags" element={<HtmlTags />} />
+                  <Route path="/css-properties" element={<CssProperties />} />
+                  <Route path="/css-selectors" element={<CssSelectors />} />
+                  <Route path="/examples" element={<Examples />} />
+                  <Route path="/project-template" element={<ProjectTemplate />} />
+                  <Route path="/quiz" element={<QuizPage />} />
+                  <Route path="/search" element={<SearchResultsPage />} />
+                  <Route path="/glossary" element={<GlossaryPage />} />
+                  {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Layout>
+            </BrowserRouter>
+          </AssistantMessageProvider>
         </TooltipProvider>
-        {/* Компонент AIAssistant видалено, його функціонал замінить LessonGuideCharacter */}
       </ThemeProvider>
     </QueryClientProvider>
   );

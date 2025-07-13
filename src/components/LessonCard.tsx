@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 interface LessonCardProps {
   id?: string; // New: Optional ID for direct linking
@@ -13,8 +14,14 @@ interface LessonCardProps {
 }
 
 const LessonCard: React.FC<LessonCardProps> = ({ id, title, description, codeExample, language, result }) => {
+  const { sendMessage } = useAssistantMessage(); // Використання хука
+
+  const handleClick = () => {
+    sendMessage(`Ти вивчаєш: "${title}". Це дуже цікаво!`);
+  };
+
   return (
-    <Card id={id} className="mb-6 bg-card shadow-md"> {/* Apply ID here */}
+    <Card id={id} className="mb-6 bg-card shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-300" onClick={handleClick}> {/* Apply ID here */}
       <CardHeader>
         <CardTitle className="text-2xl text-foreground">{title}</CardTitle>
       </CardHeader>

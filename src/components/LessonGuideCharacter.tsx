@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { useAssistantMessage } from '@/context/AssistantMessageContext'; // Імпорт хука контексту
 
 interface LessonGuideCharacterProps {
   characterType: 'robot' | 'cat' | 'owl';
 }
 
-// Мапа повідомлень для різних сторінок
+// Мапа повідомлень для різних сторінок (буде використовуватися як резервна)
 const pageMessages: { [key: string]: string } = {
   '/html-tags': 'Привіт! Сьогодні ми вивчаємо HTML-теги. Це як будівельні блоки для твого сайту!',
   '/css-properties': 'Час зробити твій сайт красивим! CSS властивості допоможуть тобі в цьому.',
@@ -21,23 +22,27 @@ const pageMessages: { [key: string]: string } = {
 
 const LessonGuideCharacter: React.FC<LessonGuideCharacterProps> = ({ characterType }) => {
   const location = useLocation();
-  const [message, setMessage] = useState<string>('');
+  const { currentMessage: dynamicMessage, isMessageActive } = useAssistantMessage(); // Отримуємо повідомлення з контексту
+  const [displayMessage, setDisplayMessage] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const currentPath = location.pathname;
-    const newMessage = pageMessages[currentPath] || pageMessages.default;
-    setMessage(newMessage);
-
-    // Показуємо персонажа тільки на сторінках уроків, прикладів, тесту, словника, шаблону
     const showOnPaths = ['/html-tags', '/css-properties', '/css-selectors', '/examples', '/project-template', '/quiz', '/glossary'];
     setIsVisible(showOnPaths.includes(currentPath));
   }, [location.pathname]);
 
+  useEffect(() => {
+    // Пріоритет: динамічне повідомлення > повідомлення сторінки
+    if (dynamicMessage && isMessageActive) {
+      setDisplayMessage(dynamicMessage);
+    } else {
+      setDisplayMessage(pageMessages[location.pathname] || pageMessages.default);
+    }
+  }, [dynamicMessage, isMessageActive, location.pathname]);
+
   const getCharacterSVG = useCallback(() => {
     const baseClasses = "w-full h-full object-contain animate-breathe";
-    // Анімація "speak" більше не потрібна, оскільки немає інтерактивного чату
-    // const speakingClass = isTyping ? "animate-speak" : ""; 
 
     switch (characterType) {
       case 'robot':
@@ -89,8 +94,12 @@ const LessonGuideCharacter: React.FC<LessonGuideCharacterProps> = ({ characterTy
 
   return (
     <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end">
-      <div className="bg-card border border-border rounded-lg shadow-xl p-3 mb-2 max-w-xs text-right relative">
-        <p className="text-sm text-muted-foreground">{message}</p>
+      <div className={cn(
+        "bg-card border border-border rounded-lg shadow-xl p-3 mb-2 max-w-xs text-right relative",
+        "transition-opacity duration-300 ease-in-out",
+        displayMessage ? "opacity-100" : "opacity-0 pointer-events-none" // Анімація
+      )}>
+        <p className="text-sm text-muted-foreground">{displayMessage}</p>
         {/* Трикутник для бульбашки */}
         <div className="absolute bottom-0 right-4 w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-card transform translate-y-full"></div>
       </div>

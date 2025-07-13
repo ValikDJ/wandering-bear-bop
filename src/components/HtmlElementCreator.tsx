@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 interface HtmlElementCreatorProps {
   id?: string; // Додано id
@@ -26,6 +27,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
   const [linkHref, setLinkHref] = useState<string>("https://www.google.com");
   const [generatedHtml, setGeneratedHtml] = useState<string>("");
   const [outputSrcDoc, setOutputSrcDoc] = useState("");
+  const { sendMessage } = useAssistantMessage(); // Використання хука
 
   const generateHtml = () => {
     let html = "";
@@ -77,12 +79,33 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
     setOutputSrcDoc(srcDoc);
   }, [generatedHtml]);
 
+  const handleTagChange = (value: string) => {
+    setSelectedTag(value);
+    sendMessage(`Ти обрав тег <${value}>! Спробуй змінити його вміст.`);
+  };
+
+  const handleTextContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTextContent(e.target.value);
+    sendMessage(`Ти пишеш текст для тегу <${selectedTag}>!`);
+  };
+
+  const handleImgSrcChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImgSrc(e.target.value);
+    sendMessage(`Змінюємо зображення!`);
+  };
+
+  const handleLinkHrefChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLinkHref(e.target.value);
+    sendMessage(`Створюємо посилання!`);
+  };
+
   const handleReset = () => {
     setSelectedTag("p");
     setTextContent("Привіт, світ!");
     setImgSrc("https://via.placeholder.com/100");
     setImgAlt("Приклад зображення");
     setLinkHref("https://www.google.com");
+    sendMessage("Налаштування скинуто! Почни спочатку.");
   };
 
   return (
@@ -99,7 +122,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
               <Label htmlFor="select-tag" className="text-lg font-semibold text-secondary-foreground mb-2 block">
                 Вибери HTML-тег:
               </Label>
-              <Select value={selectedTag} onValueChange={setSelectedTag}>
+              <Select value={selectedTag} onValueChange={handleTagChange}> {/* Використовуємо нову функцію */}
                 <SelectTrigger id="select-tag" className="w-full">
                   <SelectValue placeholder="Виберіть тег" />
                 </SelectTrigger>
@@ -125,7 +148,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
                 <Textarea
                   id="text-content"
                   value={textContent}
-                  onChange={(e) => setTextContent(e.target.value)}
+                  onChange={handleTextContentChange} // Використовуємо нову функцію
                   className="font-mono text-sm h-24 resize-y"
                   placeholder="Введіть текст або вміст..."
                 />
@@ -142,7 +165,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
                     id="img-src"
                     type="text"
                     value={imgSrc}
-                    onChange={(e) => setImgSrc(e.target.value)}
+                    onChange={handleImgSrcChange} // Використовуємо нову функцію
                     placeholder="https://..."
                   />
                 </div>
@@ -170,7 +193,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
                   id="link-href"
                   type="text"
                   value={linkHref}
-                  onChange={(e) => setLinkHref(e.target.value)}
+                  onChange={handleLinkHrefChange} // Використовуємо нову функцію
                   placeholder="https://..."
                 />
               </div>

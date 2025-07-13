@@ -4,6 +4,7 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 interface InteractiveCssPropertyProps {
   id?: string; // New: Optional ID for direct linking
@@ -31,6 +32,7 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
   baseStyle = {},
 }) => {
   const [value, setValue] = useState<number[]>([initialValue]);
+  const { sendMessage } = useAssistantMessage(); // Використання хука
 
   const currentCssValue = `${value[0]}${unit}`;
   const dynamicStyle: React.CSSProperties = {
@@ -66,6 +68,11 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
         </div>
       );
 
+  const handleValueChange = (newValue: number[]) => {
+    setValue(newValue);
+    sendMessage(`Ти змінив властивість "${cssPropertyKebabCase}" на ${newValue[0]}${unit}! Бачиш, як все змінюється?`);
+  };
+
   return (
     <Card id={id} className="mb-6 bg-card shadow-md"> {/* Apply ID here */}
       <CardHeader>
@@ -84,7 +91,7 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
             max={max}
             step={1}
             value={value}
-            onValueChange={setValue}
+            onValueChange={handleValueChange} // Використовуємо нову функцію
             className="w-full"
           />
         </div>
