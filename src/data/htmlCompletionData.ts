@@ -1,0 +1,66 @@
+export interface HtmlCompletionItem {
+  label: string;
+  detail: string;
+  kind: 'tag' | 'attribute';
+  insertText?: string; // Optional text to insert, defaults to label
+}
+
+export const htmlCompletionData: HtmlCompletionItem[] = [
+  // Tags
+  { label: "html", detail: "Кореневий елемент HTML-сторінки.", kind: "tag", insertText: "<html>\n  <body>\n\n  </body>\n</html>" },
+  { label: "head", detail: "Містить метадані про HTML-документ.", kind: "tag", insertText: "<head>\n  <meta charset=\"UTF-8\">\n  <title></title>\n</head>" },
+  { label: "body", detail: "Містить весь видимий вміст веб-сторінки.", kind: "tag", insertText: "<body>\n\n</body>" },
+  { label: "h1", detail: "Заголовок першого рівня.", kind: "tag", insertText: "<h1></h1>" },
+  { label: "h2", detail: "Заголовок другого рівня.", kind: "tag", insertText: "<h2></h2>" },
+  { label: "h3", detail: "Заголовок третього рівня.", kind: "tag", insertText: "<h3></h3>" },
+  { label: "p", detail: "Параграф тексту.", kind: "tag", insertText: "<p></p>" },
+  { label: "a", detail: "Гіперпосилання.", kind: "tag", insertText: "<a href=\"\"></a>" },
+  { label: "img", detail: "Зображення.", kind: "tag", insertText: "<img src=\"\" alt=\"\">" },
+  { label: "div", detail: "Універсальний контейнер для блокових елементів.", kind: "tag", insertText: "<div>\n\n</div>" },
+  { label: "span", detail: "Універсальний контейнер для рядкових елементів.", kind: "tag", insertText: "<span></span>" },
+  { label: "button", detail: "Кнопка.", kind: "tag", insertText: "<button></button>" },
+  { label: "ul", detail: "Невпорядкований список.", kind: "tag", insertText: "<ul>\n  <li></li>\n</ul>" },
+  { label: "ol", detail: "Впорядкований список.", kind: "tag", insertText: "<ol>\n  <li></li>\n</ol>" },
+  { label: "li", detail: "Елемент списку.", kind: "tag", insertText: "<li></li>" },
+  { label: "table", detail: "Таблиця.", kind: "tag", insertText: "<table>\n  <tr>\n    <td></td>\n  </tr>\n</table>" },
+  { label: "tr", detail: "Рядок таблиці.", kind: "tag", insertText: "<tr>\n  <td></td>\n</tr>" },
+  { label: "td", detail: "Комірка таблиці.", kind: "tag", insertText: "<td></td>" },
+  { label: "input", detail: "Поле введення даних.", kind: "tag", insertText: "<input type=\"text\">" },
+  { label: "textarea", detail: "Багаторядкове текстове поле.", kind: "tag", insertText: "<textarea></textarea>" },
+  { label: "form", detail: "Форма для введення даних.", kind: "tag", insertText: "<form></form>" },
+  { label: "header", detail: "Вступний вміст або група навігаційних посилань.", kind: "tag", insertText: "<header></header>" },
+  { label: "footer", detail: "Нижній колонтитул документа.", kind: "tag", insertText: "<footer></footer>" },
+  { label: "main", detail: "Основний вміст документа.", kind: "tag", insertText: "<main></main>" },
+  { label: "nav", detail: "Навігаційні посилання.", kind: "tag", insertText: "<nav></nav>" },
+  { label: "section", detail: "Розділ документа.", kind: "tag", insertText: "<section></section>" },
+  { label: "article", detail: "Незалежний, самодостатній вміст.", kind: "tag", insertText: "<article></article>" },
+  { label: "aside", detail: "Вміст, що не є основним, але пов'язаний з ним.", kind: "tag", insertText: "<aside></aside>" },
+  { label: "link", detail: "Зв'язок з зовнішнім ресурсом (наприклад, CSS).", kind: "tag", insertText: "<link rel=\"stylesheet\" href=\"\">" },
+  { label: "style", detail: "Вбудовані стилі CSS.", kind: "tag", insertText: "<style>\n\n</style>" },
+  { label: "script", detail: "Вбудований або зовнішній JavaScript.", kind: "tag", insertText: "<script src=\"\"></script>" },
+  { label: "meta", detail: "Метадані документа.", kind: "tag", insertText: "<meta charset=\"UTF-8\">" },
+  { label: "title", detail: "Заголовок сторінки, що відображається у вкладці браузера.", kind: "tag", insertText: "<title></title>" },
+
+  // Attributes (common ones)
+  { label: "href", detail: "URL посилання.", kind: "attribute" },
+  { label: "src", detail: "Шлях до ресурсу (зображення, скрипт).", kind: "attribute" },
+  { label: "alt", detail: "Альтернативний текст для зображення.", kind: "attribute" },
+  { label: "class", detail: "Ім'я класу CSS.", kind: "attribute" },
+  { label: "id", detail: "Унікальний ідентифікатор елемента.", kind: "attribute" },
+  { label: "style", detail: "Вбудовані стилі CSS.", kind: "attribute" },
+  { label: "target", detail: "Визначає, де відкривати посилання.", kind: "attribute" },
+  { label: "type", detail: "Тип елемента (наприклад, для input).", kind: "attribute" },
+  { label: "value", detail: "Початкове значення поля введення.", kind: "attribute" },
+  { label: "placeholder", detail: "Текст-підказка для поля введення.", kind: "attribute" },
+  { label: "disabled", detail: "Вимкнення елемента.", kind: "attribute" },
+  { label: "readonly", detail: "Тільки для читання.", kind: "attribute" },
+  { label: "checked", detail: "Попередньо вибраний (для чекбоксів/радіо).", kind: "attribute" },
+  { label: "selected", detail: "Попередньо вибраний (для опцій select).", kind: "attribute" },
+  { label: "name", detail: "Ім'я елемента форми.", kind: "attribute" },
+  { label: "method", detail: "Метод відправки форми (GET/POST).", kind: "attribute" },
+  { label: "action", detail: "URL для відправки форми.", kind: "attribute" },
+  { label: "rel", detail: "Відношення між поточним документом та посиланням.", kind: "attribute" },
+  { label: "charset", detail: "Кодування символів.", kind: "attribute" },
+  { label: "width", detail: "Ширина елемента.", kind: "attribute" },
+  { label: "height", detail: "Висота елемента.", kind: "attribute" },
+];
