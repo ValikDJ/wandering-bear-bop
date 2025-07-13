@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
-import { SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet'; // Імпортуємо необхідні компоненти
+import { SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 
 interface Message {
   id: string;
@@ -84,24 +84,43 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
             'postgres_changes',
             { event: 'INSERT', schema: 'public', table: 'messages' },
             async (payload) => {
+              console.log('Realtime message received:', payload);
               const newMsg = payload.new as Message;
-              const { data: profileData, error: profileError } = await supabase
-                .from('profiles')
-                .select('first_name, last_name')
-                .eq('id', newMsg.sender_id)
-                .single();
 
-              if (profileError && profileError.code !== 'PGRST116') {
-                console.error('Error fetching profile for new message:', profileError);
+              let senderDisplayName = 'Невідомий';
+              if (user && newMsg.sender_id === user.id) {
+                senderDisplayName = 'Ви';
+              } else {
+                // Attempt to fetch profile data for other users
+                const { data: profileData, error: profileError } = await supabase
+                  .from('profiles')
+                  .select('first_name, last_name')
+                  .eq('id', newMsg.sender_id)
+                  .single();
+
+                if (profileError && profileError.code !== 'PGRST116') {
+                  console.error('Error fetching profile for new message in realtime listener:', profileError);
+                  senderDisplayName = 'Інший користувач'; // Fallback on error
+                } else if (profileData) {
+                  senderDisplayName = `${profileData.first_name || ''} ${profileData.last_name || ''}`.trim() || 'Організатор';
+                } else {
+                  senderDisplayName = 'Інший користувач'; // Fallback if no profile found (PGRST116)
+                }
               }
 
-              setMessages((prevMessages) => [
-                ...prevMessages,
-                {
-                  ...newMsg,
-                  sender_email: profileData ? `${profileData.first_name || ''} ${profileData.last_name || ''}`.trim() || 'Організатор' : 'Невідомий',
-                },
-              ]);
+              setMessages((prevMessages) => {
+                // Prevent duplicates if subscription fires multiple times
+                if (prevMessages.some(m => m.id === newMsg.id)) {
+                    return prevMessages;
+                }
+                return [
+                  ...prevMessages,
+                  {
+                    ...newMsg,
+                    sender_email: senderDisplayName,
+                  },
+                ];
+              });
             }
           )
           .subscribe();
@@ -249,15 +268,22 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
                     : "self-start bg-muted text-muted-foreground rounded-bl-none"
                 )}
               >
-                <span className="text-xs font-semibold mb-1">
-                  {msg.sender_id === user?.id ? 'Ви' : msg.sender_email || 'Організатор'}
-                </span>
+                {/* Header for sender and timestamp */}
+                <div className={cn(
+                  "flex items-baseline gap-2 mb-1",
+                  msg.sender_id === user?.id ? "justify-end" : "justify-start"
+                )}>
+                  <span className="text-xs font-semibold">
+                    {msg.sender_id === user?.id ? 'Ви' : msg.sender_email || 'Організатор'}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </div>
+                {/* Message content */}
                 <div className="text-sm break-words">
                   {renderMessageContent(msg)}
                 </div>
-                <span className="text-xs text-muted-foreground mt-1 self-end">
-                  {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </span>
               </div>
             ))
           )}
