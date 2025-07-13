@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 interface LiveCodeEditorProps {
   id?: string; // Додано id
@@ -20,6 +21,7 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
   const [htmlCode, setHtmlCode] = useState(initialHtml);
   const [cssCode, setCssCode] = useState(initialCss);
   const [outputSrcDoc, setOutputSrcDoc] = useState("");
+  const { sendMessage } = useAssistantMessage(); // Використання хука
 
   useEffect(() => {
     const generateSrcDoc = () => {
@@ -38,6 +40,22 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
     setOutputSrcDoc(generateSrcDoc());
   }, [htmlCode, cssCode]);
 
+  const handleHtmlChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setHtmlCode(e.target.value);
+  };
+
+  const handleCssChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCssCode(e.target.value);
+  };
+
+  const handleHtmlBlur = () => {
+    sendMessage("Чудово! Ти змінюєш HTML-код. Бачиш, як змінюється структура?");
+  };
+
+  const handleCssBlur = () => {
+    sendMessage("Круто! Ти стилізуєш свій сайт за допомогою CSS. Продовжуй експериментувати!");
+  };
+
   return (
     <Card id={id} className="mb-6 bg-card shadow-md">
       <CardHeader>
@@ -51,7 +69,8 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
               <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">HTML Код:</h4>
               <Textarea
                 value={htmlCode}
-                onChange={(e) => setHtmlCode(e.target.value)}
+                onChange={handleHtmlChange}
+                onBlur={handleHtmlBlur} // Додано onBlur
                 className="font-mono text-sm h-48 resize-y"
                 placeholder="Введіть ваш HTML код тут..."
               />
@@ -60,7 +79,8 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
               <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS Код:</h4>
               <Textarea
                 value={cssCode}
-                onChange={(e) => setCssCode(e.target.value)}
+                onChange={handleCssChange}
+                onBlur={handleCssBlur} // Додано onBlur
                 className="font-mono text-sm h-48 resize-y"
                 placeholder="Введіть ваш CSS код тут..."
               />

@@ -15,13 +15,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/hooks/use-theme"; // Імпортуємо наш хук теми
 import { ThemeMode } from "@/lib/ThemeManager"; // Імпортуємо перелік режимів
+import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 const ThemeToggle: React.FC = () => {
   const { mode, actualTheme, setTheme } = useTheme();
+  const { sendMessage } = useAssistantMessage(); // Використання хука
 
   // Визначаємо поточну іконку та лейбл
   const CurrentIcon = actualTheme === ThemeMode.Dark ? Moon : Sun;
   const currentLabel = actualTheme === ThemeMode.Dark ? "Темна" : "Світла";
+
+  const handleThemeChange = (newMode: ThemeMode, label: string) => {
+    setTheme(newMode);
+    sendMessage(`Тему змінено на "${label}"!`);
+  };
 
   return (
     <DropdownMenu>
@@ -39,21 +46,21 @@ const ThemeToggle: React.FC = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="bg-popover text-popover-foreground">
         <DropdownMenuItem
-          onClick={() => setTheme(ThemeMode.Light)}
+          onClick={() => handleThemeChange(ThemeMode.Light, "Світла")}
           className="cursor-pointer flex items-center gap-2"
           aria-label="Встановити світлу тему"
         >
           <Sun className="h-4 w-4" /> Світла
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => setTheme(ThemeMode.Dark)}
+          onClick={() => handleThemeChange(ThemeMode.Dark, "Темна")}
           className="cursor-pointer flex items-center gap-2"
           aria-label="Встановити темну тему"
         >
           <Moon className="h-4 w-4" /> Темна
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => setTheme(ThemeMode.System)}
+          onClick={() => handleThemeChange(ThemeMode.System, "Системна")}
           className="cursor-pointer flex items-center gap-2"
           aria-label="Встановити системну тему"
         >
