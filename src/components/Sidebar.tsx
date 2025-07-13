@@ -389,7 +389,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         </div>
       )}
 
-      <ScrollArea className="flex-grow" viewportRef={scrollAreaRef}> {/* Attach ref to viewport */}
+      <ScrollArea className="flex-grow" ref={scrollAreaRef}> {/* Attach ref directly to ScrollArea */}
         <div className="flex flex-col gap-1 p-4">
           {filteredNavData.length === 0 && searchTerm.length > 0 ? (
             <p className="text-muted-foreground text-center py-4">Нічого не знайдено.</p>
