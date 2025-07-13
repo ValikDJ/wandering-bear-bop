@@ -1,6 +1,6 @@
 import React from 'react';
 import { User } from '@supabase/supabase-js';
-import { Paperclip, MoreHorizontal, Edit, Trash2, Copy, User as UserIcon } from 'lucide-react';
+import { Paperclip, MoreHorizontal, Edit, Trash2, Copy, User as UserIcon, Eraser } from 'lucide-react'; // Додано Eraser
 import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -73,8 +73,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   return (
     <div
       className={cn(
-        "flex gap-2 items-start group max-w-[75%]", // Added max-w-[75%] to limit width
-        isMyMessage ? "flex-row-reverse self-end" : "flex-row self-start" // Apply self-end/self-start to the outer div
+        "flex gap-2 items-start group max-w-[75%]",
+        isMyMessage ? "flex-row-reverse self-end" : "flex-row self-start"
       )}
     >
       <Avatar className="h-8 w-8 border-2 border-border flex-shrink-0">
@@ -88,7 +88,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
       </Avatar>
       <div
         className={cn(
-          "relative flex flex-col p-3 rounded-lg flex-grow", // Removed max-w-[calc(100%-40px)] from here, added flex-grow
+          "relative flex flex-col p-3 rounded-lg flex-grow",
           isMyMessage
             ? "bg-primary text-primary-foreground rounded-br-none"
             : "bg-muted text-muted-foreground rounded-bl-none"
@@ -128,6 +128,21 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
             renderMessageContent(message)
           )}
         </div>
+        {isOrganizer && ( // Show Eraser icon only for organizer
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onDeleteMessage(message.id)}
+            className={cn(
+              "absolute top-1",
+              isMyMessage ? "left-1" : "right-1", // Position based on message alignment
+              "h-6 w-6 text-destructive hover:bg-destructive/10 transition-opacity opacity-0 group-hover:opacity-100"
+            )}
+            aria-label="Видалити повідомлення"
+          >
+            <Eraser className="h-4 w-4" />
+          </Button>
+        )}
         {(isOrganizer || isMyMessage) && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -135,7 +150,9 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  "absolute top-1 right-1 h-6 w-6 transition-opacity",
+                  "absolute top-1",
+                  isMyMessage ? "right-1" : "left-1", // Position based on message alignment
+                  "h-6 w-6 transition-opacity",
                   isOrganizer ? "opacity-100" : "opacity-0 group-hover:opacity-100"
                 )}
               >
@@ -147,14 +164,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
                 <Copy className="mr-2 h-4 w-4" /> Копіювати
               </DropdownMenuItem>
               {isOrganizer && (
-                <>
-                  <DropdownMenuItem onClick={() => onEditClick(message)} className="cursor-pointer">
-                    <Edit className="mr-2 h-4 w-4" /> Редагувати
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onDeleteMessage(message.id)} className="cursor-pointer text-destructive">
-                    <Trash2 className="mr-2 h-4 w-4" /> Видалити
-                  </DropdownMenuItem>
-                </>
+                <DropdownMenuItem onClick={() => onEditClick(message)} className="cursor-pointer">
+                  <Edit className="mr-2 h-4 w-4" /> Редагувати
+                </DropdownMenuItem>
+                // Removed Delete option from dropdown as Eraser icon provides direct delete
               )}
             </DropdownMenuContent>
           </DropdownMenu>
