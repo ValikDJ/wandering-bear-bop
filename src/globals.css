@@ -60,6 +60,11 @@
     --box-model-padding-text: 60 80% 30%; /* Dark yellow */
     --box-model-content-bg: 120 80% 40%; /* Green */
     --box-model-content-text: 0 0% 100%; /* White */
+
+    /* CSS Playground Colors - Light Theme */
+    --playground-element-bg: 20 80% 95%; /* Light orange */
+    --playground-element-border: 20 80% 50%; /* Orange */
+    --playground-element-text: 20 80% 20%; /* Dark orange */
   }
 
   .dark {
@@ -117,6 +122,11 @@
     --box-model-padding-text: 60 80% 85%; /* Light yellow */
     --box-model-content-bg: 120 80% 25%; /* Darker green */
     --box-model-content-text: 0 0% 100%; /* White */
+
+    /* CSS Playground Colors - Dark Theme */
+    --playground-element-bg: 20 80% 25%; /* Darker orange */
+    --playground-element-border: 20 80% 70%; /* Lighter orange */
+    --playground-element-text: 0 0% 100%; /* White */
   }
 }
 

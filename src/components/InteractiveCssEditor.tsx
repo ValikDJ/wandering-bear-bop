@@ -140,11 +140,12 @@ const InteractiveCssEditor: React.FC<InteractiveCssEditorProps> = ({
           <style>
             body { margin: 0; padding: 10px; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100%; box-sizing: border-box; }
             .my-element {
-              /* Ensure basic styling for the preview block */
+              /* Ensure basic styling for the preview block using CSS variables */
               min-width: 100px;
               min-height: 50px;
-              background-color: #f0f0f0;
-              border: 1px solid #ccc;
+              background-color: hsl(var(--playground-element-bg));
+              border: 1px solid hsl(var(--playground-element-border));
+              color: hsl(var(--playground-element-text));
               padding: 10px;
               box-sizing: border-box;
             }
