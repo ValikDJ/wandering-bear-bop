@@ -4,27 +4,40 @@ import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import LessonGuideCharacter from "./LessonGuideCharacter"; // Імпорт нового компонента
-import { useLocation } from "react-router-dom"; // Імпорт useLocation
+import LessonGuideCharacter from "./LessonGuideCharacter";
+import { useLocation } from "react-router-dom";
 
 interface LayoutProps {
   children: React.ReactNode;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
-  selectedCharacter: 'robot' | 'cat' | 'owl' | null; // Додано prop
+  selectedCharacter: 'robot' | 'cat' | 'owl' | null;
+  isAssistantVisible: boolean; // Новий prop
+  toggleAssistantVisibility: () => void; // Новий prop
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, searchTerm, setSearchTerm, selectedCharacter }) => {
+const Layout: React.FC<LayoutProps> = ({
+  children,
+  searchTerm,
+  setSearchTerm,
+  selectedCharacter,
+  isAssistantVisible, // Деструктуруємо
+  toggleAssistantVisibility, // Деструктуруємо
+}) => {
   const isMobile = useIsMobile();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const location = useLocation(); // Отримуємо поточний шлях
+  const location = useLocation();
 
   const handleOpenMobileSidebar = () => setIsMobileSidebarOpen(true);
   const handleCloseMobileSidebar = () => setIsMobileSidebarOpen(false);
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <Navbar onOpenMobileSidebar={handleOpenMobileSidebar} />
+      <Navbar
+        onOpenMobileSidebar={handleOpenMobileSidebar}
+        isAssistantVisible={isAssistantVisible} // Передаємо в Navbar
+        toggleAssistantVisibility={toggleAssistantVisibility} // Передаємо в Navbar
+      />
       <div className="flex flex-1">
         {isMobile ? (
           <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>
@@ -49,7 +62,12 @@ const Layout: React.FC<LayoutProps> = ({ children, searchTerm, setSearchTerm, se
         </main>
       </div>
       <Footer />
-      {selectedCharacter && <LessonGuideCharacter characterType={selectedCharacter} />} {/* Відображаємо гіда, якщо персонаж обраний */}
+      {selectedCharacter && (
+        <LessonGuideCharacter
+          characterType={selectedCharacter}
+          isVisible={isAssistantVisible} // Передаємо видимість помічнику
+        />
+      )}
     </div>
   );
 };
