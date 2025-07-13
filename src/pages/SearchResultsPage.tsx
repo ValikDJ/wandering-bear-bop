@@ -11,6 +11,7 @@ import { highlightText, escapeRegExp } from "@/lib/utils";
 import Fuse from 'fuse.js';
 import type { FuseResult } from 'fuse.js'; // Додано імпорт типу FuseResult
 import { expandQueryWithSynonyms } from "@/data/synonymMap";
+import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 const getEmojiForType = (type: SearchItem['type']) => {
   switch (type) {
@@ -44,6 +45,7 @@ const SearchResultsPage: React.FC = () => {
   const [currentSearchTerm, setCurrentSearchTerm] = useState(searchParams.get("query") || "");
   const [filteredPageResults, setFilteredPageResults] = useState<SearchItem[]>([]);
   const [directTermDefinition, setDirectTermDefinition] = useState<GlossaryTerm | null>(null);
+  const { sendMessage } = useAssistantMessage(); // Використання хука
 
   useEffect(() => {
     const query = searchParams.get("query") || "";
@@ -75,10 +77,19 @@ const SearchResultsPage: React.FC = () => {
       );
 
       setFilteredPageResults(finalResults);
+
+      // Відправка повідомлення помічника після отримання результатів
+      if (foundTerm || finalResults.length > 0) {
+        sendMessage(`Я знайшов ${ (foundTerm ? 1 : 0) + finalResults.length } результатів за твоїм запитом "${query}"!`);
+      } else {
+        sendMessage(`На жаль, нічого не знайдено за запитом "${query}". Спробуй інші слова.`);
+      }
+
     } else {
       setFilteredPageResults([]);
+      sendMessage("Введи щось у пошук, щоб я міг тобі допомогти!");
     }
-  }, [searchParams]);
+  }, [searchParams, sendMessage]); // Додано sendMessage до залежностей
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
