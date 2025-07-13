@@ -60,6 +60,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
 
       if (error) {
         console.error('Error fetching messages:', error);
+        // Логуємо повний об'єкт помилки для детальної діагностики
+        console.error('Full Supabase error object:', JSON.stringify(error, null, 2));
+
         // Only show toast error if it's not an RLS permission error (code '42501')
         if (error.code !== '42501') {
           toast.error('Помилка завантаження повідомлень чату.');
