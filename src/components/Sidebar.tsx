@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn, highlightText, escapeRegExp } from "@/lib/utils";
 import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
-import * as Fuse from 'fuse.js'; // Виправлено імпорт
+import Fuse from 'fuse.js'; // Виправлено імпорт: тепер це default import
 import { expandQueryWithSynonyms } from "@/data/synonymMap";
 
 interface SidebarProps {
