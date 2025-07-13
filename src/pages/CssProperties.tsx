@@ -24,7 +24,7 @@ const CssProperties: React.FC = () => {
   color: blue;
 }`}
           language="css"
-          result={<p style={{ color: 'blue' }}>Цей текст синій.</p>}
+          result={<p style={{ color: 'hsl(var(--brand-primary))' }}>Цей текст синій.</p>}
         />
 
         <InteractiveCssProperty
@@ -60,7 +60,7 @@ const CssProperties: React.FC = () => {
   padding: 10px;
 }`}
           language="css"
-          result={<div style={{ backgroundColor: 'lightgreen', padding: '10px' }}>Це блок з зеленим фоном.</div>}
+          result={<div style={{ backgroundColor: 'hsl(var(--playground-element-bg))', padding: '10px', color: 'hsl(var(--playground-element-text))' }}>Це блок з зеленим фоном.</div>}
         />
 
         <LessonCard
@@ -83,8 +83,8 @@ const CssProperties: React.FC = () => {
           min={0}
           max={50}
           initialValue={20}
-          exampleContent={<div style={{ backgroundColor: '#ADD8E6', border: '1px solid #333', padding: '10px' }}>Цей блок має зовнішні відступи.</div>}
-          baseStyle={{}}
+          exampleContent={<div style={{ backgroundColor: 'hsl(var(--playground-element-bg))', border: '1px solid hsl(var(--playground-element-border))', color: 'hsl(var(--playground-element-text))' }}>Цей блок має зовнішні відступи.</div>}
+          baseStyle={{ backgroundColor: 'hsl(var(--playground-element-bg))', border: '1px solid hsl(var(--playground-element-border))', color: 'hsl(var(--playground-element-text))' }}
         />
 
         <InteractiveCssProperty
@@ -96,8 +96,8 @@ const CssProperties: React.FC = () => {
           min={0}
           max={50}
           initialValue={15}
-          exampleContent={<div style={{ backgroundColor: '#FFB6C1', border: '1px solid #333' }}>Цей блок має внутрішні відступи.</div>}
-          baseStyle={{}}
+          exampleContent={<div style={{ backgroundColor: 'hsl(var(--playground-element-bg))', border: '1px solid hsl(var(--playground-element-border))', color: 'hsl(var(--playground-element-text))' }}>Цей блок має внутрішні відступи.</div>}
+          baseStyle={{ backgroundColor: 'hsl(var(--playground-element-bg))', border: '1px solid hsl(var(--playground-element-border))', color: 'hsl(var(--playground-element-text))' }}
         />
 
         {/* New Box Model Visualizer */}
@@ -112,7 +112,7 @@ const CssProperties: React.FC = () => {
   padding: 5px;
 }`}
           language="css"
-          result={<p style={{ border: '2px solid red', padding: '5px' }}>Текст з червоною рамкою.</p>}
+          result={<p style={{ border: '2px solid hsl(var(--destructive))', padding: '5px', color: 'hsl(var(--foreground))' }}>Текст з червоною рамкою.</p>}
         />
 
         <InteractiveCssProperty
@@ -124,8 +124,8 @@ const CssProperties: React.FC = () => {
           min={0}
           max={50}
           initialValue={15}
-          exampleContent={<div style={{ width: '100px', height: '100px', backgroundColor: '#FFD700', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#333', fontWeight: 'bold' }}>Блок</div>}
-          baseStyle={{ border: '2px solid purple' }}
+          exampleContent={<div style={{ width: '100px', height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>Блок</div>}
+          baseStyle={{ border: '2px solid hsl(var(--playground-element-border))', backgroundColor: 'hsl(var(--playground-element-bg))', color: 'hsl(var(--playground-element-text))' }}
         />
 
         <LessonCard
@@ -137,7 +137,7 @@ const CssProperties: React.FC = () => {
   color: green;
 }`}
           language="css"
-          result={<a href="#" style={{ textDecoration: 'none', color: 'green' }}>Посилання без підкреслення.</a>}
+          result={<a href="#" style={{ textDecoration: 'none', color: 'hsl(var(--brand-primary))' }}>Посилання без підкреслення.</a>}
         />
 
         {/* New Interactive CSS Properties */}
@@ -150,8 +150,8 @@ const CssProperties: React.FC = () => {
           min={0}
           max={100}
           initialValue={100}
-          exampleContent={<div style={{ width: '150px', height: '80px', backgroundColor: '#8A2BE2', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>Прозорий блок</div>}
-          baseStyle={{}}
+          exampleContent={<div style={{ width: '150px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>Прозорий блок</div>}
+          baseStyle={{ backgroundColor: 'hsl(var(--playground-element-bg))', color: 'hsl(var(--playground-element-text))', border: '1px solid hsl(var(--playground-element-border))' }}
         />
 
         <InteractiveCssProperty
@@ -163,8 +163,8 @@ const CssProperties: React.FC = () => {
           min={50}
           max={300}
           initialValue={150}
-          exampleContent={<div style={{ height: '80px', backgroundColor: '#FF4500', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>Блок змінної ширини</div>}
-          baseStyle={{}}
+          exampleContent={<div style={{ height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>Блок змінної ширини</div>}
+          baseStyle={{ backgroundColor: 'hsl(var(--playground-element-bg))', color: 'hsl(var(--playground-element-text))', border: '1px solid hsl(var(--playground-element-border))' }}
         />
 
         <InteractiveCssProperty
@@ -176,8 +176,8 @@ const CssProperties: React.FC = () => {
           min={30}
           max={200}
           initialValue={100}
-          exampleContent={<div style={{ width: '150px', backgroundColor: '#1E90FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>Блок змінної висоти</div>}
-          baseStyle={{}}
+          exampleContent={<div style={{ width: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>Блок змінної висоти</div>}
+          baseStyle={{ backgroundColor: 'hsl(var(--playground-element-bg))', color: 'hsl(var(--playground-element-text))', border: '1px solid hsl(var(--playground-element-border))' }}
         />
       </div>
       <LessonNavigation />

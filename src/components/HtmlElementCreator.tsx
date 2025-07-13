@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useTheme } from "@/hooks/use-theme"; // Import useTheme
 
 interface HtmlElementCreatorProps {
   id?: string; // Додано id
@@ -26,6 +27,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
   const [linkHref, setLinkHref] = useState<string>("https://www.google.com");
   const [generatedHtml, setGeneratedHtml] = useState<string>("");
   const [outputSrcDoc, setOutputSrcDoc] = useState("");
+  const { actualTheme } = useTheme(); // Get current theme
 
   const generateHtml = () => {
     let html = "";
@@ -70,17 +72,55 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
   }, [selectedTag, textContent, imgSrc, imgAlt, linkHref]);
 
   useEffect(() => {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const themeVars = [
+      '--background', '--foreground', '--card', '--card-foreground',
+      '--popover', '--popover-foreground', '--primary', '--primary-foreground',
+      '--secondary', '--secondary-foreground', '--muted', '--muted-foreground',
+      '--accent', '--accent-foreground', '--destructive', '--destructive-foreground',
+      '--border', '--input', '--ring', '--radius',
+      '--brand-primary', '--brand-primary-hover',
+      '--playground-element-bg', '--playground-element-border', '--playground-element-text'
+    ].map(v => `${v}: ${rootStyles.getPropertyValue(v)};`).join('\n');
+
     const srcDoc = `
       <!DOCTYPE html>
       <html>
       <head>
         <style>
-          body { margin: 0; padding: 10px; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100px; }
+          :root {
+            ${themeVars}
+          }
+          body {
+            margin: 0;
+            padding: 10px;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px;
+            background-color: hsl(var(--background)); /* Use theme background */
+            color: hsl(var(--foreground)); /* Use theme foreground */
+          }
           img { max-width: 100%; height: auto; border-radius: 8px; }
-          a { color: blue; text-decoration: underline; }
-          div, section { padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9; border-radius: 8px; }
+          a { color: hsl(var(--brand-primary)); text-decoration: underline; } /* Use theme brand primary */
+          div, section {
+            padding: 15px;
+            border: 1px solid hsl(var(--border)); /* Use theme border */
+            background-color: hsl(var(--playground-element-bg)); /* Use theme playground bg */
+            color: hsl(var(--playground-element-text)); /* Use theme playground text */
+            border-radius: 8px;
+          }
           ul, ol { margin-left: 20px; }
           li { margin-bottom: 5px; }
+          button {
+            background-color: hsl(var(--brand-primary));
+            color: hsl(var(--primary-foreground));
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          }
         </style>
       </head>
       <body>
@@ -89,7 +129,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
       </html>
     `;
     setOutputSrcDoc(srcDoc);
-  }, [generatedHtml]);
+  }, [generatedHtml, actualTheme]);
 
   const handleTagChange = (value: string) => {
     setSelectedTag(value);

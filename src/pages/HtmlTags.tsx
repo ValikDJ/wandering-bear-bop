@@ -64,7 +64,7 @@ const HtmlTags: React.FC = () => {
           codeExample={`<a href="https://www.google.com" target="_blank">Перейти до Google</a>`}
           language="html"
           result={
-            <a href="https://www.google.com" target="_blank" className="text-blue-600 hover:underline">Перейти до Google</a>
+            <a href="https://www.google.com" target="_blank" className="text-brand-primary hover:underline">Перейти до Google</a>
           }
         />
 
@@ -84,7 +84,7 @@ const HtmlTags: React.FC = () => {
 </html>`}
           language="html"
           result={
-            <p className="text-sm text-gray-500">Весь видимий контент знаходиться всередині тегу &lt;body&gt;.</p>
+            <p className="text-sm text-muted-foreground">Весь видимий контент знаходиться всередині тегу &lt;body&gt;.</p>
           }
         />
 
@@ -104,17 +104,17 @@ const HtmlTags: React.FC = () => {
 </table>`}
           language="html"
           result={
-            <table className="border-collapse border border-gray-400">
+            <table className="border-collapse border border-border">
               <thead>
                 <tr>
-                  <th className="border border-gray-300 px-4 py-2 bg-gray-100">Ім'я</th>
-                  <th className="border border-gray-300 px-4 py-2 bg-gray-100">Вік</th>
+                  <th className="border border-border px-4 py-2 bg-muted text-muted-foreground">Ім'я</th>
+                  <th className="border border-border px-4 py-2 bg-muted text-muted-foreground">Вік</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-gray-300 px-4 py-2">Олег</td>
-                  <td className="border border-gray-300 px-4 py-2">11</td>
+                  <td className="border border-border px-4 py-2 bg-background text-foreground">Олег</td>
+                  <td className="border border-border px-4 py-2 bg-background text-foreground">11</td>
                 </tr>
               </tbody>
             </table>
@@ -131,7 +131,7 @@ const HtmlTags: React.FC = () => {
 </main>`}
           language="html"
           result={
-            <p className="text-sm text-gray-500">Тег &lt;main&gt; допомагає браузерам та пошуковим системам зрозуміти, де знаходиться найважливіший контент.</p>
+            <p className="text-sm text-muted-foreground">Тег &lt;main&gt; допомагає браузерам та пошуковим системам зрозуміти, де знаходиться найважливіший контент.</p>
           }
         />
 
@@ -144,7 +144,7 @@ const HtmlTags: React.FC = () => {
 </footer>`}
           language="html"
           result={
-            <p className="text-sm text-gray-500">&copy; 2024 Моя Веб-Сторінка</p>
+            <p className="text-sm text-muted-foreground">&copy; 2024 Моя Веб-Сторінка</p>
           }
         />
 
@@ -161,11 +161,11 @@ const HtmlTags: React.FC = () => {
 </header>`}
           language="html"
           result={
-            <div className="bg-blue-50 p-4 rounded-md">
-              <h1 className="text-xl font-bold">Мій Блог</h1>
+            <div className="bg-accent p-4 rounded-md">
+              <h1 className="text-xl font-bold text-accent-foreground">Мій Блог</h1>
               <nav className="mt-2 space-x-4">
-                <a href="#" className="text-blue-600 hover:underline">Головна</a>
-                <a href="#" className="text-blue-600 hover:underline">Про нас</a>
+                <a href="#" className="text-brand-primary hover:underline">Головна</a>
+                <a href="#" className="text-brand-primary hover:underline">Про нас</a>
               </nav>
             </div>
           }
@@ -188,7 +188,7 @@ const HtmlTags: React.FC = () => {
 </html>`}
           language="html"
           result={
-            <p className="text-sm text-gray-500">Вміст тегу &lt;head&gt; не відображається на сторінці, але дуже важливий для її роботи.</p>
+            <p className="text-sm text-muted-foreground">Вміст тегу &lt;head&gt; не відображається на сторінці, але дуже важливий для її роботи.</p>
           }
         />
 
@@ -203,7 +203,7 @@ const HtmlTags: React.FC = () => {
 </section>`}
           language="html"
           result={
-            <section className="border border-gray-300 p-4 rounded-md bg-gray-50">
+            <section className="border border-border p-4 rounded-md bg-background text-foreground">
               <h2 className="text-xl font-semibold mb-2">Про нас</h2>
               <p>Ми створюємо чудові веб-сайти.</p>
             </section>
@@ -220,9 +220,9 @@ const HtmlTags: React.FC = () => {
 </div>`}
           language="html"
           result={
-            <div style={{ backgroundColor: '#e0f7fa', padding: '15px', borderRadius: '5px' }}>
+            <div style={{ backgroundColor: 'hsl(var(--playground-element-bg))', padding: '15px', borderRadius: '5px', color: 'hsl(var(--playground-element-text))' }}>
               <p>Це вміст всередині div.</p>
-              <button className="bg-blue-500 text-white px-3 py-1 rounded-md mt-2">Кнопка</button>
+              <button className="bg-brand-primary text-primary-foreground px-3 py-1 rounded-md mt-2 hover:bg-brand-primary-hover">Кнопка</button>
             </div>
           }
         />
@@ -234,7 +234,7 @@ const HtmlTags: React.FC = () => {
           codeExample={`<button>Натисни мене!</button>`}
           language="html"
           result={
-            <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors">Натисни мене!</button>
+            <button className="bg-brand-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-brand-primary-hover transition-colors">Натисни мене!</button>
           }
         />
 
@@ -259,14 +259,14 @@ const HtmlTags: React.FC = () => {
           result={
             <>
               <h3 className="text-lg font-semibold mb-2">Мої улюблені фрукти (невпорядкований):</h3>
-              <ul className="list-disc list-inside mb-4">
+              <ul className="list-disc list-inside mb-4 text-foreground">
                 <li>Яблука</li>
                 <li>Банани</li>
                 <li>Апельсини</li>
               </ul>
 
               <h3 className="text-lg font-semibold mb-2">Кроки приготування (впорядкований):</h3>
-              <ol className="list-decimal list-inside">
+              <ol className="list-decimal list-inside text-foreground">
                 <li>Нагрій воду</li>
                 <li>Додай макарони</li>
                 <li>Приготуй соус</li>
@@ -282,7 +282,7 @@ const HtmlTags: React.FC = () => {
           codeExample={`<p>Це <strong>дуже важлива</strong> інформація.</p>`}
           language="html"
           result={
-            <p>Це <strong>дуже важлива</strong> інформація.</p>
+            <p className="text-foreground">Це <strong>дуже важлива</strong> інформація.</p>
           }
         />
 
@@ -293,7 +293,7 @@ const HtmlTags: React.FC = () => {
           codeExample={`<p>Я <em>дійсно</em> люблю програмувати.</p>`}
           language="html"
           result={
-            <p>Я <em>дійсно</em> люблю програмувати.</p>
+            <p className="text-foreground">Я <em>дійсно</em> люблю програмувати.</p>
           }
         />
 

@@ -52,7 +52,7 @@ button {
           description="Використаємо тег <h1> та CSS властивість `color`."
           codeExample={`<h1 style="color: red;">Привіт, червоний заголовок!</h1>`}
           language="html"
-          result={<h1 style={{ color: 'red' }}>Привіт, червоний заголовок!</h1>}
+          result={<h1 style={{ color: 'hsl(var(--destructive))' }}>Привіт, червоний заголовок!</h1>}
         />
 
         <LessonCard
@@ -61,7 +61,7 @@ button {
           description="Використаємо тег <img> та CSS властивості `border` і `border-radius`."
           codeExample={`<img src="https://via.placeholder.com/100" alt="Кругла картинка" style="border: 3px solid blue; border-radius: 50%;">`}
           language="html"
-          result={<img src="https://via.placeholder.com/100" alt="Кругла картинка" style={{ border: '3px solid blue', borderRadius: '50%' }} className="shadow-md" />}
+          result={<img src="https://via.placeholder.com/100" alt="Кругла картинка" style={{ border: '3px solid hsl(var(--brand-primary))', borderRadius: '50%' }} className="shadow-md" />}
         />
 
         <LessonCard
@@ -70,7 +70,7 @@ button {
           description="Використаємо тег <button> та CSS властивості `background-color`, `color`, `padding` та `border-radius`."
           codeExample={`<button style="background-color: #FF6347; color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer;">Натисни мене!</button>`}
           language="html"
-          result={<button style={{ backgroundColor: '#FF6347', color: 'white', padding: '10px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer' }}>Натисни мене!</button>}
+          result={<button className="bg-brand-primary text-primary-foreground px-4 py-2 rounded-md border-none cursor-pointer hover:bg-brand-primary-hover">Натисни мене!</button>}
         />
 
         <LessonCard
@@ -79,7 +79,7 @@ button {
           description="Використаємо тег <p> та CSS властивості `text-align` і `font-size`."
           codeExample={`<p style="text-align: center; font-size: 20px;">Цей текст буде по центру і великим!</p>`}
           language="html"
-          result={<p style={{ textAlign: 'center', fontSize: '20px' }}>Цей текст буде по центру і великим!</p>}
+          result={<p style={{ textAlign: 'center', fontSize: '20px' }} className="text-foreground">Цей текст буде по центру і великим!</p>}
         />
 
         <LessonCard
@@ -98,15 +98,15 @@ button {
 </table>`}
           language="html"
           result={
-            <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+            <table style={{ borderCollapse: 'collapse', width: '100%' }} className="border border-border">
               <tbody>
                 <tr>
-                  <td style={{ border: '1px solid black', padding: '8px' }}>Рядок 1, Комірка 1</td>
-                  <td style={{ border: '1px solid black', padding: '8px' }}>Рядок 2, Комірка 1</td>
+                  <td className="border border-border px-4 py-2 bg-background text-foreground">Рядок 1, Комірка 1</td>
+                  <td className="border border-border px-4 py-2 bg-background text-foreground">Рядок 1, Комірка 2</td>
                 </tr>
                 <tr>
-                  <td style={{ border: '1px solid black', padding: '8px' }}>Рядок 2, Комірка 1</td>
-                  <td style={{ border: '1px solid black', padding: '8px' }}>Рядок 2, Комірка 2</td>
+                  <td className="border border-border px-4 py-2 bg-background text-foreground">Рядок 2, Комірка 1</td>
+                  <td className="border border-border px-4 py-2 bg-background text-foreground">Рядок 2, Комірка 2</td>
                 </tr>
               </tbody>
             </table>

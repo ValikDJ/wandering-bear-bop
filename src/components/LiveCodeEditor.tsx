@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { useTheme } from "@/hooks/use-theme"; // Import useTheme
 
 interface LiveCodeEditorProps {
   id?: string; // Додано id
@@ -20,14 +21,56 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
   const [htmlCode, setHtmlCode] = useState(initialHtml);
   const [cssCode, setCssCode] = useState(initialCss);
   const [outputSrcDoc, setOutputSrcDoc] = useState("");
+  const { actualTheme } = useTheme(); // Get current theme
 
   useEffect(() => {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const themeVars = [
+      '--background', '--foreground', '--card', '--card-foreground',
+      '--popover', '--popover-foreground', '--primary', '--primary-foreground',
+      '--secondary', '--secondary-foreground', '--muted', '--muted-foreground',
+      '--accent', '--accent-foreground', '--destructive', '--destructive-foreground',
+      '--border', '--input', '--ring', '--radius',
+      '--brand-primary', '--brand-primary-hover',
+      '--playground-element-bg', '--playground-element-border', '--playground-element-text'
+    ].map(v => `${v}: ${rootStyles.getPropertyValue(v)};`).join('\n');
+
     const generateSrcDoc = () => {
       return `
         <!DOCTYPE html>
         <html>
         <head>
-          <style>${cssCode}</style>
+          <style>
+            :root {
+              ${themeVars}
+            }
+            body {
+              margin: 0;
+              padding: 10px;
+              font-family: sans-serif;
+              background-color: hsl(var(--background));
+              color: hsl(var(--foreground));
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              min-height: 100%;
+              box-sizing: border-box;
+            }
+            /* Default styles for common elements to ensure readability */
+            h1, h2, h3, h4, h5, h6 { color: hsl(var(--foreground)); }
+            p { color: hsl(var(--foreground)); }
+            a { color: hsl(var(--brand-primary)); text-decoration: underline; }
+            button {
+              background-color: hsl(var(--brand-primary));
+              color: hsl(var(--primary-foreground));
+              padding: 8px 16px;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+            }
+            /* User's CSS will override these */
+            ${cssCode}
+          </style>
         </head>
         <body>
           ${htmlCode}
@@ -36,7 +79,7 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
       `;
     };
     setOutputSrcDoc(generateSrcDoc());
-  }, [htmlCode, cssCode]);
+  }, [htmlCode, cssCode, actualTheme]); // Add actualTheme to dependencies
 
   const handleHtmlChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setHtmlCode(e.target.value);
