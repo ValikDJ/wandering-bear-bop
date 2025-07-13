@@ -16,7 +16,7 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import CssPlayground from "./pages/CssPlayground";
 import Login from "./pages/Login";
-import ProfilePage from "./pages/ProfilePage"; // Import ProfilePage
+import ProfilePage from "./pages/ProfilePage";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { SessionContextProvider } from "@/components/SessionContextProvider";
 import AuthGuard from "@/components/AuthGuard";
@@ -46,10 +46,11 @@ const App = () => {
                   <Route path="/css-properties" element={<CssProperties />} />
                   <Route path="/css-selectors" element={<CssSelectors />} />
                   <Route path="/examples" element={<Examples />} />
-                  {/* Захищені маршрути */}
-                  <Route path="/project-template" element={<AuthGuard><ProjectTemplate /></AuthGuard>} />
-                  <Route path="/quiz" element={<AuthGuard><QuizPage /></AuthGuard>} />
-                  <Route path="/profile" element={<AuthGuard><ProfilePage /></AuthGuard>} /> {/* New protected route */}
+                  {/* Ці маршрути тепер доступні всім */}
+                  <Route path="/project-template" element={<ProjectTemplate />} />
+                  <Route path="/quiz" element={<QuizPage />} />
+                  {/* Захищений маршрут */}
+                  <Route path="/profile" element={<AuthGuard><ProfilePage /></AuthGuard>} />
                   {/* Кінець захищених маршрутів */}
                   <Route path="/search" element={<SearchResultsPage />} />
                   <Route path="/glossary" element={<GlossaryPage />} />
