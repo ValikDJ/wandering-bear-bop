@@ -28,7 +28,7 @@ const DeleteAllMessagesDialog: React.FC<DeleteAllMessagesDialogProps> = ({ onDel
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-card text-card-foreground">
         <AlertDialogHeader>
-          <AlertDialogTitle>Ви впевнені?</AlertDialogDTitle>
+          <AlertDialogTitle>Ви впевнені?</AlertDialogTitle>
           <AlertDialogDescription>
             Ця дія видалить всі повідомлення з чату назавжди. Цю дію неможливо скасувати.
           </AlertDialogDescription>
