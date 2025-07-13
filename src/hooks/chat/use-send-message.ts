@@ -2,11 +2,15 @@ import { useState, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { User } from '@supabase/supabase-js';
-import { Message } from '@/types/chat';
+import { Message, MessageExpiryDuration } from '@/types/chat'; // NEW IMPORT
 
 const MAX_FILE_SIZE_MB = 25;
 
-export const useSendMessage = (user: User | null, chatPermissionLevel: 'all' | 'authenticated' | 'unauthenticated' | 'none') => {
+export const useSendMessage = (
+  user: User | null,
+  chatPermissionLevel: 'all' | 'authenticated' | 'unauthenticated' | 'none',
+  messageExpiryDuration: MessageExpiryDuration // NEW PARAMETER
+) => {
   const [newMessage, setNewMessage] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [uploadingFile, setUploadingFile] = useState(false);
@@ -28,6 +32,26 @@ export const useSendMessage = (user: User | null, chatPermissionLevel: 'all' | '
     return true;
   };
 
+  const calculateExpiry = (duration: MessageExpiryDuration): string | null => {
+    if (duration === 'never') return null;
+
+    const now = new Date();
+    let expiresAt = new Date(now.getTime()); // Clone current time
+
+    switch (duration) {
+      case '1h':
+        expiresAt.setHours(expiresAt.getHours() + 1);
+        break;
+      case '24h':
+        expiresAt.setDate(expiresAt.getDate() + 1);
+        break;
+      case '7d':
+        expiresAt.setDate(expiresAt.getDate() + 7);
+        break;
+    }
+    return expiresAt.toISOString();
+  };
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() && !file) return;
@@ -37,6 +61,7 @@ export const useSendMessage = (user: User | null, chatPermissionLevel: 'all' | '
 
     let messageType: Message['type'] = 'text';
     let fileUrl: string | undefined = undefined;
+    const expiresAt = calculateExpiry(messageExpiryDuration); // Calculate expiry
 
     if (file) {
       setUploadingFile(true);
@@ -79,6 +104,7 @@ export const useSendMessage = (user: User | null, chatPermissionLevel: 'all' | '
       content: newMessage.trim(),
       type: messageType,
       file_url: fileUrl,
+      expires_at: expiresAt, // NEW: Add expires_at
     });
 
     if (error) {

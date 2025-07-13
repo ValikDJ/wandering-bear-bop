@@ -10,16 +10,17 @@ import { useMessageActions } from '@/hooks/chat/use-message-actions';
 
 import MessageList from '@/components/chat/MessageList';
 import ChatInput from '@/components/chat/ChatInput';
-import ChatAdminControls from '@/components/chat/ChatAdminControls'; // NEW IMPORT
+import ChatAdminControls from '@/components/chat/ChatAdminControls';
 import { toast } from 'sonner';
+import { MessageExpiryDuration } from '@/types/chat'; // NEW IMPORT
 
 interface ChatWindowProps {
   onClose: () => void;
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
-  const { messages, isSessionLoading, user, isOrganizer, messagesEndRef, setMessages, chatPermissionLevel } = useChatMessages();
-  const { newMessage, setNewMessage, file, setFile, uploadingFile, handleSendMessage, handleFileSelect, canSendMessage } = useSendMessage(user, chatPermissionLevel);
+  const { messages, isSessionLoading, user, isOrganizer, messagesEndRef, setMessages, chatPermissionLevel, messageExpiryDuration, setMessageExpiryDuration } = useChatMessages(); // NEW: messageExpiryDuration, setMessageExpiryDuration
+  const { newMessage, setNewMessage, file, setFile, uploadingFile, handleSendMessage, handleFileSelect, canSendMessage } = useSendMessage(user, chatPermissionLevel, messageExpiryDuration); // NEW: Pass messageExpiryDuration
   const {
     editingMessageId,
     setEditingMessageId,
@@ -49,6 +50,25 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
     }
   };
 
+  const handleMessageExpiryChange = async (duration: MessageExpiryDuration) => { // NEW HANDLER
+    if (!isOrganizer) {
+      toast.error('У вас немає дозволу змінювати налаштування чату.');
+      return;
+    }
+    const { error } = await supabase
+      .from('chat_settings')
+      .update({ message_expiry_duration: duration }) // Assuming chat_settings has this column
+      .eq('id', '00000000-0000-0000-0000-000000000001');
+
+    if (error) {
+      console.error('Error updating message expiry duration:', error);
+      toast.error(`Помилка оновлення терміну дії повідомлень: ${error.message}`);
+    } else {
+      toast.success(`Термін дії повідомлень встановлено на: ${duration}`);
+      setMessageExpiryDuration(duration); // Update local state
+    }
+  };
+
   const showChatInput = () => {
     if (isOrganizer) return true; // Organizer can always write
     if (chatPermissionLevel === 'all') return true;
@@ -75,12 +95,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       <SheetHeader className="p-4 border-b border-border flex flex-row justify-between items-center">
         <SheetTitle className="text-xl font-bold">Спільний Чат</SheetTitle>
         <SheetDescription className="sr-only">Чат для спілкування з організатором та іншими учасниками.</SheetDescription>
-        <div className="flex items-center gap-2"> {/* Group controls */}
+        <div className="flex items-center gap-2">
           {isOrganizer && (
             <ChatAdminControls
               chatPermissionLevel={chatPermissionLevel}
               onPermissionChange={handlePermissionChange}
               onDeleteAllMessages={handleDeleteAllMessages}
+              messageExpiryDuration={messageExpiryDuration} // NEW
+              onMessageExpiryChange={handleMessageExpiryChange} // NEW
             />
           )}
           <Button variant="ghost" size="icon" onClick={onClose}>

@@ -9,20 +9,25 @@ import {
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Users, UserCheck, UserX, Lock, Settings, Trash2 } from 'lucide-react';
+import { Users, UserCheck, UserX, Lock, Settings, Trash2, Clock } from 'lucide-react'; // Import Clock
 import DeleteAllMessagesDialog from './DeleteAllMessagesDialog';
 import { toast } from 'sonner';
+import { MessageExpiryDuration } from '@/types/chat'; // NEW IMPORT
 
 interface ChatAdminControlsProps {
   chatPermissionLevel: 'all' | 'authenticated' | 'unauthenticated' | 'none';
   onPermissionChange: (newPermission: 'all' | 'authenticated' | 'unauthenticated' | 'none') => void;
   onDeleteAllMessages: () => Promise<void>;
+  messageExpiryDuration: MessageExpiryDuration; // NEW PROP
+  onMessageExpiryChange: (duration: MessageExpiryDuration) => void; // NEW PROP
 }
 
 const ChatAdminControls: React.FC<ChatAdminControlsProps> = ({
   chatPermissionLevel,
   onPermissionChange,
   onDeleteAllMessages,
+  messageExpiryDuration, // NEW
+  onMessageExpiryChange, // NEW
 }) => {
   const getPermissionDescription = (level: 'all' | 'authenticated' | 'unauthenticated' | 'none') => {
     switch (level) {
@@ -41,6 +46,16 @@ const ChatAdminControls: React.FC<ChatAdminControlsProps> = ({
       case 'unauthenticated': return <UserX className="mr-2 h-4 w-4" />;
       case 'none': return <Lock className="mr-2 h-4 w-4" />;
       default: return null;
+    }
+  };
+
+  const getExpiryDescription = (duration: MessageExpiryDuration) => {
+    switch (duration) {
+      case 'never': return 'Повідомлення не видаляються автоматично.';
+      case '1h': return 'Повідомлення видаляються через 1 годину.';
+      case '24h': return 'Повідомлення видаляються через 24 години.';
+      case '7d': return 'Повідомлення видаляються через 7 днів.';
+      default: return '';
     }
   };
 
@@ -80,6 +95,30 @@ const ChatAdminControls: React.FC<ChatAdminControlsProps> = ({
           </Select>
         </DropdownMenuItem>
         <p className="text-xs text-muted-foreground px-2 py-1">{getPermissionDescription(chatPermissionLevel)}</p>
+
+        <DropdownMenuSeparator className="my-2 bg-border" />
+
+        {/* NEW: Message Expiry Setting */}
+        <DropdownMenuLabel className="text-sm font-semibold text-muted-foreground mb-2 mt-4">
+          Автоматичне видалення повідомлень
+        </DropdownMenuLabel>
+        <DropdownMenuItem className="p-0 focus:bg-transparent focus:text-popover-foreground">
+          <Select value={messageExpiryDuration} onValueChange={onMessageExpiryChange}>
+            <SelectTrigger className="w-full text-left flex items-center justify-between px-2 py-1.5 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground">
+              <div className="flex items-center">
+                <Clock className="mr-2 h-4 w-4" />
+                <SelectValue placeholder="Виберіть термін" />
+              </div>
+            </SelectTrigger>
+            <SelectContent className="bg-popover text-popover-foreground">
+              <SelectItem value="never">Ніколи</SelectItem>
+              <SelectItem value="1h">Через 1 годину</SelectItem>
+              <SelectItem value="24h">Через 24 години</SelectItem>
+              <SelectItem value="7d">Через 7 днів</SelectItem>
+            </SelectContent>
+          </Select>
+        </DropdownMenuItem>
+        <p className="text-xs text-muted-foreground px-2 py-1">{getExpiryDescription(messageExpiryDuration)}</p>
 
         <DropdownMenuSeparator className="my-2 bg-border" />
 
