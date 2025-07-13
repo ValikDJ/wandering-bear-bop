@@ -18,8 +18,9 @@ import { ThemeProvider } from "@/hooks/use-theme";
 import React, { useState, useEffect, useCallback } from "react";
 
 const queryClient = new QueryClient();
-const basename = import.meta.env.BASE_URL;
-const CHARACTER_STORAGE_KEY = "selected-ai-character"; // Змінимо назву ключа, якщо персонажі більше не AI
+// Визначаємо basename умовно: для розробки використовуємо '/', для продакшену - шлях з vite.config.ts
+const appBasename = import.meta.env.PROD ? import.meta.env.BASE_URL : '/';
+const CHARACTER_STORAGE_KEY = "selected-ai-character";
 
 const App = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<'robot' | 'cat' | 'owl' | null>(null);
@@ -43,8 +44,8 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter basename={basename}>
-            <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm} selectedCharacter={selectedCharacter}> {/* Передаємо selectedCharacter до Layout */}
+          <BrowserRouter basename={appBasename}> {/* Використовуємо умовний basename */}
+            <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm} selectedCharacter={selectedCharacter}>
               <Routes>
                 <Route path="/" element={<Index selectedCharacter={selectedCharacter} onCharacterSelect={handleCharacterSelect} />} />
                 <Route path="/html-tags" element={<HtmlTags />} />
