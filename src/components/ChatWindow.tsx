@@ -7,6 +7,7 @@ import { Send, Paperclip, XCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom'; // Додано імпорт Link
 
 interface Message {
   id: string;
@@ -42,7 +43,16 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
 
   // Fetch initial messages and subscribe to real-time updates
   useEffect(() => {
+    let subscription: any;
+
     const fetchMessages = async () => {
+      // Only fetch if user is authenticated
+      if (!user) {
+        setMessages([]); // Clear messages if user logs out or is not authenticated
+        console.warn('Cannot fetch chat messages: User not authenticated.');
+        return;
+      }
+
       const { data, error } = await supabase
         .from('messages')
         .select('*, profiles(first_name, last_name)') // Fetch sender's profile info
@@ -50,7 +60,12 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
 
       if (error) {
         console.error('Error fetching messages:', error);
-        toast.error('Помилка завантаження повідомлень чату.');
+        // Only show toast error if it's not an RLS permission error (code '42501')
+        if (error.code !== '42501') {
+          toast.error('Помилка завантаження повідомлень чату.');
+        } else {
+          console.warn('RLS error fetching messages, likely due to unauthenticated user trying to access protected data.');
+        }
       } else {
         const messagesWithSenderInfo = data.map(msg => ({
           ...msg,
@@ -60,42 +75,49 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
       }
     };
 
-    fetchMessages();
+    // Call fetchMessages only when session loading is complete and user status is known
+    if (!isSessionLoading) {
+      fetchMessages();
 
-    // Realtime subscription
-    const subscription = supabase
-      .channel('chat_room')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'messages' },
-        async (payload) => {
-          const newMsg = payload.new as Message;
-          // Fetch sender's profile for the new message
-          const { data: profileData, error: profileError } = await supabase
-            .from('profiles')
-            .select('first_name, last_name')
-            .eq('id', newMsg.sender_id)
-            .single();
+      // Realtime subscription should also depend on user being present
+      if (user) {
+        subscription = supabase
+          .channel('chat_room')
+          .on(
+            'postgres_changes',
+            { event: 'INSERT', schema: 'public', table: 'messages' },
+            async (payload) => {
+              const newMsg = payload.new as Message;
+              // Fetch sender's profile for the new message
+              const { data: profileData, error: profileError } = await supabase
+                .from('profiles')
+                .select('first_name, last_name')
+                .eq('id', newMsg.sender_id)
+                .single();
 
-          if (profileError && profileError.code !== 'PGRST116') {
-            console.error('Error fetching profile for new message:', profileError);
-          }
+              if (profileError && profileError.code !== 'PGRST116') {
+                console.error('Error fetching profile for new message:', profileError);
+              }
 
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            {
-              ...newMsg,
-              sender_email: profileData ? `${profileData.first_name || ''} ${profileData.last_name || ''}`.trim() || 'Організатор' : 'Невідомий',
-            },
-          ]);
-        }
-      )
-      .subscribe();
+              setMessages((prevMessages) => [
+                ...prevMessages,
+                {
+                  ...newMsg,
+                  sender_email: profileData ? `${profileData.first_name || ''} ${profileData.last_name || ''}`.trim() || 'Організатор' : 'Невідомий',
+                },
+              ]);
+            }
+          )
+          .subscribe();
+      }
+    }
 
     return () => {
-      supabase.removeChannel(subscription);
+      if (subscription) {
+        supabase.removeChannel(subscription);
+      }
     };
-  }, []);
+  }, [user, isSessionLoading]); // Add user and isSessionLoading to dependencies
 
   useEffect(() => {
     scrollToBottom();
@@ -213,7 +235,11 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
 
       <ScrollArea className="flex-1 p-4 custom-scrollbar">
         <div className="flex flex-col space-y-4">
-          {messages.length === 0 && !isSessionLoading ? (
+          {isSessionLoading ? (
+            <p className="text-center text-muted-foreground">Завантаження чату...</p>
+          ) : !user ? (
+            <p className="text-center text-muted-foreground">Будь ласка, <Link to="/login" className="text-blue-500 hover:underline" onClick={onClose}>увійдіть</Link>, щоб переглядати та надсилати повідомлення.</p>
+          ) : messages.length === 0 ? (
             <p className="text-center text-muted-foreground">Поки що немає повідомлень. {isOrganizer ? 'Надішліть перше!' : 'Чекаємо на повідомлення від організатора.'}</p>
           ) : (
             messages.map((msg) => (
@@ -242,7 +268,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
         </div>
       </ScrollArea>
 
-      {isOrganizer && (
+      {user && isOrganizer && (
         <form onSubmit={handleSendMessage} className="p-4 border-t border-border flex items-center gap-2">
           <Input
             type="text"
@@ -286,10 +312,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
           </Button>
         </form>
       )}
-      {!isOrganizer && !isSessionLoading && (
+      {user && !isOrganizer && (
         <div className="p-4 border-t border-border text-center text-muted-foreground text-sm">
           Ви можете лише переглядати повідомлення в цьому чаті.
         </div>
+      )}
+      {!user && !isSessionLoading && (
+        // Якщо користувач не авторизований, поле введення не відображається,
+        // а повідомлення про вхід відображається у ScrollArea.
+        null
       )}
     </div>
   );
