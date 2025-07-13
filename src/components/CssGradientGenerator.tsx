@@ -203,7 +203,7 @@ const CssGradientGenerator: React.FC = () => {
               <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Перегляд:</h4>
               <div
                 className="w-full h-64 border border-border rounded-md flex items-center justify-center"
-                style={{ background: generatedCssValue }} {/* Use only the gradient value here */}
+                style={{ background: generatedCssValue }}
               >
                 <span className="text-white text-lg font-bold text-shadow-sm">Твій Градієнт</span>
               </div>
@@ -212,7 +212,7 @@ const CssGradientGenerator: React.FC = () => {
               <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Згенерований CSS:</h4>
               <div className="relative">
                 <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '200px', overflowY: 'auto' }}>
-                  {generatedCssCode} {/* Display the full CSS declaration */}
+                  {generatedCssCode}
                 </SyntaxHighlighter>
                 <Button
                   onClick={handleCopy}
