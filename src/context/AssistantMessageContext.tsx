@@ -8,7 +8,7 @@ interface AssistantMessageContextType {
 
 const AssistantMessageContext = createContext<AssistantMessageContextType | undefined>(undefined);
 
-const DEFAULT_MESSAGE_DURATION = 5000; // 5 секунд
+const DEFAULT_MESSAGE_DURATION = 7000; // 7 секунд
 
 export const AssistantMessageProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [currentMessage, setCurrentMessage] = useState<string | null>(null);

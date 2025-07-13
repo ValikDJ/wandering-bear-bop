@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, Eye, EyeOff } from "lucide-react"; // Імпортуємо Eye та EyeOff
+import { Menu } from "lucide-react"; // Видалено Eye та EyeOff
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ThemeToggle from "./ThemeToggle";
@@ -11,22 +11,14 @@ import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Ім
 
 interface NavbarProps {
   onOpenMobileSidebar: () => void;
-  isAssistantVisible: boolean; // Новий prop
-  toggleAssistantVisibility: () => void; // Новий prop
+  // Видалено isAssistantVisible та toggleAssistantVisibility
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar, isAssistantVisible, toggleAssistantVisibility }) => {
+const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => { // Оновлено пропси
   const isMobile = useIsMobile();
   const { sendMessage } = useAssistantMessage(); // Використання хука
 
-  const handleToggleAssistant = () => {
-    toggleAssistantVisibility();
-    if (isAssistantVisible) {
-      sendMessage("Помічник прихований. Я завжди поруч, якщо знадоблюсь!");
-    } else {
-      sendMessage("Привіт! Я знову тут, готовий допомогти!");
-    }
-  };
+  // Видалено handleToggleAssistant
 
   // Допоміжна функція для рендерингу посилань для мобільного меню
   const renderMobileNavLinks = (items: SidebarNavItem[], level: number = 0) => {
@@ -74,17 +66,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar, isAssistantVisible
         <div className="flex items-center gap-2">
           <ThemeToggle />
 
-          {/* Кнопка для перемикання видимості помічника */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-primary-foreground hover:bg-primary-foreground/20"
-            onClick={handleToggleAssistant}
-            aria-label={isAssistantVisible ? "Приховати помічника" : "Показати помічника"}
-          >
-            {isAssistantVisible ? <EyeOff className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
-            <span className="sr-only">{isAssistantVisible ? "Приховати помічника" : "Показати помічника"}</span>
-          </Button>
+          {/* Кнопка для перемикання видимості помічника ВИДАЛЕНА ЗВІДСИ */}
 
           {isMobile ? (
             <Sheet>

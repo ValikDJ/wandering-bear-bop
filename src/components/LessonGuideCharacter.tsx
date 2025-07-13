@@ -2,10 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAssistantMessage } from '@/context/AssistantMessageContext';
+import { Button } from "@/components/ui/button"; // Імпорт Button
+import { Eye, EyeOff } from "lucide-react"; // Імпорт Eye та EyeOff
 
 interface LessonGuideCharacterProps {
   characterType: 'robot' | 'cat' | 'owl';
-  isVisible: boolean; // Новий prop
+  isVisible: boolean;
+  toggleAssistantVisibility: () => void; // Додано новий prop
 }
 
 const pageMessages: { [key: string]: string } = {
@@ -20,9 +23,9 @@ const pageMessages: { [key: string]: string } = {
   default: 'Продовжуй досліджувати світ веб-розробки! Ти чудово справляєшся!',
 };
 
-const LessonGuideCharacter: React.FC<LessonGuideCharacterProps> = ({ characterType, isVisible }) => {
+const LessonGuideCharacter: React.FC<LessonGuideCharacterProps> = ({ characterType, isVisible, toggleAssistantVisibility }) => {
   const location = useLocation();
-  const { currentMessage: dynamicMessage, isMessageActive } = useAssistantMessage();
+  const { currentMessage: dynamicMessage, isMessageActive, sendMessage } = useAssistantMessage();
   const [displayMessage, setDisplayMessage] = useState<string>('');
 
   useEffect(() => {
@@ -81,12 +84,43 @@ const LessonGuideCharacter: React.FC<LessonGuideCharacterProps> = ({ characterTy
     }
   }, [characterType]);
 
+  // Якщо помічник невидимий, не рендеримо нічого
   if (!isVisible) {
-    return null;
+    return (
+      <div className="fixed bottom-4 right-4 z-50">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="bg-card text-foreground hover:bg-card/80 shadow-lg rounded-full w-10 h-10"
+          onClick={() => {
+            toggleAssistantVisibility();
+            sendMessage("Привіт! Я знову тут, готовий допомогти!");
+          }}
+          aria-label="Показати помічника"
+        >
+          <Eye className="h-5 w-5" />
+        </Button>
+      </div>
+    );
   }
 
   return (
     <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end">
+      {/* Кнопка приховування/розгортання */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="bg-card text-foreground hover:bg-card/80 shadow-lg rounded-full w-10 h-10 mb-2"
+        onClick={() => {
+          toggleAssistantVisibility();
+          sendMessage("Помічник прихований. Я завжди поруч, якщо знадоблюсь!");
+        }}
+        aria-label="Приховати помічника"
+      >
+        <EyeOff className="h-5 w-5" />
+      </Button>
+
+      {/* Повідомлення помічника */}
       <div className={cn(
         "bg-card border border-border rounded-lg shadow-xl p-3 mb-2 max-w-xs text-right relative",
         "transition-opacity duration-300 ease-in-out",

@@ -12,8 +12,8 @@ interface LayoutProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   selectedCharacter: 'robot' | 'cat' | 'owl' | null;
-  isAssistantVisible: boolean; // Новий prop
-  toggleAssistantVisibility: () => void; // Новий prop
+  isAssistantVisible: boolean;
+  toggleAssistantVisibility: () => void;
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -21,8 +21,8 @@ const Layout: React.FC<LayoutProps> = ({
   searchTerm,
   setSearchTerm,
   selectedCharacter,
-  isAssistantVisible, // Деструктуруємо
-  toggleAssistantVisibility, // Деструктуруємо
+  isAssistantVisible,
+  toggleAssistantVisibility,
 }) => {
   const isMobile = useIsMobile();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -35,8 +35,7 @@ const Layout: React.FC<LayoutProps> = ({
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Navbar
         onOpenMobileSidebar={handleOpenMobileSidebar}
-        isAssistantVisible={isAssistantVisible} // Передаємо в Navbar
-        toggleAssistantVisibility={toggleAssistantVisibility} // Передаємо в Navbar
+        // Видалено isAssistantVisible та toggleAssistantVisibility з Navbar
       />
       <div className="flex flex-1">
         {isMobile ? (
@@ -65,7 +64,8 @@ const Layout: React.FC<LayoutProps> = ({
       {selectedCharacter && (
         <LessonGuideCharacter
           characterType={selectedCharacter}
-          isVisible={isAssistantVisible} // Передаємо видимість помічнику
+          isVisible={isAssistantVisible}
+          toggleAssistantVisibility={toggleAssistantVisibility} // Передаємо функцію
         />
       )}
     </div>
