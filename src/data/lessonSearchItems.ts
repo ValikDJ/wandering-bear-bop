@@ -1,4 +1,4 @@
-import { SearchItem } from "./searchIndex"; // Import the interface
+import { SearchItem } from "./searchIndex";
 
 export const lessonSearchItems: SearchItem[] = [
   {
@@ -391,8 +391,16 @@ export const lessonSearchItems: SearchItem[] = [
     description: "Інтерактивний редактор для експериментів з CSS та автозаповненням.",
     path: "/css-playground",
     keywords: ["css", "майстерня", "редактор", "автозаповнення", "кольори", "інтерактив"],
-    sectionId: "css-playground-editor", // Matches the ID in CssPlayground.tsx
-    type: "example", // Categorized as an example/tool
+    sectionId: "css-playground-editor",
+    type: "example",
+    difficulty: "easy",
+  },
+  {
+    title: "Мій Профіль",
+    description: "Сторінка для перегляду та оновлення особистих даних користувача.",
+    path: "/profile",
+    keywords: ["профіль", "користувач", "налаштування", "мої дані", "редагувати профіль"],
+    type: "lesson", // Using 'lesson' type for now, could be 'user-setting' if a new type is added
     difficulty: "easy",
   },
 ];

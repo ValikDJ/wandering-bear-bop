@@ -1,14 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, LogIn, LogOut } from "lucide-react"; // Import LogIn and LogOut icons
+import { Menu, LogIn, LogOut, UserCircle2 } from "lucide-react"; // Import UserCircle2 icon
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"; // Import DropdownMenu components
 import { useIsMobile } from "@/hooks/use-mobile";
 import ThemeToggle from "./ThemeToggle";
 import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import { cn } from "@/lib/utils";
-import { useSession } from "@/components/SessionContextProvider"; // Import useSession hook
-import { signOut } from "@/integrations/supabase/auth"; // Import signOut utility
+import { useSession } from "@/components/SessionContextProvider";
+import { signOut } from "@/integrations/supabase/auth";
 import { toast } from "sonner";
 
 interface NavbarProps {
@@ -17,7 +24,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
   const isMobile = useIsMobile();
-  const { session, isLoading, user } = useSession(); // Get session, loading state, and user
+  const { session, isLoading, user } = useSession();
 
   const handleLogout = async () => {
     const { error } = await signOut();
@@ -28,7 +35,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
     }
   };
 
-  // Допоміжна функція для рендерингу посилань для мобільного меню
   const renderMobileNavLinks = (items: SidebarNavItem[], level: number = 0) => {
     return items.map(item => {
       const isGroup = item.children && item.children.length > 0;
@@ -77,23 +83,29 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
           {/* User Info and Login/Logout Button */}
           {!isLoading && (
             session ? (
-              <>
-                {user?.email && (
-                  <span className="text-sm mr-2 hidden md:inline-block">
-                    Привіт, {user.email}!
-                  </span>
-                )}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-primary-foreground hover:bg-primary-foreground/20"
-                  onClick={handleLogout}
-                  aria-label="Вийти"
-                >
-                  <LogOut className="h-6 w-6" />
-                  <span className="sr-only">Вийти</span>
-                </Button>
-              </>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="flex items-center gap-2 text-primary-foreground hover:bg-primary-foreground/20"
+                    aria-label="Меню користувача"
+                  >
+                    <UserCircle2 className="h-6 w-6" />
+                    <span className="hidden md:inline-block">{user?.email || 'Мій Профіль'}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="bg-popover text-popover-foreground">
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link to="/profile" className="flex items-center gap-2">
+                      <UserCircle2 className="h-4 w-4" /> Мій Профіль
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-border" />
+                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer flex items-center gap-2 text-destructive">
+                    <LogOut className="h-4 w-4" /> Вийти
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Button asChild variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/20">
                 <Link to="/login" aria-label="Увійти">
@@ -119,6 +131,17 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
                     <p className="px-4 py-2 text-primary-foreground/80 font-semibold text-sm">
                       Привіт, {user.email}!
                     </p>
+                  )}
+                  {/* Add Profile link to mobile sidebar */}
+                  {!isLoading && session && (
+                    <SheetClose asChild>
+                      <Link
+                        to="/profile"
+                        className="block py-2 px-4 text-primary-foreground hover:bg-primary-foreground/20"
+                      >
+                        <UserCircle2 className="mr-2 h-4 w-4" /> Мій Профіль
+                      </Link>
+                    </SheetClose>
                   )}
                   {renderMobileNavLinks(sidebarNavData)}
                   {/* Add Login/Logout to mobile sidebar */}

@@ -1,5 +1,5 @@
 import { SearchItem, searchIndex } from "./searchIndex";
-import { BookOpenText, Code, Lightbulb, GraduationCap, FileText, Book, Paintbrush } from "lucide-react"; // Імпорт іконок
+import { BookOpenText, Code, Lightbulb, GraduationCap, FileText, Book, Paintbrush, User } from "lucide-react"; // Імпорт іконок, додано User
 
 export interface SidebarNavItem {
   id: string;
@@ -31,7 +31,8 @@ const projectTemplate = searchIndex.filter(item => item.type === 'project-templa
 const quiz = searchIndex.filter(item => item.type === 'quiz');
 const glossary = searchIndex.filter(item => item.type === 'glossary');
 const cssPlayground = searchIndex.filter(item => item.path === '/css-playground');
-const cssGradientGenerator = searchIndex.filter(item => item.path === '/examples' && item.sectionId === 'example-css-gradient-generator'); // NEW FILTER
+const cssGradientGenerator = searchIndex.filter(item => item.path === '/examples' && item.sectionId === 'example-css-gradient-generator');
+const profilePage = searchIndex.filter(item => item.path === '/profile'); // NEW FILTER FOR PROFILE PAGE
 
 export const sidebarNavData: SidebarNavItem[] = [
   {
@@ -92,22 +93,22 @@ export const sidebarNavData: SidebarNavItem[] = [
         path: "/project-template",
         icon: FileText,
         type: "project-template",
-        keywords: projectTemplate[0]?.keywords, // Припускаємо, що є лише один шаблон проекту
+        keywords: projectTemplate[0]?.keywords,
       },
-      { // NEW ITEM FOR CSS PLAYGROUND
+      {
         id: "css-playground-item",
         title: "CSS Майстерня",
         path: "/css-playground",
         icon: Paintbrush,
-        type: "example", // Or a new type if preferred, but 'example' fits
+        type: "example",
         keywords: cssPlayground[0]?.keywords,
       },
-      { // NEW ITEM FOR CSS GRADIENT GENERATOR
+      {
         id: "css-gradient-generator-item",
         title: "Генератор CSS Градієнтів",
         path: "/examples",
         sectionId: "example-css-gradient-generator",
-        icon: Paintbrush, // Reusing Paintbrush icon
+        icon: Paintbrush,
         type: "example",
         keywords: cssGradientGenerator[0]?.keywords,
       },
@@ -124,7 +125,22 @@ export const sidebarNavData: SidebarNavItem[] = [
         path: "/quiz",
         icon: GraduationCap,
         type: "quiz",
-        keywords: quiz[0]?.keywords, // Припускаємо, що є лише один тест
+        keywords: quiz[0]?.keywords,
+      },
+    ],
+  },
+  {
+    id: "user-management", // New group for user-related pages
+    title: "Керування Користувачем",
+    icon: User,
+    children: [
+      {
+        id: "profile-page-item",
+        title: "Мій Профіль",
+        path: "/profile",
+        icon: User,
+        type: "lesson", // Can be 'lesson' or a new type like 'user-setting'
+        keywords: profilePage[0]?.keywords || ["профіль", "користувач", "налаштування", "мої дані"],
       },
     ],
   },
@@ -139,7 +155,7 @@ export const sidebarNavData: SidebarNavItem[] = [
         path: "/glossary",
         icon: Book,
         type: "glossary",
-        keywords: glossary.flatMap(item => item.keywords), // Об'єднання всіх ключових слів словника
+        keywords: glossary.flatMap(item => item.keywords),
       },
     ],
   },

@@ -16,9 +16,10 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import CssPlayground from "./pages/CssPlayground";
 import Login from "./pages/Login";
+import ProfilePage from "./pages/ProfilePage"; // Import ProfilePage
 import { ThemeProvider } from "@/hooks/use-theme";
 import { SessionContextProvider } from "@/components/SessionContextProvider";
-import AuthGuard from "@/components/AuthGuard"; // Import AuthGuard
+import AuthGuard from "@/components/AuthGuard";
 import React, { useState } from "react";
 
 const queryClient = new QueryClient();
@@ -48,6 +49,7 @@ const App = () => {
                   {/* Захищені маршрути */}
                   <Route path="/project-template" element={<AuthGuard><ProjectTemplate /></AuthGuard>} />
                   <Route path="/quiz" element={<AuthGuard><QuizPage /></AuthGuard>} />
+                  <Route path="/profile" element={<AuthGuard><ProfilePage /></AuthGuard>} /> {/* New protected route */}
                   {/* Кінець захищених маршрутів */}
                   <Route path="/search" element={<SearchResultsPage />} />
                   <Route path="/glossary" element={<GlossaryPage />} />
