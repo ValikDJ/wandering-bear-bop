@@ -24,6 +24,7 @@ const CHARACTER_STORAGE_KEY = "selected-ai-character";
 
 const App = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<'robot' | 'cat' | 'owl' | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>(""); // Новий стан для глобального пошукового запиту
 
   useEffect(() => {
     const storedCharacter = localStorage.getItem(CHARACTER_STORAGE_KEY) as 'robot' | 'cat' | 'owl' | null;
@@ -44,7 +45,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter basename={basename}>
-            <Layout>
+            <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm}> {/* Передаємо стан пошуку до Layout */}
               <Routes>
                 <Route path="/" element={<Index selectedCharacter={selectedCharacter} onCharacterSelect={handleCharacterSelect} />} />
                 <Route path="/html-tags" element={<HtmlTags />} />
@@ -55,7 +56,7 @@ const App = () => {
                 <Route path="/quiz" element={<QuizPage />} />
                 <Route path="/search" element={<SearchResultsPage />} />
                 <Route path="/glossary" element={<GlossaryPage />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>
