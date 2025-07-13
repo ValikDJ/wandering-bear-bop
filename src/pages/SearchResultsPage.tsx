@@ -8,7 +8,7 @@ import { glossaryData, GlossaryTerm } from "@/data/glossaryData";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { highlightText, escapeRegExp } from "@/lib/utils";
-import Fuse from 'fuse.js';
+import Fuse from 'fuse.js'; // Виправлено імпорт
 import { expandQueryWithSynonyms } from "@/data/synonymMap";
 
 const getEmojiForType = (type: SearchItem['type']) => {

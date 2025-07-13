@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@google/generative-ai':
-        specifier: ^0.24.1
-        version: 0.24.1
       '@hookform/resolvers':
         specifier: ^3.9.0
         version: 3.10.0(react-hook-form@7.55.0(react@18.3.1))
@@ -128,9 +125,6 @@ importers:
       next-themes:
         specifier: ^0.3.0
         version: 0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      openai:
-        specifier: ^5.9.0
-        version: 5.9.0(ws@8.18.3)(zod@3.24.3)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -464,10 +458,6 @@ packages:
 
   '@floating-ui/utils@0.2.9':
     resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
-
-  '@google/generative-ai@0.24.1':
-    resolution: {integrity: sha512-MqO+MLfM6kjxcKoy0p1wRzG3b4ZZXtPI+z2IE26UogS2Cm/XHO+7gGRBh6gcJsOiIVoH93UwKvW4HdgiOZCy9Q==}
-    engines: {node: '>=18.0.0'}
 
   '@hookform/resolvers@3.10.0':
     resolution: {integrity: sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==}
@@ -2163,18 +2153,6 @@ packages:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
 
-  openai@5.9.0:
-    resolution: {integrity: sha512-cmLC0pfqLLhBGxE4aZPyRPjydgYCncppV2ClQkKmW79hNjCvmzkfhz8rN5/YVDmjVQlFV+UsF1JIuNjNgeagyQ==}
-    hasBin: true
-    peerDependencies:
-      ws: ^8.18.0
-      zod: ^3.23.8
-    peerDependenciesMeta:
-      ws:
-        optional: true
-      zod:
-        optional: true
-
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
@@ -2908,8 +2886,6 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
 
   '@floating-ui/utils@0.2.9': {}
-
-  '@google/generative-ai@0.24.1': {}
 
   '@hookform/resolvers@3.10.0(react-hook-form@7.55.0(react@18.3.1))':
     dependencies:
@@ -4613,11 +4589,6 @@ snapshots:
   object-assign@4.1.1: {}
 
   object-hash@3.0.0: {}
-
-  openai@5.9.0(ws@8.18.3)(zod@3.24.3):
-    optionalDependencies:
-      ws: 8.18.3
-      zod: 3.24.3
 
   optionator@0.9.4:
     dependencies:
