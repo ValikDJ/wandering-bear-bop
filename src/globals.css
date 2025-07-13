@@ -161,12 +161,7 @@
 }
 
 /* Character Animations */
-@keyframes breathe {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
-}
-
-/* Анімація speak видалена */
+/* Анімація breathe видалена */
 
 /* New animation for message bubble */
 @keyframes fade-in {

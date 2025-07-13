@@ -4,25 +4,18 @@ import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import LessonGuideCharacter from "./LessonGuideCharacter";
 import { useLocation } from "react-router-dom";
 
 interface LayoutProps {
   children: React.ReactNode;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
-  selectedCharacter: 'robot' | 'cat' | 'owl' | null;
-  isAssistantVisible: boolean;
-  toggleAssistantVisibility: () => void;
 }
 
 const Layout: React.FC<LayoutProps> = ({
   children,
   searchTerm,
   setSearchTerm,
-  selectedCharacter,
-  isAssistantVisible,
-  toggleAssistantVisibility,
 }) => {
   const isMobile = useIsMobile();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -35,7 +28,6 @@ const Layout: React.FC<LayoutProps> = ({
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Navbar
         onOpenMobileSidebar={handleOpenMobileSidebar}
-        // Видалено isAssistantVisible та toggleAssistantVisibility з Navbar
       />
       <div className="flex flex-1">
         {isMobile ? (
@@ -61,13 +53,6 @@ const Layout: React.FC<LayoutProps> = ({
         </main>
       </div>
       <Footer />
-      {selectedCharacter && (
-        <LessonGuideCharacter
-          characterType={selectedCharacter}
-          isVisible={isAssistantVisible}
-          toggleAssistantVisibility={toggleAssistantVisibility} // Передаємо функцію
-        />
-      )}
     </div>
   );
 };

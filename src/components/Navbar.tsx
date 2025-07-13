@@ -1,24 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react"; // Видалено Eye та EyeOff
+import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ThemeToggle from "./ThemeToggle";
 import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import { cn } from "@/lib/utils";
-import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 interface NavbarProps {
   onOpenMobileSidebar: () => void;
-  // Видалено isAssistantVisible та toggleAssistantVisibility
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => { // Оновлено пропси
+const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
   const isMobile = useIsMobile();
-  const { sendMessage } = useAssistantMessage(); // Використання хука
-
-  // Видалено handleToggleAssistant
 
   // Допоміжна функція для рендерингу посилань для мобільного меню
   const renderMobileNavLinks = (items: SidebarNavItem[], level: number = 0) => {
@@ -65,8 +60,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => { // Онов
         </Link>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-
-          {/* Кнопка для перемикання видимості помічника ВИДАЛЕНА ЗВІДСИ */}
 
           {isMobile ? (
             <Sheet>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 interface LiveCodeEditorProps {
   id?: string; // Додано id
@@ -21,7 +20,6 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
   const [htmlCode, setHtmlCode] = useState(initialHtml);
   const [cssCode, setCssCode] = useState(initialCss);
   const [outputSrcDoc, setOutputSrcDoc] = useState("");
-  const { sendMessage } = useAssistantMessage(); // Використання хука
 
   useEffect(() => {
     const generateSrcDoc = () => {
@@ -48,14 +46,6 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
     setCssCode(e.target.value);
   };
 
-  const handleHtmlBlur = () => {
-    sendMessage("Чудово! Ти змінюєш HTML-код. Бачиш, як змінюється структура?");
-  };
-
-  const handleCssBlur = () => {
-    sendMessage("Круто! Ти стилізуєш свій сайт за допомогою CSS. Продовжуй експериментувати!");
-  };
-
   return (
     <Card id={id} className="mb-6 bg-card shadow-md">
       <CardHeader>
@@ -70,7 +60,6 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
               <Textarea
                 value={htmlCode}
                 onChange={handleHtmlChange}
-                onBlur={handleHtmlBlur} // Додано onBlur
                 className="font-mono text-sm h-48 resize-y"
                 placeholder="Введіть ваш HTML код тут..."
               />
@@ -80,7 +69,6 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
               <Textarea
                 value={cssCode}
                 onChange={handleCssChange}
-                onBlur={handleCssBlur} // Додано onBlur
                 className="font-mono text-sm h-48 resize-y"
                 placeholder="Введіть ваш CSS код тут..."
               />

@@ -1,28 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Badge } from "@/components/ui/badge";
-import CharacterSelector from "@/components/CharacterSelector";
-import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
-interface IndexProps {
-  selectedCharacter: 'robot' | 'cat' | 'owl' | null;
-  onCharacterSelect: (character: 'robot' | 'cat' | 'owl') => void;
-}
-
-const Index: React.FC<IndexProps> = ({ selectedCharacter, onCharacterSelect }) => {
-  const { sendMessage } = useAssistantMessage();
-  const hasWelcomedRef = useRef(false); // Використовуємо useRef для відстеження, чи було вже привітання
-
-  useEffect(() => {
-    if (selectedCharacter && !hasWelcomedRef.current) {
-      sendMessage(`Привіт, ${selectedCharacter === 'robot' ? 'юний робототехнік' : selectedCharacter === 'cat' ? 'пухнастий кодер' : 'мудра сова'}! Я твій помічник у Веб-Майстерні. Давай почнемо вивчати HTML та CSS!`);
-      hasWelcomedRef.current = true; // Позначаємо, що привітання було відправлено
-    }
-  }, [selectedCharacter, sendMessage]);
-
+const Index: React.FC = () => {
   return (
     <div className="min-h-[calc(100vh-16rem)] flex flex-col items-center justify-center py-8">
       <h1 className="text-5xl font-extrabold text-center mb-6 text-foreground">
@@ -31,12 +14,6 @@ const Index: React.FC<IndexProps> = ({ selectedCharacter, onCharacterSelect }) =
       <p className="text-xl text-center mb-10 max-w-2xl text-muted-foreground">
         Ласкаво просимо до Веб-Майстерні, де ти навчишся створювати власні круті веб-сторінки за допомогою HTML та CSS!
       </p>
-
-      {!selectedCharacter && (
-        <div className="mb-10">
-          <CharacterSelector onSelect={onCharacterSelect} selectedCharacter={selectedCharacter as any} />
-        </div>
-      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-5xl">
         <Card className="bg-card hover:shadow-lg transition-shadow duration-300">

@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 interface Lesson {
   path: string;
@@ -21,7 +20,6 @@ const lessons: Lesson[] = [
 const LessonNavigation: React.FC = () => {
   const location = useLocation();
   const currentPath = location.pathname;
-  const { sendMessage } = useAssistantMessage(); // Використання хука
 
   const currentIndex = lessons.findIndex((lesson) => lesson.path === currentPath);
 
@@ -33,19 +31,11 @@ const LessonNavigation: React.FC = () => {
     return null;
   }
 
-  const handleNavigationClick = (direction: 'prev' | 'next', title: string) => {
-    if (direction === 'prev') {
-      sendMessage(`Повертаємося до попереднього уроку: "${title}".`);
-    } else {
-      sendMessage(`Переходимо до наступного уроку: "${title}".`);
-    }
-  };
-
   return (
     <div className="flex justify-between items-center mt-12 pt-6 border-t border-border">
       {prevLesson ? (
         <Button asChild variant="outline" className="flex items-center gap-2">
-          <Link to={prevLesson.path} onClick={() => handleNavigationClick('prev', prevLesson.title)}>
+          <Link to={prevLesson.path}>
             <ArrowLeft className="h-4 w-4" />
             <span>Попередній: {prevLesson.title}</span>
           </Link>
@@ -55,7 +45,7 @@ const LessonNavigation: React.FC = () => {
       )}
       {nextLesson ? (
         <Button asChild className="flex items-center gap-2">
-          <Link to={nextLesson.path} onClick={() => handleNavigationClick('next', nextLesson.title)}>
+          <Link to={nextLesson.path}>
             <span>Наступний: {nextLesson.title}</span>
             <ArrowRight className="h-4 w-4" />
           </Link>

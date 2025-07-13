@@ -7,7 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 interface HtmlElementCreatorProps {
   id?: string; // Додано id
@@ -27,7 +26,6 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
   const [linkHref, setLinkHref] = useState<string>("https://www.google.com");
   const [generatedHtml, setGeneratedHtml] = useState<string>("");
   const [outputSrcDoc, setOutputSrcDoc] = useState("");
-  const { sendMessage } = useAssistantMessage(); // Використання хука
 
   const generateHtml = () => {
     let html = "";
@@ -81,22 +79,18 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
 
   const handleTagChange = (value: string) => {
     setSelectedTag(value);
-    sendMessage(`Ти обрав тег <${value}>! Спробуй змінити його вміст.`);
   };
 
   const handleTextContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextContent(e.target.value);
-    sendMessage(`Ти пишеш текст для тегу <${selectedTag}>!`);
   };
 
   const handleImgSrcChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setImgSrc(e.target.value);
-    sendMessage(`Змінюємо зображення!`);
   };
 
   const handleLinkHrefChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLinkHref(e.target.value);
-    sendMessage(`Створюємо посилання!`);
   };
 
   const handleReset = () => {
@@ -105,7 +99,6 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
     setImgSrc("https://via.placeholder.com/100");
     setImgAlt("Приклад зображення");
     setLinkHref("https://www.google.com");
-    sendMessage("Налаштування скинуто! Почни спочатку.");
   };
 
   return (

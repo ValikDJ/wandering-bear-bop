@@ -15,19 +15,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/hooks/use-theme"; // Імпортуємо наш хук теми
 import { ThemeMode } from "@/lib/ThemeManager"; // Імпортуємо перелік режимів
-import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 const ThemeToggle: React.FC = () => {
   const { mode, actualTheme, setTheme } = useTheme();
-  const { sendMessage } = useAssistantMessage(); // Використання хука
 
   // Визначаємо поточну іконку та лейбл
   const CurrentIcon = actualTheme === ThemeMode.Dark ? Moon : Sun;
   const currentLabel = actualTheme === ThemeMode.Dark ? "Темна" : "Світла";
 
-  const handleThemeChange = (newMode: ThemeMode, label: string) => {
+  const handleThemeChange = (newMode: ThemeMode) => {
     setTheme(newMode);
-    sendMessage(`Тему змінено на "${label}"!`);
   };
 
   return (
@@ -46,21 +43,21 @@ const ThemeToggle: React.FC = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="bg-popover text-popover-foreground">
         <DropdownMenuItem
-          onClick={() => handleThemeChange(ThemeMode.Light, "Світла")}
+          onClick={() => handleThemeChange(ThemeMode.Light)}
           className="cursor-pointer flex items-center gap-2"
           aria-label="Встановити світлу тему"
         >
           <Sun className="h-4 w-4" /> Світла
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => handleThemeChange(ThemeMode.Dark, "Темна")}
+          onClick={() => handleThemeChange(ThemeMode.Dark)}
           className="cursor-pointer flex items-center gap-2"
           aria-label="Встановити темну тему"
         >
           <Moon className="h-4 w-4" /> Темна
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => handleThemeChange(ThemeMode.System, "Системна")}
+          onClick={() => handleThemeChange(ThemeMode.System)}
           className="cursor-pointer flex items-center gap-2"
           aria-label="Встановити системну тему"
         >

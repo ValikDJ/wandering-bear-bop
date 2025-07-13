@@ -4,7 +4,6 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { useAssistantMessage } from "@/context/AssistantMessageContext"; // Імпорт хука
 
 interface InteractiveCssPropertyProps {
   id?: string; // New: Optional ID for direct linking
@@ -32,7 +31,6 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
   baseStyle = {},
 }) => {
   const [value, setValue] = useState<number[]>([initialValue]);
-  const { sendMessage } = useAssistantMessage(); // Використання хука
 
   const currentCssValue = `${value[0]}${unit}`;
   const dynamicStyle: React.CSSProperties = {
@@ -70,7 +68,6 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
 
   const handleValueChange = (newValue: number[]) => {
     setValue(newValue);
-    sendMessage(`Ти змінив властивість "${cssPropertyKebabCase}" на ${newValue[0]}${unit}! Бачиш, як все змінюється?`);
   };
 
   return (
