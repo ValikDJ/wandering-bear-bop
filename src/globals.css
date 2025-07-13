@@ -65,6 +65,9 @@
     --playground-element-bg: 20 80% 95%; /* Light orange */
     --playground-element-border: 20 80% 50%; /* Orange */
     --playground-element-text: 20 80% 20%; /* Dark orange */
+
+    /* Sidebar width variable */
+    --sidebar-width: 16rem; /* Default to 256px */
   }
 
   .dark {

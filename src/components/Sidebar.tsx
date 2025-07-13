@@ -57,7 +57,9 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
   const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null); // Ref for the scrollable area
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [activeSectionTitle, setActiveSectionTitle] = useState<string>("Навігація"); // New state for dynamic header
 
   useEffect(() => {
     try {
@@ -208,6 +210,53 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     });
   };
 
+  // Determine initial active section title based on current path
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const foundGroup = sidebarNavData.find(group =>
+      group.children?.some(item => item.path === currentPath) || group.path === currentPath
+    );
+    if (foundGroup) {
+      setActiveSectionTitle(foundGroup.title);
+    } else {
+      setActiveSectionTitle("Навігація"); // Default title
+    }
+  }, [location.pathname]);
+
+  // Scroll listener for dynamic header
+  useEffect(() => {
+    const scrollAreaElement = scrollAreaRef.current;
+    if (!scrollAreaElement) return;
+
+    const handleScroll = () => {
+      let currentActiveTitle = "Навігація"; // Default if nothing is in view
+      let closestTop = Infinity;
+
+      sidebarNavData.forEach(group => {
+        const groupElement = document.getElementById(`sidebar-group-${group.id}`);
+        if (groupElement) {
+          const rect = groupElement.getBoundingClientRect();
+          // Check if the group is in view and its top is closer to the scroll area's top
+          // We consider it "active" if its top is within the visible area and it's the highest one
+          if (rect.top >= 0 && rect.top < closestTop && rect.bottom > 0) {
+            closestTop = rect.top;
+            currentActiveTitle = group.title;
+          }
+        }
+      });
+      setActiveSectionTitle(currentActiveTitle);
+    };
+
+    scrollAreaElement.addEventListener('scroll', handleScroll);
+    // Initial check on mount
+    handleScroll();
+
+    return () => {
+      scrollAreaElement.removeEventListener('scroll', handleScroll);
+    };
+  }, [filteredNavData]); // Re-run if filteredNavData changes (e.g., search results)
+
+
   const renderNavItem = (item: SidebarNavItem, level: number = 0) => {
     const isActive = location.pathname === item.path && (!item.sectionId || location.hash === `#${item.sectionId}`);
     const isGroup = item.children && item.children.length > 0;
@@ -229,6 +278,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
           open={openGroups.has(item.id) || !!searchTerm}
           onOpenChange={() => toggleGroup(item.id)}
           className={cn("w-full", level > 0 && "pl-4")}
+          id={`sidebar-group-${item.id}`} // Add ID for scroll tracking
         >
           <CollapsibleTrigger asChild>
             <Button
@@ -297,27 +347,31 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       ref={sidebarRef}
       className={cn(
         "flex flex-col bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border",
-        "w-64 flex-shrink-0 overflow-y-auto custom-scrollbar p-4",
+        "w-[var(--sidebar-width)] flex-shrink-0 overflow-hidden", // Changed to overflow-hidden
         "transition-all duration-300 ease-in-out",
-        isMobile ? "fixed inset-y-0 left-0 z-40 transform -translate-x-full data-[state=open]:translate-x-0" : "relative"
+        isMobile ? "fixed inset-y-0 left-0 z-40 transform -translate-x-full data-[state=open]:translate-x-0" : "fixed inset-y-0 left-0 z-20" // Fixed for desktop
       )}
+      style={{ top: '4rem' }} // Adjust top to be below the Navbar (assuming Navbar height is 4rem)
     >
-      <div className="mb-4 relative">
-        <Input
-          ref={searchInputRef}
-          type="text"
-          placeholder="Пошук уроків (натисни '/' або '.')"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="pl-8 bg-sidebar-accent text-sidebar-accent-foreground placeholder:text-sidebar-foreground/70 focus:ring-sidebar-ring focus:ring-offset-0"
-          aria-label="Пошук по уроках"
-          tabIndex={0}
-        />
-        <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-sidebar-foreground/70" />
+      <div className="p-4 border-b border-sidebar-border bg-sidebar-background sticky top-0 z-10">
+        <h3 className="text-xl font-bold text-foreground mb-4">{activeSectionTitle}</h3> {/* Dynamic Header */}
+        <div className="relative">
+          <Input
+            ref={searchInputRef}
+            type="text"
+            placeholder="Пошук уроків (натисни '/' або '.')"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="pl-8 bg-sidebar-accent text-sidebar-accent-foreground placeholder:text-sidebar-foreground/70 focus:ring-sidebar-ring focus:ring-offset-0"
+            aria-label="Пошук по уроках"
+            tabIndex={0}
+          />
+          <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-sidebar-foreground/70" />
+        </div>
       </div>
 
       {searchTerm.length === 0 && recentSearches.length > 0 && (
-        <div className="mb-4">
+        <div className="p-4 border-b border-sidebar-border">
           <h4 className="text-sm font-semibold text-muted-foreground mb-2">Останні запити:</h4>
           <div className="flex flex-col gap-1">
             {recentSearches.map((term, index) => (
@@ -335,8 +389,8 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         </div>
       )}
 
-      <ScrollArea className="flex-grow">
-        <div className="flex flex-col gap-1">
+      <ScrollArea className="flex-grow" viewportRef={scrollAreaRef}> {/* Attach ref to viewport */}
+        <div className="flex flex-col gap-1 p-4">
           {filteredNavData.length === 0 && searchTerm.length > 0 ? (
             <p className="text-muted-foreground text-center py-4">Нічого не знайдено.</p>
           ) : (

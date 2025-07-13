@@ -48,7 +48,7 @@ const Layout: React.FC<LayoutProps> = ({
             isMobile={false}
           />
         )}
-        <main className="flex-grow container mx-auto p-4 bg-background overflow-y-auto">
+        <main className="flex-grow container mx-auto p-4 bg-background overflow-y-auto lg:ml-[var(--sidebar-width)]">
           {children}
         </main>
       </div>
