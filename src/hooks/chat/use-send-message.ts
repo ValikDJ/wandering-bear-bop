@@ -34,10 +34,6 @@ export const useSendMessage = (user: User | null, chatPermissionLevel: 'all' | '
     if (!canSendMessage()) {
       return;
     }
-    if (!user) { // This check is still needed for the actual insert operation
-      toast.error('Будь ласка, увійдіть, щоб надсилати повідомлення.');
-      return;
-    }
 
     let messageType: Message['type'] = 'text';
     let fileUrl: string | undefined = undefined;
@@ -45,7 +41,7 @@ export const useSendMessage = (user: User | null, chatPermissionLevel: 'all' | '
     if (file) {
       setUploadingFile(true);
       const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+      const fileName = `${user?.id || 'anonymous'}-${Date.now()}.${fileExt}`;
       const filePath = `chat-files/${fileName}`;
 
       const { data: uploadData, error: uploadError } = await supabase.storage
@@ -79,7 +75,7 @@ export const useSendMessage = (user: User | null, chatPermissionLevel: 'all' | '
     }
 
     const { error } = await supabase.from('messages').insert({
-      sender_id: user.id,
+      sender_id: user?.id || null,
       content: newMessage.trim(),
       type: messageType,
       file_url: fileUrl,

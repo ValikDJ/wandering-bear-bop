@@ -18,6 +18,7 @@ interface MessageListProps {
   onSetEditedContent: (content: string) => void;
   onSetEditingMessageId: (id: string | null) => void;
   onDeleteMessage: (messageId: string) => void;
+  chatPermissionLevel: 'all' | 'authenticated' | 'unauthenticated' | 'none';
 }
 
 const MessageList: React.FC<MessageListProps> = ({
@@ -33,15 +34,19 @@ const MessageList: React.FC<MessageListProps> = ({
   onSetEditedContent,
   onSetEditingMessageId,
   onDeleteMessage,
+  chatPermissionLevel,
 }) => {
+  const showLoginPrompt = chatPermissionLevel === 'authenticated' && !currentUser;
+  const showNoMessagesYet = messages.length === 0 && !isSessionLoading && !showLoginPrompt;
+
   return (
     <ScrollArea className="flex-1 p-4 custom-scrollbar">
       <div className="flex flex-col space-y-4">
         {isSessionLoading ? (
           <p className="text-center text-muted-foreground">Завантаження чату...</p>
-        ) : !currentUser ? (
+        ) : showLoginPrompt ? (
           <p className="text-center text-muted-foreground">Будь ласка, <Link to="/login" className="text-blue-500 hover:underline">увійдіть</Link>, щоб переглядати та надсилати повідомлення.</p>
-        ) : messages.length === 0 ? (
+        ) : showNoMessagesYet ? (
           <p className="text-center text-muted-foreground">Поки що немає повідомлень. {isOrganizer ? 'Надішліть перше!' : 'Чекаємо на повідомлення від організатора.'}</p>
         ) : (
           messages.map((msg) => (
