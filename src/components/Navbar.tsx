@@ -17,7 +17,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
   const isMobile = useIsMobile();
-  const { session, isLoading } = useSession(); // Get session and loading state
+  const { session, isLoading, user } = useSession(); // Get session, loading state, and user
 
   const handleLogout = async () => {
     const { error } = await signOut();
@@ -74,19 +74,26 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
         <div className="flex items-center gap-2">
           <ThemeToggle />
 
-          {/* Login/Logout Button */}
+          {/* User Info and Login/Logout Button */}
           {!isLoading && (
             session ? (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-primary-foreground hover:bg-primary-foreground/20"
-                onClick={handleLogout}
-                aria-label="Вийти"
-              >
-                <LogOut className="h-6 w-6" />
-                <span className="sr-only">Вийти</span>
-              </Button>
+              <>
+                {user?.email && (
+                  <span className="text-sm mr-2 hidden md:inline-block">
+                    Привіт, {user.email}!
+                  </span>
+                )}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-primary-foreground hover:bg-primary-foreground/20"
+                  onClick={handleLogout}
+                  aria-label="Вийти"
+                >
+                  <LogOut className="h-6 w-6" />
+                  <span className="sr-only">Вийти</span>
+                </Button>
+              </>
             ) : (
               <Button asChild variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/20">
                 <Link to="/login" aria-label="Увійти">
@@ -107,6 +114,12 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
               </SheetTrigger>
               <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-primary text-primary-foreground p-4">
                 <div className="flex flex-col gap-2 pt-8">
+                  {/* Display user email in mobile sidebar if logged in */}
+                  {!isLoading && user?.email && (
+                    <p className="px-4 py-2 text-primary-foreground/80 font-semibold text-sm">
+                      Привіт, {user.email}!
+                    </p>
+                  )}
                   {renderMobileNavLinks(sidebarNavData)}
                   {/* Add Login/Logout to mobile sidebar */}
                   {!isLoading && (
