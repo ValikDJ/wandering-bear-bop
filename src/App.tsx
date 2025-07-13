@@ -14,14 +14,29 @@ import ProjectTemplate from "./pages/ProjectTemplate";
 import QuizPage from "./pages/QuizPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
+import AIAssistant from "./components/AIAssistant";
 import { ThemeProvider } from "@/hooks/use-theme";
-import React, { useState } from "react"; // Змінено імпорти React
+import React, { useState, useEffect, useCallback } from "react";
 
 const queryClient = new QueryClient();
 const basename = import.meta.env.BASE_URL;
+const CHARACTER_STORAGE_KEY = "selected-ai-character";
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState<string>(""); // Стан для глобального пошукового запиту
+  const [selectedCharacter, setSelectedCharacter] = useState<'robot' | 'cat' | 'owl' | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>(""); // Новий стан для глобального пошукового запиту
+
+  useEffect(() => {
+    const storedCharacter = localStorage.getItem(CHARACTER_STORAGE_KEY) as 'robot' | 'cat' | 'owl' | null;
+    if (storedCharacter) {
+      setSelectedCharacter(storedCharacter);
+    }
+  }, []);
+
+  const handleCharacterSelect = useCallback((character: 'robot' | 'cat' | 'owl') => {
+    setSelectedCharacter(character);
+    localStorage.setItem(CHARACTER_STORAGE_KEY, character);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -30,9 +45,9 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter basename={basename}>
-            <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm}>
+            <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm}> {/* Передаємо стан пошуку до Layout */}
               <Routes>
-                <Route path="/" element={<Index />} /> {/* Видалено пропси для Index */}
+                <Route path="/" element={<Index selectedCharacter={selectedCharacter} onCharacterSelect={handleCharacterSelect} />} />
                 <Route path="/html-tags" element={<HtmlTags />} />
                 <Route path="/css-properties" element={<CssProperties />} />
                 <Route path="/css-selectors" element={<CssSelectors />} />
@@ -47,7 +62,7 @@ const App = () => {
             </Layout>
           </BrowserRouter>
         </TooltipProvider>
-        {/* Видалено компонент AIAssistant */}
+        {selectedCharacter && <AIAssistant characterType={selectedCharacter} />}
       </ThemeProvider>
     </QueryClientProvider>
   );
