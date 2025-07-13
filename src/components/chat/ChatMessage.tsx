@@ -1,6 +1,6 @@
 import React from 'react';
 import { User } from '@supabase/supabase-js';
-import { Paperclip, MoreHorizontal, Edit, Trash2, Copy, User as UserIcon } from 'lucide-react'; // Додано UserIcon
+import { Paperclip, MoreHorizontal, Edit, Trash2, Copy, User as UserIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Message } from '@/types/chat';
 import { toast } from 'sonner';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'; // Імпорт Avatar компонентів
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface ChatMessageProps {
   message: Message;
@@ -73,8 +73,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   return (
     <div
       className={cn(
-        "flex gap-2 items-start group", // Використовуємо flex для аватара та вмісту повідомлення
-        isMyMessage ? "flex-row-reverse" : "flex-row" // Змінюємо порядок для моїх повідомлень
+        "flex gap-2 items-start group max-w-[75%]", // Added max-w-[75%] to limit width
+        isMyMessage ? "flex-row-reverse self-end" : "flex-row self-start" // Apply self-end/self-start to the outer div
       )}
     >
       <Avatar className="h-8 w-8 border-2 border-border flex-shrink-0">
@@ -88,10 +88,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
       </Avatar>
       <div
         className={cn(
-          "relative flex flex-col p-3 rounded-lg max-w-[calc(100%-40px)]", // Регулюємо max-width для аватара
+          "relative flex flex-col p-3 rounded-lg flex-grow", // Removed max-w-[calc(100%-40px)] from here, added flex-grow
           isMyMessage
-            ? "self-end bg-primary text-primary-foreground rounded-br-none"
-            : "self-start bg-muted text-muted-foreground rounded-bl-none"
+            ? "bg-primary text-primary-foreground rounded-br-none"
+            : "bg-muted text-muted-foreground rounded-bl-none"
         )}
       >
         <div className={cn(
