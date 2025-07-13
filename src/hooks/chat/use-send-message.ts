@@ -2,14 +2,14 @@ import { useState, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { User } from '@supabase/supabase-js';
-import { Message, MessageExpiryDuration } from '@/types/chat'; // NEW IMPORT
+import { Message, MessageExpiryDuration } from '@/types/chat';
 
 const MAX_FILE_SIZE_MB = 25;
 
 export const useSendMessage = (
   user: User | null,
   chatPermissionLevel: 'all' | 'authenticated' | 'unauthenticated' | 'none',
-  messageExpiryDuration: MessageExpiryDuration // NEW PARAMETER
+  messageExpiryDuration: MessageExpiryDuration
 ) => {
   const [newMessage, setNewMessage] = useState('');
   const [file, setFile] = useState<File | null>(null);
@@ -36,11 +36,32 @@ export const useSendMessage = (
     if (duration === 'never') return null;
 
     const now = new Date();
-    let expiresAt = new Date(now.getTime()); // Clone current time
+    let expiresAt = new Date(now.getTime());
 
     switch (duration) {
+      case '15m':
+        expiresAt.setMinutes(expiresAt.getMinutes() + 15);
+        break;
+      case '30m':
+        expiresAt.setMinutes(expiresAt.getMinutes() + 30);
+        break;
+      case '45m':
+        expiresAt.setMinutes(expiresAt.getMinutes() + 45);
+        break;
       case '1h':
         expiresAt.setHours(expiresAt.getHours() + 1);
+        break;
+      case '1.5h':
+        expiresAt.setMinutes(expiresAt.getMinutes() + 90); // 1.5 hours = 90 minutes
+        break;
+      case '2h':
+        expiresAt.setHours(expiresAt.getHours() + 2);
+        break;
+      case '4h':
+        expiresAt.setHours(expiresAt.getHours() + 4);
+        break;
+      case '8h':
+        expiresAt.setHours(expiresAt.getHours() + 8);
         break;
       case '24h':
         expiresAt.setDate(expiresAt.getDate() + 1);
@@ -61,7 +82,7 @@ export const useSendMessage = (
 
     let messageType: Message['type'] = 'text';
     let fileUrl: string | undefined = undefined;
-    const expiresAt = calculateExpiry(messageExpiryDuration); // Calculate expiry
+    const expiresAt = calculateExpiry(messageExpiryDuration);
 
     if (file) {
       setUploadingFile(true);
@@ -104,7 +125,7 @@ export const useSendMessage = (
       content: newMessage.trim(),
       type: messageType,
       file_url: fileUrl,
-      expires_at: expiresAt, // NEW: Add expires_at
+      expires_at: expiresAt,
     });
 
     if (error) {

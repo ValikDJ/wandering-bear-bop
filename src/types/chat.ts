@@ -14,4 +14,4 @@ export interface Message {
   } | null;
 }
 
-export type MessageExpiryDuration = 'never' | '1h' | '24h' | '7d'; // NEW TYPE
+export type MessageExpiryDuration = 'never' | '15m' | '30m' | '45m' | '1h' | '1.5h' | '2h' | '4h' | '8h' | '24h' | '7d'; // NEW TYPE with more granular options

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useSession } from '@/components/SessionContextProvider';
 import { toast } from 'sonner';
-import { Message, MessageExpiryDuration } from '@/types/chat'; // NEW IMPORT
+import { Message, MessageExpiryDuration } from '@/types/chat';
 
 const ORGANIZER_EMAIL = 'valik.shevhyk@gmail.com';
 
@@ -10,7 +10,7 @@ export const useChatMessages = () => {
   const { user, isLoading: isSessionLoading } = useSession();
   const [messages, setMessages] = useState<Message[]>([]);
   const [chatPermissionLevel, setChatPermissionLevel] = useState<'all' | 'authenticated' | 'unauthenticated' | 'none'>('all');
-  const [messageExpiryDuration, setMessageExpiryDuration] = useState<MessageExpiryDuration>('never'); // NEW STATE
+  const [messageExpiryDuration, setMessageExpiryDuration] = useState<MessageExpiryDuration>('never');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const isOrganizer = user?.email === ORGANIZER_EMAIL;
@@ -76,21 +76,21 @@ export const useChatMessages = () => {
   const fetchSettings = useCallback(async () => {
     const { data, error } = await supabase
       .from('chat_settings')
-      .select('permission_level, message_expiry_duration') // NEW: Select message_expiry_duration
+      .select('permission_level, message_expiry_duration')
       .eq('id', '00000000-0000-0000-0000-000000000001')
       .single();
 
     if (error && error.code !== 'PGRST116') {
       console.error('Error fetching chat settings:', error);
       toast.error('Помилка завантаження налаштувань чату.');
-      return { permission_level: 'all', message_expiry_duration: 'never' }; // Default values
+      return { permission_level: 'all', message_expiry_duration: '1.5h' as MessageExpiryDuration }; // Default to '1.5h'
     } else if (data) {
       return {
         permission_level: data.permission_level as 'all' | 'authenticated' | 'unauthenticated' | 'none',
-        message_expiry_duration: (data.message_expiry_duration || 'never') as MessageExpiryDuration, // Default to 'never'
+        message_expiry_duration: (data.message_expiry_duration || '1.5h') as MessageExpiryDuration, // Default to '1.5h'
       };
     }
-    return { permission_level: 'all', message_expiry_duration: 'never' }; // Default values
+    return { permission_level: 'all', message_expiry_duration: '1.5h' as MessageExpiryDuration }; // Default to '1.5h'
   }, []);
 
   useEffect(() => {
@@ -100,9 +100,9 @@ export const useChatMessages = () => {
     const initializeChat = async () => {
       if (isSessionLoading) return;
 
-      const initialSettings = await fetchSettings(); // Fetch both settings
+      const initialSettings = await fetchSettings();
       setChatPermissionLevel(initialSettings.permission_level);
-      setMessageExpiryDuration(initialSettings.message_expiry_duration); // Set expiry duration
+      setMessageExpiryDuration(initialSettings.message_expiry_duration);
       fetchMessages(initialSettings.permission_level);
 
       settingsSubscription = supabase
@@ -113,7 +113,7 @@ export const useChatMessages = () => {
           (payload) => {
             const updatedSettings = payload.new as { permission_level: 'all' | 'authenticated' | 'unauthenticated' | 'none', message_expiry_duration: MessageExpiryDuration };
             setChatPermissionLevel(updatedSettings.permission_level);
-            setMessageExpiryDuration(updatedSettings.message_expiry_duration || 'never'); // Update expiry duration
+            setMessageExpiryDuration(updatedSettings.message_expiry_duration || '1.5h'); // Update expiry duration, default to 1.5h
             toast.info(`Налаштування чату оновлено: ${updatedSettings.permission_level}`);
             fetchMessages(updatedSettings.permission_level);
           }
@@ -177,7 +177,7 @@ export const useChatMessages = () => {
           (payload) => {
             const updatedMsg = payload.new as Message;
             setMessages((prevMessages) =>
-              prevMessages.map((msg) => (msg.id === updatedMsg.id ? { ...msg, content: updatedMsg.content, type: updatedMsg.type, file_url: updatedMsg.file_url, expires_at: updatedMsg.expires_at } : msg)) // NEW: update expires_at
+              prevMessages.map((msg) => (msg.id === updatedMsg.id ? { ...msg, content: updatedMsg.content, type: updatedMsg.type, file_url: updatedMsg.file_url, expires_at: updatedMsg.expires_at } : msg))
             );
           }
         )
@@ -208,5 +208,5 @@ export const useChatMessages = () => {
     scrollToBottom();
   }, [messages]);
 
-  return { messages, isSessionLoading, user, isOrganizer, messagesEndRef, scrollToBottom, setMessages, chatPermissionLevel, messageExpiryDuration, setMessageExpiryDuration }; // NEW: return messageExpiryDuration, setMessageExpiryDuration
+  return { messages, isSessionLoading, user, isOrganizer, messagesEndRef, scrollToBottom, setMessages, chatPermissionLevel, messageExpiryDuration, setMessageExpiryDuration };
 };
