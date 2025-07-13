@@ -121,7 +121,7 @@ const CssBoxModelVisualizer: React.FC = () => {
           </div>
           <div className="flex flex-col">
             <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Результат:</h4>
-            <div className="p-4 border border-border rounded-md bg-background flex justify-center items-center min-h-[250px]">
+            <div className="p-4 border border-border rounded-md bg-background flex justify-center items-center min-h-[250px] overflow-auto"> {/* Added overflow-auto */}
               {/* Outer container for Margin */}
               <div
                 style={{
@@ -130,12 +130,12 @@ const CssBoxModelVisualizer: React.FC = () => {
                   backgroundColor: `hsl(var(--box-model-margin-bg))`,
                   color: `hsl(var(--box-model-margin-text))`,
                 }}
-                className="border-dashed border-2 border-[var(--box-model-margin-text)] flex items-center justify-center text-sm"
+                className="border-dashed border-2 border-[var(--box-model-margin-text)] flex items-center justify-center text-sm min-w-[100px] min-h-[100px]" // Added min-width/height
               >
-                <span className="absolute -top-5 text-xs font-semibold">Margin ({currentMargin}px)</span>
-                <span className="absolute -bottom-5 text-xs font-semibold">Margin ({currentMargin}px)</span>
-                <span className="absolute -left-10 text-xs font-semibold rotate-90">Margin ({currentMargin}px)</span>
-                <span className="absolute -right-10 text-xs font-semibold -rotate-90">Margin ({currentMargin}px)</span>
+                <span className="absolute -top-5 text-xs font-semibold whitespace-nowrap">Margin ({currentMargin}px)</span>
+                <span className="absolute -bottom-5 text-xs font-semibold whitespace-nowrap">Margin ({currentMargin}px)</span>
+                <span className="absolute -left-10 text-xs font-semibold rotate-90 whitespace-nowrap">Margin ({currentMargin}px)</span>
+                <span className="absolute -right-10 text-xs font-semibold -rotate-90 whitespace-nowrap">Margin ({currentMargin}px)</span>
 
                 {/* Border layer */}
                 <div
@@ -145,12 +145,12 @@ const CssBoxModelVisualizer: React.FC = () => {
                     backgroundColor: `hsl(var(--box-model-border-bg))`,
                     color: `hsl(var(--box-model-border-text))`,
                   }}
-                  className="flex items-center justify-center text-sm"
+                  className="flex items-center justify-center text-sm min-w-[80px] min-h-[80px]" // Added min-width/height
                 >
-                  <span className="absolute -top-5 text-xs font-semibold">Border ({currentBorderWidth}px)</span>
-                  <span className="absolute -bottom-5 text-xs font-semibold">Border ({currentBorderWidth}px)</span>
-                  <span className="absolute -left-10 text-xs font-semibold rotate-90">Border ({currentBorderWidth}px)</span>
-                  <span className="absolute -right-10 text-xs font-semibold -rotate-90">Border ({currentBorderWidth}px)</span>
+                  <span className="absolute -top-5 text-xs font-semibold whitespace-nowrap">Border ({currentBorderWidth}px)</span>
+                  <span className="absolute -bottom-5 text-xs font-semibold whitespace-nowrap">Border ({currentBorderWidth}px)</span>
+                  <span className="absolute -left-10 text-xs font-semibold rotate-90 whitespace-nowrap">Border ({currentBorderWidth}px)</span>
+                  <span className="absolute -right-10 text-xs font-semibold -rotate-90 whitespace-nowrap">Border ({currentBorderWidth}px)</span>
 
                   {/* Padding layer */}
                   <div
@@ -160,12 +160,12 @@ const CssBoxModelVisualizer: React.FC = () => {
                       backgroundColor: `hsl(var(--box-model-padding-bg))`,
                       color: `hsl(var(--box-model-padding-text))`,
                     }}
-                    className="flex items-center justify-center text-sm"
+                    className="flex items-center justify-center text-sm min-w-[60px] min-h-[60px]" // Added min-width/height
                   >
-                    <span className="absolute -top-5 text-xs font-semibold">Padding ({currentPadding}px)</span>
-                    <span className="absolute -bottom-5 text-xs font-semibold">Padding ({currentPadding}px)</span>
-                    <span className="absolute -left-10 text-xs font-semibold rotate-90">Padding ({currentPadding}px)</span>
-                    <span className="absolute -right-10 text-xs font-semibold -rotate-90">Padding ({currentPadding}px)</span>
+                    <span className="absolute -top-5 text-xs font-semibold whitespace-nowrap">Padding ({currentPadding}px)</span>
+                    <span className="absolute -bottom-5 text-xs font-semibold whitespace-nowrap">Padding ({currentPadding}px)</span>
+                    <span className="absolute -left-10 text-xs font-semibold rotate-90 whitespace-nowrap">Padding ({currentPadding}px)</span>
+                    <span className="absolute -right-10 text-xs font-semibold -rotate-90 whitespace-nowrap">Padding ({currentPadding}px)</span>
 
                     {/* Content layer */}
                     <div
@@ -180,7 +180,7 @@ const CssBoxModelVisualizer: React.FC = () => {
                         fontWeight: 'bold',
                         fontSize: '16px',
                       }}
-                      className="relative"
+                      className="relative flex-shrink-0" // Added flex-shrink-0
                     >
                       Вміст ({currentContentWidth}x{currentContentHeight}px)
                     </div>
