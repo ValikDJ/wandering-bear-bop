@@ -18,8 +18,8 @@ import { ThemeProvider } from "@/hooks/use-theme";
 import React, { useState, useEffect, useCallback } from "react";
 
 const queryClient = new QueryClient();
-// Визначаємо basename умовно: для розробки використовуємо '/', для продакшену - шлях з vite.config.ts
-const appBasename = import.meta.env.PROD ? import.meta.env.BASE_URL : '/';
+// Використовуємо BASE_URL з Vite, який буде коректним як для розробки, так і для продакшену
+const appBasename = import.meta.env.BASE_URL;
 const CHARACTER_STORAGE_KEY = "selected-ai-character";
 
 const App = () => {
@@ -44,7 +44,7 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter basename={appBasename}> {/* Використовуємо умовний basename */}
+          <BrowserRouter basename={appBasename}> {/* Використовуємо BASE_URL з Vite */}
             <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm} selectedCharacter={selectedCharacter}>
               <Routes>
                 <Route path="/" element={<Index selectedCharacter={selectedCharacter} onCharacterSelect={handleCharacterSelect} />} />
