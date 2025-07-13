@@ -29,7 +29,8 @@ const CssGradientGenerator: React.FC = () => {
   const [radialShape, setRadialShape] = useState<"circle" | "ellipse">("ellipse");
   const [radialPosition, setRadialPosition] = useState<string>("center"); // e.g., "center", "top left"
 
-  const [generatedCss, setGeneratedCss] = useState("");
+  const [generatedCssValue, setGeneratedCssValue] = useState(""); // Stores only the gradient value
+  const [generatedCssCode, setGeneratedCssCode] = useState(""); // Stores the full CSS declaration for display
 
   const updateColor = useCallback((id: string, newColor: string) => {
     setColors((prevColors) =>
@@ -62,17 +63,18 @@ const CssGradientGenerator: React.FC = () => {
       .map((cs) => `${cs.color} ${cs.position}%`)
       .join(", ");
 
-    let gradientCss = "";
+    let gradientValue = "";
     if (gradientType === "linear") {
-      gradientCss = `linear-gradient(${linearAngle[0]}deg, ${colorStopsCss})`;
+      gradientValue = `linear-gradient(${linearAngle[0]}deg, ${colorStopsCss})`;
     } else {
-      gradientCss = `radial-gradient(${radialShape} at ${radialPosition}, ${colorStopsCss})`;
+      gradientValue = `radial-gradient(${radialShape} at ${radialPosition}, ${colorStopsCss})`;
     }
-    setGeneratedCss(`background: ${gradientCss};`);
+    setGeneratedCssValue(gradientValue); // Store only the value
+    setGeneratedCssCode(`background: ${gradientValue};`); // Store full declaration for code display
   }, [gradientType, colors, linearAngle, radialShape, radialPosition]);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(generatedCss);
+    navigator.clipboard.writeText(generatedCssCode); // Copy the full declaration
     toast.success("CSS градієнт скопійовано!");
   };
 
@@ -201,7 +203,7 @@ const CssGradientGenerator: React.FC = () => {
               <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Перегляд:</h4>
               <div
                 className="w-full h-64 border border-border rounded-md flex items-center justify-center"
-                style={{ background: generatedCss.replace('background: ', '') }}
+                style={{ background: generatedCssValue }} {/* Use only the gradient value here */}
               >
                 <span className="text-white text-lg font-bold text-shadow-sm">Твій Градієнт</span>
               </div>
@@ -210,7 +212,7 @@ const CssGradientGenerator: React.FC = () => {
               <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Згенерований CSS:</h4>
               <div className="relative">
                 <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '200px', overflowY: 'auto' }}>
-                  {generatedCss}
+                  {generatedCssCode} {/* Display the full CSS declaration */}
                 </SyntaxHighlighter>
                 <Button
                   onClick={handleCopy}
