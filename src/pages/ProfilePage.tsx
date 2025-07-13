@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Loader2 } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 
 // Схема валідації для форми профілю
 const profileSchema = z.object({
@@ -19,21 +20,48 @@ const profileSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
+// Схема валідації для форми зміни пароля
+const passwordChangeSchema = z.object({
+  newPassword: z.string()
+    .min(6, 'Пароль має бути не менше 6 символів')
+    .max(72, 'Пароль занадто довгий'),
+  confirmNewPassword: z.string(),
+}).refine((data) => data.newPassword === data.confirmNewPassword, {
+  message: 'Паролі не співпадають',
+  path: ['confirmNewPassword'],
+});
+
+type PasswordChangeFormValues = z.infer<typeof passwordChangeSchema>;
+
 const ProfilePage: React.FC = () => {
   const { user, isLoading: isSessionLoading } = useSession();
   const [isProfileLoading, setIsProfileLoading] = useState(true);
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
 
   const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isDirty },
+    register: registerProfile,
+    handleSubmit: handleSubmitProfile,
+    reset: resetProfile,
+    formState: { errors: profileErrors, isDirty: isProfileDirty },
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       first_name: '',
       last_name: '',
+    },
+  });
+
+  const {
+    register: registerPassword,
+    handleSubmit: handleSubmitPassword,
+    reset: resetPassword,
+    formState: { errors: passwordErrors, isDirty: isPasswordDirty },
+  } = useForm<PasswordChangeFormValues>({
+    resolver: zodResolver(passwordChangeSchema),
+    defaultValues: {
+      newPassword: '',
+      confirmNewPassword: '',
     },
   });
 
@@ -55,7 +83,7 @@ const ProfilePage: React.FC = () => {
         console.error('Error fetching profile:', error);
         toast.error('Помилка завантаження даних профілю.');
       } else if (data) {
-        reset(data); // Set form values from fetched data
+        resetProfile(data); // Set form values from fetched data
       }
       setIsProfileLoading(false);
     };
@@ -63,15 +91,15 @@ const ProfilePage: React.FC = () => {
     if (!isSessionLoading) {
       fetchProfile();
     }
-  }, [user, isSessionLoading, reset]);
+  }, [user, isSessionLoading, resetProfile]);
 
-  const onSubmit = async (values: ProfileFormValues) => {
+  const onSubmitProfile = async (values: ProfileFormValues) => {
     if (!user) {
       toast.error('Користувач не авторизований.');
       return;
     }
 
-    setIsUpdating(true);
+    setIsUpdatingProfile(true);
     const { error } = await supabase
       .from('profiles')
       .upsert({
@@ -85,9 +113,30 @@ const ProfilePage: React.FC = () => {
       toast.error(`Помилка оновлення профілю: ${error.message}`);
     } else {
       toast.success('Профіль успішно оновлено!');
-      reset(values); // Reset form to mark as not dirty
+      resetProfile(values); // Reset form to mark as not dirty
     }
-    setIsUpdating(false);
+    setIsUpdatingProfile(false);
+  };
+
+  const onSubmitPassword = async (values: PasswordChangeFormValues) => {
+    if (!user) {
+      toast.error('Користувач не авторизований.');
+      return;
+    }
+
+    setIsUpdatingPassword(true);
+    const { error } = await supabase.auth.updateUser({
+      password: values.newPassword,
+    });
+
+    if (error) {
+      console.error('Error updating password:', error);
+      toast.error(`Помилка зміни пароля: ${error.message}`);
+    } else {
+      toast.success('Пароль успішно змінено!');
+      resetPassword(); // Clear password fields
+    }
+    setIsUpdatingPassword(false);
   };
 
   if (isSessionLoading || isProfileLoading) {
@@ -111,15 +160,15 @@ const ProfilePage: React.FC = () => {
     <div className="py-8">
       <h1 className="text-4xl font-bold text-center mb-8 text-foreground">Мій Профіль</h1>
       <p className="text-lg text-center mb-10 text-muted-foreground max-w-3xl mx-auto">
-        Тут ти можеш переглянути та оновити свої особисті дані.
+        Тут ти можеш переглянути та оновити свої особисті дані та змінити пароль.
       </p>
 
-      <Card className="w-full max-w-lg mx-auto bg-card shadow-lg">
+      <Card className="w-full max-w-lg mx-auto bg-card shadow-lg mb-8">
         <CardHeader>
           <CardTitle className="text-2xl text-card-foreground">Редагувати Профіль</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmitProfile(onSubmitProfile)} className="space-y-6">
             <div>
               <Label htmlFor="email" className="text-lg font-semibold text-secondary-foreground mb-2 block">
                 Електронна пошта:
@@ -140,12 +189,12 @@ const ProfilePage: React.FC = () => {
               <Input
                 id="first_name"
                 type="text"
-                {...register('first_name')}
+                {...registerProfile('first_name')}
                 placeholder="Введіть ваше ім'я"
-                className={errors.first_name ? 'border-destructive' : ''}
+                className={profileErrors.first_name ? 'border-destructive' : ''}
               />
-              {errors.first_name && (
-                <p className="text-destructive text-sm mt-1">{errors.first_name.message}</p>
+              {profileErrors.first_name && (
+                <p className="text-destructive text-sm mt-1">{profileErrors.first_name.message}</p>
               )}
             </div>
 
@@ -156,27 +205,83 @@ const ProfilePage: React.FC = () => {
               <Input
                 id="last_name"
                 type="text"
-                {...register('last_name')}
+                {...registerProfile('last_name')}
                 placeholder="Введіть ваше прізвище"
-                className={errors.last_name ? 'border-destructive' : ''}
+                className={profileErrors.last_name ? 'border-destructive' : ''}
               />
-              {errors.last_name && (
-                <p className="text-destructive text-sm mt-1">{errors.last_name.message}</p>
+              {profileErrors.last_name && (
+                <p className="text-destructive text-sm mt-1">{profileErrors.last_name.message}</p>
               )}
             </div>
 
             <Button
               type="submit"
               className="w-full bg-primary text-primary-foreground hover:bg-primary/80"
-              disabled={isUpdating || !isDirty}
+              disabled={isUpdatingProfile || !isProfileDirty}
             >
-              {isUpdating ? (
+              {isUpdatingProfile ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Оновлення...
+                  Оновлення профілю...
                 </>
               ) : (
-                'Зберегти зміни'
+                'Зберегти зміни профілю'
+              )}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      <Card className="w-full max-w-lg mx-auto bg-card shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-2xl text-card-foreground">Змінити Пароль</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmitPassword(onSubmitPassword)} className="space-y-6">
+            <div>
+              <Label htmlFor="newPassword" className="text-lg font-semibold text-secondary-foreground mb-2 block">
+                Новий пароль:
+              </Label>
+              <Input
+                id="newPassword"
+                type="password"
+                {...registerPassword('newPassword')}
+                placeholder="Введіть новий пароль"
+                className={passwordErrors.newPassword ? 'border-destructive' : ''}
+              />
+              {passwordErrors.newPassword && (
+                <p className="text-destructive text-sm mt-1">{passwordErrors.newPassword.message}</p>
+              )}
+            </div>
+
+            <div>
+              <Label htmlFor="confirmNewPassword" className="text-lg font-semibold text-secondary-foreground mb-2 block">
+                Підтвердіть новий пароль:
+              </Label>
+              <Input
+                id="confirmNewPassword"
+                type="password"
+                {...registerPassword('confirmNewPassword')}
+                placeholder="Повторіть новий пароль"
+                className={passwordErrors.confirmNewPassword ? 'border-destructive' : ''}
+              />
+              {passwordErrors.confirmNewPassword && (
+                <p className="text-destructive text-sm mt-1">{passwordErrors.confirmNewPassword.message}</p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/80"
+              disabled={isUpdatingPassword || !isPasswordDirty}
+            >
+              {isUpdatingPassword ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Зміна пароля...
+                </>
+              ) : (
+                'Змінити пароль'
               )}
             </Button>
           </form>
