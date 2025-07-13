@@ -15,9 +15,10 @@ import QuizPage from "./pages/QuizPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import CssPlayground from "./pages/CssPlayground";
-import Login from "./pages/Login"; // Import Login page
+import Login from "./pages/Login";
 import { ThemeProvider } from "@/hooks/use-theme";
-import { SessionContextProvider } from "@/components/SessionContextProvider"; // Import SessionContextProvider
+import { SessionContextProvider } from "@/components/SessionContextProvider";
+import AuthGuard from "@/components/AuthGuard"; // Import AuthGuard
 import React, { useState } from "react";
 
 const queryClient = new QueryClient();
@@ -29,7 +30,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <SessionContextProvider> {/* Wrap the entire app with SessionContextProvider */}
+        <SessionContextProvider>
           <TooltipProvider>
             <Toaster />
             <Sonner />
@@ -44,12 +45,14 @@ const App = () => {
                   <Route path="/css-properties" element={<CssProperties />} />
                   <Route path="/css-selectors" element={<CssSelectors />} />
                   <Route path="/examples" element={<Examples />} />
-                  <Route path="/project-template" element={<ProjectTemplate />} />
-                  <Route path="/quiz" element={<QuizPage />} />
+                  {/* Захищені маршрути */}
+                  <Route path="/project-template" element={<AuthGuard><ProjectTemplate /></AuthGuard>} />
+                  <Route path="/quiz" element={<AuthGuard><QuizPage /></AuthGuard>} />
+                  {/* Кінець захищених маршрутів */}
                   <Route path="/search" element={<SearchResultsPage />} />
                   <Route path="/glossary" element={<GlossaryPage />} />
                   <Route path="/css-playground" element={<CssPlayground />} />
-                  <Route path="/login" element={<Login />} /> {/* Add Login route */}
+                  <Route path="/login" element={<Login />} />
                   {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
