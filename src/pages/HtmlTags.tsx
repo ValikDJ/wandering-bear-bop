@@ -191,6 +191,112 @@ const HtmlTags: React.FC = () => {
             <p className="text-sm text-gray-500">Вміст тегу &lt;head&gt; не відображається на сторінці, але дуже важливий для її роботи.</p>
           }
         />
+
+        {/* NEW TAGS */}
+        <LessonCard
+          id="html-section"
+          title="<section>: Розділ"
+          description="Тег <section> використовується для групування пов'язаного вмісту. Це як окремий розділ у книзі."
+          codeExample={`<section>
+  <h2>Про нас</h2>
+  <p>Ми створюємо чудові веб-сайти.</p>
+</section>`}
+          language="html"
+          result={
+            <section className="border border-gray-300 p-4 rounded-md bg-gray-50">
+              <h2 className="text-xl font-semibold mb-2">Про нас</h2>
+              <p>Ми створюємо чудові веб-сайти.</p>
+            </section>
+          }
+        />
+
+        <LessonCard
+          id="html-div"
+          title="<div>: Універсальний Блок"
+          description="Тег <div> - це універсальний контейнер для групування інших HTML-елементів. Він не має власного семантичного значення, але дуже корисний для стилізації та розміщення елементів за допомогою CSS."
+          codeExample={`<div style="background-color: #e0f7fa; padding: 15px; border-radius: 5px;">
+  <p>Це вміст всередині div.</p>
+  <button>Кнопка</button>
+</div>`}
+          language="html"
+          result={
+            <div style={{ backgroundColor: '#e0f7fa', padding: '15px', borderRadius: '5px' }}>
+              <p>Це вміст всередині div.</p>
+              <button className="bg-blue-500 text-white px-3 py-1 rounded-md mt-2">Кнопка</button>
+            </div>
+          }
+        />
+
+        <LessonCard
+          id="html-button"
+          title="<button>: Кнопка"
+          description="Тег <button> створює інтерактивну кнопку, на яку користувач може натиснути для виконання дії."
+          codeExample={`<button>Натисни мене!</button>`}
+          language="html"
+          result={
+            <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors">Натисни мене!</button>
+          }
+        />
+
+        <LessonCard
+          id="html-ul-ol-li"
+          title="<ul>, <ol>, <li>: Списки"
+          description="Теги <ul> (невпорядкований, з маркерами), <ol> (впорядкований, з номерами) та <li> (елемент списку) використовуються для створення списків."
+          codeExample={`<h3>Мої улюблені фрукти (невпорядкований):</h3>
+<ul>
+  <li>Яблука</li>
+  <li>Банани</li>
+  <li>Апельсини</li>
+</ul>
+
+<h3>Кроки приготування (впорядкований):</h3>
+<ol>
+  <li>Нагрій воду</li>
+  <li>Додай макарони</li>
+  <li>Приготуй соус</li>
+</ol>`}
+          language="html"
+          result={
+            <>
+              <h3 className="text-lg font-semibold mb-2">Мої улюблені фрукти (невпорядкований):</h3>
+              <ul className="list-disc list-inside mb-4">
+                <li>Яблука</li>
+                <li>Банани</li>
+                <li>Апельсини</li>
+              </ul>
+
+              <h3 className="text-lg font-semibold mb-2">Кроки приготування (впорядкований):</h3>
+              <ol className="list-decimal list-inside">
+                <li>Нагрій воду</li>
+                <li>Додай макарони</li>
+                <li>Приготуй соус</li>
+              </ol>
+            </>
+          }
+        />
+
+        <LessonCard
+          id="html-strong"
+          title="<strong>: Жирний Текст (Важливий)"
+          description="Тег <strong> використовується для виділення тексту, який є важливим або має велике значення. Зазвичай відображається жирним шрифтом."
+          codeExample={`<p>Це <strong>дуже важлива</strong> інформація.</p>`}
+          language="html"
+          result={
+            <p>Це <strong>дуже важлива</strong> інформація.</p>
+          }
+        />
+
+        <LessonCard
+          id="html-em"
+          title="<em>: Курсивний Текст (Акцент)"
+          description="Тег <em> використовується для виділення тексту, на який потрібно зробити акцент або який має інтонаційне значення. Зазвичай відображається курсивом."
+          codeExample={`<p>Я <em>дійсно</em> люблю програмувати.</p>`}
+          language="html"
+          result={
+            <p>Я <em>дійсно</em> люблю програмувати.</p>
+          }
+        />
+
       </div>
       <LessonNavigation />
     </div>
