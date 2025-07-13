@@ -58,13 +58,21 @@ const SearchResultsPage: React.FC = () => {
     // 2. Filter page results using Fuse.js with synonym expansion
     if (query) {
       const expandedQueryArray = expandQueryWithSynonyms(query);
-      // Екрануємо кожен термін перед об'єднанням для Fuse.js
       const queryForFuse = expandedQueryArray.map(term => escapeRegExp(term)).join(' ');
-      const results = fuse.search(queryForFuse);
-      const mappedResults = results.map(result => result.item);
+      
+      const results = (() => {
+        try {
+          return fuse.search(queryForFuse);
+        } catch (error) {
+          console.error("Помилка під час пошуку Fuse.js у SearchResultsPage:", error);
+          return []; // Повертаємо порожні результати у випадку помилки
+        }
+      })();
+
+      const matchedItemIds = new Set(results.map(result => result.item.id));
 
       // Remove the direct glossary term from general results if it was found
-      const finalResults = mappedResults.filter(item =>
+      const finalResults = results.map(result => result.item).filter(item =>
         !(item.type === 'glossary' && item.title.toLowerCase().includes(lowerCaseQuery) && directTermDefinition)
       );
 

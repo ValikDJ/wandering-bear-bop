@@ -29,35 +29,50 @@ export function highlightText(text: string, searchTerm: string): React.ReactNode
 
   const parts: React.ReactNode[] = [];
   const lowerCaseText = text.toLowerCase();
-  // Екрануємо searchTerm перед створенням RegExp
   const lowerCaseSearchTermEscaped = escapeRegExp(searchTerm.toLowerCase());
-  let lastIndex = 0;
 
-  let match;
-  const regex = new RegExp(lowerCaseSearchTermEscaped, 'gi'); // 'gi' for global and case-insensitive
-
-  while ((match = regex.exec(lowerCaseText)) !== null) {
-    const startIndex = match.index;
-    const endIndex = regex.lastIndex;
-
-    // Add text before the match
-    if (startIndex > lastIndex) {
-      parts.push(text.substring(lastIndex, startIndex));
+  try {
+    // Уникаємо створення RegExp з порожнім рядком, що може призвести до нескінченного циклу
+    if (lowerCaseSearchTermEscaped === "") {
+      return text;
     }
 
-    // Add the highlighted match
-    parts.push(
-      <span key={startIndex} className="bg-yellow-200 dark:bg-yellow-700 text-yellow-900 dark:text-yellow-100 rounded px-0.5">
-        {text.substring(startIndex, endIndex)}
-      </span>
-    );
-    lastIndex = endIndex;
-  }
+    let lastIndex = 0;
+    const regex = new RegExp(lowerCaseSearchTermEscaped, 'gi'); // 'gi' for global and case-insensitive
 
-  // Add any remaining text after the last match
-  if (lastIndex < text.length) {
-    parts.push(text.substring(lastIndex));
-  }
+    let match;
+    while ((match = regex.exec(lowerCaseText)) !== null) {
+      const startIndex = match.index;
+      const endIndex = regex.lastIndex;
 
-  return <>{parts}</>;
+      // Додаємо текст перед збігом
+      if (startIndex > lastIndex) {
+        parts.push(text.substring(lastIndex, startIndex));
+      }
+
+      // Додаємо виділений збіг
+      parts.push(
+        <span key={startIndex} className="bg-yellow-200 dark:bg-yellow-700 text-yellow-900 dark:text-yellow-100 rounded px-0.5">
+          {text.substring(startIndex, endIndex)}
+        </span>
+      );
+      lastIndex = endIndex;
+
+      // Запобігаємо нескінченному циклу, якщо регулярний вираз з якихось причин збігається з порожнім рядком
+      if (match.index === regex.lastIndex) {
+        regex.lastIndex++;
+      }
+    }
+
+    // Додаємо залишок тексту після останнього збігу
+    if (lastIndex < text.length) {
+      parts.push(text.substring(lastIndex));
+    }
+
+    return <>{parts}</>;
+  } catch (error) {
+    console.error("Помилка у функції highlightText:", error);
+    // У випадку помилки повертаємо оригінальний текст без виділення
+    return text;
+  }
 }

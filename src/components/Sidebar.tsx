@@ -91,9 +91,17 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     }
 
     const expandedQueryArray = expandQueryWithSynonyms(searchTerm);
-    // Екрануємо кожен термін перед об'єднанням для Fuse.js
     const queryForFuse = expandedQueryArray.map(term => escapeRegExp(term)).join(' ');
-    const results = fuse.search(queryForFuse);
+    
+    const results = (() => {
+      try {
+        return fuse.search(queryForFuse);
+      } catch (error) {
+        console.error("Помилка під час пошуку Fuse.js у Sidebar:", error);
+        return []; // Повертаємо порожні результати у випадку помилки
+      }
+    })();
+
     const matchedItemIds = new Set(results.map(r => r.item.id));
 
     const filterAndExpand = (items: SidebarNavItem[]): SidebarNavItem[] => {
