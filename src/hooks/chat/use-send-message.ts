@@ -1,4 +1,4 @@
-import { useState, useRef } = 'react';
+import { useState, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { User } from '@supabase/supabase-js';
@@ -120,6 +120,6 @@ export const useSendMessage = (user: User | null, chatPermissionLevel: 'all' | '
     handleSendMessage,
     handleFileSelect,
     fileInputRef,
-    canSendMessage, // Expose canSendMessage
+    canSendMessage,
   };
 };
