@@ -171,8 +171,8 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
           onCloseMobileSidebar();
         }
         return;
-      } else if (event.key === '/') {
-        event.preventDefault(); // Запобігаємо введенню символу '/'
+      } else if (event.key === '/' || event.key === '.') { // Додано перевірку на '.'
+        event.preventDefault(); // Запобігаємо введенню символу '/' або '.'
         if (searchInputRef.current) {
           searchInputRef.current.focus(); // Безпосередньо фокусуємо поле
         }
@@ -306,7 +306,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         <Input
           ref={searchInputRef}
           type="text"
-          placeholder="Пошук уроків (натисни '/' )"
+          placeholder="Пошук уроків (натисни '/' або '.')"
           value={searchTerm}
           onChange={handleSearchChange}
           className="pl-8 bg-sidebar-accent text-sidebar-accent-foreground placeholder:text-sidebar-foreground/70 focus:ring-sidebar-ring focus:ring-offset-0"
