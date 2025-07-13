@@ -105,6 +105,19 @@ const Index: React.FC = () => {
             </Button>
           </CardContent>
         </Card>
+
+        {/* NEW CARD for CSS Playground */}
+        <Card className="bg-card hover:shadow-lg transition-shadow duration-300">
+          <CardHeader>
+            <CardTitle className="text-2xl text-card-foreground">CSS Майстерня</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-4">Експериментуй з кольорами та CSS кодом!</p>
+            <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/80">
+              <Link to="/css-playground">Почати</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
       <MadeWithDyad />
     </div>

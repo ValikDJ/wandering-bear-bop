@@ -14,6 +14,7 @@ import ProjectTemplate from "./pages/ProjectTemplate";
 import QuizPage from "./pages/QuizPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
+import CssPlayground from "./pages/CssPlayground"; // New import
 import { ThemeProvider } from "@/hooks/use-theme";
 import React, { useState, useEffect, useCallback } from "react";
 
@@ -44,6 +45,7 @@ const App = () => {
                 <Route path="/quiz" element={<QuizPage />} />
                 <Route path="/search" element={<SearchResultsPage />} />
                 <Route path="/glossary" element={<GlossaryPage />} />
+                <Route path="/css-playground" element={<CssPlayground />} /> {/* NEW ROUTE */}
                 {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

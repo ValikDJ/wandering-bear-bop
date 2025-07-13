@@ -1,5 +1,5 @@
 import { SearchItem, searchIndex } from "./searchIndex";
-import { BookOpenText, Code, Lightbulb, GraduationCap, FileText, Book } from "lucide-react"; // Імпорт іконок
+import { BookOpenText, Code, Lightbulb, GraduationCap, FileText, Book, Paintbrush } from "lucide-react"; // Імпорт іконок
 
 export interface SidebarNavItem {
   id: string;
@@ -30,7 +30,7 @@ const examples = searchIndex.filter(item => item.type === 'example');
 const projectTemplate = searchIndex.filter(item => item.type === 'project-template');
 const quiz = searchIndex.filter(item => item.type === 'quiz');
 const glossary = searchIndex.filter(item => item.type === 'glossary');
-
+const cssPlayground = searchIndex.filter(item => item.path === '/css-playground'); // New filter
 
 export const sidebarNavData: SidebarNavItem[] = [
   {
@@ -92,6 +92,14 @@ export const sidebarNavData: SidebarNavItem[] = [
         icon: FileText,
         type: "project-template",
         keywords: projectTemplate[0]?.keywords, // Припускаємо, що є лише один шаблон проекту
+      },
+      { // NEW ITEM FOR CSS PLAYGROUND
+        id: "css-playground-item",
+        title: "CSS Майстерня",
+        path: "/css-playground",
+        icon: Paintbrush,
+        type: "example", // Or a new type if preferred, but 'example' fits
+        keywords: cssPlayground[0]?.keywords,
       },
     ],
   },

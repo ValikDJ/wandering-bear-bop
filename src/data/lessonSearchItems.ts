@@ -323,4 +323,13 @@ export const lessonSearchItems: SearchItem[] = [
     type: "quiz",
     difficulty: "easy",
   },
+  {
+    title: "CSS Майстерня",
+    description: "Інтерактивний редактор для експериментів з CSS та автозаповненням.",
+    path: "/css-playground",
+    keywords: ["css", "майстерня", "редактор", "автозаповнення", "кольори", "інтерактив"],
+    sectionId: "css-playground-editor", // Matches the ID in CssPlayground.tsx
+    type: "example", // Categorized as an example/tool
+    difficulty: "easy",
+  },
 ];
