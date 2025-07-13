@@ -24,7 +24,7 @@ const Layout: React.FC<LayoutProps> = ({ children, searchTerm, setSearchTerm }) 
       <div className="flex flex-1">
         {isMobile ? (
           <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>
-            <SheetContent side="left" className="p-0 w-64 sm:w-72">
+            <SheetContent side="left" className="w-64 sm:w-72 h-full"> {/* Видалено p-0, додано h-full */}
               <Sidebar
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}

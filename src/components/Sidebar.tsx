@@ -21,20 +21,19 @@ const fuseOptions = {
   keys: [
     { name: 'title', weight: 0.7 },
     { name: 'keywords', weight: 0.9 },
-    { name: 'description', weight: 0.5 }, // Припускаємо, що опис може бути доданий до SidebarNavItem для пошуку
+    { name: 'description', weight: 0.5 },
   ],
   includeScore: true,
-  threshold: 0.3, // Налаштовано для ширших збігів
-  distance: 100, // Дозволяє збіги на більшій відстані
+  threshold: 0.3,
+  distance: 100,
   ignoreLocation: true,
   minMatchCharLength: 1,
 };
 
-// Згладжуємо дані бічної панелі для Fuse.js
 const flattenSidebarItems = (items: SidebarNavItem[]): SidebarNavItem[] => {
   let flatList: SidebarNavItem[] = [];
   items.forEach(item => {
-    if (item.path) { // Додаємо лише фактичні навігаційні елементи
+    if (item.path || item.children) { // Include groups in flat list for navigation
       flatList.push(item);
     }
     if (item.children) {
@@ -52,9 +51,9 @@ const MAX_RECENT_SEARCHES = 3;
 
 const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, onCloseMobileSidebar }) => {
   const location = useLocation();
-  const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(sidebarNavData.map(item => item.id))); // Відкриваємо всі групи за замовчуванням
+  const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(sidebarNavData.map(item => item.id)));
   const [filteredNavData, setFilteredNavData] = useState<SidebarNavItem[]>(sidebarNavData);
-  const [activeItemIndex, setActiveItemIndex] = useState(-1); // Для навігації клавіатурою
+  const [focusedItemId, setFocusedItemId] = useState<string | null>(null); // State for keyboard focus
   const searchInputRef = useRef<HTMLInputElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
@@ -83,12 +82,11 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     });
   }, []);
 
-  // Фільтруємо навігаційні дані на основі пошукового запиту
   useEffect(() => {
     if (!searchTerm) {
       setFilteredNavData(sidebarNavData);
-      setActiveItemIndex(-1); // Скидаємо активний елемент
-      setOpenGroups(new Set(sidebarNavData.map(item => item.id))); // Відкриваємо всі групи, коли пошук порожній
+      setFocusedItemId(null); // Reset focused item when search is cleared
+      setOpenGroups(new Set(sidebarNavData.map(item => item.id)));
       return;
     }
 
@@ -104,8 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         if (item.children) {
           const filteredChildren = filterAndExpand(item.children);
           if (filteredChildren.length > 0) {
-            // Якщо дочірні елементи відповідають, переконайтеся, що батьківський елемент включений і розгорнутий
-            setOpenGroups(prev => new Set(prev).add(item.id)); // Розгортаємо батьківський елемент
+            setOpenGroups(prev => new Set(prev).add(item.id));
             item.children = filteredChildren;
             return true;
           }
@@ -114,52 +111,57 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       });
     };
 
-    const newFilteredData = filterAndExpand(JSON.parse(JSON.stringify(sidebarNavData))); // Глибока копія, щоб уникнути зміни оригіналу
+    const newFilteredData = filterAndExpand(JSON.parse(JSON.stringify(sidebarNavData)));
     setFilteredNavData(newFilteredData);
-    setActiveItemIndex(-1); // Скидаємо активний елемент при новому пошуку
+    setFocusedItemId(null); // Reset focused item on new search
   }, [searchTerm]);
 
-  // Автофокус на полі пошуку при натисканні клавіші '/'
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === '/' && searchInputRef.current) {
-        event.preventDefault();
-        searchInputRef.current.focus();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+      const navigableElements = Array.from(sidebarRef.current?.querySelectorAll('[data-nav-item]') || []) as HTMLElement[];
+      if (navigableElements.length === 0) return;
 
-  // Навігація клавіатурою для елементів бічної панелі
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const navigableItems = sidebarRef.current?.querySelectorAll('a[data-nav-item]');
-      if (!navigableItems || navigableItems.length === 0) return;
-
-      let newIndex = activeItemIndex;
+      let currentFocusedIndex = focusedItemId ? navigableElements.findIndex(el => el.dataset.itemId === focusedItemId) : -1;
+      let newIndex = currentFocusedIndex;
 
       if (event.key === 'ArrowDown') {
         event.preventDefault();
-        newIndex = (activeItemIndex + 1) % navigableItems.length;
+        newIndex = (currentFocusedIndex + 1) % navigableElements.length;
       } else if (event.key === 'ArrowUp') {
         event.preventDefault();
-        newIndex = (activeItemIndex - 1 + navigableItems.length) % navigableItems.length;
-      } else if (event.key === 'Enter' && activeItemIndex !== -1) {
+        newIndex = (currentFocusedIndex - 1 + navigableElements.length) % navigableElements.length;
+      } else if (event.key === 'Enter' && newIndex !== -1) {
         event.preventDefault();
-        (navigableItems[activeItemIndex] as HTMLElement).click();
-        if (onCloseMobileSidebar) onCloseMobileSidebar(); // Закриваємо бічну панель на мобільному після вибору
+        const targetElement = navigableElements[newIndex];
+        targetElement.click(); // Simulate click for both Link and Button
+        if (onCloseMobileSidebar && targetElement.tagName === 'A') { // Only close if it's a navigation link
+          onCloseMobileSidebar();
+        }
+        return; // Exit early after handling Enter
+      } else if (event.key === '/') {
+        if (searchInputRef.current && document.activeElement !== searchInputRef.current) {
+          event.preventDefault();
+          searchInputRef.current.focus();
+        }
+        return;
+      } else if (event.key === 'Escape') {
+        if (document.activeElement === searchInputRef.current) {
+          searchInputRef.current.blur();
+          setSearchTerm(""); // Clear search on escape from search input
+        }
+        setFocusedItemId(null); // Clear focused item
+        return;
       }
 
-      if (newIndex !== activeItemIndex) {
-        setActiveItemIndex(newIndex);
-        (navigableItems[newIndex] as HTMLElement).focus();
+      if (newIndex !== currentFocusedIndex) {
+        setFocusedItemId(navigableElements[newIndex].dataset.itemId || null);
+        navigableElements[newIndex].focus(); // Ensure browser focus
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeItemIndex, filteredNavData, isMobile, onCloseMobileSidebar]);
+  }, [focusedItemId, filteredNavData, isMobile, onCloseMobileSidebar, searchTerm, setSearchTerm]);
 
   const toggleGroup = (id: string) => {
     setOpenGroups(prev => {
@@ -177,6 +179,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     const isActive = location.pathname === item.path && (!item.sectionId || location.hash === `#${item.sectionId}`);
     const isGroup = item.children && item.children.length > 0;
     const Icon = item.icon;
+    const isCurrentlyFocused = focusedItemId === item.id;
 
     const itemContent = (
       <div className="flex items-center gap-2">
@@ -189,7 +192,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       return (
         <Collapsible
           key={item.id}
-          open={openGroups.has(item.id) || !!searchTerm} // Завжди відкривати, якщо є пошуковий запит
+          open={openGroups.has(item.id) || !!searchTerm}
           onOpenChange={() => toggleGroup(item.id)}
           className={cn("w-full", level > 0 && "pl-4")}
         >
@@ -200,8 +203,13 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
                 "w-full justify-between text-left py-2 px-3",
                 "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 "font-semibold",
-                level === 0 ? "text-lg" : "text-base"
+                level === 0 ? "text-lg" : "text-base",
+                isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background" // Highlight focused group
               )}
+              data-nav-item // Mark for keyboard navigation
+              data-item-id={item.id} // Store item ID for focus management
+              onFocus={() => setFocusedItemId(item.id)} // Update focused item on actual browser focus
+              onBlur={() => setFocusedItemId(null)} // Clear focused item on blur
             >
               {itemContent}
               <ChevronDown className={cn("h-4 w-4 transition-transform", openGroups.has(item.id) || !!searchTerm ? "rotate-180" : "rotate-0")} />
@@ -224,11 +232,15 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
             "flex items-center gap-2 w-full justify-start text-left px-3 py-2 rounded-md transition-colors duration-200",
             "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
             isActive && "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90",
-            level > 0 && "pl-8", // Відступ для дочірніх елементів
-            level > 1 && "pl-12", // Додатковий відступ для вкладених дочірніх елементів
-            "focus:outline-none focus:ring-2 focus:ring-sidebar-ring focus:ring-offset-2 focus:ring-offset-sidebar-background" // Стиль фокусу
+            level > 0 && "pl-8",
+            level > 1 && "pl-12",
+            "focus:outline-none focus:ring-2 focus:ring-sidebar-ring focus:ring-offset-2 focus:ring-offset-sidebar-background",
+            isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background" // Highlight focused link
           )}
-          data-nav-item // Позначаємо для навігації клавіатурою
+          data-nav-item
+          data-item-id={item.id}
+          onFocus={() => setFocusedItemId(item.id)}
+          onBlur={() => setFocusedItemId(null)}
         >
           {itemContent}
         </Link>
@@ -238,11 +250,12 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    setFocusedItemId(null); // Clear focused item when typing in search
   };
 
   const handleRecentSearchClick = (term: string) => {
     setSearchTerm(term);
-    saveSearchTerm(term); // Зберігаємо знову, щоб перемістити вгору
+    saveSearchTerm(term);
   };
 
   return (
