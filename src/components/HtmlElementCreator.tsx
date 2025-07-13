@@ -36,7 +36,10 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
       case "p":
       case "span":
       case "button":
-        html = `<${selectedTag}>${textContent}</${selectedTag}>`;
+      case "div":
+      case "section":
+      case "li": // li will also use textContent
+        html = `<${selectedTag}>${textContent || `Це ${selectedTag} елемент`}</${selectedTag}>`;
         break;
       case "img":
         html = `<img src="${imgSrc}" alt="${imgAlt}" style="max-width: 100%; height: auto; border-radius: 8px;">`;
@@ -44,8 +47,17 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
       case "a":
         html = `<a href="${linkHref}" target="_blank" style="color: blue; text-decoration: underline;">${textContent || "Посилання"}</a>`;
         break;
-      case "div":
-        html = `<div style="padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9; border-radius: 8px;">${textContent || "Це блок div"}</div>`;
+      case "ul":
+        html = `<ul>
+  <li>${textContent || "Елемент списку 1"}</li>
+  <li>Елемент списку 2</li>
+</ul>`;
+        break;
+      case "ol":
+        html = `<ol>
+  <li>${textContent || "Елемент списку 1"}</li>
+  <li>Елемент списку 2</li>
+</ol>`;
         break;
       default:
         html = `<p>Виберіть тег</p>`;
@@ -66,7 +78,9 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
           body { margin: 0; padding: 10px; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100px; }
           img { max-width: 100%; height: auto; border-radius: 8px; }
           a { color: blue; text-decoration: underline; }
-          div { padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9; border-radius: 8px; }
+          div, section { padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9; border-radius: 8px; }
+          ul, ol { margin-left: 20px; }
+          li { margin-bottom: 5px; }
         </style>
       </head>
       <body>
@@ -79,6 +93,20 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
 
   const handleTagChange = (value: string) => {
     setSelectedTag(value);
+    // Reset text content for list items to a default if switching to ul/ol/li
+    if (['ul', 'ol', 'li'].includes(value)) {
+      setTextContent("Елемент списку 1");
+    } else if (value === 'div' || value === 'section') {
+      setTextContent(`Це ${value} елемент`);
+    } else if (value === 'button') {
+      setTextContent("Натисни мене!");
+    } else if (value === 'p') {
+      setTextContent("Привіт, світ!");
+    } else if (value.startsWith('h')) {
+      setTextContent(`Заголовок ${value.substring(1)} рівня`);
+    } else if (value === 'a') {
+      setTextContent("Посилання");
+    }
   };
 
   const handleTextContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -101,6 +129,10 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
     setLinkHref("https://www.google.com");
   };
 
+  const showTextContentInput = ["h1", "h2", "h3", "p", "span", "button", "a", "div", "section", "li"].includes(selectedTag);
+  const showImageInputs = selectedTag === "img";
+  const showLinkInputs = selectedTag === "a";
+
   return (
     <Card id={id} className="mb-6 bg-card shadow-md">
       <CardHeader>
@@ -115,7 +147,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
               <Label htmlFor="select-tag" className="text-lg font-semibold text-secondary-foreground mb-2 block">
                 Вибери HTML-тег:
               </Label>
-              <Select value={selectedTag} onValueChange={handleTagChange}> {/* Використовуємо нову функцію */}
+              <Select value={selectedTag} onValueChange={handleTagChange}>
                 <SelectTrigger id="select-tag" className="w-full">
                   <SelectValue placeholder="Виберіть тег" />
                 </SelectTrigger>
@@ -126,14 +158,18 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
                   <SelectItem value="p">p (Параграф)</SelectItem>
                   <SelectItem value="span">span (Рядковий елемент)</SelectItem>
                   <SelectItem value="div">div (Блок)</SelectItem>
+                  <SelectItem value="section">section (Розділ)</SelectItem> {/* New */}
                   <SelectItem value="button">button (Кнопка)</SelectItem>
                   <SelectItem value="img">img (Зображення)</SelectItem>
                   <SelectItem value="a">a (Посилання)</SelectItem>
+                  <SelectItem value="ul">ul (Невпорядкований список)</SelectItem> {/* New */}
+                  <SelectItem value="ol">ol (Впорядкований список)</SelectItem> {/* New */}
+                  <SelectItem value="li">li (Елемент списку)</SelectItem> {/* New */}
                 </SelectContent>
               </Select>
             </div>
 
-            {(selectedTag === "h1" || selectedTag === "h2" || selectedTag === "h3" || selectedTag === "p" || selectedTag === "span" || selectedTag === "button" || selectedTag === "a" || selectedTag === "div") && (
+            {showTextContentInput && (
               <div>
                 <Label htmlFor="text-content" className="text-lg font-semibold text-secondary-foreground mb-2 block">
                   Текст/Вміст:
@@ -141,14 +177,14 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
                 <Textarea
                   id="text-content"
                   value={textContent}
-                  onChange={handleTextContentChange} // Використовуємо нову функцію
+                  onChange={handleTextContentChange}
                   className="font-mono text-sm h-24 resize-y"
                   placeholder="Введіть текст або вміст..."
                 />
               </div>
             )}
 
-            {selectedTag === "img" && (
+            {showImageInputs && (
               <>
                 <div>
                   <Label htmlFor="img-src" className="text-lg font-semibold text-secondary-foreground mb-2 block">
@@ -158,7 +194,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
                     id="img-src"
                     type="text"
                     value={imgSrc}
-                    onChange={handleImgSrcChange} // Використовуємо нову функцію
+                    onChange={handleImgSrcChange}
                     placeholder="https://..."
                   />
                 </div>
@@ -177,7 +213,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
               </>
             )}
 
-            {selectedTag === "a" && (
+            {showLinkInputs && (
               <div>
                 <Label htmlFor="link-href" className="text-lg font-semibold text-secondary-foreground mb-2 block">
                   Адреса посилання (href):
@@ -186,7 +222,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
                   id="link-href"
                   type="text"
                   value={linkHref}
-                  onChange={handleLinkHrefChange} // Використовуємо нову функцію
+                  onChange={handleLinkHrefChange}
                   placeholder="https://..."
                 />
               </div>
