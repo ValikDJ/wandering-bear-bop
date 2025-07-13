@@ -54,17 +54,18 @@ const SearchResultsPage: React.FC = () => {
 
     if (query) {
       const expandedQueryArray = expandQueryWithSynonyms(query);
-      // Видалено escapeRegExp тут, оскільки Fuse.js обробляє це самостійно
-      const queryForFuse = expandedQueryArray.join(' ');
+      // НЕ ЕКРАНУЄМО тут, Fuse.js обробляє спеціальні символи самостійно
+      const queryForFuse = expandedQueryArray.join(' ').trim();
       
-      const results = (() => {
+      let results: Fuse.FuseResult<SearchItem>[] = [];
+      if (queryForFuse) { // Шукаємо тільки якщо запит не порожній
         try {
-          return fuse.search(queryForFuse);
+          results = fuse.search(queryForFuse);
         } catch (error) {
           console.error("Помилка під час пошуку Fuse.js у SearchResultsPage:", error);
-          return [];
+          // Продовжуємо з порожніми результатами, не викликаючи збою
         }
-      })();
+      }
 
       const mappedResults = results.map(result => result.item);
 

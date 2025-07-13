@@ -53,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
   const location = useLocation();
   const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(sidebarNavData.map(item => item.id)));
   const [filteredNavData, setFilteredNavData] = useState<SidebarNavItem[]>(sidebarNavData);
-  const [focusedItemId, setFocusedItemId] = useState<string | null>(null); // State for keyboard focus
+  const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
@@ -82,49 +82,71 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     });
   }, []);
 
+  // Нова функція для побудови відфільтрованих даних бічної панелі
+  const buildFilteredSidebarData = useCallback((
+    originalData: SidebarNavItem[],
+    matchedIds: Set<string>,
+    currentSearchTerm: string
+  ): SidebarNavItem[] => {
+    const newOpenGroups = new Set<string>();
+    const lowerCaseSearchTerm = currentSearchTerm.toLowerCase();
+
+    const filterAndMap = (items: SidebarNavItem[]): SidebarNavItem[] => {
+      const filtered: SidebarNavItem[] = [];
+      for (const item of items) {
+        const itemMatches = matchedIds.has(item.id) ||
+                            item.title.toLowerCase().includes(lowerCaseSearchTerm) ||
+                            (item.keywords && item.keywords.some(kw => kw.toLowerCase().includes(lowerCaseSearchTerm)));
+
+        if (item.children) {
+          const filteredChildren = filterAndMap(item.children);
+          if (filteredChildren.length > 0) {
+            newOpenGroups.add(item.id); // Відкриваємо батьківську групу, якщо є відповідні діти
+            filtered.push({ ...item, children: filteredChildren });
+          } else if (itemMatches) { // Якщо сама група відповідає, але діти не відповідають
+            filtered.push({ ...item, children: [] }); // Включаємо групу, але без дітей
+          }
+        } else if (itemMatches) {
+          filtered.push(item);
+        }
+      }
+      return filtered;
+    };
+
+    const result = filterAndMap(originalData);
+    setOpenGroups(newOpenGroups); // Оновлюємо стан відкритих груп
+    return result;
+  }, []);
+
   useEffect(() => {
     if (!searchTerm) {
       setFilteredNavData(sidebarNavData);
-      setFocusedItemId(null); // Reset focused item when search is cleared
-      setOpenGroups(new Set(sidebarNavData.map(item => item.id)));
+      setFocusedItemId(null);
+      setOpenGroups(new Set(sidebarNavData.map(item => item.id))); // Відкриваємо всі групи, коли пошук очищено
       return;
     }
 
     const expandedQueryArray = expandQueryWithSynonyms(searchTerm);
-    // Видалено escapeRegExp тут, оскільки Fuse.js обробляє це самостійно
-    const queryForFuse = expandedQueryArray.join(' ');
-    
-    const results = (() => {
+    // НЕ ЕКРАНУЄМО тут, Fuse.js обробляє спеціальні символи самостійно
+    const queryForFuse = expandedQueryArray.join(' ').trim();
+
+    let results: Fuse.FuseResult<SidebarNavItem>[] = [];
+    if (queryForFuse) { // Шукаємо тільки якщо запит не порожній
       try {
-        return fuse.search(queryForFuse);
+        results = fuse.search(queryForFuse);
       } catch (error) {
         console.error("Помилка під час пошуку Fuse.js у Sidebar:", error);
-        return []; // Повертаємо порожні результати у випадку помилки
+        // Продовжуємо з порожніми результатами, не викликаючи збою
       }
-    })();
+    }
 
     const matchedItemIds = new Set(results.map(r => r.item.id));
 
-    const filterAndExpand = (items: SidebarNavItem[]): SidebarNavItem[] => {
-      return items.filter(item => {
-        const isMatch = matchedItemIds.has(item.id) || item.title.toLowerCase().includes(searchTerm.toLowerCase()) || (item.keywords && item.keywords.some(kw => kw.toLowerCase().includes(searchTerm.toLowerCase())));
-        
-        if (item.children) {
-          const filteredChildren = filterAndExpand(item.children);
-          if (filteredChildren.length > 0) {
-            setOpenGroups(prev => new Set(prev).add(item.id));
-            item.children = filteredChildren;
-            return true;
-          }
-        }
-        return isMatch;
-      });
-    };
-
-    const newFilteredData = filterAndExpand(JSON.parse(JSON.stringify(sidebarNavData)));
+    // Використовуємо нову функцію для побудови відфільтрованих даних
+    const newFilteredData = buildFilteredSidebarData(sidebarNavData, matchedItemIds, searchTerm);
     setFilteredNavData(newFilteredData);
-    setFocusedItemId(null); // Reset focused item on new search
-  }, [searchTerm]);
+    setFocusedItemId(null);
+  }, [searchTerm, buildFilteredSidebarData]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -143,11 +165,11 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       } else if (event.key === 'Enter' && newIndex !== -1) {
         event.preventDefault();
         const targetElement = navigableElements[newIndex];
-        targetElement.click(); // Simulate click for both Link and Button
-        if (onCloseMobileSidebar && targetElement.tagName === 'A') { // Only close if it's a navigation link
+        targetElement.click(); // Симулюємо клік для Link та Button
+        if (onCloseMobileSidebar && targetElement.tagName === 'A') { // Закриваємо тільки якщо це навігаційне посилання
           onCloseMobileSidebar();
         }
-        return; // Exit early after handling Enter
+        return;
       } else if (event.key === '/') {
         if (searchInputRef.current && document.activeElement !== searchInputRef.current) {
           event.preventDefault();
@@ -157,15 +179,15 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       } else if (event.key === 'Escape') {
         if (document.activeElement === searchInputRef.current) {
           searchInputRef.current.blur();
-          setSearchTerm(""); // Clear search on escape from search input
+          setSearchTerm(""); // Очищаємо пошук при натисканні Escape з поля пошуку
         }
-        setFocusedItemId(null); // Clear focused item
+        setFocusedItemId(null); // Очищаємо сфокусований елемент
         return;
       }
 
       if (newIndex !== currentFocusedIndex) {
         setFocusedItemId(navigableElements[newIndex].dataset.itemId || null);
-        navigableElements[newIndex].focus(); // Ensure browser focus
+        navigableElements[newIndex].focus(); // Забезпечуємо фокус браузера
       }
     };
 
@@ -214,12 +236,12 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
                 "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 "font-semibold",
                 level === 0 ? "text-lg" : "text-base",
-                isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background" // Highlight focused group
+                isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background"
               )}
-              data-nav-item // Mark for keyboard navigation
-              data-item-id={item.id} // Store item ID for focus management
-              onFocus={() => setFocusedItemId(item.id)} // Update focused item on actual browser focus
-              onBlur={() => setFocusedItemId(null)} // Clear focused item on blur
+              data-nav-item
+              data-item-id={item.id}
+              onFocus={() => setFocusedItemId(item.id)}
+              onBlur={() => setFocusedItemId(null)}
             >
               {itemContent}
               <ChevronDown className={cn("h-4 w-4 transition-transform", openGroups.has(item.id) || !!searchTerm ? "rotate-180" : "rotate-0")} />
@@ -245,7 +267,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
             level > 0 && "pl-8",
             level > 1 && "pl-12",
             "focus:outline-none focus:ring-2 focus:ring-sidebar-ring focus:ring-offset-2 focus:ring-offset-sidebar-background",
-            isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background" // Highlight focused link
+            isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background"
           )}
           data-nav-item
           data-item-id={item.id}
@@ -260,7 +282,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
-    setFocusedItemId(null); // Clear focused item when typing in search
+    setFocusedItemId(null);
   };
 
   const handleRecentSearchClick = (term: string) => {
