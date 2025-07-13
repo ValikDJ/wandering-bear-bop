@@ -4,6 +4,7 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { Badge } from "@/components/ui/badge"; // Import Badge component
 
 interface InteractiveCssPropertyProps {
   id?: string; // New: Optional ID for direct linking
@@ -73,7 +74,10 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
   return (
     <Card id={id} className="mb-6 bg-card shadow-md"> {/* Apply ID here */}
       <CardHeader>
-        <CardTitle className="text-2xl text-foreground">{title}</CardTitle>
+        <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+          {title.replace(' (Інтерактивно!)', '')} {/* Remove the text from title */}
+          <Badge variant="secondary" className="ml-2 bg-blue-500 text-white">Інтерактивно!</Badge> {/* Add the badge */}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-muted-foreground">{description}</p>
