@@ -1,21 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import InteractiveCssEditor from "@/components/InteractiveCssEditor";
 import ColorPicker from "@/components/ColorPicker";
 import LessonNavigation from "@/components/LessonNavigation";
+import { useTheme } from "@/hooks/use-theme"; // Import useTheme hook
+import { ThemeMode } from "@/lib/ThemeManager"; // Import ThemeMode enum
 
 const CssPlayground: React.FC = () => {
-  const [bgColor, setBgColor] = useState("#ffffff"); // Initial background color
-  const [textColor, setTextColor] = useState("#0c0a09"); // Initial text color
+  const { actualTheme } = useTheme();
+
+  // Initialize colors based on the current theme
+  const getInitialBgColor = (theme: "light" | "dark") =>
+    theme === ThemeMode.Dark ? "#1a1a1a" : "#ffffff";
+  const getInitialTextColor = (theme: "light" | "dark") =>
+    theme === ThemeMode.Dark ? "#e9ecef" : "#0c0a09";
+
+  const [bgColor, setBgColor] = useState<string>(() => getInitialBgColor(actualTheme));
+  const [textColor, setTextColor] = useState<string>(() => getInitialTextColor(actualTheme));
+
+  // Effect to update colors when theme changes
+  useEffect(() => {
+    setBgColor(getInitialBgColor(actualTheme));
+    setTextColor(getInitialTextColor(actualTheme));
+  }, [actualTheme]);
 
   const handleColorChange = (newBgColor: string, newTextColor: string) => {
     setBgColor(newBgColor);
     setTextColor(newTextColor);
   };
 
-  // The HTML for the preview block in InteractiveCssEditor will be fixed,
-  // but its style will be influenced by the CSS code entered by the user.
-  // We can pass initial CSS that sets the background/text color of the main element.
   const initialCssForEditor = `.my-element {
   background-color: ${bgColor};
   color: ${textColor};
