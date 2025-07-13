@@ -6,6 +6,7 @@ import HtmlElementCreator from "@/components/HtmlElementCreator";
 import { Button } from "@/components/ui/button";
 import LessonNavigation from "@/components/LessonNavigation";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash"; // Import the new hook
+import CssGradientGenerator from "@/components/CssGradientGenerator"; // NEW IMPORT
 
 const Examples: React.FC = () => {
   useScrollToHash(); // Use the hook here
@@ -44,6 +45,8 @@ button {
         />
 
         <HtmlElementCreator id="example-html-creator" /> {/* Added ID */}
+
+        <CssGradientGenerator /> {/* NEW COMPONENT */}
 
         {/* Existing Lesson Cards (kept here as they are general examples) */}
         <LessonCard

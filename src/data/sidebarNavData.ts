@@ -30,7 +30,8 @@ const examples = searchIndex.filter(item => item.type === 'example');
 const projectTemplate = searchIndex.filter(item => item.type === 'project-template');
 const quiz = searchIndex.filter(item => item.type === 'quiz');
 const glossary = searchIndex.filter(item => item.type === 'glossary');
-const cssPlayground = searchIndex.filter(item => item.path === '/css-playground'); // New filter
+const cssPlayground = searchIndex.filter(item => item.path === '/css-playground');
+const cssGradientGenerator = searchIndex.filter(item => item.path === '/examples' && item.sectionId === 'example-css-gradient-generator'); // NEW FILTER
 
 export const sidebarNavData: SidebarNavItem[] = [
   {
@@ -100,6 +101,15 @@ export const sidebarNavData: SidebarNavItem[] = [
         icon: Paintbrush,
         type: "example", // Or a new type if preferred, but 'example' fits
         keywords: cssPlayground[0]?.keywords,
+      },
+      { // NEW ITEM FOR CSS GRADIENT GENERATOR
+        id: "css-gradient-generator-item",
+        title: "Генератор CSS Градієнтів",
+        path: "/examples",
+        sectionId: "example-css-gradient-generator",
+        icon: Paintbrush, // Reusing Paintbrush icon
+        type: "example",
+        keywords: cssGradientGenerator[0]?.keywords,
       },
     ],
   },

@@ -317,6 +317,15 @@ export const lessonSearchItems: SearchItem[] = [
     difficulty: "easy",
   },
   {
+    title: "Практичні Приклади: Генератор CSS Градієнтів",
+    description: "Інтерактивний інструмент для створення лінійних та радіальних градієнтів.",
+    path: "/examples",
+    keywords: ["приклади", "градієнт", "css", "linear-gradient", "radial-gradient", "кольори", "інструмент"],
+    sectionId: "example-css-gradient-generator",
+    type: "example",
+    difficulty: "medium",
+  },
+  {
     title: "Практичні Приклади: Як зробити заголовок червоним?",
     description: "Приклад використання <h1> та `color`.",
     path: "/examples",
