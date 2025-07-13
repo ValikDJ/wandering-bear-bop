@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -9,12 +9,13 @@ import {
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider'; // NEW IMPORT
-import { Label } from '@/components/ui/label'; // NEW IMPORT
+import { Slider } from '@/components/ui/slider';
+import { Label } from '@/components/ui/label';
 import { Users, UserCheck, UserX, Lock, Settings, Trash2, Clock } from 'lucide-react';
 import DeleteAllMessagesDialog from './DeleteAllMessagesDialog';
 import { toast } from 'sonner';
 import { MessageExpiryDuration } from '@/types/chat';
+import { useDebounce } from '@/hooks/use-debounce'; // NEW IMPORT
 
 interface ChatAdminControlsProps {
   chatPermissionLevel: 'all' | 'authenticated' | 'unauthenticated' | 'none';
@@ -45,6 +46,28 @@ const ChatAdminControls: React.FC<ChatAdminControlsProps> = ({
   messageExpiryDuration,
   onMessageExpiryChange,
 }) => {
+  // Локальний стан для повзунка, оновлюється миттєво
+  const [localExpirySliderValue, setLocalExpirySliderValue] = useState<number>(
+    expiryOptions.findIndex(opt => opt.value === messageExpiryDuration)
+  );
+
+  // Дебаунс значення повзунка перед відправкою до батьківського компонента
+  const debouncedExpirySliderValue = useDebounce(localExpirySliderValue, 300); // 300ms затримка
+
+  // Оновлюємо локальний стан, якщо messageExpiryDuration змінюється ззовні (наприклад, при завантаженні)
+  useEffect(() => {
+    setLocalExpirySliderValue(expiryOptions.findIndex(opt => opt.value === messageExpiryDuration));
+  }, [messageExpiryDuration]);
+
+  // Викликаємо onMessageExpiryChange лише коли дебаунс-значення змінюється
+  useEffect(() => {
+    const newDuration = expiryOptions[debouncedExpirySliderValue]?.value;
+    if (newDuration && newDuration !== messageExpiryDuration) {
+      onMessageExpiryChange(newDuration);
+    }
+  }, [debouncedExpirySliderValue, onMessageExpiryChange, messageExpiryDuration]);
+
+
   const getPermissionDescription = (level: 'all' | 'authenticated' | 'unauthenticated' | 'none') => {
     switch (level) {
       case 'all': return 'Всі користувачі можуть писати.';
@@ -68,13 +91,6 @@ const ChatAdminControls: React.FC<ChatAdminControlsProps> = ({
   const getExpiryDescription = (duration: MessageExpiryDuration) => {
     const option = expiryOptions.find(opt => opt.value === duration);
     return option ? `Повідомлення видаляються через ${option.label.toLowerCase()}.` : '';
-  };
-
-  const currentExpirySliderValue = expiryOptions.findIndex(opt => opt.value === messageExpiryDuration);
-
-  const handleSliderChange = (value: number[]) => {
-    const newDuration = expiryOptions[value[0]].value;
-    onMessageExpiryChange(newDuration);
   };
 
   return (
@@ -116,25 +132,25 @@ const ChatAdminControls: React.FC<ChatAdminControlsProps> = ({
 
         <DropdownMenuSeparator className="my-2 bg-border" />
 
-        {/* NEW: Message Expiry Setting with Slider */}
+        {/* Message Expiry Setting with Slider */}
         <DropdownMenuLabel className="text-sm font-semibold text-muted-foreground mb-2 mt-4">
           Автоматичне видалення повідомлень
         </DropdownMenuLabel>
-        <div className="px-2 py-1.5"> {/* Wrap slider in a div to apply padding */}
+        <div className="px-2 py-1.5">
           <Label htmlFor="message-expiry-slider" className="text-sm font-medium text-secondary-foreground mb-2 block">
-            Термін дії: {expiryOptions[currentExpirySliderValue]?.label || 'Невідомо'}
+            Термін дії: {expiryOptions[localExpirySliderValue]?.label || 'Невідомо'}
           </Label>
           <Slider
             id="message-expiry-slider"
             min={0}
             max={expiryOptions.length - 1}
             step={1}
-            value={[currentExpirySliderValue]}
-            onValueChange={handleSliderChange}
+            value={[localExpirySliderValue]}
+            onValueChange={(val) => setLocalExpirySliderValue(val[0])} // Оновлюємо локальний стан
             className="w-full"
           />
         </div>
-        <p className="text-xs text-muted-foreground px-2 py-1">{getExpiryDescription(messageExpiryDuration)}</p>
+        <p className="text-xs text-muted-foreground px-2 py-1">{getExpiryDescription(expiryOptions[localExpirySliderValue]?.value || 'never')}</p>
 
         <DropdownMenuSeparator className="my-2 bg-border" />
 
