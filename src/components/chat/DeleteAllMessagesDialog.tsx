@@ -11,6 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Trash2 } from 'lucide-react'; // Import Trash2 icon
 
 interface DeleteAllMessagesDialogProps {
   onDeleteAllMessages: () => Promise<void>;
@@ -20,13 +21,14 @@ const DeleteAllMessagesDialog: React.FC<DeleteAllMessagesDialogProps> = ({ onDel
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" className="w-full mt-2">
-          Видалити всі повідомлення
+        {/* Adjusted button styling for use within a dropdown menu */}
+        <Button variant="ghost" className="w-full justify-start text-left px-2 py-1.5 text-sm font-medium text-destructive hover:bg-destructive/10 hover:text-destructive" >
+          <Trash2 className="mr-2 h-4 w-4" /> Видалити всі повідомлення
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-card text-card-foreground">
         <AlertDialogHeader>
-          <AlertDialogTitle>Ви впевнені?</AlertDialogTitle>
+          <AlertDialogTitle>Ви впевнені?</AlertDialogDTitle>
           <AlertDialogDescription>
             Ця дія видалить всі повідомлення з чату назавжди. Цю дію неможливо скасувати.
           </AlertDialogDescription>
