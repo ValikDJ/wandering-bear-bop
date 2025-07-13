@@ -1,6 +1,6 @@
 import React from 'react';
 import { User } from '@supabase/supabase-js';
-import { Paperclip, MoreHorizontal, Edit, Trash2 } from 'lucide-react';
+import { Paperclip, MoreHorizontal, Edit, Trash2, Copy } from 'lucide-react'; // Import Copy icon
 import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -11,6 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Message } from '@/types/chat';
+import { toast } from 'sonner'; // Import toast for copy feedback
 
 interface ChatMessageProps {
   message: Message;
@@ -60,6 +61,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
     return msg.content;
   };
 
+  const handleCopyMessage = () => {
+    navigator.clipboard.writeText(message.content);
+    toast.success('Повідомлення скопійовано!');
+  };
+
   return (
     <div
       className={cn(
@@ -103,20 +109,35 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
           renderMessageContent(message)
         )}
       </div>
-      {isOrganizer && (
+      {/* Dropdown menu for actions */}
+      {(isOrganizer || isMyMessage) && ( // Show dropdown if organizer or it's my message
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Button
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "absolute top-1 right-1 h-6 w-6 transition-opacity",
+                isOrganizer ? "opacity-100" : "opacity-0 group-hover:opacity-100" // Always visible for organizer, on hover for others
+              )}
+            >
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="bg-popover text-popover-foreground">
-            <DropdownMenuItem onClick={() => onEditClick(message)} className="cursor-pointer">
-              <Edit className="mr-2 h-4 w-4" /> Редагувати
+            <DropdownMenuItem onClick={handleCopyMessage} className="cursor-pointer">
+              <Copy className="mr-2 h-4 w-4" /> Копіювати
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onDeleteMessage(message.id)} className="cursor-pointer text-destructive">
-              <Trash2 className="mr-2 h-4 w-4" /> Видалити
-            </DropdownMenuItem>
+            {isOrganizer && ( // Only show edit/delete for organizer
+              <>
+                <DropdownMenuItem onClick={() => onEditClick(message)} className="cursor-pointer">
+                  <Edit className="mr-2 h-4 w-4" /> Редагувати
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onDeleteMessage(message.id)} className="cursor-pointer text-destructive">
+                  <Trash2 className="mr-2 h-4 w-4" /> Видалити
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       )}
