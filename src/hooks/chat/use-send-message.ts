@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef } = 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { User } from '@supabase/supabase-js';
@@ -6,16 +6,35 @@ import { Message } from '@/types/chat';
 
 const MAX_FILE_SIZE_MB = 25;
 
-export const useSendMessage = (user: User | null) => {
+export const useSendMessage = (user: User | null, chatPermissionLevel: 'all' | 'authenticated' | 'unauthenticated' | 'none') => {
   const [newMessage, setNewMessage] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [uploadingFile, setUploadingFile] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const canSendMessage = () => {
+    if (chatPermissionLevel === 'none') {
+      toast.error('Надсилання повідомлень вимкнено.');
+      return false;
+    }
+    if (chatPermissionLevel === 'authenticated' && !user) {
+      toast.error('Будь ласка, увійдіть, щоб надсилати повідомлення.');
+      return false;
+    }
+    if (chatPermissionLevel === 'unauthenticated' && user) {
+      toast.error('Надсилання повідомлень дозволено лише неавторизованим користувачам.');
+      return false;
+    }
+    return true;
+  };
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() && !file) return;
-    if (!user) {
+    if (!canSendMessage()) {
+      return;
+    }
+    if (!user) { // This check is still needed for the actual insert operation
       toast.error('Будь ласка, увійдіть, щоб надсилати повідомлення.');
       return;
     }
@@ -101,5 +120,6 @@ export const useSendMessage = (user: User | null) => {
     handleSendMessage,
     handleFileSelect,
     fileInputRef,
+    canSendMessage, // Expose canSendMessage
   };
 };

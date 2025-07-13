@@ -9,6 +9,7 @@ const ORGANIZER_EMAIL = 'valik.shevhyk@gmail.com';
 export const useChatMessages = () => {
   const { user, isLoading: isSessionLoading } = useSession();
   const [messages, setMessages] = useState<Message[]>([]);
+  const [chatPermissionLevel, setChatPermissionLevel] = useState<'all' | 'authenticated' | 'unauthenticated' | 'none'>('all'); // New state
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const isOrganizer = user?.email === ORGANIZER_EMAIL;
@@ -19,6 +20,22 @@ export const useChatMessages = () => {
 
   useEffect(() => {
     let subscription: any;
+    let settingsSubscription: any; // New subscription for settings
+
+    const fetchSettings = async () => {
+      const { data, error } = await supabase
+        .from('chat_settings')
+        .select('permission_level')
+        .eq('id', '00000000-0000-0000-0000-000000000001') // Fixed ID for the single settings row
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching chat settings:', error);
+        toast.error('Помилка завантаження налаштувань чату.');
+      } else if (data) {
+        setChatPermissionLevel(data.permission_level as 'all' | 'authenticated' | 'unauthenticated' | 'none');
+      }
+    };
 
     const fetchMessages = async () => {
       if (!user) {
@@ -51,8 +68,10 @@ export const useChatMessages = () => {
     };
 
     if (!isSessionLoading) {
+      fetchSettings(); // Fetch settings on load
       fetchMessages();
 
+      // Subscribe to chat messages
       if (user) {
         subscription = supabase
           .channel('chat_room')
@@ -117,11 +136,28 @@ export const useChatMessages = () => {
           )
           .subscribe();
       }
+
+      // Subscribe to chat settings changes
+      settingsSubscription = supabase
+        .channel('chat_settings_channel')
+        .on(
+          'postgres_changes',
+          { event: 'UPDATE', schema: 'public', table: 'chat_settings', filter: `id=eq.00000000-0000-0000-0000-000000000001` },
+          (payload) => {
+            const updatedSettings = payload.new as { permission_level: 'all' | 'authenticated' | 'unauthenticated' | 'none' };
+            setChatPermissionLevel(updatedSettings.permission_level);
+            toast.info(`Налаштування чату оновлено: ${updatedSettings.permission_level}`);
+          }
+        )
+        .subscribe();
     }
 
     return () => {
       if (subscription) {
         supabase.removeChannel(subscription);
+      }
+      if (settingsSubscription) {
+        supabase.removeChannel(settingsSubscription);
       }
     };
   }, [user, isSessionLoading]);
@@ -130,5 +166,5 @@ export const useChatMessages = () => {
     scrollToBottom();
   }, [messages]);
 
-  return { messages, isSessionLoading, user, isOrganizer, messagesEndRef, scrollToBottom, setMessages };
+  return { messages, isSessionLoading, user, isOrganizer, messagesEndRef, scrollToBottom, setMessages, chatPermissionLevel };
 };
