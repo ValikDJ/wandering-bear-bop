@@ -166,15 +166,4 @@
   50% { transform: translateY(-2px); }
 }
 
-@keyframes speak {
-  0%, 100% { transform: scaleY(1); }
-  50% { transform: scaleY(0.8); }
-}
-
-.animate-breathe {
-  animation: breathe 3s ease-in-out infinite;
-}
-
-.animate-speak {
-  animation: speak 0.5s ease-in-out infinite alternate;
-}
+/* Анімація speak видалена */

@@ -14,17 +14,16 @@ import ProjectTemplate from "./pages/ProjectTemplate";
 import QuizPage from "./pages/QuizPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
-import AIAssistant from "./components/AIAssistant";
 import { ThemeProvider } from "@/hooks/use-theme";
 import React, { useState, useEffect, useCallback } from "react";
 
 const queryClient = new QueryClient();
 const basename = import.meta.env.BASE_URL;
-const CHARACTER_STORAGE_KEY = "selected-ai-character";
+const CHARACTER_STORAGE_KEY = "selected-ai-character"; // Змінимо назву ключа, якщо персонажі більше не AI
 
 const App = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<'robot' | 'cat' | 'owl' | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>(""); // Новий стан для глобального пошукового запиту
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const storedCharacter = localStorage.getItem(CHARACTER_STORAGE_KEY) as 'robot' | 'cat' | 'owl' | null;
@@ -45,7 +44,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter basename={basename}>
-            <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm}> {/* Передаємо стан пошуку до Layout */}
+            <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm} selectedCharacter={selectedCharacter}> {/* Передаємо selectedCharacter до Layout */}
               <Routes>
                 <Route path="/" element={<Index selectedCharacter={selectedCharacter} onCharacterSelect={handleCharacterSelect} />} />
                 <Route path="/html-tags" element={<HtmlTags />} />
@@ -62,7 +61,7 @@ const App = () => {
             </Layout>
           </BrowserRouter>
         </TooltipProvider>
-        {selectedCharacter && <AIAssistant characterType={selectedCharacter} />}
+        {/* Компонент AIAssistant видалено, його функціонал замінить LessonGuideCharacter */}
       </ThemeProvider>
     </QueryClientProvider>
   );
