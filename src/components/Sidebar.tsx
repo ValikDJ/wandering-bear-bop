@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn, highlightText, escapeRegExp } from "@/lib/utils";
 import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
-import Fuse from 'fuse.js'; // Виправлено імпорт: тепер це default import
+import Fuse from 'fuse.js';
+import type { FuseResult } from 'fuse.js'; // Додано імпорт типу FuseResult
 import { expandQueryWithSynonyms } from "@/data/synonymMap";
 
 interface SidebarProps {
@@ -130,7 +131,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     // НЕ ЕКРАНУЄМО тут, Fuse.js обробляє спеціальні символи самостійно
     const queryForFuse = expandedQueryArray.join(' ').trim();
 
-    let results: Fuse.FuseResult<SidebarNavItem>[] = [];
+    let results: FuseResult<SidebarNavItem>[] = []; // Виправлено: використовуємо імпортований тип FuseResult
     if (queryForFuse) { // Шукаємо тільки якщо запит не порожній
       try {
         results = fuse.search(queryForFuse);

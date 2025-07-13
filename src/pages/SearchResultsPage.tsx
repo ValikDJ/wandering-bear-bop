@@ -8,7 +8,8 @@ import { glossaryData, GlossaryTerm } from "@/data/glossaryData";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { highlightText, escapeRegExp } from "@/lib/utils";
-import Fuse from 'fuse.js'; // Виправлено імпорт: тепер це default import
+import Fuse from 'fuse.js';
+import type { FuseResult } from 'fuse.js'; // Додано імпорт типу FuseResult
 import { expandQueryWithSynonyms } from "@/data/synonymMap";
 
 const getEmojiForType = (type: SearchItem['type']) => {
@@ -57,7 +58,7 @@ const SearchResultsPage: React.FC = () => {
       // НЕ ЕКРАНУЄМО тут, Fuse.js обробляє спеціальні символи самостійно
       const queryForFuse = expandedQueryArray.join(' ').trim();
       
-      let results: Fuse.FuseResult<SearchItem>[] = [];
+      let results: FuseResult<SearchItem>[] = []; // Виправлено: використовуємо імпортований тип FuseResult
       if (queryForFuse) { // Шукаємо тільки якщо запит не порожній
         try {
           results = fuse.search(queryForFuse);
