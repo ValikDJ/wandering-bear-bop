@@ -8,7 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn, highlightText, escapeRegExp } from "@/lib/utils";
 import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import Fuse from 'fuse.js';
-import type { FuseResult } from 'fuse.js'; // Додано імпорт типу FuseResult
+import type { FuseResult } from 'fuse.js';
 import { expandQueryWithSynonyms } from "@/data/synonymMap";
 
 interface SidebarProps {
@@ -34,7 +34,7 @@ const fuseOptions = {
 const flattenSidebarItems = (items: SidebarNavItem[]): SidebarNavItem[] => {
   let flatList: SidebarNavItem[] = [];
   items.forEach(item => {
-    if (item.path || item.children) { // Include groups in flat list for navigation
+    if (item.path || item.children) {
       flatList.push(item);
     }
     if (item.children) {
@@ -57,9 +57,9 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
   const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null); // Ref for the scrollable area
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const [activeSectionTitle, setActiveSectionTitle] = useState<string>("Навігація"); // New state for dynamic header
+  const [activeSectionTitle, setActiveSectionTitle] = useState<string>("Навігація");
 
   useEffect(() => {
     try {
@@ -85,7 +85,6 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     });
   }, []);
 
-  // Нова функція для побудови відфільтрованих даних бічної панелі
   const buildFilteredSidebarData = useCallback((
     originalData: SidebarNavItem[],
     matchedIds: Set<string>,
@@ -104,10 +103,10 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         if (item.children) {
           const filteredChildren = filterAndMap(item.children);
           if (filteredChildren.length > 0) {
-            newOpenGroups.add(item.id); // Відкриваємо батьківську групу, якщо є відповідні діти
+            newOpenGroups.add(item.id);
             filtered.push({ ...item, children: filteredChildren });
-          } else if (itemMatches) { // Якщо сама група відповідає, але діти не відповідають
-            filtered.push({ ...item, children: [] }); // Включаємо групу, але без дітей
+          } else if (itemMatches) {
+            filtered.push({ ...item, children: [] });
           }
         } else if (itemMatches) {
           filtered.push(item);
@@ -117,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     };
 
     const result = filterAndMap(originalData);
-    setOpenGroups(newOpenGroups); // Оновлюємо стан відкритих груп
+    setOpenGroups(newOpenGroups);
     return result;
   }, []);
 
@@ -125,27 +124,24 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     if (!searchTerm) {
       setFilteredNavData(sidebarNavData);
       setFocusedItemId(null);
-      setOpenGroups(new Set(sidebarNavData.map(item => item.id))); // Відкриваємо всі групи, коли пошук очищено
+      setOpenGroups(new Set(sidebarNavData.map(item => item.id)));
       return;
     }
 
     const expandedQueryArray = expandQueryWithSynonyms(searchTerm);
-    // НЕ ЕКРАНУЄМО тут, Fuse.js обробляє спеціальні символи самостійно
     const queryForFuse = expandedQueryArray.join(' ').trim();
 
-    let results: FuseResult<SidebarNavItem>[] = []; // Виправлено: використовуємо імпортований тип FuseResult
-    if (queryForFuse) { // Шукаємо тільки якщо запит не порожній
+    let results: FuseResult<SidebarNavItem>[] = [];
+    if (queryForFuse) {
       try {
         results = fuse.search(queryForFuse);
       } catch (error) {
         console.error("Помилка під час пошуку Fuse.js у Sidebar:", error);
-        // Продовжуємо з порожніми результатами, не викликаючи збою
       }
     }
 
     const matchedItemIds = new Set(results.map(r => r.item.id));
 
-    // Використовуємо нову функцію для побудови відфільтрованих даних
     const newFilteredData = buildFilteredSidebarData(sidebarNavData, matchedItemIds, searchTerm);
     setFilteredNavData(newFilteredData);
     setFocusedItemId(null);
@@ -153,6 +149,18 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      // Check if the active element is an input or textarea
+      const activeElement = document.activeElement;
+      const isTypingInInput = activeElement && (
+        activeElement.tagName === 'INPUT' ||
+        activeElement.tagName === 'TEXTAREA'
+      );
+
+      // If typing in an input/textarea, do not intercept '/' or '.'
+      if (isTypingInInput && (event.key === '/' || event.key === '.')) {
+        return;
+      }
+
       const navigableElements = Array.from(sidebarRef.current?.querySelectorAll('[data-nav-item]') || []) as HTMLElement[];
       if (navigableElements.length === 0) return;
 
@@ -168,29 +176,29 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       } else if (event.key === 'Enter' && newIndex !== -1) {
         event.preventDefault();
         const targetElement = navigableElements[newIndex];
-        targetElement.click(); // Симулюємо клік для Link та Button
-        if (onCloseMobileSidebar && targetElement.tagName === 'A') { // Закриваємо тільки якщо це навігаційне посилання
+        targetElement.click();
+        if (onCloseMobileSidebar && targetElement.tagName === 'A') {
           onCloseMobileSidebar();
         }
         return;
-      } else if (event.key === '/' || event.key === '.') { // Додано перевірку на '.'
-        event.preventDefault(); // Запобігаємо введенню символу '/' або '.'
+      } else if (event.key === '/' || event.key === '.') {
+        event.preventDefault();
         if (searchInputRef.current) {
-          searchInputRef.current.focus(); // Безпосередньо фокусуємо поле
+          searchInputRef.current.focus();
         }
         return;
       } else if (event.key === 'Escape') {
         if (document.activeElement === searchInputRef.current) {
           searchInputRef.current.blur();
-          setSearchTerm(""); // Очищаємо пошук при натисканні Escape з поля пошуку
+          setSearchTerm("");
         }
-        setFocusedItemId(null); // Очищаємо сфокусований елемент
+        setFocusedItemId(null);
         return;
       }
 
       if (newIndex !== currentFocusedIndex) {
         setFocusedItemId(navigableElements[newIndex].dataset.itemId || null);
-        navigableElements[newIndex].focus(); // Забезпечуємо фокус браузера
+        navigableElements[newIndex].focus();
       }
     };
 
@@ -210,7 +218,6 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     });
   };
 
-  // Determine initial active section title based on current path
   useEffect(() => {
     const currentPath = location.pathname;
     const foundGroup = sidebarNavData.find(group =>
@@ -219,25 +226,22 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     if (foundGroup) {
       setActiveSectionTitle(foundGroup.title);
     } else {
-      setActiveSectionTitle("Навігація"); // Default title
+      setActiveSectionTitle("Навігація");
     }
   }, [location.pathname]);
 
-  // Scroll listener for dynamic header
   useEffect(() => {
     const scrollAreaElement = scrollAreaRef.current;
     if (!scrollAreaElement) return;
 
     const handleScroll = () => {
-      let currentActiveTitle = "Навігація"; // Default if nothing is in view
+      let currentActiveTitle = "Навігація";
       let closestTop = Infinity;
 
       sidebarNavData.forEach(group => {
         const groupElement = document.getElementById(`sidebar-group-${group.id}`);
         if (groupElement) {
           const rect = groupElement.getBoundingClientRect();
-          // Check if the group is in view and its top is closer to the scroll area's top
-          // We consider it "active" if its top is within the visible area and it's the highest one
           if (rect.top >= 0 && rect.top < closestTop && rect.bottom > 0) {
             closestTop = rect.top;
             currentActiveTitle = group.title;
@@ -248,13 +252,12 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     };
 
     scrollAreaElement.addEventListener('scroll', handleScroll);
-    // Initial check on mount
     handleScroll();
 
     return () => {
       scrollAreaElement.removeEventListener('scroll', handleScroll);
     };
-  }, [filteredNavData]); // Re-run if filteredNavData changes (e.g., search results)
+  }, [filteredNavData]);
 
 
   const renderNavItem = (item: SidebarNavItem, level: number = 0) => {
@@ -263,7 +266,6 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     const Icon = item.icon;
     const isCurrentlyFocused = focusedItemId === item.id;
 
-    // Переписаний блок для itemContent
     const itemContent: React.ReactNode = (
       <div className="flex items-center gap-2">
         {Icon && <Icon className="h-4 w-4" />}
@@ -278,7 +280,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
           open={openGroups.has(item.id) || !!searchTerm}
           onOpenChange={() => toggleGroup(item.id)}
           className={cn("w-full", level > 0 && "pl-4")}
-          id={`sidebar-group-${item.id}`} // Add ID for scroll tracking
+          id={`sidebar-group-${item.id}`}
         >
           <CollapsibleTrigger asChild>
             <Button
@@ -347,14 +349,14 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       ref={sidebarRef}
       className={cn(
         "flex flex-col bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border",
-        "w-[var(--sidebar-width)] flex-shrink-0 overflow-hidden", // Changed to overflow-hidden
+        "w-[var(--sidebar-width)] flex-shrink-0 overflow-hidden",
         "transition-all duration-300 ease-in-out",
-        isMobile ? "fixed inset-y-0 left-0 z-40 transform -translate-x-full data-[state=open]:translate-x-0" : "fixed inset-y-0 left-0 z-20" // Fixed for desktop
+        isMobile ? "fixed inset-y-0 left-0 z-40 transform -translate-x-full data-[state=open]:translate-x-0" : "fixed inset-y-0 left-0 z-20"
       )}
-      style={{ top: '4rem' }} // Adjust top to be below the Navbar (assuming Navbar height is 4rem)
+      style={{ top: '4rem' }}
     >
       <div className="p-4 border-b border-sidebar-border bg-sidebar-background sticky top-0 z-10">
-        <h3 className="text-xl font-bold text-foreground mb-4">{activeSectionTitle}</h3> {/* Dynamic Header */}
+        <h3 className="text-xl font-bold text-foreground mb-4">{activeSectionTitle}</h3>
         <div className="relative">
           <Input
             ref={searchInputRef}
@@ -389,7 +391,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         </div>
       )}
 
-      <ScrollArea className="flex-grow" ref={scrollAreaRef}> {/* Attach ref directly to ScrollArea */}
+      <ScrollArea className="flex-grow" ref={scrollAreaRef}>
         <div className="flex flex-col gap-1 p-4">
           {filteredNavData.length === 0 && searchTerm.length > 0 ? (
             <p className="text-muted-foreground text-center py-4">Нічого не знайдено.</p>
