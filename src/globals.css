@@ -198,16 +198,15 @@
 @layer base {
   * {
     @apply border-border;
-    /* Apply smooth transitions to all elements for theme changes */
-    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, fill 0.3s ease, stroke 0.3s ease;
+    /* REMOVED: transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, fill 0.3s ease, stroke 0.3s ease; */
   }
 
   html {
-    @apply h-full; /* Забезпечуємо, що html займає всю висоту */
+    @apply h-full transition-colors duration-300 ease-in-out; /* Added transition-colors */
   }
 
   body {
-    @apply bg-background text-foreground min-h-full; /* Забезпечуємо, що body займає всю висоту та застосовує фон */
+    @apply bg-background text-foreground min-h-full transition-colors duration-300 ease-in-out; /* Added transition-colors */
   }
 
   /* Ensure root element takes full height and uses flex for layout */
