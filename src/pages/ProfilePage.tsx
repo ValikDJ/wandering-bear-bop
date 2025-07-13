@@ -11,11 +11,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Loader2 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import AvatarUploader from '@/components/AvatarUploader'; // Import AvatarUploader
 
 // Схема валідації для форми профілю
 const profileSchema = z.object({
   first_name: z.string().min(1, 'Ім\'я не може бути порожнім').max(50, 'Ім\'я занадто довге').optional().or(z.literal('')),
   last_name: z.string().min(1, 'Прізвище не може бути порожнім').max(50, 'Прізвище занадто довге').optional().or(z.literal('')),
+  avatar_url: z.string().url('Недійсний URL аватара').optional().or(z.literal('')), // Add avatar_url to schema
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
@@ -38,17 +40,20 @@ const ProfilePage: React.FC = () => {
   const [isProfileLoading, setIsProfileLoading] = useState(true);
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+  const [currentAvatarUrl, setCurrentAvatarUrl] = useState<string | null>(null); // State for avatar URL
 
   const {
     register: registerProfile,
     handleSubmit: handleSubmitProfile,
     reset: resetProfile,
     formState: { errors: profileErrors, isDirty: isProfileDirty },
+    setValue: setProfileValue, // Add setValue to update form fields
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       first_name: '',
       last_name: '',
+      avatar_url: '', // Initialize avatar_url
     },
   });
 
@@ -75,7 +80,7 @@ const ProfilePage: React.FC = () => {
       setIsProfileLoading(true);
       const { data, error } = await supabase
         .from('profiles')
-        .select('first_name, last_name')
+        .select('first_name, last_name, avatar_url') // Select avatar_url
         .eq('id', user.id)
         .single();
 
@@ -84,6 +89,7 @@ const ProfilePage: React.FC = () => {
         toast.error('Помилка завантаження даних профілю.');
       } else if (data) {
         resetProfile(data); // Set form values from fetched data
+        setCurrentAvatarUrl(data.avatar_url || null); // Set current avatar URL
       }
       setIsProfileLoading(false);
     };
@@ -106,6 +112,7 @@ const ProfilePage: React.FC = () => {
         id: user.id,
         first_name: values.first_name,
         last_name: values.last_name,
+        avatar_url: currentAvatarUrl, // Use currentAvatarUrl from state
       }, { onConflict: 'id' }); // Use upsert to insert if not exists, update if exists
 
     if (error) {
@@ -139,6 +146,11 @@ const ProfilePage: React.FC = () => {
     setIsUpdatingPassword(false);
   };
 
+  const handleAvatarUploadSuccess = (newUrl: string | null) => {
+    setCurrentAvatarUrl(newUrl);
+    setProfileValue('avatar_url', newUrl || ''); // Update form value for avatar_url
+  };
+
   if (isSessionLoading || isProfileLoading) {
     return (
       <div className="min-h-[calc(100vh-16rem)] flex items-center justify-center text-foreground">
@@ -168,6 +180,13 @@ const ProfilePage: React.FC = () => {
           <CardTitle className="text-2xl text-card-foreground">Редагувати Профіль</CardTitle>
         </CardHeader>
         <CardContent>
+          <div className="mb-6">
+            <AvatarUploader
+              user={user}
+              initialAvatarUrl={currentAvatarUrl}
+              onUploadSuccess={handleAvatarUploadSuccess}
+            />
+          </div>
           <form onSubmit={handleSubmitProfile(onSubmitProfile)} className="space-y-6">
             <div>
               <Label htmlFor="email" className="text-lg font-semibold text-secondary-foreground mb-2 block">
