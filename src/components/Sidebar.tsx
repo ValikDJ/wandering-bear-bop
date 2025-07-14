@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, Search, History } from "lucide-react"; // Removed User
+import { ChevronDown, Search, History } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn, highlightText, escapeRegExp } from "@/lib/utils";
@@ -351,7 +351,8 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         "flex flex-col bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border",
         "w-[var(--sidebar-width)] flex-shrink-0 overflow-hidden",
         "transition-all duration-300 ease-in-out",
-        isMobile ? "fixed inset-y-0 left-0 z-40 transform -translate-x-full data-[state=open]:translate-x-0" : "fixed inset-y-0 left-0 z-20"
+        isMobile ? "fixed inset-y-0 left-0 z-40 transform -translate-x-full data-[state=open]:translate-x-0" : "fixed inset-y-0 left-0 z-20",
+        "min-h-0" // Додано для коректної роботи прокрутки
       )}
       style={{ top: '4rem' }}
     >

@@ -1,14 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react"; // Removed LogIn, LogOut, UserCircle2
+import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
-// Removed DropdownMenu imports
 import { useIsMobile } from "@/hooks/use-mobile";
 import ThemeToggle from "./ThemeToggle";
 import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import { cn } from "@/lib/utils";
-// Removed useSession, signOut, toast imports
 
 interface NavbarProps {
   onOpenMobileSidebar: () => void;
@@ -16,9 +14,6 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
   const isMobile = useIsMobile();
-  // Removed session, isLoading, user from useSession
-
-  // Removed handleLogout function
 
   const renderMobileNavLinks = (items: SidebarNavItem[], level: number = 0) => {
     return items.map(item => {
@@ -65,24 +60,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
         <div className="flex items-center gap-2">
           <ThemeToggle />
 
-          {/* User Info and Login/Logout Button removed */}
           {isMobile ? (
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/20" onClick={onOpenMobileSidebar}>
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Відкрити меню</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-3/4 sm:max-w-sm bg-primary text-primary-foreground p-4">
-                <div className="flex flex-col gap-2 pt-8">
-                  {/* Display user email in mobile sidebar if logged in removed */}
-                  {/* Add Profile link to mobile sidebar removed */}
-                  {renderMobileNavLinks(sidebarNavData)}
-                  {/* Add Login/Logout to mobile sidebar removed */}
-                </div>
-              </SheetContent>
-            </Sheet>
+            <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/20" onClick={onOpenMobileSidebar}>
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Відкрити меню</span>
+            </Button>
           ) : (
             <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
               <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/20">
