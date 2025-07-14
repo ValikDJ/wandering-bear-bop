@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { BookOpen, Cat, Lightbulb, ChevronDown } from "lucide-react";
+import { BookOpen, Cat, Lightbulb, ChevronDown, Star } from "lucide-react"; // Додано Star icon
 import CountdownTimer from "@/components/CountdownTimer";
 import HomeworkPlanningSection from "@/components/HomeworkPlanningSection";
 import HomeworkCodeTemplate from "@/components/HomeworkCodeTemplate";
@@ -16,6 +16,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { Link } from "react-router-dom"; // Додано Link
 
 // HTML для прикладу сайту про кота
 const catWebsiteExampleHtml = `<!DOCTYPE html>
@@ -156,7 +157,7 @@ const HomeworkAssignment: React.FC = () => {
         Домашнє завдання: Створюємо свій перший сайт!
       </h1>
       <p className="text-xl text-center mb-10 max-w-3xl mx-auto text-muted-foreground">
-        Це покроковий посібник для твого першого веб-проекту. <strong>Зверни увагу:</strong> ти будеш створювати HTML-файл на своїй навчальній платформі або в текстовому редакторі. Цей сайт лише допомагає тобі зрозуміти, що і як робити!
+        Це покроковий посібник для твого першого веб-проекту. <strong>Пам'ятай:</strong> ти будеш створювати HTML-файл на своїй навчальній платформі, в модулі <strong>"Керуй стилями" (Урок 5, пункт 9 "Підготовка проєкту. Початок")</strong>. Цей сайт лише допомагає тобі зрозуміти, що і як робити, а також відстежувати прогрес. Не забудь уважно читати умови завдання на платформі, позначати виконані пункти та надсилати роботу викладачу на перевірку (також після <strong>пункту 10 "Підготовка проєкту. Підсумок"</strong>)!
       </p>
 
       <div className="mb-10">
@@ -237,7 +238,7 @@ const HomeworkAssignment: React.FC = () => {
                         </CollapsibleTrigger>
                         <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
                           <div className="p-2 border border-border rounded-md bg-muted mt-1 text-muted-foreground text-sm">
-                            <p>Ти можеш використовувати свої фотографії або знайти безкоштовні картинки на сайтах типу <a href="https://unsplash.com/" target="_blank" className="text-brand-primary hover:underline">Unsplash</a> або <a href="https://www.pexels.com/" target="_blank" className="text-brand-primary hover:underline">Pexels</a>. Збережи їх у тій самій папці, що й `index.html`, або у підпапці `images/`.</p>
+                            <p>Ти можеш використовувати свої фотографії або знайти безкоштовні картинки на сайтах типу <a href="https://unsplash.com/" target="_blank" rel="noopener noreferrer" className="text-brand-primary hover:underline">Unsplash</a> або <a href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer" className="text-brand-primary hover:underline">Pexels</a>. Збережи їх у тій самій папці, що й `index.html`, або у підпапці `images/`.</p>
                             <p className="mt-2">Щоб скопіювати посилання на картинку з інтернету: клацни правою кнопкою миші на картинці і вибери "Копіювати адресу зображення" (або схожий пункт).</p>
                           </div>
                         </CollapsibleContent>
@@ -340,6 +341,57 @@ const HomeworkAssignment: React.FC = () => {
         </Card>
 
         <HomeworkChecklist />
+
+        {/* NEW: Завдання із зірочкою */}
+        <Card className="bg-card shadow-md animate-fade-in-up">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-foreground flex items-center gap-2">
+              <Star className="h-6 w-6 text-yellow-500" />
+              Завдання із зірочкою: Почни стилізувати свій сайт!
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Якщо ти вже впорався з основною структурою сайту, спробуй зробити його красивішим за допомогою CSS!
+            </p>
+            <ul className="list-disc list-inside space-y-2 text-muted-foreground mb-4">
+              <li>Зміни колір фону для `&lt;body&gt;` або `&lt;main&gt;`.</li>
+              <li>Зміни колір тексту для заголовків (`&lt;h1&gt;`, `&lt;h2&gt;`) та абзаців (`&lt;p&gt;`).</li>
+              <li>Зміни розмір шрифту для різних елементів.</li>
+              <li>Додай рамки (`border`) або заокруглені кути (`border-radius`) до картинок або блоків.</li>
+              <li>Вирівняй текст по центру (`text-align: center;`) для заголовків.</li>
+            </ul>
+            <p className="text-muted-foreground">
+              Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> або <Link to="/css-properties" className="text-brand-primary hover:underline">Урок з CSS Властивостей</Link> для підказок!
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* NEW: Натхнення: Приклади сайтів інших учнів */}
+        <Card className="bg-card shadow-md animate-fade-in-up">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-primary" />
+              Натхнення: Приклади сайтів інших учнів
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Подивись, які круті сайти вже створили інші учні! Вони вже мають готову структуру та стилі. Можливо, це надихне тебе на власні ідеї!
+            </p>
+            <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+              <li>
+                <a href="https://staver1.github.io/M2Y5/" target="_blank" rel="noopener noreferrer" className="text-brand-primary hover:underline">Сайт 1: Приклад сайту про хобі</a>
+              </li>
+              <li>
+                <a href="https://logika-web-frontend.github.io/students-web/m2/spiderman/" target="_blank" rel="noopener noreferrer" className="text-brand-primary hover:underline">Сайт 2: Приклад сайту про героя</a>
+              </li>
+            </ul>
+            <p className="mt-4 text-muted-foreground">
+              Пам'ятай, що ці сайти вже стилізовані за допомогою CSS. Твоє завдання - спочатку створити HTML-структуру, а потім, якщо хочеш, почати додавати стилі!
+            </p>
+          </CardContent>
+        </Card>
 
         <Card className="bg-card shadow-md animate-fade-in-up">
           <CardHeader>
