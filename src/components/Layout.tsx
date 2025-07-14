@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({
       <div className="flex flex-1">
         {isMobile ? (
           <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>
-            <SheetContent side="left" className="w-64 sm:w-72 h-full">
+            <SheetContent side="left" className="w-64 sm:w-72 h-full p-0"> {/* Added p-0 here */}
               <Sidebar
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}

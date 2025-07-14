@@ -349,10 +349,10 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       ref={sidebarRef}
       className={cn(
         "flex flex-col bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border",
-        "w-[var(--sidebar-width)] flex-shrink-0 overflow-hidden",
+        "w-[var(--sidebar-width)] flex-shrink-0", // Removed overflow-hidden
         "transition-all duration-300 ease-in-out",
         isMobile ? "fixed inset-y-0 left-0 z-40 transform -translate-x-full data-[state=open]:translate-x-0" : "fixed inset-y-0 left-0 z-20",
-        "min-h-0" // Додано для коректної роботи прокрутки
+        "min-h-0"
       )}
       style={{ top: '4rem' }}
     >
