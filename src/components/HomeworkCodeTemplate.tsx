@@ -53,7 +53,7 @@ const HomeworkCodeTemplate: React.FC = () => {
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-muted-foreground">
-          Ось базовий шаблон HTML, який ти можеш використовувати для свого сайту. Скопіюй його і встав у вікно редактора HTML на своїй навчальній платформі або в текстовому редакторі!
+          Ось базовий шаблон HTML, який ти можеш використовувати для свого сайту. Скопіюй його і встав у вікно редактора HTML на платформі Logika або в текстовому редакторі!
         </p>
         <div className="relative mb-4">
           <SyntaxHighlighter language="html" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '400px', overflowY: 'auto' }}>

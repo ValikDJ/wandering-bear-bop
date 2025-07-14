@@ -155,7 +155,7 @@ const HomeworkChecklist: React.FC = () => {
         <div className="mt-8 text-center">
           <h4 className="text-xl font-semibold mb-4 text-secondary-foreground">Як здати завдання:</h4>
           <p className="text-muted-foreground mb-4">
-            Коли ти впевнений, що твій сайт готовий, збережи файл `index.html` і надішли його своєму вчителю або завантаж на платформу, як він вказав.
+            Коли ти впевнений, що твій сайт готовий, збережи файл `index.html` і надішли його своєму вчителю або завантаж на платформу Logika, як він вказав.
           </p>
           <Button onClick={() => window.print()} className="bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover text-lg px-6 py-3 no-print">
             Роздрукувати інструкцію
