@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet"; // Import SheetTitle, SheetDescription
+import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { useLocation } from "react-router-dom";
 
 interface LayoutProps {
@@ -33,8 +33,8 @@ const Layout: React.FC<LayoutProps> = ({
         {isMobile ? (
           <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>
             <SheetContent side="left" className="w-64 sm:w-72 h-full p-0">
-              <SheetTitle className="sr-only">Навігація по сайту</SheetTitle> {/* Visually hidden title */}
-              <SheetDescription className="sr-only">Перелік уроків та розділів сайту.</SheetDescription> {/* Visually hidden description */}
+              <SheetTitle className="sr-only">Навігація по сайту</SheetTitle>
+              <SheetDescription className="sr-only">Перелік уроків та розділів сайту.</SheetDescription>
               <Sidebar
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
@@ -50,7 +50,7 @@ const Layout: React.FC<LayoutProps> = ({
             isMobile={false}
           />
         )}
-        <main className="flex-grow container mx-auto p-4 bg-background overflow-y-auto lg:ml-[var(--sidebar-width)]">
+        <main className="flex-grow container mx-auto p-4 bg-background overflow-y-auto lg:ml-[var(--sidebar-width)] pt-16"> {/* Added pt-16 here */}
           {children}
         </main>
       </div>

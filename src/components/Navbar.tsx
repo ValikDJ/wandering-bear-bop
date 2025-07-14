@@ -52,8 +52,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
   };
 
   return (
-    <nav className="bg-primary text-primary-foreground p-4 shadow-md">
-      <div className="container mx-auto flex flex-wrap justify-between items-center">
+    <nav className="bg-primary text-primary-foreground p-4 shadow-md fixed top-0 left-0 w-full z-30 h-16">
+      <div className="container mx-auto flex flex-wrap justify-between items-center h-full">
         <Link to="/" className="text-2xl font-bold hover:text-accent-foreground transition-colors">
           Веб-Майстерня для Дітей
         </Link>
