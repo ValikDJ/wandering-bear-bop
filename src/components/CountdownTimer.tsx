@@ -41,10 +41,10 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ deadline }) => {
 
     timerComponents.push(
       <span key={interval} className="flex flex-col items-center mx-2">
-        <span className="text-5xl font-bold text-primary-foreground">
+        <span className="text-5xl font-bold text-white"> {/* Changed to text-white */}
           {timeLeft[interval as keyof typeof timeLeft]}
         </span>
-        <span className="text-lg text-muted-foreground">
+        <span className="text-lg text-white"> {/* Changed to text-white */}
           {interval === "days" ? "днів" : interval === "hours" ? "годин" : interval === "minutes" ? "хвилин" : "секунд"}
         </span>
       </span>
@@ -62,7 +62,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ deadline }) => {
             <span className="text-4xl font-bold text-red-300">Час вийшов!</span>
           )}
         </div>
-        <p className="text-lg mt-4 text-white/80">Не забудь здати завдання до п'ятниці!</p>
+        <p className="text-lg mt-4 text-white">Не забудь здати завдання до п'ятниці!</p> {/* Changed to text-white */}
       </CardContent>
     </Card>
   );
