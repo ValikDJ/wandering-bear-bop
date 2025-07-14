@@ -1,19 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, PanelLeftOpen, PanelLeftClose, PanelLeft } from "lucide-react"; // Додано нові іконки
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ThemeToggle from "./ThemeToggle";
 import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import { cn } from "@/lib/utils";
+import { SidebarMode } from "@/App"; // Імпортуємо SidebarMode
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // Імпортуємо Select
 
 interface NavbarProps {
-  onOpenMobileSidebar: () => void;
+  onOpenSidebar: () => void; // Змінено назву пропсу
   isScrolled: boolean;
+  sidebarMode: SidebarMode; // Новий пропс
+  setSidebarMode: (mode: SidebarMode) => void; // Новий пропс
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar, isScrolled }) => {
+const Navbar: React.FC<NavbarProps> = ({ onOpenSidebar, isScrolled, sidebarMode, setSidebarMode }) => {
   const isMobile = useIsMobile();
 
   const renderMobileNavLinks = (items: SidebarNavItem[], level: number = 0) => {
@@ -57,12 +61,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar, isScrolled }) => {
       className={cn(
         "fixed top-0 left-0 w-full z-30 flex items-center transition-all duration-300 ease-in-out",
         isScrolled
-          ? "bg-background/80 backdrop-blur-sm shadow-lg h-12 px-2" // Зменшена висота та відступи при прокручуванні
-          : "bg-primary text-primary-foreground shadow-md h-16 px-4" // Стандартна висота та відступи
+          ? "bg-background/80 backdrop-blur-sm shadow-lg h-12 px-2"
+          : "bg-primary text-primary-foreground shadow-md h-16 px-4"
       )}
     >
       <div className="container mx-auto flex flex-wrap justify-between items-center h-full">
-        {/* Logo - завжди присутній, але зникає при прокручуванні */}
         <Link
           to="/"
           className={cn(
@@ -74,10 +77,30 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar, isScrolled }) => {
         </Link>
 
         <div className="flex items-center gap-2">
-          {/* Theme Toggle - завжди видимий */}
+          {/* Theme Toggle */}
           <ThemeToggle />
 
-          {/* Desktop Navigation Links - видимі лише на десктопі, зникають при прокручуванні */}
+          {/* Sidebar Mode Selector (Desktop Only) */}
+          {!isMobile && (
+            <Select value={sidebarMode} onValueChange={(value: SidebarMode) => setSidebarMode(value)}>
+              <SelectTrigger className="w-[180px] bg-primary text-primary-foreground hover:bg-primary-foreground/20">
+                <SelectValue placeholder="Режим сайдбару" />
+              </SelectTrigger>
+              <SelectContent className="bg-popover text-popover-foreground">
+                <SelectItem value="pinned-full" className="flex items-center gap-2 cursor-pointer">
+                  <PanelLeftOpen className="h-4 w-4" /> Закріплений
+                </SelectItem>
+                <SelectItem value="interactive-hover" className="flex items-center gap-2 cursor-pointer">
+                  <PanelLeft className="h-4 w-4" /> При наведенні
+                </SelectItem>
+                <SelectItem value="hidden" className="flex items-center gap-2 cursor-pointer">
+                  <PanelLeftClose className="h-4 w-4" /> Прихований
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          )}
+
+          {/* Desktop Navigation Links - visible only on desktop, disappear on scroll */}
           {!isMobile && (
             <div
               className={cn(
@@ -103,24 +126,27 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar, isScrolled }) => {
             </div>
           )}
 
-          {/* Menu Button - завжди рендериться, але його видимість та стиль змінюються */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn(
-              "text-primary-foreground hover:bg-primary-foreground/20 transition-all duration-300 ease-in-out",
-              // Приховати на десктопі, коли не прокручено
-              !isMobile && !isScrolled && "opacity-0 pointer-events-none",
-              // Застосувати компактний стиль при прокручуванні (як на мобільному, так і на десктопі)
-              isScrolled && "rounded-full bg-accent text-accent-foreground shadow-md",
-              // На мобільному, завжди видимий, але його стиль залежить від прокручування
-              isMobile && !isScrolled && "rounded-md" // Стандартний мобільний стиль, коли не прокручено
-            )}
-            onClick={onOpenMobileSidebar}
-          >
-            <Menu className="h-6 w-6" />
-            <span className="sr-only">Відкрити меню</span>
-          </Button>
+          {/* Menu Button - always renders, but its visibility and style change */}
+          {/* On desktop, this button is only visible in 'hidden' mode or when scrolled */}
+          {(isMobile || sidebarMode === 'hidden' || isScrolled) && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "text-primary-foreground hover:bg-primary-foreground/20 transition-all duration-300 ease-in-out",
+                // Приховати на десктопі, коли не прокручено І сайдбар не в 'hidden' режимі
+                !isMobile && !isScrolled && sidebarMode !== 'hidden' && "opacity-0 pointer-events-none",
+                // Застосувати компактний стиль при прокручуванні (як на мобільному, так і на десктопі)
+                isScrolled && "rounded-full bg-accent text-accent-foreground shadow-md",
+                // На мобільному, завжди видимий, але його стиль залежить від прокручування
+                isMobile && !isScrolled && "rounded-md" // Стандартний мобільний стиль, коли не прокручено
+              )}
+              onClick={onOpenSidebar} // Змінено назву пропсу
+            >
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Відкрити меню</span>
+            </Button>
+          )}
         </div>
       </div>
     </nav>

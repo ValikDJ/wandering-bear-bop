@@ -21,8 +21,13 @@ import { ThemeProvider } from "@/hooks/use-theme";
 const queryClient = new QueryClient();
 const appBasename = import.meta.env.BASE_URL;
 
+// Визначення типів для режимів сайдбару
+export type SidebarMode = 'pinned-full' | 'interactive-hover' | 'hidden';
+
 const App = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  // Додаємо стан для режиму сайдбару, за замовчуванням 'pinned-full'
+  const [sidebarMode, setSidebarMode] = useState<SidebarMode>('pinned-full');
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -34,6 +39,8 @@ const App = () => {
             <Layout
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
+              sidebarMode={sidebarMode} // Передаємо режим сайдбару
+              setSidebarMode={setSidebarMode} // Передаємо функцію для зміни режиму
             >
               <Routes>
                 <Route path="/" element={<Index />} />

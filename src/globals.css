@@ -68,6 +68,7 @@
 
     /* Sidebar width variable */
     --sidebar-width: 16rem; /* Default to 256px */
+    --sidebar-collapsed-width: 4rem; /* NEW: 64px for collapsed state */
   }
 
   .dark {

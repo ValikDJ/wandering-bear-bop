@@ -10,12 +10,14 @@ import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import Fuse from 'fuse.js';
 import type { FuseResult } from 'fuse.js';
 import { expandQueryWithSynonyms } from "@/data/synonymMap";
+import { SidebarMode } from "@/App"; // Імпортуємо SidebarMode
 
 interface SidebarProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   isMobile: boolean;
-  onCloseMobileSidebar?: () => void;
+  sidebarMode: SidebarMode; // Новий пропс
+  onCloseSidebar?: () => void; // Змінено назву пропсу
 }
 
 const fuseOptions = {
@@ -50,7 +52,7 @@ const fuse = new Fuse(flatSearchableItems, fuseOptions);
 const RECENT_SEARCHES_KEY = "sidebar-recent-searches";
 const MAX_RECENT_SEARCHES = 3;
 
-const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, onCloseMobileSidebar }) => {
+const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, sidebarMode, onCloseSidebar }) => {
   const location = useLocation();
   const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(sidebarNavData.map(item => item.id)));
   const [filteredNavData, setFilteredNavData] = useState<SidebarNavItem[]>(sidebarNavData);
@@ -60,6 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [activeSectionTitle, setActiveSectionTitle] = useState<string>("Навігація");
+  const [isHovered, setIsHovered] = useState(false); // Новий стан для режиму наведення
 
   useEffect(() => {
     try {
@@ -124,6 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     if (!searchTerm) {
       setFilteredNavData(sidebarNavData);
       setFocusedItemId(null);
+      // Відкриваємо всі групи за замовчуванням, якщо пошук порожній
       setOpenGroups(new Set(sidebarNavData.map(item => item.id)));
       return;
     }
@@ -149,14 +153,12 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Check if the active element is an input or textarea
       const activeElement = document.activeElement;
       const isTypingInInput = activeElement && (
         activeElement.tagName === 'INPUT' ||
         activeElement.tagName === 'TEXTAREA'
       );
 
-      // If typing in an input/textarea, do not intercept '/' or '.'
       if (isTypingInInput && (event.key === '/' || event.key === '.')) {
         return;
       }
@@ -177,8 +179,8 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         event.preventDefault();
         const targetElement = navigableElements[newIndex];
         targetElement.click();
-        if (onCloseMobileSidebar && targetElement.tagName === 'A') {
-          onCloseMobileSidebar();
+        if (onCloseSidebar && targetElement.tagName === 'A') { // Змінено назву пропсу
+          onCloseSidebar(); // Змінено назву пропсу
         }
         return;
       } else if (event.key === '/' || event.key === '.') {
@@ -204,7 +206,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [focusedItemId, filteredNavData, isMobile, onCloseMobileSidebar, searchTerm, setSearchTerm]);
+  }, [focusedItemId, filteredNavData, isMobile, onCloseSidebar, searchTerm, setSearchTerm]); // Змінено назву пропсу
 
   const toggleGroup = (id: string) => {
     setOpenGroups(prev => {
@@ -242,6 +244,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         const groupElement = document.getElementById(`sidebar-group-${group.id}`);
         if (groupElement) {
           const rect = groupElement.getBoundingClientRect();
+          // Перевіряємо, чи елемент знаходиться у видимій частині вікна
           if (rect.top >= 0 && rect.top < closestTop && rect.bottom > 0) {
             closestTop = rect.top;
             currentActiveTitle = group.title;
@@ -252,7 +255,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     };
 
     scrollAreaElement.addEventListener('scroll', handleScroll);
-    handleScroll();
+    handleScroll(); // Викликаємо один раз при монтуванні
 
     return () => {
       scrollAreaElement.removeEventListener('scroll', handleScroll);
@@ -269,7 +272,12 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     const itemContent: React.ReactNode = (
       <div className="flex items-center gap-2">
         {Icon && <Icon className="h-4 w-4" />}
-        {highlightText(item.title, searchTerm)}
+        <span className={cn(
+          "whitespace-nowrap transition-opacity duration-200",
+          (sidebarMode === 'interactive-hover' && !isHovered && !isMobile) ? "opacity-0 w-0 overflow-hidden" : "opacity-100 w-auto"
+        )}>
+          {highlightText(item.title, searchTerm)}
+        </span>
       </div>
     );
 
@@ -277,7 +285,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       return (
         <Collapsible
           key={item.id}
-          open={openGroups.has(item.id) || !!searchTerm}
+          open={openGroups.has(item.id) || !!searchTerm || (sidebarMode === 'interactive-hover' && isHovered && !isMobile)}
           onOpenChange={() => toggleGroup(item.id)}
           className={cn("w-full", level > 0 && "pl-4")}
           id={`sidebar-group-${item.id}`}
@@ -290,7 +298,8 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
                 "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 "font-semibold",
                 level === 0 ? "text-lg" : "text-base",
-                isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background"
+                isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background",
+                (sidebarMode === 'interactive-hover' && !isHovered && !isMobile) && "justify-center px-0" // Центруємо іконку в згорнутому режимі
               )}
               data-nav-item
               data-item-id={item.id}
@@ -298,7 +307,11 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
               onBlur={() => setFocusedItemId(null)}
             >
               {itemContent}
-              <ChevronDown className={cn("h-4 w-4 transition-transform", openGroups.has(item.id) || !!searchTerm ? "rotate-180" : "rotate-0")} />
+              <ChevronDown className={cn(
+                "h-4 w-4 transition-transform",
+                openGroups.has(item.id) || !!searchTerm || (sidebarMode === 'interactive-hover' && isHovered && !isMobile) ? "rotate-180" : "rotate-0",
+                (sidebarMode === 'interactive-hover' && !isHovered && !isMobile) && "opacity-0 w-0 overflow-hidden" // Приховуємо стрілку в згорнутому режимі
+              )} />
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
@@ -313,7 +326,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         <Link
           key={item.id}
           to={`${item.path}${item.sectionId ? `#${item.sectionId}` : ''}`}
-          onClick={onCloseMobileSidebar}
+          onClick={onCloseSidebar} // Змінено назву пропсу
           className={cn(
             "flex items-center gap-2 w-full justify-start text-left px-3 py-2 rounded-md transition-colors duration-200",
             "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
@@ -321,7 +334,8 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
             level > 0 && "pl-8",
             level > 1 && "pl-12",
             "focus:outline-none focus:ring-2 focus:ring-sidebar-ring focus:ring-offset-2 focus:ring-offset-sidebar-background",
-            isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background"
+            isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background",
+            (sidebarMode === 'interactive-hover' && !isHovered && !isMobile) && "justify-center px-0" // Центруємо іконку в згорнутому режимі
           )}
           data-nav-item
           data-item-id={item.id}
@@ -344,23 +358,41 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     saveSearchTerm(term);
   };
 
+  // Визначаємо ширину сайдбару залежно від режиму та наведення
+  const sidebarWidthClass = isMobile || sidebarMode === 'hidden'
+    ? "w-full" // На мобільному або в прихованому режимі (коли відкритий Sheet)
+    : sidebarMode === 'pinned-full'
+      ? "w-[var(--sidebar-width)]"
+      : isHovered
+        ? "w-[var(--sidebar-width)]"
+        : "w-[var(--sidebar-collapsed-width)]";
+
+  // Визначаємо видимість текстового контенту (заголовків, пошуку, не-іконок)
+  const contentVisibilityClass = (sidebarMode === 'interactive-hover' && !isHovered && !isMobile)
+    ? "opacity-0 pointer-events-none"
+    : "opacity-100 pointer-events-auto";
+
   return (
     <div
       ref={sidebarRef}
       className={cn(
         "flex flex-col bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border",
-        // Apply width only for desktop, SheetContent handles mobile width
-        !isMobile && "w-[var(--sidebar-width)] flex-shrink-0",
-        "transition-all duration-300 ease-in-out",
-        // Remove fixed positioning for mobile, SheetContent handles it
-        // For desktop, keep fixed positioning
-        !isMobile && "fixed inset-y-0 left-0 z-20",
-        isMobile && "h-full", // Ensure it takes full height of SheetContent on mobile
-        "min-h-0"
+        "transition-all duration-300 ease-in-out", // Додаємо перехід для ширини
+        !isMobile && "fixed inset-y-0 left-0 z-20", // Фіксоване позиціонування для десктопу
+        isMobile && "h-full", // Повна висота для мобільного
+        "min-h-0",
+        sidebarWidthClass, // Динамічна ширина
+        sidebarMode === 'hidden' && !isMobile && "hidden" // Приховуємо сайдбар на десктопі, якщо режим 'hidden'
       )}
-      style={!isMobile ? { top: '4rem' } : {}} // Apply top only for desktop
+      style={!isMobile ? { top: '4rem' } : {}} // Застосовуємо top тільки для десктопу
+      onMouseEnter={() => !isMobile && sidebarMode === 'interactive-hover' && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && sidebarMode === 'interactive-hover' && setIsHovered(false)}
     >
-      <div className="p-4 border-b border-sidebar-border bg-sidebar-background sticky top-0 z-10">
+      <div className={cn(
+        "p-4 border-b border-sidebar-border bg-sidebar-background sticky top-0 z-10",
+        "transition-opacity duration-200",
+        contentVisibilityClass
+      )}>
         <h3 className="text-xl font-bold text-foreground mb-4">{activeSectionTitle}</h3>
         <div className="relative">
           <Input
@@ -378,7 +410,11 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       </div>
 
       {searchTerm.length === 0 && recentSearches.length > 0 && (
-        <div className="p-4 border-b border-sidebar-border">
+        <div className={cn(
+          "p-4 border-b border-sidebar-border",
+          "transition-opacity duration-200",
+          contentVisibilityClass
+        )}>
           <h4 className="text-sm font-semibold text-muted-foreground mb-2">Останні запити:</h4>
           <div className="flex flex-col gap-1">
             {recentSearches.map((term, index) => (
@@ -397,7 +433,11 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       )}
 
       <ScrollArea className="flex-grow" ref={scrollAreaRef}>
-        <div className="flex flex-col gap-1 p-4">
+        <div className={cn(
+          "flex flex-col gap-1 p-4",
+          "transition-opacity duration-200",
+          contentVisibilityClass
+        )}>
           {filteredNavData.length === 0 && searchTerm.length > 0 ? (
             <p className="text-muted-foreground text-center py-4">Нічого не знайдено.</p>
           ) : (
