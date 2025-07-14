@@ -4,17 +4,19 @@ import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom"; // Import Link and useLocation
 import { useScrollPosition } from "@/hooks/use-scroll-position";
 import { cn } from "@/lib/utils";
-import { SidebarMode } from "@/App"; // Імпортуємо SidebarMode з App.tsx
+import { SidebarMode } from "@/App";
+import { Button } from "@/components/ui/button"; // Import Button
+import { Home } from "lucide-react"; // Import Home icon
 
 interface LayoutProps {
   children: React.ReactNode;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
-  sidebarMode: SidebarMode; // Новий пропс
-  setSidebarMode: (mode: SidebarMode) => void; // Новий пропс
+  sidebarMode: SidebarMode;
+  setSidebarMode: (mode: SidebarMode) => void;
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -25,19 +27,18 @@ const Layout: React.FC<LayoutProps> = ({
   setSidebarMode,
 }) => {
   const isMobile = useIsMobile();
-  // isSidebarOpen тепер керує видимістю сайдбару в 'hidden' режимі (як на десктопі, так і на мобільному)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
   const scrollTop = useScrollPosition(mainRef);
   const isScrolled = scrollTop > 50;
+  const location = useLocation(); // Get current location
 
   const handleOpenSidebar = () => setIsSidebarOpen(true);
   const handleCloseSidebar = () => setIsSidebarOpen(false);
 
-  // Визначаємо клас для відступу основного контенту
   const getMainMarginClass = () => {
     if (isMobile) {
-      return ""; // На мобільному відступ не потрібен, сайдбар у Sheet
+      return "";
     }
     switch (sidebarMode) {
       case 'pinned-full':
@@ -45,7 +46,7 @@ const Layout: React.FC<LayoutProps> = ({
       case 'interactive-hover':
         return "ml-[var(--sidebar-collapsed-width)]";
       case 'hidden':
-        return "ml-0"; // Немає відступу, якщо сайдбар прихований
+        return "ml-0";
       default:
         return "ml-[var(--sidebar-width)]";
     }
@@ -54,13 +55,13 @@ const Layout: React.FC<LayoutProps> = ({
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Navbar
-        onOpenSidebar={handleOpenSidebar} // Змінено назву пропсу
+        onOpenSidebar={handleOpenSidebar}
         isScrolled={isScrolled}
-        sidebarMode={sidebarMode} // Передаємо режим сайдбару
-        setSidebarMode={setSidebarMode} // Передаємо функцію для зміни режиму
+        sidebarMode={sidebarMode}
+        setSidebarMode={setSidebarMode}
       />
       <div className="flex flex-1">
-        {isMobile || sidebarMode === 'hidden' ? ( // Використовуємо Sheet для мобільного або для 'hidden' режиму на десктопі
+        {isMobile || sidebarMode === 'hidden' ? (
           <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
             <SheetContent side="left" className="w-64 sm:w-72 h-full p-0">
               <SheetTitle className="sr-only">Навігація по сайту</SheetTitle>
@@ -68,30 +69,44 @@ const Layout: React.FC<LayoutProps> = ({
               <Sidebar
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
-                isMobile={isMobile} // Залишаємо isMobile для адаптації всередині Sidebar
-                sidebarMode={sidebarMode} // Передаємо режим сайдбару
-                onCloseSidebar={handleCloseSidebar} // Змінено назву пропсу
+                isMobile={isMobile}
+                sidebarMode={sidebarMode}
+                onCloseSidebar={handleCloseSidebar}
               />
             </SheetContent>
           </Sheet>
         ) : (
-          // Стаціонарний сайдбар для десктопу в режимах 'pinned-full' та 'interactive-hover'
           <Sidebar
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
             isMobile={false}
-            sidebarMode={sidebarMode} // Передаємо режим сайдбару
+            sidebarMode={sidebarMode}
           />
         )}
         <main ref={mainRef} className={cn(
           "flex-grow container mx-auto p-4 bg-background overflow-y-auto",
-          getMainMarginClass(), // Динамічний відступ
-          isScrolled ? "pt-12" : "pt-16" // Коригування відступу залежно від висоти Navbar
+          getMainMarginClass(),
+          isScrolled ? "pt-12" : "pt-16"
         )}>
           {children}
         </main>
       </div>
       <Footer />
+
+      {/* Кнопка "На головну" в лівому нижньому куті */}
+      {location.pathname !== "/" && (
+        <Button
+          asChild
+          variant="default"
+          size="lg"
+          className="fixed bottom-4 left-4 z-40 shadow-lg bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover transition-all duration-300 ease-in-out"
+        >
+          <Link to="/">
+            <Home className="h-5 w-5 mr-2" />
+            На головну
+          </Link>
+        </Button>
+      )}
     </div>
   );
 };
