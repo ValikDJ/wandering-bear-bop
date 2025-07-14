@@ -69,7 +69,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar, isScrolled }) => {
             isScrolled ? "opacity-0 pointer-events-none" : "opacity-100 hover:text-accent-foreground"
           )}
         >
-          Веб-Майстерня для Дітей
+          Веб-Майстерня
         </Link>
         <div className="flex items-center gap-2">
           <ThemeToggle />
