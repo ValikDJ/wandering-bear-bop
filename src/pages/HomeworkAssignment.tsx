@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { BookOpen, Cat, Lightbulb, ChevronDown, Star } from "lucide-react"; // Додано Star icon
+import { BookOpen, Cat, Lightbulb, ChevronDown, Star } from "lucide-react";
 import CountdownTimer from "@/components/CountdownTimer";
 import HomeworkPlanningSection from "@/components/HomeworkPlanningSection";
 import HomeworkCodeTemplate from "@/components/HomeworkCodeTemplate";
@@ -16,7 +16,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Link } from "react-router-dom"; // Додано Link
+import { Link } from "react-router-dom";
 
 // HTML для прикладу сайту про кота
 const catWebsiteExampleHtml = `<!DOCTYPE html>
@@ -157,7 +157,7 @@ const HomeworkAssignment: React.FC = () => {
         Домашнє завдання: Створюємо свій перший сайт!
       </h1>
       <p className="text-xl text-center mb-10 max-w-3xl mx-auto text-muted-foreground">
-        Це покроковий посібник для твого першого веб-проекту. <strong>Пам'ятай:</strong> ти будеш створювати HTML-файл на своїй навчальній платформі, в модулі <strong>"Керуй стилями" (Урок 5, пункт 9 "Підготовка проєкту. Початок")</strong>. Цей сайт лише допомагає тобі зрозуміти, що і як робити, а також відстежувати прогрес. Не забудь уважно читати умови завдання на платформі, позначати виконані пункти та надсилати роботу викладачу на перевірку (також після <strong>пункту 10 "Підготовка проєкту. Підсумок"</strong>)!
+        Це покроковий посібник для твого першого веб-проекту. <strong>Пам'ятай:</strong> ти будеш створювати HTML-код на своїй навчальній платформі, у вікні редактора HTML в модулі <strong>"Керуй стилями" (Урок 5, пункт 9 "Підготовка проєкту. Початок")</strong>. Цей сайт лише допомагає тобі зрозуміти, що і як робити, а також відстежувати прогрес. Не забудь уважно читати умови завдання на платформі, позначати виконані пункти та надсилати роботу викладачу на перевірку (також після <strong>пункту 10 "Підготовка проєкту. Підсумок"</strong>, де теж є завдання, які потрібно позначати, якщо виконав їх)!
       </p>
 
       <div className="mb-10">
@@ -195,7 +195,7 @@ const HomeworkAssignment: React.FC = () => {
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-muted-foreground">
-              Тепер найцікавіше! Відкрий свій файл `index.html` у текстовому редакторі (наприклад, Блокнот, VS Code) або на своїй навчальній платформі і заміни шаблонний текст на свою інформацію.
+              Тепер найцікавіше! Відкрий вікно редактора HTML на своїй навчальній платформі або у текстовому редакторі (наприклад, Блокнот, VS Code) і заміни шаблонний текст на свою інформацію.
             </p>
             <div className="overflow-x-auto mb-6">
               <table className="w-full text-left border-collapse">
@@ -224,7 +224,7 @@ const HomeworkAssignment: React.FC = () => {
                   </tr>
                   <tr>
                     <td className="border border-border p-3 text-foreground">"Тут твій текст про тему" (у тегах `&lt;p&gt;`)</td>
-                    <td className="border border-border p-3 text-foreground">Напиши 2-3 речення тексту для кожного розділу</td>
+                    <td className="border border-border p-3 text-foreground">Напиши 2-3 речення (або більше, якщо потрібно) тексту для кожного розділу</td>
                   </tr>
                   <tr>
                     <td className="border border-border p-3 text-foreground">`src=""` та `alt="Опис картинки"` (у тегах `&lt;img&gt;`)</td>
@@ -292,7 +292,7 @@ const HomeworkAssignment: React.FC = () => {
               <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
                 <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
                   <ul className="list-disc list-inside space-y-2">
-                    <li><strong>Будь коротким:</strong> Пиши 2-3 речення для кожного абзацу.</li>
+                    <li><strong>Будь коротким:</strong> Пиши 2-3 речення (або більше, якщо потрібно) для кожного абзацу.</li>
                     <li><strong>Будь цікавим:</strong> Розкажи щось, що тобі дійсно подобається у твоїй темі.</li>
                     <li><strong>Перевіряй помилки:</strong> Попроси дорослих перевірити текст на помилки.</li>
                   </ul>
@@ -402,7 +402,7 @@ const HomeworkAssignment: React.FC = () => {
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-muted-foreground">
-              Вітаю! Ти створив свій перший сайт! На наступному уроці ми навчимося робити його ще красивішим за допомогою CSS. Ти дізнаєшся, як змінювати кольори, шрифти, розміри та багато іншого!
+              Вітаю! Ти створив свій перший сайт! На наступному уроці ти будеш використовувати вже вивчені CSS-стилі, щоб зробити його ще красивішим. Ти дізнаєшся, як застосовувати кольори, шрифти, розміри та багато іншого безпосередньо на своєму сайті!
             </p>
             <p className="text-lg font-semibold text-brand-primary">
               Продовжуй творити та експериментувати! Ти - справжній веб-майстер!
