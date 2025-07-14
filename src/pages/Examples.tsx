@@ -62,9 +62,9 @@ button {
           id="example-rounded-image" // Added ID
           title="Як додати рамку до картинки та заокруглити її?"
           description="Використаємо тег <img> та CSS властивості `border` і `border-radius`."
-          codeExample={`<img src="https://via.placeholder.com/100" alt="Кругла картинка" style="border: 3px solid blue; border-radius: 50%;">`}
+          codeExample={`<img src="https://picsum.photos/id/237/100/100" alt="Кругла картинка" style="border: 3px solid blue; border-radius: 50%;">`}
           language="html"
-          result={<img src="https://via.placeholder.com/100" alt="Кругла картинка" style={{ border: '3px solid hsl(var(--brand-primary))', borderRadius: '50%' }} className="shadow-md" />}
+          result={<img src="https://picsum.photos/id/237/100/100" alt="Кругла картинка" style={{ border: '3px solid hsl(var(--brand-primary))', borderRadius: '50%' }} className="shadow-md" />}
         />
 
         <LessonCard

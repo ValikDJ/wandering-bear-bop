@@ -283,7 +283,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
               srcDoc={outputSrcDoc}
               title="HTML Element Output"
               className="w-full h-48 border border-border rounded-md bg-white"
-              sandbox="allow-scripts allow-same-origin"
+              sandbox="allow-scripts"
             ></iframe>
           </div>
         </div>

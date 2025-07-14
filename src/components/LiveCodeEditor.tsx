@@ -123,7 +123,7 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
               srcDoc={outputSrcDoc}
               title="Live Code Output"
               className="w-full h-96 border border-border rounded-md bg-white"
-              sandbox="allow-scripts allow-same-origin"
+              sandbox="allow-scripts"
             ></iframe>
           </div>
         </div>

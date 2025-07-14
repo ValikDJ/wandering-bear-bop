@@ -212,7 +212,7 @@ const InteractiveCssEditor: React.FC<InteractiveCssEditorProps> = ({
               srcDoc={outputSrcDoc}
               title="Live CSS Output"
               className="w-full h-64 border border-border rounded-md bg-white"
-              sandbox="allow-scripts allow-same-origin"
+              sandbox="allow-scripts"
             ></iframe>
           </div>
         </div>
