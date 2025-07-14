@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ListChecks, Bug } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button"; // Додано імпорт Button
 
 interface ChecklistItem {
   id: string;
