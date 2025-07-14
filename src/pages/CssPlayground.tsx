@@ -10,10 +10,16 @@ const CssPlayground: React.FC = () => {
   const { actualTheme } = useTheme();
 
   // Initialize colors based on the current theme
-  const getInitialBgColor = (theme: "light" | "dark") =>
-    theme === ThemeMode.Dark ? "#1a1a1a" : "#ffffff";
-  const getInitialTextColor = (theme: "light" | "dark") =>
-    theme === ThemeMode.Dark ? "#e9ecef" : "#0c0a09";
+  const getInitialBgColor = (theme: "light" | "dark" | "cyberpunk") => {
+    if (theme === ThemeMode.Dark) return "#1a1a1a";
+    if (theme === ThemeMode.Cyberpunk) return "#14141f"; // Темний фон для кіберпанку
+    return "#ffffff";
+  };
+  const getInitialTextColor = (theme: "light" | "dark" | "cyberpunk") => {
+    if (theme === ThemeMode.Dark) return "#e9ecef";
+    if (theme === ThemeMode.Cyberpunk) return "#b3ffff"; // Неоновий текст для кіберпанку
+    return "#0c0a09";
+  };
 
   const [bgColor, setBgColor] = useState<string>(() => getInitialBgColor(actualTheme));
   const [textColor, setTextColor] = useState<string>(() => getInitialTextColor(actualTheme));
