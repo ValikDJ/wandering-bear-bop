@@ -16,6 +16,7 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import CssPlayground from "./pages/CssPlayground";
 import React, { useState } from "react";
+import { ThemeProvider } from "@/hooks/use-theme"; // Added this import
 
 const queryClient = new QueryClient();
 const appBasename = import.meta.env.BASE_URL;
