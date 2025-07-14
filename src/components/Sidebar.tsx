@@ -170,10 +170,10 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       if (event.key === 'ArrowDown') {
         event.preventDefault();
         newIndex = (currentFocusedIndex + 1) % navigableElements.length;
-      } else if (event.key === 'ArrowUp') {
+      } else if (event.key === "ArrowUp") {
         event.preventDefault();
         newIndex = (currentFocusedIndex - 1 + navigableElements.length) % navigableElements.length;
-      } else if (event.key === 'Enter' && newIndex !== -1) {
+      } else if (event.key === "Enter" && newIndex !== -1) {
         event.preventDefault();
         const targetElement = navigableElements[newIndex];
         targetElement.click();
@@ -349,12 +349,16 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       ref={sidebarRef}
       className={cn(
         "flex flex-col bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border",
-        "w-[var(--sidebar-width)] flex-shrink-0", // Removed overflow-hidden
+        // Apply width only for desktop, SheetContent handles mobile width
+        !isMobile && "w-[var(--sidebar-width)] flex-shrink-0",
         "transition-all duration-300 ease-in-out",
-        isMobile ? "fixed inset-y-0 left-0 z-40 transform -translate-x-full data-[state=open]:translate-x-0" : "fixed inset-y-0 left-0 z-20",
+        // Remove fixed positioning for mobile, SheetContent handles it
+        // For desktop, keep fixed positioning
+        !isMobile && "fixed inset-y-0 left-0 z-20",
+        isMobile && "h-full", // Ensure it takes full height of SheetContent on mobile
         "min-h-0"
       )}
-      style={{ top: '4rem' }}
+      style={!isMobile ? { top: '4rem' } : {}} // Apply top only for desktop
     >
       <div className="p-4 border-b border-sidebar-border bg-sidebar-background sticky top-0 z-10">
         <h3 className="text-xl font-bold text-foreground mb-4">{activeSectionTitle}</h3>
