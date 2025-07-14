@@ -20,8 +20,19 @@ const ThemeToggle: React.FC = () => {
   const { mode, actualTheme, setTheme } = useTheme();
 
   // Визначаємо поточну іконку та лейбл
-  const CurrentIcon = actualTheme === ThemeMode.Dark ? Moon : (actualTheme === ThemeMode.Cyberpunk ? Zap : Sun);
-  const currentLabel = actualTheme === ThemeMode.Dark ? "Темна" : (actualTheme === ThemeMode.Cyberpunk ? "Кіберпанк" : "Світла");
+  let CurrentIconComponent: React.ElementType;
+  let currentLabelText: string;
+
+  if (actualTheme === ThemeMode.Dark) {
+    CurrentIconComponent = Moon;
+    currentLabelText = "Темна";
+  } else if (actualTheme === ThemeMode.Cyberpunk) {
+    CurrentIconComponent = Zap;
+    currentLabelText = "Кіберпанк";
+  } else {
+    CurrentIconComponent = Sun;
+    currentLabelText = "Світла";
+  }
 
   const handleThemeChange = (newMode: ThemeMode) => {
     setTheme(newMode);
@@ -34,7 +45,7 @@ const ThemeToggle: React.FC = () => {
           variant="ghost"
           size="icon"
           className="text-primary-foreground hover:bg-primary-foreground/20"
-          aria-label={`Поточна тема: ${currentLabel}. Натисніть, щоб змінити.`}
+          aria-label={`Поточна тема: ${currentLabelText}. Натисніть, щоб змінити.`}
         >
           {/* Icons for Light, Dark, and Cyberpunk */}
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 cyberpunk:scale-0" />

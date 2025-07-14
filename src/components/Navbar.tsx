@@ -74,7 +74,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
                   <span className="sr-only">Відкрити меню</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-primary text-primary-foreground p-4">
+              <SheetContent side="right" className="w-3/4 sm:max-w-sm bg-primary text-primary-foreground p-4">
                 <div className="flex flex-col gap-2 pt-8">
                   {/* Display user email in mobile sidebar if logged in removed */}
                   {/* Add Profile link to mobile sidebar removed */}
