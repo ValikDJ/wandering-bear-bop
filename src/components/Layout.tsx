@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet"; // Import SheetTitle, SheetDescription
 import { useLocation } from "react-router-dom";
 
 interface LayoutProps {
@@ -32,7 +32,9 @@ const Layout: React.FC<LayoutProps> = ({
       <div className="flex flex-1">
         {isMobile ? (
           <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>
-            <SheetContent side="left" className="w-64 sm:w-72 h-full p-0"> {/* Added p-0 here */}
+            <SheetContent side="left" className="w-64 sm:w-72 h-full p-0">
+              <SheetTitle className="sr-only">Навігація по сайту</SheetTitle> {/* Visually hidden title */}
+              <SheetDescription className="sr-only">Перелік уроків та розділів сайту.</SheetDescription> {/* Visually hidden description */}
               <Sidebar
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}

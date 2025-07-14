@@ -22,7 +22,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
 }) => {
   const [selectedTag, setSelectedTag] = useState<string>("p");
   const [textContent, setTextContent] = useState<string>("Привіт, світ!");
-  const [imgSrc, setImgSrc] = useState<string>("https://via.placeholder.com/100");
+  const [imgSrc, setImgSrc] = useState<string>("https://picsum.photos/id/237/100/100");
   const [imgAlt, setImgAlt] = useState<string>("Приклад зображення");
   const [linkHref, setLinkHref] = useState<string>("https://www.google.com");
   const [generatedHtml, setGeneratedHtml] = useState<string>("");
@@ -164,7 +164,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
   const handleReset = () => {
     setSelectedTag("p");
     setTextContent("Привіт, світ!");
-    setImgSrc("https://via.placeholder.com/100");
+    setImgSrc("https://picsum.photos/id/237/100/100");
     setImgAlt("Приклад зображення");
     setLinkHref("https://www.google.com");
   };

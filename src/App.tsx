@@ -16,7 +16,7 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import CssPlayground from "./pages/CssPlayground";
 import React, { useState } from "react";
-import { ThemeProvider } from "@/hooks/use-theme"; // Added this import
+import { ThemeProvider } from "@/hooks/use-theme";
 
 const queryClient = new QueryClient();
 const appBasename = import.meta.env.BASE_URL;
@@ -26,12 +26,11 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* ThemeProvider залишається, оскільки він не залежить від авторизації */}
       <ThemeProvider>
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter basename={appBasename}>
+          <BrowserRouter basename={appBasename} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Layout
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
@@ -47,7 +46,6 @@ const App = () => {
                 <Route path="/search" element={<SearchResultsPage />} />
                 <Route path="/glossary" element={<GlossaryPage />} />
                 <Route path="/css-playground" element={<CssPlayground />} />
-                {/* Маршрути для входу та профілю видалено */}
                 {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

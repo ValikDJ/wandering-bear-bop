@@ -50,10 +50,10 @@ const HtmlTags: React.FC = () => {
           id="html-img" // Added ID
           title="<img>: Зображення"
           description="Тег <img> дозволяє додати картинку на твою сторінку. Атрибут 'src' вказує шлях до картинки, а 'alt' - опис для неї (важливо для доступності!)."
-          codeExample={`<img src="https://via.placeholder.com/150" alt="Приклад зображення" width="150" height="150">`}
+          codeExample={`<img src="https://picsum.photos/id/237/150/150" alt="Приклад зображення" width="150" height="150">`}
           language="html"
           result={
-            <img src="https://via.placeholder.com/150" alt="Приклад зображення" width="150" height="150" className="rounded-md shadow-sm" />
+            <img src="https://picsum.photos/id/237/150/150" alt="Приклад зображення" width="150" height="150" className="rounded-md shadow-sm" />
           }
         />
 
