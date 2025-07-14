@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { BookOpen, Cat, Lightbulb, ChevronDown } from "lucide-react"; // Додано ChevronDown
+import { BookOpen, Cat, Lightbulb, ChevronDown } from "lucide-react";
 import CountdownTimer from "@/components/CountdownTimer";
 import HomeworkPlanningSection from "@/components/HomeworkPlanningSection";
 import HomeworkCodeTemplate from "@/components/HomeworkCodeTemplate";
@@ -12,10 +12,10 @@ import HomeworkChecklist from "@/components/HomeworkChecklist";
 import LessonNavigation from "@/components/LessonNavigation";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 import { cn } from "@/lib/utils";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"; // Додано імпорти Collapsible
-import { Button } from "@/components/ui/button"; // Додано імпорт Button
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"; // Додано імпорт SyntaxHighlighter
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"; // Додано імпорт atomDark
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Button } from "@/components/ui/button";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 // HTML для прикладу сайту про кота
 const catWebsiteExampleHtml = `<!DOCTYPE html>
@@ -156,7 +156,7 @@ const HomeworkAssignment: React.FC = () => {
         Домашнє завдання: Створюємо свій перший сайт!
       </h1>
       <p className="text-xl text-center mb-10 max-w-3xl mx-auto text-muted-foreground">
-        Крок за кроком до твого власного сайту
+        Це покроковий посібник для твого першого веб-проекту. <strong>Зверни увагу:</strong> ти будеш створювати HTML-файл на своїй навчальній платформі або в текстовому редакторі. Цей сайт лише допомагає тобі зрозуміти, що і як робити!
       </p>
 
       <div className="mb-10">
@@ -165,7 +165,7 @@ const HomeworkAssignment: React.FC = () => {
 
       <div className="mb-10">
         <h3 className="text-2xl font-bold text-foreground mb-4">Твій прогрес:</h3>
-        <Progress value={progress} className="w-full h-4 bg-muted bg-brand-primary" /> {/* Removed indicatorClassName, applied bg-brand-primary to className */}
+        <Progress value={progress} className="w-full h-4 bg-muted bg-brand-primary" />
         <p className="text-right text-sm text-muted-foreground mt-2">{Math.round(progress)}% виконано</p>
       </div>
 
@@ -194,7 +194,7 @@ const HomeworkAssignment: React.FC = () => {
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-muted-foreground">
-              Тепер найцікавіше! Відкрий свій файл `index.html` у текстовому редакторі (наприклад, Блокнот, VS Code) і заміни шаблонний текст на свою інформацію.
+              Тепер найцікавіше! Відкрий свій файл `index.html` у текстовому редакторі (наприклад, Блокнот, VS Code) або на своїй навчальній платформі і заміни шаблонний текст на свою інформацію.
             </p>
             <div className="overflow-x-auto mb-6">
               <table className="w-full text-left border-collapse">
@@ -228,7 +228,7 @@ const HomeworkAssignment: React.FC = () => {
                   <tr>
                     <td className="border border-border p-3 text-foreground">`src=""` та `alt="Опис картинки"` (у тегах `&lt;img&gt;`)</td>
                     <td className="border border-border p-3 text-foreground">
-                      Встав шлях до своїх картинок (наприклад, `cat.jpg`) та напиши, що на них зображено.
+                      Встав шлях до своїх картинок (наприклад, `cat.jpg`) або <strong>скопіюй посилання на картинку з інтернету</strong> та напиши, що на них зображено.
                       <Collapsible className="mt-2">
                         <CollapsibleTrigger asChild>
                           <Button variant="link" className="p-0 h-auto text-brand-primary hover:underline">
@@ -238,6 +238,7 @@ const HomeworkAssignment: React.FC = () => {
                         <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
                           <div className="p-2 border border-border rounded-md bg-muted mt-1 text-muted-foreground text-sm">
                             <p>Ти можеш використовувати свої фотографії або знайти безкоштовні картинки на сайтах типу <a href="https://unsplash.com/" target="_blank" className="text-brand-primary hover:underline">Unsplash</a> або <a href="https://www.pexels.com/" target="_blank" className="text-brand-primary hover:underline">Pexels</a>. Збережи їх у тій самій папці, що й `index.html`, або у підпапці `images/`.</p>
+                            <p className="mt-2">Щоб скопіювати посилання на картинку з інтернету: клацни правою кнопкою миші на картинці і вибери "Копіювати адресу зображення" (або схожий пункт).</p>
                           </div>
                         </CollapsibleContent>
                       </Collapsible>
@@ -246,6 +247,35 @@ const HomeworkAssignment: React.FC = () => {
                   <tr>
                     <td className="border border-border p-3 text-foreground">"ТВОЄ ІМ'Я" (у тегу `&lt;p&gt;` в `&lt;footer&gt;`)</td>
                     <td className="border border-border p-3 text-foreground">Напиши своє ім'я та прізвище</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-border p-3 text-foreground">Додавання таблиць</td>
+                    <td className="border border-border p-3 text-foreground">
+                      Ти також можеш додати таблиці, використовуючи теги `&lt;table&gt;`, `&lt;tr&gt;` та `&lt;td&gt;`.
+                      <Collapsible className="mt-2">
+                        <CollapsibleTrigger asChild>
+                          <Button variant="link" className="p-0 h-auto text-brand-primary hover:underline">
+                            Приклад таблиці <ChevronDown className="h-4 w-4 ml-1 transition-transform data-[state=open]:rotate-180" />
+                          </Button>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
+                          <div className="p-2 border border-border rounded-md bg-muted mt-1 text-muted-foreground text-sm">
+                            <SyntaxHighlighter language="html" style={atomDark} customStyle={{ borderRadius: '8px', padding: '10px', fontSize: '0.8em' }}>
+                              {`<table>
+  <tr>
+    <td>Заголовок 1</td>
+    <td>Заголовок 2</td>
+  </tr>
+  <tr>
+    <td>Дані 1</td>
+    <td>Дані 2</td>
+  </tr>
+</table>`}
+                            </SyntaxHighlighter>
+                          </div>
+                        </CollapsibleContent>
+                      </Collapsible>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -261,9 +291,9 @@ const HomeworkAssignment: React.FC = () => {
               <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
                 <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
                   <ul className="list-disc list-inside space-y-2">
-                    <li>**Будь коротким:** Пиши 2-3 речення для кожного абзацу.</li>
-                    <li>**Будь цікавим:** Розкажи щось, що тобі дійсно подобається у твоїй темі.</li>
-                    <li>**Перевіряй помилки:** Попроси дорослих перевірити текст на помилки.</li>
+                    <li><strong>Будь коротким:</strong> Пиши 2-3 речення для кожного абзацу.</li>
+                    <li><strong>Будь цікавим:</strong> Розкажи щось, що тобі дійсно подобається у твоїй темі.</li>
+                    <li><strong>Перевіряй помилки:</strong> Попроси дорослих перевірити текст на помилки.</li>
                   </ul>
                 </div>
               </CollapsibleContent>
@@ -291,7 +321,7 @@ const HomeworkAssignment: React.FC = () => {
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-muted-foreground">
-              Ось приклад, як може виглядати готовий сайт про кота. Зверни увагу, як текст та картинки замінені на реальний вміст.
+              Ось приклад, як може виглядати готовий сайт про кота. <strong>Це лише приклад!</strong> Твій сайт може виглядати інакше, головне, щоб він містив твою інформацію та був структурований за допомогою HTML.
             </p>
             <div className="relative mb-4">
               <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Приклад HTML коду:</h4>
