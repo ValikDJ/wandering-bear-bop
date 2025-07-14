@@ -2,6 +2,14 @@ import { SearchItem } from "./searchIndex";
 
 export const lessonSearchItems: SearchItem[] = [
   {
+    title: "Домашнє завдання: Створи свій перший сайт!",
+    description: "Покрокова інструкція для створення власного персонального сайту.",
+    path: "/homework",
+    keywords: ["домашнє завдання", "сайт", "проект", "створити сайт", "інструкція", "початок"],
+    type: "project-template", // Використовуємо project-template як найближчий тип
+    difficulty: "easy",
+  },
+  {
     title: "HTML Теги: Заголовки",
     description: "Теги <h1>, <h2>, <h3> для створення заголовків різного рівня.",
     path: "/html-tags",

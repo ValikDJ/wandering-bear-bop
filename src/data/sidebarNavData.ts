@@ -1,5 +1,5 @@
 import { SearchItem, searchIndex } from "./searchIndex";
-import { BookOpenText, Code, Lightbulb, GraduationCap, FileText, Book, Paintbrush } from "lucide-react"; // Видалено User
+import { BookOpenText, Code, Lightbulb, GraduationCap, FileText, Book, Paintbrush, Home } from "lucide-react"; // Додано Home для домашнього завдання
 
 export interface SidebarNavItem {
   id: string;
@@ -14,7 +14,7 @@ export interface SidebarNavItem {
 
 // Допоміжна функція для відображення SearchItem до SidebarNavItem
 const mapSearchItemToSidebarNavItem = (item: SearchItem): SidebarNavItem => ({
-  id: item.sectionId || item.title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase(), // Очищення ID
+  id: item.sectionId || item.title.replace(/[^a-zA-Z0-9А-Яа-яІіЇїЄєҐґ]/g, '-').toLowerCase(), // Очищення ID з підтримкою українських літер
   title: item.title,
   path: item.path,
   sectionId: item.sectionId,
@@ -23,18 +23,27 @@ const mapSearchItemToSidebarNavItem = (item: SearchItem): SidebarNavItem => ({
 });
 
 // Логіка групування
+const homeworkAssignment = searchIndex.filter(item => item.path === '/homework');
 const htmlLessons = searchIndex.filter(item => item.path === '/html-tags' && item.type === 'lesson');
 const cssPropertiesLessons = searchIndex.filter(item => item.path === '/css-properties' && item.type === 'lesson');
 const cssSelectorsLessons = searchIndex.filter(item => item.path === '/css-selectors' && item.type === 'lesson');
 const examples = searchIndex.filter(item => item.type === 'example');
-const projectTemplate = searchIndex.filter(item => item.type === 'project-template');
+const projectTemplate = searchIndex.filter(item => item.path === '/project-template');
 const quiz = searchIndex.filter(item => item.type === 'quiz');
 const glossary = searchIndex.filter(item => item.type === 'glossary');
 const cssPlayground = searchIndex.filter(item => item.path === '/css-playground');
 const cssGradientGenerator = searchIndex.filter(item => item.path === '/examples' && item.sectionId === 'example-css-gradient-generator');
-// Видалено profilePage
 
 export const sidebarNavData: SidebarNavItem[] = [
+  {
+    id: "homework",
+    title: "Домашнє Завдання",
+    icon: Home, // Використовуємо Home icon
+    children: homeworkAssignment.map(item => ({
+      ...mapSearchItemToSidebarNavItem(item),
+      title: item.title.replace("Домашнє завдання: ", ""),
+    })),
+  },
   {
     id: "basics",
     title: "Основи HTML та CSS",
@@ -129,7 +138,6 @@ export const sidebarNavData: SidebarNavItem[] = [
       },
     ],
   },
-  // Видалено групу "Керування Користувачем"
   {
     id: "reference",
     title: "Довідник",

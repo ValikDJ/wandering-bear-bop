@@ -17,6 +17,31 @@ const Index: React.FC = () => {
       </p>
 
       <div className="w-full max-w-5xl space-y-12"> {/* Increased space between sections */}
+        {/* Домашнє завдання - новий розділ, перенесений нагору */}
+        <section>
+          <h2 className="text-4xl font-bold text-center mb-8 text-foreground">Твоє Перше Завдання!</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <Card className="bg-card hover:shadow-lg transition-shadow duration-300 relative">
+              <CardHeader>
+                <CardTitle className="text-2xl text-card-foreground flex justify-between items-center">
+                  Домашнє завдання: Створи свій сайт!
+                  <Badge variant="destructive" className="ml-2 bg-green-500 text-white">Актуально!</Badge> {/* Changed to green for 'Актуально' */}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-4">
+                  Твій перший великий проект: створи власний персональний сайт!
+                </p>
+                <Button asChild size="lg" className="w-full bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover">
+                  <Link to="/homework">Почати Завдання</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        <Separator className="my-12" /> {/* Separator between sections */}
+
         {/* Основи HTML та CSS */}
         <section>
           <h2 className="text-4xl font-bold text-center mb-8 text-foreground">Основи HTML та CSS</h2>
