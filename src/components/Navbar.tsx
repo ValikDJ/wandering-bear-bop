@@ -1,22 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, LogIn, LogOut, UserCircle2 } from "lucide-react"; // Import UserCircle2 icon
+import { Menu } from "lucide-react"; // Removed LogIn, LogOut, UserCircle2
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu"; // Import DropdownMenu components
+// Removed DropdownMenu imports
 import { useIsMobile } from "@/hooks/use-mobile";
 import ThemeToggle from "./ThemeToggle";
 import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import { cn } from "@/lib/utils";
-import { useSession } from "@/components/SessionContextProvider";
-import { signOut } from "@/integrations/supabase/auth";
-import { toast } from "sonner";
+// Removed useSession, signOut, toast imports
 
 interface NavbarProps {
   onOpenMobileSidebar: () => void;
@@ -24,16 +16,9 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
   const isMobile = useIsMobile();
-  const { session, isLoading, user } = useSession();
+  // Removed session, isLoading, user from useSession
 
-  const handleLogout = async () => {
-    const { error } = await signOut();
-    if (error) {
-      toast.error(`Помилка виходу: ${error.message}`);
-    } else {
-      toast.success("Ви успішно вийшли!");
-    }
-  };
+  // Removed handleLogout function
 
   const renderMobileNavLinks = (items: SidebarNavItem[], level: number = 0) => {
     return items.map(item => {
@@ -80,42 +65,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
         <div className="flex items-center gap-2">
           <ThemeToggle />
 
-          {/* User Info and Login/Logout Button */}
-          {!isLoading && (
-            session ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="flex items-center gap-2 text-primary-foreground hover:bg-primary-foreground/20"
-                    aria-label="Меню користувача"
-                  >
-                    <UserCircle2 className="h-6 w-6" />
-                    <span className="hidden md:inline-block">{user?.email || 'Мій Профіль'}</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="bg-popover text-popover-foreground">
-                  <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link to="/profile" className="flex items-center gap-2">
-                      <UserCircle2 className="h-4 w-4" /> Мій Профіль
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-border" />
-                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer flex items-center gap-2 text-destructive">
-                    <LogOut className="h-4 w-4" /> Вийти
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button asChild variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/20">
-                <Link to="/login" aria-label="Увійти">
-                  <LogIn className="h-6 w-6" />
-                  <span className="sr-only">Увійти</span>
-                </Link>
-              </Button>
-            )
-          )}
-
+          {/* User Info and Login/Logout Button removed */}
           {isMobile ? (
             <Sheet>
               <SheetTrigger asChild>
@@ -126,47 +76,10 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar }) => {
               </SheetTrigger>
               <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-primary text-primary-foreground p-4">
                 <div className="flex flex-col gap-2 pt-8">
-                  {/* Display user email in mobile sidebar if logged in */}
-                  {!isLoading && user?.email && (
-                    <p className="px-4 py-2 text-primary-foreground/80 font-semibold text-sm">
-                      Привіт, {user.email}!
-                    </p>
-                  )}
-                  {/* Add Profile link to mobile sidebar */}
-                  {!isLoading && session && (
-                    <SheetClose asChild>
-                      <Link
-                        to="/profile"
-                        className="block py-2 px-4 text-primary-foreground hover:bg-primary-foreground/20"
-                      >
-                        <UserCircle2 className="mr-2 h-4 w-4" /> Мій Профіль
-                      </Link>
-                    </SheetClose>
-                  )}
+                  {/* Display user email in mobile sidebar if logged in removed */}
+                  {/* Add Profile link to mobile sidebar removed */}
                   {renderMobileNavLinks(sidebarNavData)}
-                  {/* Add Login/Logout to mobile sidebar */}
-                  {!isLoading && (
-                    session ? (
-                      <SheetClose asChild>
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start text-left py-2 px-4 text-primary-foreground hover:bg-primary-foreground/20"
-                          onClick={handleLogout}
-                        >
-                          <LogOut className="mr-2 h-4 w-4" /> Вийти
-                        </Button>
-                      </SheetClose>
-                    ) : (
-                      <SheetClose asChild>
-                        <Link
-                          to="/login"
-                          className="block py-2 px-4 text-primary-foreground hover:bg-primary-foreground/20"
-                        >
-                          <LogIn className="mr-2 h-4 w-4" /> Увійти
-                        </Link>
-                      </SheetClose>
-                    )
-                  )}
+                  {/* Add Login/Logout to mobile sidebar removed */}
                 </div>
               </SheetContent>
             </Sheet>

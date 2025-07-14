@@ -395,12 +395,5 @@ export const lessonSearchItems: SearchItem[] = [
     type: "example",
     difficulty: "easy",
   },
-  {
-    title: "Мій Профіль",
-    description: "Сторінка для перегляду та оновлення особистих даних користувача.",
-    path: "/profile",
-    keywords: ["профіль", "користувач", "налаштування", "мої дані", "редагувати профіль"],
-    type: "lesson", // Using 'lesson' type for now, could be 'user-setting' if a new type is added
-    difficulty: "easy",
-  },
+  // Видалено елемент пошуку для сторінки профілю
 ];

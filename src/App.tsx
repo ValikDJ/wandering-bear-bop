@@ -15,11 +15,6 @@ import QuizPage from "./pages/QuizPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import CssPlayground from "./pages/CssPlayground";
-import Login from "./pages/Login";
-import ProfilePage from "./pages/ProfilePage";
-import { ThemeProvider } from "@/hooks/use-theme";
-import { SessionContextProvider } from "@/components/SessionContextProvider";
-import AuthGuard from "@/components/AuthGuard";
 import React, { useState } from "react";
 
 const queryClient = new QueryClient();
@@ -30,39 +25,34 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      {/* ThemeProvider залишається, оскільки він не залежить від авторизації */}
       <ThemeProvider>
-        <SessionContextProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter basename={appBasename}>
-              <Layout
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-              >
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/html-tags" element={<HtmlTags />} />
-                  <Route path="/css-properties" element={<CssProperties />} />
-                  <Route path="/css-selectors" element={<CssSelectors />} />
-                  <Route path="/examples" element={<Examples />} />
-                  {/* Ці маршрути тепер доступні всім */}
-                  <Route path="/project-template" element={<ProjectTemplate />} />
-                  <Route path="/quiz" element={<QuizPage />} />
-                  {/* Захищений маршрут */}
-                  <Route path="/profile" element={<AuthGuard><ProfilePage /></AuthGuard>} />
-                  {/* Кінець захищених маршрутів */}
-                  <Route path="/search" element={<SearchResultsPage />} />
-                  <Route path="/glossary" element={<GlossaryPage />} />
-                  <Route path="/css-playground" element={<CssPlayground />} />
-                  <Route path="/login" element={<Login />} />
-                  {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Layout>
-            </BrowserRouter>
-          </TooltipProvider>
-        </SessionContextProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter basename={appBasename}>
+            <Layout
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            >
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/html-tags" element={<HtmlTags />} />
+                <Route path="/css-properties" element={<CssProperties />} />
+                <Route path="/css-selectors" element={<CssSelectors />} />
+                <Route path="/examples" element={<Examples />} />
+                <Route path="/project-template" element={<ProjectTemplate />} />
+                <Route path="/quiz" element={<QuizPage />} />
+                <Route path="/search" element={<SearchResultsPage />} />
+                <Route path="/glossary" element={<GlossaryPage />} />
+                <Route path="/css-playground" element={<CssPlayground />} />
+                {/* Маршрути для входу та профілю видалено */}
+                {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Layout>
+          </BrowserRouter>
+        </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

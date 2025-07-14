@@ -5,8 +5,6 @@ import Sidebar from "./Sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useLocation } from "react-router-dom";
-import ChatBubble from "./ChatBubble"; // Import ChatBubble
-import ChatWindow from "./ChatWindow"; // Import ChatWindow
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -21,14 +19,10 @@ const Layout: React.FC<LayoutProps> = ({
 }) => {
   const isMobile = useIsMobile();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false); // State for chat window
-  const location = useLocation();
+  // State for chat window removed
 
   const handleOpenMobileSidebar = () => setIsMobileSidebarOpen(true);
   const handleCloseMobileSidebar = () => setIsMobileSidebarOpen(false);
-
-  const handleOpenChat = () => setIsChatOpen(true);
-  const handleCloseChat = () => setIsChatOpen(false);
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -60,15 +54,7 @@ const Layout: React.FC<LayoutProps> = ({
       </div>
       <Footer />
 
-      {/* Chat Bubble */}
-      <ChatBubble onClick={handleOpenChat} />
-
-      {/* Chat Window as a Sheet */}
-      <Sheet open={isChatOpen} onOpenChange={setIsChatOpen}>
-        <SheetContent side="right" className="w-full sm:max-w-md flex flex-col p-0">
-          <ChatWindow onClose={handleCloseChat} />
-        </SheetContent>
-      </Sheet>
+      {/* Chat Bubble and Chat Window removed */}
     </div>
   );
 };

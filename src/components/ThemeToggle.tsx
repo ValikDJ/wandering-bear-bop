@@ -5,7 +5,7 @@
  */
 
 import React from "react";
-import { Sun, Moon, Laptop, Zap } from "lucide-react"; // NEW: Додано Zap icon
+import { Sun, Moon, Laptop, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,8 +20,8 @@ const ThemeToggle: React.FC = () => {
   const { mode, actualTheme, setTheme } = useTheme();
 
   // Визначаємо поточну іконку та лейбл
-  const CurrentIcon = actualTheme === ThemeMode.Dark ? Moon : (actualTheme === ThemeMode.Cyberpunk ? Zap : Sun); // NEW: Логіка для Cyberpunk
-  const currentLabel = actualTheme === ThemeMode.Dark ? "Темна" : (actualTheme === ThemeMode.Cyberpunk ? "Кіберпанк" : "Світла"); // NEW: Логіка для Cyberpunk
+  const CurrentIcon = actualTheme === ThemeMode.Dark ? Moon : (actualTheme === ThemeMode.Cyberpunk ? Zap : Sun);
+  const currentLabel = actualTheme === ThemeMode.Dark ? "Темна" : (actualTheme === ThemeMode.Cyberpunk ? "Кіберпанк" : "Світла");
 
   const handleThemeChange = (newMode: ThemeMode) => {
     setTheme(newMode);
@@ -39,7 +39,7 @@ const ThemeToggle: React.FC = () => {
           {/* Icons for Light, Dark, and Cyberpunk */}
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 cyberpunk:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 cyberpunk:scale-0" />
-          <Zap className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all cyberpunk:rotate-0 cyberpunk:scale-100" /> {/* NEW: Cyberpunk icon */}
+          <Zap className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all cyberpunk:rotate-0 cyberpunk:scale-100" />
           <span className="sr-only">Перемкнути тему</span>
         </Button>
       </DropdownMenuTrigger>
@@ -59,7 +59,7 @@ const ThemeToggle: React.FC = () => {
           <Moon className="h-4 w-4" /> Темна
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => handleThemeChange(ThemeMode.Cyberpunk)} // NEW: Cyberpunk option
+          onClick={() => handleThemeChange(ThemeMode.Cyberpunk)}
           className="cursor-pointer flex items-center gap-2"
           aria-label="Встановити тему Кіберпанк"
         >

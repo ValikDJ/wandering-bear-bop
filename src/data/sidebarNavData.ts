@@ -1,5 +1,5 @@
 import { SearchItem, searchIndex } from "./searchIndex";
-import { BookOpenText, Code, Lightbulb, GraduationCap, FileText, Book, Paintbrush, User } from "lucide-react"; // Імпорт іконок, додано User
+import { BookOpenText, Code, Lightbulb, GraduationCap, FileText, Book, Paintbrush } from "lucide-react"; // Видалено User
 
 export interface SidebarNavItem {
   id: string;
@@ -32,7 +32,7 @@ const quiz = searchIndex.filter(item => item.type === 'quiz');
 const glossary = searchIndex.filter(item => item.type === 'glossary');
 const cssPlayground = searchIndex.filter(item => item.path === '/css-playground');
 const cssGradientGenerator = searchIndex.filter(item => item.path === '/examples' && item.sectionId === 'example-css-gradient-generator');
-const profilePage = searchIndex.filter(item => item.path === '/profile'); // NEW FILTER FOR PROFILE PAGE
+// Видалено profilePage
 
 export const sidebarNavData: SidebarNavItem[] = [
   {
@@ -129,21 +129,7 @@ export const sidebarNavData: SidebarNavItem[] = [
       },
     ],
   },
-  {
-    id: "user-management", // New group for user-related pages
-    title: "Керування Користувачем",
-    icon: User,
-    children: [
-      {
-        id: "profile-page-item",
-        title: "Мій Профіль",
-        path: "/profile",
-        icon: User,
-        type: "lesson", // Can be 'lesson' or a new type like 'user-setting'
-        keywords: profilePage[0]?.keywords || ["профіль", "користувач", "налаштування", "мої дані"],
-      },
-    ],
-  },
+  // Видалено групу "Керування Користувачем"
   {
     id: "reference",
     title: "Довідник",
