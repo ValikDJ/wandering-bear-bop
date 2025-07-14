@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 interface NavbarProps {
   onOpenMobileSidebar: () => void;
-  isScrolled: boolean; // New prop
+  isScrolled: boolean;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar, isScrolled }) => {
@@ -55,13 +55,14 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar, isScrolled }) => {
   return (
     <nav
       className={cn(
-        "p-4 fixed top-0 left-0 w-full z-30 h-16 flex items-center transition-all duration-300 ease-in-out",
+        "fixed top-0 left-0 w-full z-30 flex items-center transition-all duration-300 ease-in-out",
         isScrolled
-          ? "bg-background/80 backdrop-blur-sm shadow-lg"
-          : "bg-primary text-primary-foreground shadow-md"
+          ? "bg-background/80 backdrop-blur-sm shadow-lg h-12 px-2" // Зменшена висота та відступи при прокручуванні
+          : "bg-primary text-primary-foreground shadow-md h-16 px-4" // Стандартна висота та відступи
       )}
     >
       <div className="container mx-auto flex flex-wrap justify-between items-center h-full">
+        {/* Logo - завжди присутній, але зникає при прокручуванні */}
         <Link
           to="/"
           className={cn(
@@ -71,23 +72,13 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar, isScrolled }) => {
         >
           Веб-Майстерня
         </Link>
+
         <div className="flex items-center gap-2">
+          {/* Theme Toggle - завжди видимий */}
           <ThemeToggle />
 
-          {isMobile ? (
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn(
-                "text-primary-foreground hover:bg-primary-foreground/20 transition-all duration-300 ease-in-out",
-                isScrolled && "rounded-full bg-accent text-accent-foreground shadow-md"
-              )}
-              onClick={onOpenMobileSidebar}
-            >
-              <Menu className="h-6 w-6" />
-              <span className="sr-only">Відкрити меню</span>
-            </Button>
-          ) : (
+          {/* Desktop Navigation Links - видимі лише на десктопі, зникають при прокручуванні */}
+          {!isMobile && (
             <div
               className={cn(
                 "flex flex-wrap gap-2 mt-2 sm:mt-0 transition-opacity duration-300 ease-in-out",
@@ -111,6 +102,25 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenMobileSidebar, isScrolled }) => {
               </Button>
             </div>
           )}
+
+          {/* Menu Button - завжди рендериться, але його видимість та стиль змінюються */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn(
+              "text-primary-foreground hover:bg-primary-foreground/20 transition-all duration-300 ease-in-out",
+              // Приховати на десктопі, коли не прокручено
+              !isMobile && !isScrolled && "opacity-0 pointer-events-none",
+              // Застосувати компактний стиль при прокручуванні (як на мобільному, так і на десктопі)
+              isScrolled && "rounded-full bg-accent text-accent-foreground shadow-md",
+              // На мобільному, завжди видимий, але його стиль залежить від прокручування
+              isMobile && !isScrolled && "rounded-md" // Стандартний мобільний стиль, коли не прокручено
+            )}
+            onClick={onOpenMobileSidebar}
+          >
+            <Menu className="h-6 w-6" />
+            <span className="sr-only">Відкрити меню</span>
+          </Button>
         </div>
       </div>
     </nav>

@@ -5,7 +5,8 @@ import Sidebar from "./Sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { useLocation } from "react-router-dom";
-import { useScrollPosition } from "@/hooks/use-scroll-position"; // Import the new hook
+import { useScrollPosition } from "@/hooks/use-scroll-position";
+import { cn } from "@/lib/utils"; // Import cn
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,9 +21,9 @@ const Layout: React.FC<LayoutProps> = ({
 }) => {
   const isMobile = useIsMobile();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const mainRef = useRef<HTMLElement>(null); // Create a ref for the main content area
-  const scrollTop = useScrollPosition(mainRef); // Use the new hook
-  const isScrolled = scrollTop > 50; // Define a scroll threshold (e.g., 50px)
+  const mainRef = useRef<HTMLElement>(null);
+  const scrollTop = useScrollPosition(mainRef);
+  const isScrolled = scrollTop > 50;
 
   const handleOpenMobileSidebar = () => setIsMobileSidebarOpen(true);
   const handleCloseMobileSidebar = () => setIsMobileSidebarOpen(false);
@@ -31,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Navbar
         onOpenMobileSidebar={handleOpenMobileSidebar}
-        isScrolled={isScrolled} // Pass the isScrolled state to Navbar
+        isScrolled={isScrolled}
       />
       <div className="flex flex-1">
         {isMobile ? (
@@ -54,7 +55,10 @@ const Layout: React.FC<LayoutProps> = ({
             isMobile={false}
           />
         )}
-        <main ref={mainRef} className="flex-grow container mx-auto p-4 bg-background overflow-y-auto lg:ml-[var(--sidebar-width)] pt-16">
+        <main ref={mainRef} className={cn(
+          "flex-grow container mx-auto p-4 bg-background overflow-y-auto lg:ml-[var(--sidebar-width)]",
+          isScrolled ? "pt-12" : "pt-16" // Коригування відступу залежно від висоти Navbar
+        )}>
           {children}
         </main>
       </div>
