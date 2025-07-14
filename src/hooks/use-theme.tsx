@@ -14,7 +14,7 @@ const themeManagerInstance = new ThemeManager();
  */
 interface ThemeContextType {
   mode: ThemeMode; // Обраний режим (light, dark, system)
-  actualTheme: "light" | "dark"; // Фактично застосована тема (light або dark)
+  actualTheme: "light" | "dark" | "cyberpunk"; // Фактично застосована тема (light, dark або cyberpunk)
   setTheme: (mode: ThemeMode) => void;
   toggleTheme: () => void;
 }
@@ -28,7 +28,7 @@ const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined
  */
 export const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [mode, setMode] = useState<ThemeMode>(themeManagerInstance.getMode());
-  const [actualTheme, setActualTheme] = useState<"light" | "dark">(themeManagerInstance.getActualTheme());
+  const [actualTheme, setActualTheme] = useState<"light" | "dark" | "cyberpunk">(themeManagerInstance.getActualTheme());
 
   // Оновлюємо стан компонента при зміні теми в ThemeManager
   useEffect(() => {
