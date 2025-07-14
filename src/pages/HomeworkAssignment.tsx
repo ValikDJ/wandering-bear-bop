@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react"; // Added useLayoutEffect
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { BookOpen, Cat, Lightbulb, ChevronDown, Star } from "lucide-react";
+import { BookOpen, Cat, Lightbulb, ChevronDown, Star, PanelLeftOpen, PanelLeftClose } from "lucide-react"; // Added PanelLeftOpen, PanelLeftClose
 import CountdownTimer from "@/components/CountdownTimer";
 import HomeworkPlanningSection from "@/components/HomeworkPlanningSection";
 import HomeworkCodeTemplate from "@/components/HomeworkCodeTemplate";
@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Link } from "react-router-dom";
+import { useLayout } from "@/contexts/LayoutContext"; // NEW IMPORT
+import { useIsMobile } from "@/hooks/use-mobile"; // NEW IMPORT
 
 // HTML для прикладу сайту про кота
 const catWebsiteExampleHtml = `<!DOCTYPE html>
@@ -52,6 +54,28 @@ const catWebsiteExampleHtml = `<!DOCTYPE html>
 
 const HomeworkAssignment: React.FC = () => {
   useScrollToHash();
+  const { sidebarMode, setTemporarySidebarMode, setSidebarMode } = useLayout(); // NEW: Consume context
+  const isMobile = useIsMobile(); // NEW: Check if mobile
+
+  // Use useLayoutEffect to set sidebar mode before browser paints
+  useLayoutEffect(() => {
+    if (!isMobile) { // Only apply this behavior on desktop
+      setTemporarySidebarMode('interactive-hover'); // Set to collapsed on mount
+    }
+    return () => {
+      if (!isMobile) {
+        setTemporarySidebarMode(null); // Reset to default on unmount
+      }
+    };
+  }, [setTemporarySidebarMode, isMobile]);
+
+  const toggleSidebar = () => {
+    if (sidebarMode === 'interactive-hover') {
+      setSidebarMode('pinned-full'); // Expand
+    } else {
+      setSidebarMode('interactive-hover'); // Collapse
+    }
+  };
 
   // Визначення дедлайну (наприклад, найближча п'ятниця о 18:00)
   const getNextFridayDeadline = () => {
@@ -411,6 +435,23 @@ const HomeworkAssignment: React.FC = () => {
         </Card>
       </div>
       <LessonNavigation />
+
+      {/* Sidebar Toggle Button (Desktop only, when not hidden) */}
+      {!isMobile && (
+        <Button
+          onClick={toggleSidebar}
+          variant="outline"
+          size="icon"
+          className="fixed top-20 left-4 z-40 shadow-lg bg-card text-card-foreground hover:bg-card/80 no-print"
+          aria-label={sidebarMode === 'interactive-hover' ? "Розгорнути бічну панель" : "Згорнути бічну панель"}
+        >
+          {sidebarMode === 'interactive-hover' ? (
+            <PanelLeftOpen className="h-5 w-5" />
+          ) : (
+            <PanelLeftClose className="h-5 w-5" />
+          )}
+        </Button>
+      )}
     </div>
   );
 };

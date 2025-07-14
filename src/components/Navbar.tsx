@@ -1,24 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, PanelLeftOpen, PanelLeftClose, PanelLeft } from "lucide-react"; // Додано нові іконки
+import { Menu, PanelLeftOpen, PanelLeftClose, PanelLeft } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ThemeToggle from "./ThemeToggle";
 import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import { cn } from "@/lib/utils";
-import { SidebarMode } from "@/App"; // Імпортуємо SidebarMode
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // Імпортуємо Select
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useLayout } from "@/contexts/LayoutContext"; // NEW IMPORT
+import type { SidebarMode } from "@/contexts/LayoutContext"; // NEW IMPORT for type
 
 interface NavbarProps {
-  onOpenSidebar: () => void; // Змінено назву пропсу
+  onOpenSidebar: () => void;
   isScrolled: boolean;
-  sidebarMode: SidebarMode; // Новий пропс
-  setSidebarMode: (mode: SidebarMode) => void; // Новий пропс
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onOpenSidebar, isScrolled, sidebarMode, setSidebarMode }) => {
+const Navbar: React.FC<NavbarProps> = ({ onOpenSidebar, isScrolled }) => {
   const isMobile = useIsMobile();
+  const { sidebarMode, setSidebarMode } = useLayout(); // NEW: Consume context
 
   const renderMobileNavLinks = (items: SidebarNavItem[], level: number = 0) => {
     return items.map(item => {
@@ -141,7 +141,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSidebar, isScrolled, sidebarMode,
                 // На мобільному, завжди видимий, але його стиль залежить від прокручування
                 isMobile && !isScrolled && "rounded-md" // Стандартний мобільний стиль, коли не прокручено
               )}
-              onClick={onOpenSidebar} // Змінено назву пропсу
+              onClick={onOpenSidebar}
             >
               <Menu className="h-6 w-6" />
               <span className="sr-only">Відкрити меню</span>

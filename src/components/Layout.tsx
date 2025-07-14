@@ -4,34 +4,32 @@ import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
-import { useLocation, Link } from "react-router-dom"; // Import Link and useLocation
+import { useLocation, Link } from "react-router-dom";
 import { useScrollPosition } from "@/hooks/use-scroll-position";
 import { cn } from "@/lib/utils";
-import { SidebarMode } from "@/App";
-import { Button } from "@/components/ui/button"; // Import Button
-import { Home } from "lucide-react"; // Import Home icon
+import { Button } from "@/components/ui/button";
+import { Home } from "lucide-react";
+import { useLayout } from "@/contexts/LayoutContext"; // NEW IMPORT
+import type { SidebarMode } from "@/contexts/LayoutContext"; // NEW IMPORT for type
 
 interface LayoutProps {
   children: React.ReactNode;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
-  sidebarMode: SidebarMode;
-  setSidebarMode: (mode: SidebarMode) => void;
 }
 
 const Layout: React.FC<LayoutProps> = ({
   children,
   searchTerm,
   setSearchTerm,
-  sidebarMode,
-  setSidebarMode,
 }) => {
   const isMobile = useIsMobile();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
   const scrollTop = useScrollPosition(mainRef);
   const isScrolled = scrollTop > 50;
-  const location = useLocation(); // Get current location
+  const location = useLocation();
+  const { sidebarMode } = useLayout(); // NEW: Consume context
 
   const handleOpenSidebar = () => setIsSidebarOpen(true);
   const handleCloseSidebar = () => setIsSidebarOpen(false);
@@ -57,8 +55,6 @@ const Layout: React.FC<LayoutProps> = ({
       <Navbar
         onOpenSidebar={handleOpenSidebar}
         isScrolled={isScrolled}
-        sidebarMode={sidebarMode}
-        setSidebarMode={setSidebarMode}
       />
       <div className="flex flex-1">
         {isMobile || sidebarMode === 'hidden' ? (
@@ -70,7 +66,6 @@ const Layout: React.FC<LayoutProps> = ({
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
                 isMobile={isMobile}
-                sidebarMode={sidebarMode}
                 onCloseSidebar={handleCloseSidebar}
               />
             </SheetContent>
@@ -80,7 +75,6 @@ const Layout: React.FC<LayoutProps> = ({
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
             isMobile={false}
-            sidebarMode={sidebarMode}
             className="sidebar no-print"
           />
         )}

@@ -15,20 +15,16 @@ import QuizPage from "./pages/QuizPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import CssPlayground from "./pages/CssPlayground";
-import HomeworkAssignment from "./pages/HomeworkAssignment"; // NEW IMPORT
+import HomeworkAssignment from "./pages/HomeworkAssignment";
 import React, { useState } from "react";
 import { ThemeProvider } from "@/hooks/use-theme";
+import { LayoutProvider } from "./contexts/LayoutContext"; // NEW IMPORT
 
 const queryClient = new QueryClient();
 const appBasename = import.meta.env.BASE_URL;
 
-// Визначення типів для режимів сайдбару
-export type SidebarMode = 'pinned-full' | 'interactive-hover' | 'hidden';
-
 const App = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  // Додаємо стан для режиму сайдбару, за замовчуванням 'pinned-full'
-  const [sidebarMode, setSidebarMode] = useState<SidebarMode>('pinned-full');
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -37,28 +33,28 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter basename={appBasename} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-            <Layout
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              sidebarMode={sidebarMode} // Передаємо режим сайдбару
-              setSidebarMode={setSidebarMode} // Передаємо функцію для зміни режиму
-            >
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/html-tags" element={<HtmlTags />} />
-                <Route path="/css-properties" element={<CssProperties />} />
-                <Route path="/css-selectors" element={<CssSelectors />} />
-                <Route path="/examples" element={<Examples />} />
-                <Route path="/project-template" element={<ProjectTemplate />} />
-                <Route path="/quiz" element={<QuizPage />} />
-                <Route path="/search" element={<SearchResultsPage />} />
-                <Route path="/glossary" element={<GlossaryPage />} />
-                <Route path="/css-playground" element={<CssPlayground />} />
-                <Route path="/homework" element={<HomeworkAssignment />} /> {/* NEW ROUTE */}
-                {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Layout>
+            <LayoutProvider> {/* Wrap Layout with LayoutProvider */}
+              <Layout
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+              >
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/html-tags" element={<HtmlTags />} />
+                  <Route path="/css-properties" element={<CssProperties />} />
+                  <Route path="/css-selectors" element={<CssSelectors />} />
+                  <Route path="/examples" element={<Examples />} />
+                  <Route path="/project-template" element={<ProjectTemplate />} />
+                  <Route path="/quiz" element={<QuizPage />} />
+                  <Route path="/search" element={<SearchResultsPage />} />
+                  <Route path="/glossary" element={<GlossaryPage />} />
+                  <Route path="/css-playground" element={<CssPlayground />} />
+                  <Route path="/homework" element={<HomeworkAssignment />} />
+                  {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Layout>
+            </LayoutProvider>
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>

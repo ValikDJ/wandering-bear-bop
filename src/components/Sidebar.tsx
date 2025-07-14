@@ -10,15 +10,15 @@ import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import Fuse from 'fuse.js';
 import type { FuseResult } from 'fuse.js';
 import { expandQueryWithSynonyms } from "@/data/synonymMap";
-import { SidebarMode } from "@/App"; // Імпортуємо SidebarMode
+import { useLayout } from "@/contexts/LayoutContext"; // NEW IMPORT
+import type { SidebarMode } from "@/contexts/LayoutContext"; // NEW IMPORT for type
 
 interface SidebarProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   isMobile: boolean;
-  sidebarMode: SidebarMode; // Новий пропс
-  onCloseSidebar?: () => void; // Змінено назву пропсу
-  className?: string; // Додано className prop
+  onCloseSidebar?: () => void;
+  className?: string;
 }
 
 const fuseOptions = {
@@ -53,8 +53,9 @@ const fuse = new Fuse(flatSearchableItems, fuseOptions);
 const RECENT_SEARCHES_KEY = "sidebar-recent-searches";
 const MAX_RECENT_SEARCHES = 3;
 
-const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, sidebarMode, onCloseSidebar, className }) => {
+const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, onCloseSidebar, className }) => {
   const location = useLocation();
+  const { sidebarMode } = useLayout(); // NEW: Consume context
   const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(sidebarNavData.map(item => item.id)));
   const [filteredNavData, setFilteredNavData] = useState<SidebarNavItem[]>(sidebarNavData);
   const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
@@ -63,7 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [activeSectionTitle, setActiveSectionTitle] = useState<string>("Навігація");
-  const [isHovered, setIsHovered] = useState(false); // Новий стан для режиму наведення
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     try {
@@ -180,8 +181,8 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         event.preventDefault();
         const targetElement = navigableElements[newIndex];
         targetElement.click();
-        if (onCloseSidebar && targetElement.tagName === 'A') { // Змінено назву пропсу
-          onCloseSidebar(); // Змінено назву пропсу
+        if (onCloseSidebar && targetElement.tagName === 'A') {
+          onCloseSidebar();
         }
         return;
       } else if (event.key === '/' || event.key === '.') {
@@ -207,7 +208,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [focusedItemId, filteredNavData, isMobile, onCloseSidebar, searchTerm, setSearchTerm]); // Змінено назву пропсу
+  }, [focusedItemId, filteredNavData, isMobile, onCloseSidebar, searchTerm, setSearchTerm]);
 
   const toggleGroup = (id: string) => {
     setOpenGroups(prev => {
@@ -300,7 +301,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
                 "font-semibold",
                 level === 0 ? "text-lg" : "text-base",
                 isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background",
-                (sidebarMode === 'interactive-hover' && !isHovered && !isMobile) && "justify-center px-0" // Центруємо іконку в згорнутому режимі
+                (sidebarMode === 'interactive-hover' && !isHovered && !isMobile) && "justify-center px-0"
               )}
               data-nav-item
               data-item-id={item.id}
@@ -311,7 +312,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
               <ChevronDown className={cn(
                 "h-4 w-4 transition-transform",
                 openGroups.has(item.id) || !!searchTerm || (sidebarMode === 'interactive-hover' && isHovered && !isMobile) ? "rotate-180" : "rotate-0",
-                (sidebarMode === 'interactive-hover' && !isHovered && !isMobile) && "opacity-0 w-0 overflow-hidden" // Приховуємо стрілку в згорнутому режимі
+                (sidebarMode === 'interactive-hover' && !isHovered && !isMobile) && "opacity-0 w-0 overflow-hidden"
               )} />
             </Button>
           </CollapsibleTrigger>
@@ -327,7 +328,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         <Link
           key={item.id}
           to={`${item.path}${item.sectionId ? `#${item.sectionId}` : ''}`}
-          onClick={onCloseSidebar} // Змінено назву пропсу
+          onClick={onCloseSidebar}
           className={cn(
             "flex items-center gap-2 w-full justify-start text-left px-3 py-2 rounded-md transition-colors duration-200",
             "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
@@ -358,16 +359,14 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     saveSearchTerm(term);
   };
 
-  // Визначаємо ширину сайдбару залежно від режиму та наведення
   const sidebarWidthClass = isMobile || sidebarMode === 'hidden'
-    ? "w-full" // На мобільному або в прихованому режимі (коли відкритий Sheet)
+    ? "w-full"
     : sidebarMode === 'pinned-full'
       ? "w-[var(--sidebar-width)]"
       : isHovered
         ? "w-[var(--sidebar-width)]"
         : "w-[var(--sidebar-collapsed-width)]";
 
-  // Визначаємо видимість текстового контенту (заголовків, пошуку, не-іконок)
   const contentVisibilityClass = (sidebarMode === 'interactive-hover' && !isHovered && !isMobile)
     ? "opacity-0 pointer-events-none"
     : "opacity-100 pointer-events-auto";
@@ -377,15 +376,15 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
       ref={sidebarRef}
       className={cn(
         "flex flex-col bg-sidebar-background text-sidebar-foreground border-r border-sidebar-border",
-        "transition-all duration-300 ease-in-out", // Додаємо перехід для ширини
-        !isMobile && "fixed inset-y-0 left-0 z-20", // Фіксоване позиціонування для десктопу
-        isMobile && "h-full", // Повна висота для мобільного
+        "transition-all duration-300 ease-in-out",
+        !isMobile && "fixed inset-y-0 left-0 z-20",
+        isMobile && "h-full",
         "min-h-0",
-        sidebarWidthClass, // Динамічна ширина
-        sidebarMode === 'hidden' && !isMobile && "hidden", // Приховуємо сайдбар на десктопі, якщо режим 'hidden'
-        className // Apply className here
+        sidebarWidthClass,
+        sidebarMode === 'hidden' && !isMobile && "hidden",
+        className
       )}
-      style={!isMobile ? { top: '4rem' } : {}} // Застосовуємо top тільки для десктопу
+      style={!isMobile ? { top: '4rem' } : {}}
       onMouseEnter={() => !isMobile && sidebarMode === 'interactive-hover' && setIsHovered(true)}
       onMouseLeave={() => !isMobile && sidebarMode === 'interactive-hover' && setIsHovered(false)}
     >
