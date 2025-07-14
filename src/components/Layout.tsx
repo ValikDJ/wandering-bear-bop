@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { useLocation } from "react-router-dom";
+import { useScrollPosition } from "@/hooks/use-scroll-position"; // Import the new hook
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -19,7 +20,9 @@ const Layout: React.FC<LayoutProps> = ({
 }) => {
   const isMobile = useIsMobile();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  // State for chat window removed
+  const mainRef = useRef<HTMLElement>(null); // Create a ref for the main content area
+  const scrollTop = useScrollPosition(mainRef); // Use the new hook
+  const isScrolled = scrollTop > 50; // Define a scroll threshold (e.g., 50px)
 
   const handleOpenMobileSidebar = () => setIsMobileSidebarOpen(true);
   const handleCloseMobileSidebar = () => setIsMobileSidebarOpen(false);
@@ -28,6 +31,7 @@ const Layout: React.FC<LayoutProps> = ({
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Navbar
         onOpenMobileSidebar={handleOpenMobileSidebar}
+        isScrolled={isScrolled} // Pass the isScrolled state to Navbar
       />
       <div className="flex flex-1">
         {isMobile ? (
@@ -50,13 +54,11 @@ const Layout: React.FC<LayoutProps> = ({
             isMobile={false}
           />
         )}
-        <main className="flex-grow container mx-auto p-4 bg-background overflow-y-auto lg:ml-[var(--sidebar-width)] pt-16"> {/* Added pt-16 here */}
+        <main ref={mainRef} className="flex-grow container mx-auto p-4 bg-background overflow-y-auto lg:ml-[var(--sidebar-width)] pt-16">
           {children}
         </main>
       </div>
       <Footer />
-
-      {/* Chat Bubble and Chat Window removed */}
     </div>
   );
 };
