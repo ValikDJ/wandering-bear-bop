@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Home } from "lucide-react";
 import { useLayout } from "@/contexts/LayoutContext"; // NEW IMPORT
-import type { SidebarMode } from "@/contexts/LayoutContext"; // NEW IMPORT for type
 
 interface LayoutProps {
   children: React.ReactNode;

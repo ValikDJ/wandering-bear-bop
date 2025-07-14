@@ -6,28 +6,33 @@ export type SidebarMode = 'pinned-full' | 'interactive-hover' | 'hidden';
 interface LayoutContextType {
   sidebarMode: SidebarMode;
   setSidebarMode: (mode: SidebarMode) => void;
-  setTemporarySidebarMode: (mode: SidebarMode | null) => void;
 }
 
 const LayoutContext = createContext<LayoutContextType | undefined>(undefined);
 
 export const LayoutProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [sidebarMode, setSidebarMode] = useState<SidebarMode>('pinned-full');
-  const [temporarySidebarMode, setTemporarySidebarMode] = useState<SidebarMode | null>(null);
   const location = useLocation();
 
-  // Reset temporary mode when navigating away from a page that set it
-  useEffect(() => {
-    setTemporarySidebarMode(null); // Clear temporary mode on route change
-  }, [location.pathname]);
+  // Determine initial sidebar mode based on route
+  const getInitialSidebarMode = (): SidebarMode => {
+    if (location.pathname === '/homework') {
+      return 'interactive-hover'; // Collapsed by default for homework
+    }
+    // You might want to load a user preference from localStorage here for other pages
+    return 'pinned-full'; // Default for other pages
+  };
 
-  const effectiveSidebarMode = temporarySidebarMode || sidebarMode;
+  const [sidebarMode, setSidebarMode] = useState<SidebarMode>(getInitialSidebarMode);
+
+  // Effect to update sidebarMode if the path changes to/from homework
+  useEffect(() => {
+    setSidebarMode(getInitialSidebarMode());
+  }, [location.pathname]); // Re-evaluate when pathname changes
 
   const contextValue = useMemo(() => ({
-    sidebarMode: effectiveSidebarMode,
+    sidebarMode,
     setSidebarMode,
-    setTemporarySidebarMode,
-  }), [effectiveSidebarMode, setSidebarMode, setTemporarySidebarMode]);
+  }), [sidebarMode, setSidebarMode]);
 
   return (
     <LayoutContext.Provider value={contextValue}>

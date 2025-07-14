@@ -54,20 +54,11 @@ const catWebsiteExampleHtml = `<!DOCTYPE html>
 
 const HomeworkAssignment: React.FC = () => {
   useScrollToHash();
-  const { sidebarMode, setTemporarySidebarMode, setSidebarMode } = useLayout(); // NEW: Consume context
+  const { sidebarMode, setSidebarMode } = useLayout(); // NEW: Consume context
   const isMobile = useIsMobile(); // NEW: Check if mobile
 
-  // Use useLayoutEffect to set sidebar mode before browser paints
-  useLayoutEffect(() => {
-    if (!isMobile) { // Only apply this behavior on desktop
-      setTemporarySidebarMode('interactive-hover'); // Set to collapsed on mount
-    }
-    return () => {
-      if (!isMobile) {
-        setTemporarySidebarMode(null); // Reset to default on unmount
-      }
-    };
-  }, [setTemporarySidebarMode, isMobile]);
+  // Removed useLayoutEffect that set temporary sidebar mode.
+  // The LayoutContext now handles the initial state based on the route.
 
   const toggleSidebar = () => {
     if (sidebarMode === 'interactive-hover') {
@@ -157,7 +148,8 @@ const HomeworkAssignment: React.FC = () => {
   useEffect(() => {
     try {
       localStorage.setItem("homework-step3-completed", JSON.stringify(step3Completed));
-    } catch (error) {
+    }
+    catch (error) {
       console.error("Failed to save step 3 completion:", error);
     }
   }, [step3Completed]);
