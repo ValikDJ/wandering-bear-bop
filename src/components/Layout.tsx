@@ -56,7 +56,8 @@ const Layout: React.FC<LayoutProps> = ({
           />
         )}
         <main ref={mainRef} className={cn(
-          "flex-grow container mx-auto p-4 bg-background overflow-y-auto lg:ml-[var(--sidebar-width)]",
+          "flex-grow container mx-auto p-4 bg-background overflow-y-auto",
+          !isMobile && "ml-[var(--sidebar-width)]", // Застосовуємо відступ, якщо це не мобільний режим
           isScrolled ? "pt-12" : "pt-16" // Коригування відступу залежно від висоти Navbar
         )}>
           {children}
