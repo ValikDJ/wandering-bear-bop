@@ -142,10 +142,10 @@ const HomeworkChecklist: React.FC = () => {
           <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
             <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
               <ul className="list-disc list-inside space-y-2">
-                <li><strong>Забув закрити тег:</strong> Кожен відкритий тег (наприклад, `<h1>`) повинен мати закриваючий (`</h1>`).</li>
-                <li><strong>Неправильний шлях до картинки:</strong> Перевір, чи правильно вказано `src` в тегу `<img>`. Картинка має бути в тій самій папці або в підпапці.</li>
-                <li><strong>Помилка в `href` посилання:</strong> Перевір, чи правильно вказано адресу в `href` для тегу `<a>`.</li>
-                <li><strong>Немає `alt` для картинки:</strong> Завжди додавай `alt` атрибут до `<img>` - це важливо для доступності!</li>
+                <li><strong>Забув закрити тег:</strong> Кожен відкритий тег (наприклад, `&lt;h1&gt;`) повинен мати закриваючий (`&lt;/h1&gt;`).</li>
+                <li><strong>Неправильний шлях до картинки:</strong> Перевір, чи правильно вказано `src` в тегу `&lt;img&gt;`. Картинка має бути в тій самій папці або в підпапці.</li>
+                <li><strong>Помилка в `href` посилання:</strong> Перевір, чи правильно вказано адресу в `href` для тегу `&lt;a&gt;`.</li>
+                <li><strong>Немає `alt` для картинки:</strong> Завжди додавай `alt` атрибут до `&lt;img&gt;` - це важливо для доступності!</li>
                 <li><strong>Сайт виглядає дивно:</strong> Можливо, ти забув якийсь тег або атрибут. Уважно переглянь свій код.</li>
               </ul>
             </div>
