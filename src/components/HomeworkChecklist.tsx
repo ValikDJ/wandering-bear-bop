@@ -92,7 +92,7 @@ const HomeworkChecklist: React.FC = () => {
           <ListChecks className="h-6 w-6 text-primary" />
           Крок 5: Перевір та здай!
         </CardTitle>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 no-print">
           <Checkbox
             id="step5-completed"
             checked={isCompleted}
@@ -116,7 +116,7 @@ const HomeworkChecklist: React.FC = () => {
                 id={`checklist-${item.id}`}
                 checked={item.completed}
                 onCheckedChange={(checked: boolean) => handleCheckboxChange(item.id, checked)}
-                className="h-5 w-5"
+                className="h-5 w-5 no-print"
               />
               <Label
                 htmlFor={`checklist-${item.id}`}
@@ -133,13 +133,13 @@ const HomeworkChecklist: React.FC = () => {
 
         <Collapsible className="mt-6">
           <CollapsibleTrigger asChild>
-            <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80">
+            <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
               <Bug className="h-5 w-5 mr-2" />
               Поширені помилки та як їх уникнути
-              <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180" />
+              <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
             </Button>
           </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
+          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
             <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
               <ul className="list-disc list-inside space-y-2">
                 <li><strong>Забув закрити тег:</strong> Кожен відкритий тег (наприклад, `&lt;h1&gt;`) повинен мати закриваючий (`&lt;/h1&gt;`).</li>
@@ -157,7 +157,7 @@ const HomeworkChecklist: React.FC = () => {
           <p className="text-muted-foreground mb-4">
             Коли ти впевнений, що твій сайт готовий, збережи файл `index.html` і надішли його своєму вчителю або завантаж на платформу, як він вказав.
           </p>
-          <Button onClick={() => window.print()} className="bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover text-lg px-6 py-3">
+          <Button onClick={() => window.print()} className="bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover text-lg px-6 py-3 no-print">
             Роздрукувати інструкцію
           </Button>
         </div>

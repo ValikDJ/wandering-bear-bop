@@ -59,7 +59,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSidebar, isScrolled, sidebarMode,
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 w-full z-30 flex items-center transition-all duration-300 ease-in-out",
+        "fixed top-0 left-0 w-full z-30 flex items-center transition-all duration-300 ease-in-out navbar no-print",
         isScrolled
           ? "bg-background/80 backdrop-blur-sm shadow-lg h-12 px-2"
           : "bg-primary text-primary-foreground shadow-md h-16 px-4"

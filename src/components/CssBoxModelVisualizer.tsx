@@ -47,7 +47,7 @@ const CssBoxModelVisualizer: React.FC = () => {
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="flex flex-col space-y-6">
+          <div className="flex flex-col space-y-6 no-print">
             <div>
               <Label htmlFor="margin-slider" className="text-lg font-semibold text-secondary-foreground mb-2 block">
                 Margin (Зовнішній відступ): {currentMargin}px
@@ -132,10 +132,10 @@ const CssBoxModelVisualizer: React.FC = () => {
                 }}
                 className="border-dashed border-2 border-[var(--box-model-margin-text)] flex items-center justify-center text-sm min-w-[100px] min-h-[100px]" // Added min-width/height
               >
-                <span className="absolute -top-5 text-xs font-semibold whitespace-nowrap">Margin ({currentMargin}px)</span>
-                <span className="absolute -bottom-5 text-xs font-semibold whitespace-nowrap">Margin ({currentMargin}px)</span>
-                <span className="absolute -left-10 text-xs font-semibold rotate-90 whitespace-nowrap">Margin ({currentMargin}px)</span>
-                <span className="absolute -right-10 text-xs font-semibold -rotate-90 whitespace-nowrap">Margin ({currentMargin}px)</span>
+                <span className="absolute -top-5 text-xs font-semibold whitespace-nowrap no-print">Margin ({currentMargin}px)</span>
+                <span className="absolute -bottom-5 text-xs font-semibold whitespace-nowrap no-print">Margin ({currentMargin}px)</span>
+                <span className="absolute -left-10 text-xs font-semibold rotate-90 whitespace-nowrap no-print">Margin ({currentMargin}px)</span>
+                <span className="absolute -right-10 text-xs font-semibold -rotate-90 whitespace-nowrap no-print">Margin ({currentMargin}px)</span>
 
                 {/* Border layer */}
                 <div
@@ -147,10 +147,10 @@ const CssBoxModelVisualizer: React.FC = () => {
                   }}
                   className="flex items-center justify-center text-sm min-w-[80px] min-h-[80px]" // Added min-width/height
                 >
-                  <span className="absolute -top-5 text-xs font-semibold whitespace-nowrap">Border ({currentBorderWidth}px)</span>
-                  <span className="absolute -bottom-5 text-xs font-semibold whitespace-nowrap">Border ({currentBorderWidth}px)</span>
-                  <span className="absolute -left-10 text-xs font-semibold rotate-90 whitespace-nowrap">Border ({currentBorderWidth}px)</span>
-                  <span className="absolute -right-10 text-xs font-semibold -rotate-90 whitespace-nowrap">Border ({currentBorderWidth}px)</span>
+                  <span className="absolute -top-5 text-xs font-semibold whitespace-nowrap no-print">Border ({currentBorderWidth}px)</span>
+                  <span className="absolute -bottom-5 text-xs font-semibold whitespace-nowrap no-print">Border ({currentBorderWidth}px)</span>
+                  <span className="absolute -left-10 text-xs font-semibold rotate-90 whitespace-nowrap no-print">Border ({currentBorderWidth}px)</span>
+                  <span className="absolute -right-10 text-xs font-semibold -rotate-90 whitespace-nowrap no-print">Border ({currentBorderWidth}px)</span>
 
                   {/* Padding layer */}
                   <div
@@ -162,10 +162,10 @@ const CssBoxModelVisualizer: React.FC = () => {
                     }}
                     className="flex items-center justify-center text-sm min-w-[60px] min-h-[60px]" // Added min-width/height
                   >
-                    <span className="absolute -top-5 text-xs font-semibold whitespace-nowrap">Padding ({currentPadding}px)</span>
-                    <span className="absolute -bottom-5 text-xs font-semibold whitespace-nowrap">Padding ({currentPadding}px)</span>
-                    <span className="absolute -left-10 text-xs font-semibold rotate-90 whitespace-nowrap">Padding ({currentPadding}px)</span>
-                    <span className="absolute -right-10 text-xs font-semibold -rotate-90 whitespace-nowrap">Padding ({currentPadding}px)</span>
+                    <span className="absolute -top-5 text-xs font-semibold whitespace-nowrap no-print">Padding ({currentPadding}px)</span>
+                    <span className="absolute -bottom-5 text-xs font-semibold whitespace-nowrap no-print">Padding ({currentPadding}px)</span>
+                    <span className="absolute -left-10 text-xs font-semibold rotate-90 whitespace-nowrap no-print">Padding ({currentPadding}px)</span>
+                    <span className="absolute -right-10 text-xs font-semibold -rotate-90 whitespace-nowrap no-print">Padding ({currentPadding}px)</span>
 
                     {/* Content layer */}
                     <div

@@ -169,7 +169,7 @@ const InteractiveCssEditor: React.FC<InteractiveCssEditorProps> = ({
       <CardContent>
         <p className="mb-4 text-muted-foreground">{description}</p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="flex flex-col space-y-4 relative">
+          <div className="flex flex-col space-y-4 relative no-print">
             <div>
               <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Твій CSS Код:</h4>
               <Textarea

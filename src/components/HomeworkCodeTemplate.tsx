@@ -61,7 +61,7 @@ const HomeworkCodeTemplate: React.FC = () => {
           </SyntaxHighlighter>
           <Button
             onClick={handleCopy}
-            className="absolute top-4 right-4 bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            className="absolute top-4 right-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 no-print"
             size="sm"
           >
             <Copy className="mr-2 h-4 w-4" /> Копіювати
@@ -70,12 +70,12 @@ const HomeworkCodeTemplate: React.FC = () => {
 
         <Collapsible className="mt-6">
           <CollapsibleTrigger asChild>
-            <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80">
+            <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
               Підказка: Що означають ці теги?
-              <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180" />
+              <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
             </Button>
           </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
+          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
             <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
               <ul className="list-disc list-inside space-y-2">
                 <li><code>&lt;!DOCTYPE html&gt;</code>: Каже браузеру, що це HTML5 сторінка.</li>

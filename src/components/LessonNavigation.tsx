@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils"; // Import cn
 
 interface Lesson {
   path: string;
@@ -32,7 +33,7 @@ const LessonNavigation: React.FC = () => {
   }
 
   return (
-    <div className="flex justify-between items-center mt-12 pt-6 border-t border-border">
+    <div className="flex justify-between items-center mt-12 pt-6 border-t border-border lesson-navigation no-print">
       {prevLesson ? (
         <Button asChild variant="outline" className="flex items-center gap-2">
           <Link to={prevLesson.path}>

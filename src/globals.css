@@ -261,3 +261,154 @@
 .opacity-0 {
   animation-name: fade-out;
 }
+
+/* Print Styles */
+@media print {
+  /* Hide elements not needed for print */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Ensure main content takes full width and has appropriate padding */
+  main {
+    margin-left: 0 !important;
+    padding: 1rem !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: auto !important;
+  }
+
+  /* General text and background colors for print */
+  body, html {
+    background-color: #fff !important;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Ensure all text is black for readability */
+  .text-foreground,
+  .text-muted-foreground,
+  .text-secondary-foreground,
+  .text-card-foreground,
+  .text-primary-foreground,
+  .text-accent-foreground,
+  .text-destructive-foreground,
+  .text-sidebar-foreground,
+  .text-sidebar-primary-foreground,
+  .text-sidebar-accent-foreground,
+  .text-yellow-900,
+  .text-yellow-100,
+  .text-green-800,
+  .text-red-800,
+  .text-green-600,
+  .text-red-600,
+  .text-blue-500,
+  .text-blue-700,
+  .text-white,
+  .text-white\/80 {
+    color: #000 !important;
+  }
+
+  /* Card styling for print */
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    background-color: #fff !important;
+    page-break-inside: avoid;
+  }
+
+  /* Remove background colors from elements that might have them */
+  .bg-card, .bg-background, .bg-muted, .bg-accent, .bg-primary, .bg-secondary,
+  .bg-green-100, .bg-red-100, .bg-yellow-200, .dark\:bg-yellow-700,
+  .bg-gradient-to-r, .from-blue-600, .to-purple-600,
+  .bg-sidebar-background, .bg-sidebar-accent,
+  .bg-playground-element-bg, .bg-box-model-margin-bg, .bg-box-model-border-bg, .bg-box-model-padding-bg, .bg-box-model-content-bg {
+    background-color: #fff !important;
+    background-image: none !important;
+  }
+
+  /* Ensure borders are visible and black */
+  .border, .border-border, .border-blue-500, .border-green-500, .border-red-500,
+  .border-blue-300, .border-blue-500, .border-collapse, .border-sidebar-border {
+    border-color: #000 !important;
+  }
+
+  /* Links: show href and ensure black text */
+  a {
+    color: #0000ee !important;
+    text-decoration: underline !important;
+  }
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    word-break: break-all;
+  }
+
+  /* Code blocks and preformatted text */
+  pre, code {
+    background-color: #f0f0f0 !important;
+    border: 1px solid #ccc !important;
+    color: #000 !important;
+    page-break-inside: avoid;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  /* Images */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* Tables */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+  th, td {
+    border: 1px solid #000 !important;
+    padding: 8px !important;
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+
+  /* Progress bar - hide it */
+  .progress {
+    display: none !important;
+  }
+
+  /* Hide screen reader only text */
+  .sr-only {
+    display: none !important;
+  }
+
+  /* Adjust spacing for print */
+  .py-8, .mb-8, .mt-8, .py-12, .mb-10, .mt-12, .pt-6, .pb-2, .p-4, .px-4, .py-2, .px-3, .py-3, .p-3, .p-2 {
+    padding: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+    margin-top: 0.5rem !important;
+  }
+  .space-y-8 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.5rem !important;
+  }
+  .space-y-12 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.75rem !important;
+  }
+  .gap-6 {
+    gap: 0.5rem !important;
+  }
+
+  /* Collapsible content should be open by default for print */
+  .collapsible-content {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    animation: none !important;
+  }
+  .collapsible-trigger .chevron-icon {
+    display: none !important;
+  }
+}

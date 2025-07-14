@@ -89,7 +89,7 @@ const CssGradientGenerator: React.FC = () => {
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="flex flex-col space-y-6">
+          <div className="flex flex-col space-y-6 no-print">
             {/* Gradient Type */}
             <div>
               <Label htmlFor="gradient-type" className="text-lg font-semibold text-secondary-foreground mb-2 block">
@@ -216,7 +216,7 @@ const CssGradientGenerator: React.FC = () => {
                 </SyntaxHighlighter>
                 <Button
                   onClick={handleCopy}
-                  className="absolute top-4 right-4 bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  className="absolute top-4 right-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 no-print"
                   size="sm"
                 >
                   <Copy className="mr-2 h-4 w-4" /> Копіювати

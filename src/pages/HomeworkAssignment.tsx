@@ -160,11 +160,11 @@ const HomeworkAssignment: React.FC = () => {
         Це покроковий посібник для твого першого веб-проекту. <strong>Пам'ятай:</strong> ти будеш створювати HTML-код на своїй навчальній платформі, у вікні редактора HTML в модулі <strong>"Керуй стилями" (Урок 5, пункт 9 "Підготовка проєкту. Початок")</strong>. Цей сайт лише допомагає тобі зрозуміти, що і як робити, а також відстежувати прогрес. Не забудь уважно читати умови завдання на платформі, позначати виконані пункти та надсилати роботу викладачу на перевірку (також після <strong>пункту 10 "Підготовка проєкту. Підсумок"</strong>, де теж є завдання, які потрібно позначати, якщо виконав їх)!
       </p>
 
-      <div className="mb-10">
+      <div className="mb-10 no-print">
         <CountdownTimer deadline={deadline} />
       </div>
 
-      <div className="mb-10">
+      <div className="mb-10 no-print">
         <h3 className="text-2xl font-bold text-foreground mb-4">Твій прогрес:</h3>
         <Progress value={progress} className="w-full h-4 bg-muted bg-brand-primary" />
         <p className="text-right text-sm text-muted-foreground mt-2">{Math.round(progress)}% виконано</p>
@@ -181,7 +181,7 @@ const HomeworkAssignment: React.FC = () => {
               <BookOpen className="h-6 w-6 text-primary" />
               Крок 3: Заміни на свою інформацію
             </CardTitle>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 no-print">
               <Checkbox
                 id="step3-completed"
                 checked={step3Completed}
@@ -232,11 +232,11 @@ const HomeworkAssignment: React.FC = () => {
                       Встав шлях до своїх картинок (наприклад, `cat.jpg`) або <strong>скопіюй посилання на картинку з інтернету</strong> та напиши, що на них зображено.
                       <Collapsible className="mt-2">
                         <CollapsibleTrigger asChild>
-                          <Button variant="link" className="p-0 h-auto text-brand-primary hover:underline">
-                            Де взяти картинки? <ChevronDown className="h-4 w-4 ml-1 transition-transform data-[state=open]:rotate-180" />
+                          <Button variant="link" className="p-0 h-auto text-brand-primary hover:underline no-print">
+                            Де взяти картинки? <ChevronDown className="h-4 w-4 ml-1 transition-transform data-[state=open]:rotate-180 chevron-icon" />
                           </Button>
                         </CollapsibleTrigger>
-                        <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
+                        <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                           <div className="p-2 border border-border rounded-md bg-muted mt-1 text-muted-foreground text-sm">
                             <p>Ти можеш використовувати свої фотографії або знайти безкоштовні картинки на сайтах типу <a href="https://unsplash.com/" target="_blank" rel="noopener noreferrer" className="text-brand-primary hover:underline">Unsplash</a> або <a href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer" className="text-brand-primary hover:underline">Pexels</a>. Збережи їх у тій самій папці, що й `index.html`, або у підпапці `images/`.</p>
                             <p className="mt-2">Щоб скопіювати посилання на картинку з інтернету: клацни правою кнопкою миші на картинці і вибери "Копіювати адресу зображення" (або схожий пункт).</p>
@@ -255,11 +255,11 @@ const HomeworkAssignment: React.FC = () => {
                       Ти також можеш додати таблиці, використовуючи теги `&lt;table&gt;`, `&lt;tr&gt;` та `&lt;td&gt;`.
                       <Collapsible className="mt-2">
                         <CollapsibleTrigger asChild>
-                          <Button variant="link" className="p-0 h-auto text-brand-primary hover:underline">
-                            Приклад таблиці <ChevronDown className="h-4 w-4 ml-1 transition-transform data-[state=open]:rotate-180" />
+                          <Button variant="link" className="p-0 h-auto text-brand-primary hover:underline no-print">
+                            Приклад таблиці <ChevronDown className="h-4 w-4 ml-1 transition-transform data-[state=open]:rotate-180 chevron-icon" />
                           </Button>
                         </CollapsibleTrigger>
-                        <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
+                        <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                           <div className="p-2 border border-border rounded-md bg-muted mt-1 text-muted-foreground text-sm">
                             <SyntaxHighlighter language="html" style={atomDark} customStyle={{ borderRadius: '8px', padding: '10px', fontSize: '0.8em' }}>
                               {`<table>
@@ -284,12 +284,12 @@ const HomeworkAssignment: React.FC = () => {
 
             <Collapsible className="mt-6">
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80">
+                <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
                   Поради щодо написання тексту
-                  <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180" />
+                  <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
                 </Button>
               </CollapsibleTrigger>
-              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                 <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
                   <ul className="list-disc list-inside space-y-2">
                     <li><strong>Будь коротким:</strong> Пиши 2-3 речення (або більше, якщо потрібно) для кожного абзацу.</li>
@@ -308,7 +308,7 @@ const HomeworkAssignment: React.FC = () => {
               <Cat className="h-6 w-6 text-primary" />
               Крок 4: Подивись, як має виглядати
             </CardTitle>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 no-print">
               <Checkbox
                 id="step4-completed"
                 checked={step4Completed}

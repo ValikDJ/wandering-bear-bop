@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useTheme } from "@/hooks/use-theme"; // Import useTheme
+import { cn } from "@/lib/utils"; // Import cn
 
 interface HtmlElementCreatorProps {
   id?: string; // Додано id
@@ -182,7 +183,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
         <p className="mb-4 text-muted-foreground">{description}</p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 no-print">
             <div>
               <Label htmlFor="select-tag" className="text-lg font-semibold text-secondary-foreground mb-2 block">
                 Вибери HTML-тег:
@@ -273,7 +274,7 @@ const HtmlElementCreator: React.FC<HtmlElementCreatorProps> = ({
           </div>
 
           <div className="flex flex-col">
-            <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Згенерований HTML:</h4>
+            <h4 className="font-semibold mt-4 mb-2 text-lg text-secondary-foreground">Згенерований HTML:</h4>
             <SyntaxHighlighter language="html" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', flexGrow: 1 }}>
               {generatedHtml}
             </SyntaxHighlighter>

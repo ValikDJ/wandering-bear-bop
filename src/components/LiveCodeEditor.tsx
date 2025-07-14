@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useTheme } from "@/hooks/use-theme"; // Import useTheme
+import { cn } from "@/lib/utils"; // Import cn
 
 interface LiveCodeEditorProps {
   id?: string; // Додано id
@@ -97,7 +98,7 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
       <CardContent>
         <p className="mb-4 text-muted-foreground">{description}</p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 no-print">
             <div>
               <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">HTML Код:</h4>
               <Textarea

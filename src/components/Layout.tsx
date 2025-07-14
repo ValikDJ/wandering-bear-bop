@@ -63,7 +63,7 @@ const Layout: React.FC<LayoutProps> = ({
       <div className="flex flex-1">
         {isMobile || sidebarMode === 'hidden' ? (
           <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-            <SheetContent side="left" className="w-64 sm:w-72 h-full p-0">
+            <SheetContent side="left" className="w-64 sm:w-72 h-full p-0 no-print">
               <SheetTitle className="sr-only">Навігація по сайту</SheetTitle>
               <SheetDescription className="sr-only">Перелік уроків та розділів сайту.</SheetDescription>
               <Sidebar
@@ -81,6 +81,7 @@ const Layout: React.FC<LayoutProps> = ({
             setSearchTerm={setSearchTerm}
             isMobile={false}
             sidebarMode={sidebarMode}
+            className="sidebar no-print"
           />
         )}
         <main ref={mainRef} className={cn(
@@ -99,7 +100,7 @@ const Layout: React.FC<LayoutProps> = ({
           asChild
           variant="default"
           size="lg"
-          className="fixed bottom-4 left-4 z-40 shadow-lg bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover transition-all duration-300 ease-in-out"
+          className="fixed bottom-4 left-4 z-40 shadow-lg bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover transition-all duration-300 ease-in-out home-button no-print"
         >
           <Link to="/">
             <Home className="h-5 w-5 mr-2" />

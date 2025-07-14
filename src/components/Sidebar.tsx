@@ -18,6 +18,7 @@ interface SidebarProps {
   isMobile: boolean;
   sidebarMode: SidebarMode; // Новий пропс
   onCloseSidebar?: () => void; // Змінено назву пропсу
+  className?: string; // Додано className prop
 }
 
 const fuseOptions = {
@@ -52,7 +53,7 @@ const fuse = new Fuse(flatSearchableItems, fuseOptions);
 const RECENT_SEARCHES_KEY = "sidebar-recent-searches";
 const MAX_RECENT_SEARCHES = 3;
 
-const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, sidebarMode, onCloseSidebar }) => {
+const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, sidebarMode, onCloseSidebar, className }) => {
   const location = useLocation();
   const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(sidebarNavData.map(item => item.id)));
   const [filteredNavData, setFilteredNavData] = useState<SidebarNavItem[]>(sidebarNavData);
@@ -314,7 +315,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
               )} />
             </Button>
           </CollapsibleTrigger>
-          <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+          <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down collapsible-content">
             <div className="flex flex-col">
               {item.children?.map(child => renderNavItem(child, level + 1))}
             </div>
@@ -334,8 +335,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
             level > 0 && "pl-8",
             level > 1 && "pl-12",
             "focus:outline-none focus:ring-2 focus:ring-sidebar-ring focus:ring-offset-2 focus:ring-offset-sidebar-background",
-            isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background",
-            (sidebarMode === 'interactive-hover' && !isHovered && !isMobile) && "justify-center px-0" // Центруємо іконку в згорнутому режимі
+            isCurrentlyFocused && "bg-sidebar-accent ring-2 ring-sidebar-ring ring-offset-2 ring-offset-sidebar-background"
           )}
           data-nav-item
           data-item-id={item.id}
@@ -382,7 +382,8 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         isMobile && "h-full", // Повна висота для мобільного
         "min-h-0",
         sidebarWidthClass, // Динамічна ширина
-        sidebarMode === 'hidden' && !isMobile && "hidden" // Приховуємо сайдбар на десктопі, якщо режим 'hidden'
+        sidebarMode === 'hidden' && !isMobile && "hidden", // Приховуємо сайдбар на десктопі, якщо режим 'hidden'
+        className // Apply className here
       )}
       style={!isMobile ? { top: '4rem' } : {}} // Застосовуємо top тільки для десктопу
       onMouseEnter={() => !isMobile && sidebarMode === 'interactive-hover' && setIsHovered(true)}
@@ -394,7 +395,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
         contentVisibilityClass
       )}>
         <h3 className="text-xl font-bold text-foreground mb-4">{activeSectionTitle}</h3>
-        <div className="relative">
+        <div className="relative no-print">
           <Input
             ref={searchInputRef}
             type="text"
@@ -411,7 +412,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
 
       {searchTerm.length === 0 && recentSearches.length > 0 && (
         <div className={cn(
-          "p-4 border-b border-sidebar-border",
+          "p-4 border-b border-sidebar-border no-print",
           "transition-opacity duration-200",
           contentVisibilityClass
         )}>

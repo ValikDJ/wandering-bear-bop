@@ -79,7 +79,7 @@ const HomeworkPlanningSection: React.FC = () => {
           <LayoutDashboard className="h-6 w-6 text-primary" />
           Крок 1: Обери тему і придумай розділи
         </CardTitle>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 no-print">
           <Checkbox
             id="step1-completed"
             checked={isCompleted}
@@ -118,16 +118,17 @@ const HomeworkPlanningSection: React.FC = () => {
                 value={section.name}
                 onChange={(e) => handleSectionNameChange(section.id, e.target.value)}
                 placeholder={`Назва розділу ${index + 1}`}
-                className="flex-1 bg-input text-foreground"
+                className="flex-1 bg-input text-foreground no-print"
               />
-              <Button variant="ghost" size="icon" onClick={() => removeSection(section.id)} className="text-destructive hover:bg-destructive/10">
+              <span className="print-only">{section.name}</span> {/* Show text only on print */}
+              <Button variant="ghost" size="icon" onClick={() => removeSection(section.id)} className="text-destructive hover:bg-destructive/10 no-print">
                 <Trash2 className="h-5 w-5" />
               </Button>
             </div>
           ))}
         </div>
 
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-2 mb-6 no-print">
           <Input
             type="text"
             value={newSectionName}
@@ -143,12 +144,12 @@ const HomeworkPlanningSection: React.FC = () => {
 
         <Collapsible className="mt-6">
           <CollapsibleTrigger asChild>
-            <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80">
+            <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
               Підказка: Як придумати розділи?
-              <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180" />
+              <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
             </Button>
           </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
+          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
             <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
               <p className="mb-2">Подумай про свою тему. Що найважливіше ти хочеш про неї розповісти?</p>
               <ul className="list-disc list-inside">
