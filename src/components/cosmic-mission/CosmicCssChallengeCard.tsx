@@ -89,10 +89,11 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
   };
 
   return (
-    <Card className={cn(
-      "mb-6 bg-card shadow-md transition-all duration-300",
-      completed ? "border-2 border-green-500" : "hover:shadow-lg"
-    )}>
+    <Card className={
+      completed
+        ? "mb-6 bg-card shadow-md transition-all duration-300 border-2 border-green-500"
+        : "mb-6 bg-card shadow-md transition-all duration-300 hover:shadow-lg"
+    }>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-2xl text-foreground flex items-center gap-2">
           <Rocket className={cn("h-6 w-6", completed ? "text-green-500" : "text-primary")} />
