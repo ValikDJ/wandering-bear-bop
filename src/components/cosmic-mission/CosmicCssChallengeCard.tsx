@@ -81,6 +81,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
   const handleSolutionOpenChange = (open: boolean) => {
     if (open && !solutionUsed && cosmicEnergy >= SOLUTION_COST) {
       decreaseCosmicEnergy(SOLUTION_COST, 'solution');
+      setSolutionUsed(true);
     } else if (open && !solutionUsed && cosmicEnergy < SOLUTION_COST) {
       toast.error("Недостатньо Космічної Енергії для рішення!");
       return; // Prevent opening if not enough energy
