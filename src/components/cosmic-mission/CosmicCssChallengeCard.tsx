@@ -122,7 +122,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+            <h4 className="font-semibold mb-2 text-lg text-secondary-foreground text-center">Як це виглядає:</h4>
             <div className="p-4 border border-border rounded-md bg-background min-h-[100px] flex items-center justify-center">
               {previewContent}
             </div>
