@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Copy, Rocket, Code, Palette, Star, ChevronDown } from "lucide-react";
+import { Copy, Rocket, Code, Palette, Star, ChevronDown, CheckSquare } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import LessonNavigation from "@/components/LessonNavigation";
@@ -12,6 +12,10 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import CosmicMissionChecklist from "@/components/CosmicMissionChecklist";
 import { useTheme } from "@/hooks/use-theme";
 import { ThemeMode } from "@/lib/ThemeManager";
+import { Progress } from "@/components/ui/progress";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import LiveCodeEditor from "@/components/LiveCodeEditor"; // Import LiveCodeEditor
 
 const cssTemplate = `/* style.css - Твої віртуальні пензлі! */
 
@@ -99,10 +103,67 @@ footer {
 }
 `;
 
+// Simple HTML for the embedded editor to demonstrate CSS
+const demoHtmlForCssEditor = `<!DOCTYPE html>
+<html>
+<head>
+  <title>Демо-сайт</title>
+</head>
+<body>
+  <header>
+    <h1>Мій Космічний Проект</h1>
+    <nav>
+      <a href="#">Головна</a>
+      <a href="#">Про нас</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Ласкаво просимо!</h2>
+      <p>Це приклад тексту на моїй космічній сторінці.</p>
+      <img src="https://picsum.photos/id/200/150/100" alt="Космічний пейзаж" style="max-width: 100%; height: auto; border-radius: 8px; margin-top: 10px;" />
+    </section>
+    <section>
+      <h2>Наші Планети</h2>
+      <ul>
+        <li>Марс</li>
+        <li>Юпітер</li>
+        <li>Сатурн</li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2024 Космічний Дослідник</p>
+  </footer>
+</body>
+</html>`;
+
 const CosmicMission: React.FC = () => {
   useScrollToHash();
   const { setTheme, getMode, getPreviousUserMode } = useTheme();
   const initialThemeRef = useRef<ThemeMode | null>(null);
+
+  // State for main stage completion
+  const [stage1Completed, setStage1Completed] = useState<boolean>(() => {
+    try {
+      const stored = localStorage.getItem("cosmic-mission-stage1-completed");
+      return stored ? JSON.parse(stored) : false;
+    } catch (error) {
+      console.error("Failed to load cosmic mission stage 1 completion:", error);
+      return false;
+    }
+  });
+  const [stage2Completed, setStage2Completed] = useState<boolean>(() => {
+    try {
+      const stored = localStorage.getItem("cosmic-mission-stage2-completed");
+      return stored ? JSON.parse(stored) : false;
+    } catch (error) {
+      console.error("Failed to load cosmic mission stage 2 completion:", error);
+      return false;
+    }
+  });
+  // Assuming CosmicMissionChecklist handles its own completion state, we'll just read it
+  const [checklistCompleted, setChecklistCompleted] = useState<boolean>(false);
 
   useEffect(() => {
     initialThemeRef.current = getMode();
@@ -117,6 +178,33 @@ const CosmicMission: React.FC = () => {
       }
     };
   }, [setTheme, getMode, getPreviousUserMode]);
+
+  // Save stage completion to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem("cosmic-mission-stage1-completed", JSON.stringify(stage1Completed));
+    } catch (error) {
+      console.error("Failed to save stage 1 completion:", error);
+    }
+  }, [stage1Completed]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("cosmic-mission-stage2-completed", JSON.stringify(stage2Completed));
+    } catch (error) {
+      console.error("Failed to save stage 2 completion:", error);
+    }
+  }, [stage2Completed]);
+
+  // Callback from CosmicMissionChecklist to update its completion status
+  const handleChecklistCompletionChange = (completed: boolean) => {
+    setChecklistCompleted(completed);
+  };
+
+  // Calculate overall progress
+  const completedStagesCount = [stage1Completed, stage2Completed, checklistCompleted].filter(Boolean).length;
+  const totalStages = 3; // HTML Ready, CSS Applied, Checklist Completed
+  const progress = (completedStagesCount / totalStages) * 100;
 
   const handleCopyCss = () => {
     navigator.clipboard.writeText(cssTemplate);
@@ -136,13 +224,31 @@ const CosmicMission: React.FC = () => {
         Вітаю, юний Космічний Архітекторе! Ти вже створив каркас своєї веб-сторінки вдома. Сьогодні твоя місія — прикрасити її за допомогою CSS, щоб вона стала справжньою космічною базою в Інтернеті! Ми пройдемо два важливі етапи: прикрашання (CSS) та запуск у космос (перегляд та здача)!
       </p>
 
+      {/* Прогрес-бар місії */}
+      <div className="mb-10 no-print">
+        <h3 className="text-2xl font-bold text-foreground mb-4">Прогрес Місії:</h3>
+        <Progress value={progress} className="w-full h-4 bg-muted bg-brand-primary" />
+        <p className="text-right text-sm text-muted-foreground mt-2">{Math.round(progress)}% виконано</p>
+      </div>
+
       {/* Етап 1: Твій Готовий Каркас (HTML) */}
       <Card className="mb-12 bg-card shadow-md">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-3xl font-bold text-foreground flex items-center gap-3">
             <Code className="h-8 w-8 text-primary" />
             Етап 1: Твій Готовий Каркас (HTML)
           </CardTitle>
+          <div className="flex items-center space-x-2 no-print">
+            <Checkbox
+              id="stage1-completed"
+              checked={stage1Completed}
+              onCheckedChange={(checked: boolean) => setStage1Completed(checked)}
+              className="h-6 w-6"
+            />
+            <Label htmlFor="stage1-completed" className="text-lg font-medium text-muted-foreground">
+              Виконано
+            </Label>
+          </div>
         </CardHeader>
         <CardContent>
           <p className="mb-4 text-muted-foreground">
@@ -197,11 +303,22 @@ const CosmicMission: React.FC = () => {
 
       {/* Етап 2: Дизайн з CSS */}
       <Card className="mb-12 bg-card shadow-md">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-3xl font-bold text-foreground flex items-center gap-3">
             <Palette className="h-8 w-8 text-primary" />
             Етап 2: Прикрашаємо Базу (CSS)
           </CardTitle>
+          <div className="flex items-center space-x-2 no-print">
+            <Checkbox
+              id="stage2-completed"
+              checked={stage2Completed}
+              onCheckedChange={(checked: boolean) => setStage2Completed(checked)}
+              className="h-6 w-6"
+            />
+            <Label htmlFor="stage2-completed" className="text-lg font-medium text-muted-foreground">
+              Виконано
+            </Label>
+          </div>
         </CardHeader>
         <CardContent>
           <p className="mb-4 text-muted-foreground">
@@ -216,6 +333,7 @@ const CosmicMission: React.FC = () => {
           <p className="mb-4 text-muted-foreground text-sm">
             А ось базові стилі, які ти можеш скопіювати у вкладку **CSS** на платформі Logika. Потім експериментуй з кольорами та іншими властивостями, щоб прикрасити *свій власний* сайт!
           </p>
+          
           <div className="relative mb-6">
             <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Твої CSS-пензлі:</h4>
             <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '500px', overflowY: 'auto' }}>
@@ -229,6 +347,18 @@ const CosmicMission: React.FC = () => {
               <Copy className="mr-2 h-4 w-4" /> Копіювати CSS
             </Button>
           </div>
+
+          <h3 className="text-2xl font-bold text-foreground mb-4">Спробуй сам: Інтерактивний редактор!</h3>
+          <p className="mb-4 text-muted-foreground">
+            Встав скопійований CSS-код у редактор нижче і спробуй змінити деякі значення (наприклад, `background-color` або `color`) та побач, як змінюється вигляд!
+          </p>
+          <LiveCodeEditor
+            id="cosmic-mission-css-editor"
+            initialHtml={demoHtmlForCssEditor}
+            initialCss={cssTemplate}
+            title="Твій Космічний Дизайн-Стенд"
+            description="Змінюй CSS-код і дивись, як твій сайт оживає!"
+          />
 
           <Collapsible className="mt-6">
             <CollapsibleTrigger asChild>
@@ -292,7 +422,7 @@ const CosmicMission: React.FC = () => {
       </Card>
 
       {/* Чек-ліст Космічного Архітектора */}
-      <CosmicMissionChecklist />
+      <CosmicMissionChecklist onCompletionChange={handleChecklistCompletionChange} />
 
       {/* Що далі? */}
       <Card className="mb-12 bg-card shadow-md">

@@ -14,6 +14,10 @@ interface ChecklistItem {
   completed: boolean;
 }
 
+interface CosmicMissionChecklistProps {
+  onCompletionChange?: (completed: boolean) => void; // NEW: Callback for parent component
+}
+
 const LOCAL_STORAGE_KEY = "cosmic-mission-checklist-progress";
 
 const initialChecklist: Omit<ChecklistItem, 'completed'>[] = [
@@ -28,7 +32,7 @@ const initialChecklist: Omit<ChecklistItem, 'completed'>[] = [
   { id: "show-teacher", text: "Я показав свій стилізований сайт вчителю." },
 ];
 
-const CosmicMissionChecklist: React.FC = () => {
+const CosmicMissionChecklist: React.FC<CosmicMissionChecklistProps> = ({ onCompletionChange }) => {
   const [checklist, setChecklist] = useState<ChecklistItem[]>(() => {
     try {
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -47,7 +51,11 @@ const CosmicMissionChecklist: React.FC = () => {
     } catch (error) {
       console.error("Failed to save cosmic mission checklist to localStorage:", error);
     }
-  }, [checklist]);
+    const allItemsCompleted = checklist.every(item => item.completed);
+    if (onCompletionChange) {
+      onCompletionChange(allItemsCompleted);
+    }
+  }, [checklist, onCompletionChange]);
 
   const handleCheckboxChange = (id: string, checked: boolean) => {
     setChecklist(prev =>
