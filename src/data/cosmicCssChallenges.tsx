@@ -111,7 +111,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
       <img
         src="https://picsum.photos/id/66/100/100"
         alt="Ілюмінатор"
-        style={{ border: '3px solid #ff69b4', borderRadius: '50%' }}
+        style={{ borderWidth: '3px', borderStyle: 'solid', borderColor: '#ff69b4', borderRadius: '50%' }}
       />
     ),
     initialCss: `.illuminator {
@@ -162,7 +162,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 7: Відступи для Планет",
     description: "Додай внутрішні відступи (padding) до блоку з інформацією про планету, щоб текст не 'прилипав' до країв. Встанови `padding: 20px;`.",
     previewContent: (
-      <div style={{ padding: '20px', backgroundColor: '#1a1a3a', border: '1px solid #4ecdc4', borderRadius: '10px', color: '#e0e0e0' }}>
+      <div style={{ padding: '20px', backgroundColor: '#1a1a3a', borderWidth: '1px', borderStyle: 'solid', borderColor: '#4ecdc4', borderRadius: '10px', color: '#e0e0e0' }}>
         <p>Це модуль космічної бази. Він має темний фон та бірюзову рамку.</p>
       </div>
     ),
@@ -181,8 +181,8 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     description: "Додай зовнішні відступи (margin) між двома блоками 'Астероїд', щоб вони не злипалися. Встанови `margin-bottom: 15px;` для першого астероїда.",
     previewContent: (
       <>
-        <div style={{ border: '1px solid #b3ffff', backgroundColor: '#1f1f3f', color: '#e0e0e0', padding: '10px', marginBottom: '15px', borderRadius: '8px' }}>Астероїд Альфа</div>
-        <div style={{ border: '1px solid #b3ffff', backgroundColor: '#1f1f3f', color: '#e0e0e0', padding: '10px', borderRadius: '8px' }}>Астероїд Бета</div>
+        <div style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: '#b3ffff', backgroundColor: '#1f1f3f', color: '#e0e0e0', padding: '10px', marginBottom: '15px', borderRadius: '8px' }}>Астероїд Альфа</div>
+        <div style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: '#b3ffff', backgroundColor: '#1f1f3f', color: '#e0e0e0', padding: '10px', borderRadius: '8px' }}>Астероїд Бета</div>
       </>
     ),
     initialCss: `.asteroid {
@@ -200,7 +200,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 9: Прозорий Щит",
     description: "Зроби захисний щит (блок `div`) напівпрозорим. Використай властивість `opacity` зі значенням `0.7`.",
     previewContent: (
-      <div style={{ width: '150px', height: '80px', backgroundColor: '#ff69b4', border: '2px solid #b3ffff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', opacity: 0.7, borderRadius: '8px' }}>
+      <div style={{ width: '150px', height: '80px', backgroundColor: '#ff69b4', borderWidth: '2px', borderStyle: 'solid', borderColor: '#b3ffff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', opacity: 0.7, borderRadius: '8px' }}>
         Захисний Щит
       </div>
     ),
@@ -228,17 +228,17 @@ export const cssChallenges: CosmicCssChallengeData[] = [
         <img
           src="https://picsum.photos/id/200/150/100"
           alt="Космічний об'єкт 1"
-          style={{ width: '150px', height: '100px', objectFit: 'cover', margin: '5px', border: '2px solid #b3ffff', borderRadius: '8px' }}
+          style={{ width: '150px', height: '100px', objectFit: 'cover', margin: '5px', borderWidth: '2px', borderStyle: 'solid', borderColor: '#b3ffff', borderRadius: '8px' }}
         />
         <img
           src="https://picsum.photos/id/201/150/100"
           alt="Космічний об'єкт 2"
-          style={{ width: '150px', height: '100px', objectFit: 'cover', margin: '5px', border: '2px solid #b3ffff', borderRadius: '8px' }}
+          style={{ width: '150px', height: '100px', objectFit: 'cover', margin: '5px', borderWidth: '2px', borderStyle: 'solid', borderColor: '#b3ffff', borderRadius: '8px' }}
         />
         <img
           src="https://picsum.photos/id/202/150/100"
           alt="Космічний об'єкт 3"
-          style={{ width: '150px', height: '100px', objectFit: 'cover', margin: '5px', border: '2px solid #b3ffff', borderRadius: '8px' }}
+          style={{ width: '150px', height: '100px', objectFit: 'cover', margin: '5px', borderWidth: '2px', borderStyle: 'solid', borderColor: '#b3ffff', borderRadius: '8px' }}
         />
       </div>
     ),
