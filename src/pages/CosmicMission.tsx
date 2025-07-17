@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react"; // Додано useRef
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -9,7 +9,9 @@ import { Link } from "react-router-dom";
 import LessonNavigation from "@/components/LessonNavigation";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import CosmicMissionChecklist from "@/components/CosmicMissionChecklist"; // NEW IMPORT
+import CosmicMissionChecklist from "@/components/CosmicMissionChecklist";
+import { useTheme } from "@/hooks/use-theme"; // NEW IMPORT
+import { ThemeMode } from "@/lib/ThemeManager"; // NEW IMPORT
 
 const cssTemplate = `/* style.css - Твої віртуальні пензлі! */
 
@@ -108,6 +110,22 @@ footer {
 
 const CosmicMission: React.FC = () => {
   useScrollToHash();
+  const { setTheme, getMode, getPreviousUserMode } = useTheme(); // ОНОВЛЕНО: Додано getPreviousUserMode
+  const initialThemeRef = useRef<ThemeMode | null>(null); // NEW: Для збереження теми перед перемиканням
+
+  useEffect(() => {
+    // Зберігаємо поточну тему користувача при вході на сторінку
+    initialThemeRef.current = getMode();
+    // Встановлюємо космічну тему
+    setTheme(ThemeMode.Cosmic, true); // true означає тимчасову зміну
+
+    // Функція очищення: повертаємо попередню тему при виході зі сторінки
+    return () => {
+      if (initialThemeRef.current) {
+        setTheme(initialThemeRef.current, false); // false означає, що це не тимчасова зміна, а відновлення
+      }
+    };
+  }, [setTheme, getMode]); // Залежності для useEffect
 
   const handleCopyCss = () => {
     navigator.clipboard.writeText(cssTemplate);

@@ -11,7 +11,7 @@ export enum ThemeMode {
   Light = "light",
   Dark = "dark",
   System = "system",
-  Cyberpunk = "cyberpunk", // NEW: Додано режим Cyberpunk
+  Cosmic = "cosmic", // ОНОВЛЕНО: Перейменовано з Cyberpunk на Cosmic
 }
 
 /**
@@ -26,6 +26,7 @@ export class ThemeManager {
   private currentMode: ThemeMode;
   private mediaQuery: MediaQueryList | undefined;
   private listeners: Set<() => void> = new Set();
+  private previousUserMode: ThemeMode | null = null; // NEW: Для збереження попереднього режиму користувача
 
   constructor() {
     this.currentMode = this._getPreference() || ThemeMode.System;
@@ -48,33 +49,37 @@ export class ThemeManager {
 
   /**
    * Застосовує вказану тему до елемента document.documentElement.
-   * @param mode Режим теми для застосування (Light, Dark, System, Cyberpunk).
+   * @param mode Режим теми для застосування (Light, Dark, System, Cosmic).
    * @param isInitialLoad Чи це початкове завантаження теми.
+   * @param isTemporaryChange Чи це тимчасова зміна (наприклад, для конкретної сторінки).
    */
-  private _applyTheme(mode: ThemeMode, isInitialLoad: boolean = false): void {
+  private _applyTheme(mode: ThemeMode, isInitialLoad: boolean = false, isTemporaryChange: boolean = false): void {
     const htmlElement = document.documentElement;
     const actualTheme = this._getActualTheme(mode);
 
     // Видаляємо всі можливі класи тем
-    htmlElement.classList.remove(ThemeMode.Light, ThemeMode.Dark, ThemeMode.Cyberpunk); // NEW: Додано Cyberpunk
+    htmlElement.classList.remove(ThemeMode.Light, ThemeMode.Dark, ThemeMode.Cosmic); // ОНОВЛЕНО: Додано Cosmic
 
     // Додаємо клас для поточної теми
     htmlElement.classList.add(actualTheme);
 
     // Оновлюємо поточний режим, якщо це не початкове завантаження
     if (!isInitialLoad) {
+      if (!isTemporaryChange) { // Зберігаємо лише якщо це не тимчасова зміна
+        this.previousUserMode = this.currentMode; // Зберігаємо попередній режим користувача
+        this._savePreference(mode);
+      }
       this.currentMode = mode;
-      this._savePreference(mode);
     }
     this._notifyListeners();
   }
 
   /**
-   * Визначає фактичну тему (light/dark/cyberpunk) на основі обраного режиму та системних налаштувань.
+   * Визначає фактичну тему (light/dark/cosmic) на основі обраного режиму та системних налаштувань.
    * @param mode Обраний режим теми.
-   * @returns Фактична тема ('light', 'dark' або 'cyberpunk').
+   * @returns Фактична тема ('light', 'dark' або 'cosmic').
    */
-  private _getActualTheme(mode: ThemeMode): "light" | "dark" | "cyberpunk" { // NEW: Додано cyberpunk
+  private _getActualTheme(mode: ThemeMode): "light" | "dark" | "cosmic" { // ОНОВЛЕНО: Додано cosmic
     if (mode === ThemeMode.System) {
       if (typeof window !== "undefined" && window.matchMedia) {
         return window.matchMedia("(prefers-color-scheme: dark)").matches ? ThemeMode.Dark : ThemeMode.Light;
@@ -124,17 +129,18 @@ export class ThemeManager {
 
   /**
    * Встановлює конкретний режим теми.
-   * @param mode Режим теми (Light, Dark, System, Cyberpunk).
+   * @param mode Режим теми (Light, Dark, System, Cosmic).
+   * @param isTemporary Чи це тимчасова зміна (не зберігати в localStorage).
    */
-  public setTheme(mode: ThemeMode): void {
-    this._applyTheme(mode);
+  public setTheme(mode: ThemeMode, isTemporary: boolean = false): void {
+    this._applyTheme(mode, false, isTemporary);
   }
 
   /**
-   * Перемикає тему між Light, Dark, System та Cyberpunk.
+   * Перемикає тему між Light, Dark, System та Cosmic.
    */
   public toggleTheme(): void {
-    const modes = [ThemeMode.Light, ThemeMode.Dark, ThemeMode.System, ThemeMode.Cyberpunk]; // NEW: Додано Cyberpunk
+    const modes = [ThemeMode.Light, ThemeMode.Dark, ThemeMode.System, ThemeMode.Cosmic]; // ОНОВЛЕНО: Додано Cosmic
     const currentIndex = modes.indexOf(this.currentMode);
     const nextIndex = (currentIndex + 1) % modes.length;
     this.setTheme(modes[nextIndex]);
@@ -149,11 +155,19 @@ export class ThemeManager {
   }
 
   /**
-   * Повертає фактично застосовану тему ('light', 'dark' або 'cyberpunk').
+   * Повертає фактично застосовану тему ('light', 'dark' або 'cosmic').
    * @returns Фактично застосована тема.
    */
-  public getActualTheme(): "light" | "dark" | "cyberpunk" { // NEW: Додано cyberpunk
+  public getActualTheme(): "light" | "dark" | "cosmic" { // ОНОВЛЕНО: Додано cosmic
     return this._getActualTheme(this.currentMode);
+  }
+
+  /**
+   * Повертає попередній режим теми, який був встановлений користувачем.
+   * @returns Попередній режим теми або null, якщо його не було.
+   */
+  public getPreviousUserMode(): ThemeMode | null { // NEW: Додано метод
+    return this.previousUserMode;
   }
 
   /**

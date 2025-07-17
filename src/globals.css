@@ -133,8 +133,8 @@
     --playground-element-text: 0 0% 100%; /* White */
   }
 
-  .cyberpunk {
-    /* Cyberpunk Theme Colors */
+  .cosmic {
+    /* Cosmic Theme Colors (formerly Cyberpunk) */
     --background: 240 10% 8%; /* Deep dark blue-purple */
     --foreground: 180 100% 75%; /* Neon Cyan */
 
@@ -163,7 +163,7 @@
     --input: 240 10% 20%;
     --ring: 180 100% 75%; /* Neon Cyan ring */
 
-    /* Custom brand colors for cyberpunk */
+    /* Custom brand colors for cosmic */
     --brand-primary: 220 100% 60%; /* Electric Blue */
     --brand-primary-hover: 220 100% 50%; /* Darker Electric Blue */
     --brand-secondary: 240 15% 20%;
@@ -179,7 +179,7 @@
     --sidebar-border: 240 10% 25%;
     --sidebar-ring: 180 100% 75%;
 
-    /* Box Model Visualizer Colors - Cyberpunk Theme */
+    /* Box Model Visualizer Colors - Cosmic Theme */
     --box-model-margin-bg: 0 80% 15%; /* Dark red */
     --box-model-margin-text: 0 80% 85%; /* Light red */
     --box-model-border-bg: 220 80% 15%; /* Dark blue */
@@ -189,7 +189,7 @@
     --box-model-content-bg: 180 80% 25%; /* Darker cyan */
     --box-model-content-text: 0 0% 100%; /* White */
 
-    /* CSS Playground Colors - Cyberpunk Theme */
+    /* CSS Playground Colors - Cosmic Theme */
     --playground-element-bg: 280 80% 25%; /* Darker magenta */
     --playground-element-border: 280 80% 70%; /* Lighter magenta */
     --playground-element-text: 0 0% 100%; /* White */
