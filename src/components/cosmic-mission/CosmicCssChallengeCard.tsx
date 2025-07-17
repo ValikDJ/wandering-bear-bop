@@ -132,7 +132,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
               <CollapsibleTrigger asChild>
                 <Button
                   variant="outline"
-                  size="sm" {/* Changed size to sm */}
+                  size="sm" // Changed size to sm
                   className="w-full justify-between font-semibold text-secondary-foreground hover:bg-secondary/80 no-print" // Removed text-lg
                   disabled={cosmicEnergy < HINT_COST && !hintUsed}
                 >
@@ -159,7 +159,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
                 <CollapsibleTrigger asChild>
                   <Button
                     variant="outline"
-                    size="sm" {/* Changed size to sm */}
+                    size="sm" // Changed size to sm
                     className="w-full justify-between font-semibold text-secondary-foreground hover:bg-secondary/80 no-print" // Removed text-lg
                     disabled={cosmicEnergy < SOLUTION_COST && !solutionUsed}
                   >
