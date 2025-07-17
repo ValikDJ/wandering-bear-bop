@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 const CosmicMissionStage3Launch: React.FC = () => {
   const handleSubmitInstructions = () => {
-    toast.info("Збережи файли на платформі Logika та покажи вчителю! 🧑‍🏫");
+    toast.success("🚀 Місія завершена! Твій космічний сайт готовий до запуску! Покажи його вчителю! 🧑‍🏫");
   };
 
   return (
@@ -29,9 +29,12 @@ const CosmicMissionStage3Launch: React.FC = () => {
             onClick={handleSubmitInstructions}
             className="bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover text-lg px-8 py-4 rounded-full shadow-lg transition-all duration-300 hover:scale-105 no-print"
           >
-            ➡️ Як здати роботу вчителю ⬅️
+            Завершити Місію та Здати Роботу!
           </Button>
         </div>
+        <p className="text-center text-sm text-muted-foreground mt-4">
+          (Не забудь зберегти файли на платформі Logika перед здачею!)
+        </p>
       </CardContent>
     </Card>
   );
