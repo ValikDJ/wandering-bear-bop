@@ -127,13 +127,13 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
               {previewContent}
             </div>
           </div>
-          <div className="flex flex-col flex-grow justify-end"> {/* Added flex-grow and justify-end */}
+          <div className="flex flex-col flex-grow justify-end">
             <Collapsible className="mt-4" onOpenChange={handleHintOpenChange}>
               <CollapsibleTrigger asChild>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="ml-auto text-secondary-foreground hover:bg-secondary/80 no-print"
+                  className="mx-auto text-secondary-foreground hover:bg-secondary/80 no-print"
                   disabled={cosmicEnergy < HINT_COST && !hintUsed}
                 >
                   <Lightbulb className="h-4 w-4 text-yellow-500" />
@@ -158,7 +158,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
                   <Button
                     variant="outline"
                     size="icon"
-                    className="ml-auto text-secondary-foreground hover:bg-secondary/80 no-print"
+                    className="mx-auto text-secondary-foreground hover:bg-secondary/80 no-print"
                     disabled={cosmicEnergy < SOLUTION_COST && !solutionUsed}
                   >
                     <CheckSquare className="h-4 w-4 text-green-500" />

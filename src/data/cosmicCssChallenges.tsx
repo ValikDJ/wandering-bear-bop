@@ -52,7 +52,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
   margin: 0 5px;
 }`,
     previewContent: (
-      <div style={{ backgroundColor: '#0a0a23', padding: '10px', textAlign: 'center', borderRadius: '8px' }}>
+      <div style={{ backgroundColor: '#0a0a23', padding: '10px', textAlign: 'center', borderRadius: '8px', width: '100%' }}>
         <a href="#" style={{ display: 'inline-block', backgroundColor: '#007bff', color: 'white', padding: '8px 15px', borderRadius: '5px', textDecoration: 'none', margin: '0 5px' }}>Головна</a>
         <a href="#" style={{ display: 'inline-block', backgroundColor: '#0a0a23', color: 'white', padding: '8px 15px', borderRadius: '5px', textDecoration: 'none', margin: '0 5px' }}>Про нас</a>
       </div>
