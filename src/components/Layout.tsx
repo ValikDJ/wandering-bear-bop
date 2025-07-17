@@ -8,9 +8,9 @@ import { useLocation, Link } from "react-router-dom";
 import { useScrollPosition } from "@/hooks/use-scroll-position";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Home, PanelLeftOpen, PanelLeftClose } from "lucide-react"; // NEW: Import PanelLeftOpen, PanelLeftClose
+import { Home, PanelLeftOpen, PanelLeftClose } from "lucide-react";
 import { useLayout } from "@/contexts/LayoutContext";
-import BreadcrumbNav from "./BreadcrumbNav"; // NEW: Import BreadcrumbNav
+import BreadcrumbNav from "./BreadcrumbNav";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -29,18 +29,18 @@ const Layout: React.FC<LayoutProps> = ({
   const scrollTop = useScrollPosition(mainRef);
   const isScrolled = scrollTop > 50;
   const location = useLocation();
-  const { sidebarMode, setSidebarMode } = useLayout(); // Consume context
+  const { sidebarMode, setSidebarMode } = useLayout();
 
   const handleOpenSidebar = () => setIsSidebarOpen(true);
   const handleCloseSidebar = () => setIsSidebarOpen(false);
 
   const toggleSidebar = () => {
     if (sidebarMode === 'pinned-full') {
-      setSidebarMode('interactive-hover'); // Collapse to interactive
+      setSidebarMode('interactive-hover');
     } else if (sidebarMode === 'interactive-hover') {
-      setSidebarMode('hidden'); // Hide completely
+      setSidebarMode('hidden');
     } else {
-      setSidebarMode('pinned-full'); // Show full
+      setSidebarMode('pinned-full');
     }
   };
 
@@ -91,10 +91,10 @@ const Layout: React.FC<LayoutProps> = ({
         <main ref={mainRef} className={cn(
           "flex-grow container mx-auto p-4 bg-background overflow-y-auto",
           getMainMarginClass(),
-          isScrolled ? "pt-12" : "pt-16",
-          "max-w-prose" // NEW: Max width for readability
+          isScrolled ? "pt-12" : "pt-16"
+          // Removed "max-w-prose" from here
         )}>
-          <BreadcrumbNav /> {/* NEW: Add BreadcrumbNav */}
+          <BreadcrumbNav />
           {children}
         </main>
       </div>
