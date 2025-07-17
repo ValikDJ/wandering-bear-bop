@@ -228,426 +228,436 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
           </CollapsibleContent>
         </Collapsible>
 
-        {/* Прості ідеї для стилізації твого сайту */}
-        <h3 className="text-3xl font-bold text-foreground mt-12 mb-6 text-center">
-          Прості ідеї для стилізації твого сайту
-        </h3>
-        <p className="mb-8 text-muted-foreground text-center max-w-2xl mx-auto">
-          Ось кілька легких прикладів, які ти можеш спробувати додати до свого файлу `style.css`. Просто скопіюй код і встав його, а потім змінюй значення!
-        </p>
-
-        {/* Приклад 1: Стиль для всього сайту (body) */}
-        <Collapsible className="mb-6">
+        {/* Прості ідеї для стилізації твого сайту - Зовнішній Collapsible */}
+        <Collapsible className="mt-12">
           <CollapsibleTrigger asChild>
-            <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Lightbulb className="h-6 w-6 text-yellow-500" />
-                  Стиль для всього сайту (`body`)
-                </CardTitle>
-                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-              </CardHeader>
-            </Card>
+            <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
+              <div className="flex items-center gap-2">
+                <Lightbulb className="h-6 w-6 text-yellow-500" />
+                Прості ідеї для стилізації твого сайту
+              </div>
+              <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+            </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-            <Card className="bg-card shadow-md -mt-2 rounded-t-none">
-              <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  Зміни колір фону та тексту для всієї сторінки.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
-                    <div
-                      style={{
-                        backgroundColor: '#f0f8ff', // AliceBlue
-                        color: '#333', // Dark gray text
-                        padding: '20px',
-                        borderRadius: '8px',
-                        textAlign: 'center',
-                      }}
-                      className="min-h-[100px] flex items-center justify-center"
-                    >
-                      <p>Тут буде твій сайт зі світлим фоном та темним текстом.</p>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                    <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
-                      {`body {
+            <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
+              <p className="mb-8 text-center max-w-2xl mx-auto text-muted-foreground">
+                Ось кілька легких прикладів, які ти можеш спробувати додати до свого файлу `style.css`. Просто скопіюй код і встав його, а потім змінюй значення!
+              </p>
+
+              {/* Приклад 1: Стиль для всього сайту (body) */}
+              <Collapsible className="mb-6">
+                <CollapsibleTrigger asChild>
+                  <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                      <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+                        <Lightbulb className="h-6 w-6 text-yellow-500" />
+                        Стиль для всього сайту (`body`)
+                      </CardTitle>
+                      <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                    </CardTitle>
+                  </CardHeader>
+                </Card>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                <Card className="bg-card shadow-md -mt-2 rounded-t-none">
+                  <CardContent>
+                    <p className="mb-4 text-muted-foreground">
+                      Зміни колір фону та тексту для всієї сторінки.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                        <div
+                          style={{
+                            backgroundColor: '#f0f8ff', // AliceBlue
+                            color: '#333', // Dark gray text
+                            padding: '20px',
+                            borderRadius: '8px',
+                            textAlign: 'center',
+                          }}
+                          className="min-h-[100px] flex items-center justify-center"
+                        >
+                          <p>Тут буде твій сайт зі світлим фоном та темним текстом.</p>
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                        <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                          {`body {
   background-color: #f0f8ff; /* Світло-блакитний фон */
   color: #333; /* Темно-сірий текст */
 }`}
-                    </SyntaxHighlighter>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Встав цей код у свій `style.css` файл.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
+                        </SyntaxHighlighter>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          Встав цей код у свій `style.css` файл.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
 
-        {/* Приклад 2: Стиль для головного заголовка (h1) */}
-        <Collapsible className="mb-6">
-          <CollapsibleTrigger asChild>
-            <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Lightbulb className="h-6 w-6 text-yellow-500" />
-                  Стиль для головного заголовка (`h1`)
-                </CardTitle>
-                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-              </CardHeader>
-            </Card>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-            <Card className="bg-card shadow-md -mt-2 rounded-t-none">
-              <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  Зроби головний заголовок по центру та зміни його колір.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
-                    <h1 style={{ textAlign: 'center', color: '#007bff', fontSize: '2em' }} className="p-2">
-                      Мій Крутий Заголовок
-                    </h1>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                    <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
-                      {`h1 {
+            {/* Приклад 2: Стиль для головного заголовка (h1) */}
+            <Collapsible className="mb-6">
+              <CollapsibleTrigger asChild>
+                <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+                      <Lightbulb className="h-6 w-6 text-yellow-500" />
+                      Стиль для головного заголовка (`h1`)
+                    </CardTitle>
+                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  </CardTitle>
+                </Card>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                <Card className="bg-card shadow-md -mt-2 rounded-t-none">
+                  <CardContent>
+                    <p className="mb-4 text-muted-foreground">
+                      Зроби головний заголовок по центру та зміни його колір.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                        <h1 style={{ textAlign: 'center', color: '#007bff', fontSize: '2em' }} className="p-2">
+                          Мій Крутий Заголовок
+                        </h1>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                        <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                          {`h1 {
   text-align: center; /* Вирівнювання по центру */
   color: #007bff; /* Синій колір */
 }`}
-                    </SyntaxHighlighter>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Встав цей код у свій `style.css` файл.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
+                        </SyntaxHighlighter>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          Встав цей код у свій `style.css` файл.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
 
-        {/* Приклад 3: Стиль для абзаців (p) */}
-        <Collapsible className="mb-6">
-          <CollapsibleTrigger asChild>
-            <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Lightbulb className="h-6 w-6 text-yellow-500" />
-                  Стиль для абзаців (`p`)
-                </CardTitle>
-                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-              </CardHeader>
-            </Card>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-            <Card className="bg-card shadow-md -mt-2 rounded-t-none">
-              <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  Зміни розмір шрифту та колір для всіх абзаців.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
-                    <p style={{ fontSize: '16px', color: '#555', padding: '10px', border: '1px dashed #ccc', borderRadius: '5px' }}>
-                      Це приклад тексту в абзаці. Він стане трохи більшим і сірим.
+            {/* Приклад 3: Стиль для абзаців (p) */}
+            <Collapsible className="mb-6">
+              <CollapsibleTrigger asChild>
+                <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+                      <Lightbulb className="h-6 w-6 text-yellow-500" />
+                      Стиль для абзаців (`p`)
+                    </CardTitle>
+                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  </CardTitle>
+                </Card>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                <Card className="bg-card shadow-md -mt-2 rounded-t-none">
+                  <CardContent>
+                    <p className="mb-4 text-muted-foreground">
+                      Зміни розмір шрифту та колір для всіх абзаців.
                     </p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                    <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
-                      {`p {
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                        <p style={{ fontSize: '16px', color: '#555', padding: '10px', border: '1px dashed #ccc', borderRadius: '5px' }}>
+                          Це приклад тексту в абзаці. Він стане трохи більшим і сірим.
+                        </p>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                        <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                          {`p {
   font-size: 16px; /* Розмір шрифту */
   color: #555; /* Темно-сірий колір */
 }`}
-                    </SyntaxHighlighter>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Встав цей код у свій `style.css` файл.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
+                        </SyntaxHighlighter>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          Встав цей код у свій `style.css` файл.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
 
-        {/* Приклад 4: Стиль для зображень (img) */}
-        <Collapsible className="mb-6">
-          <CollapsibleTrigger asChild>
-            <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Lightbulb className="h-6 w-6 text-yellow-500" />
-                  Стиль для зображень (`img`)
-                </CardTitle>
-                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-              </CardHeader>
-            </Card>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-            <Card className="bg-card shadow-md -mt-2 rounded-t-none">
-              <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  Додай рамку та заокругли кути для всіх картинок.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex justify-center items-center p-4">
-                    <img
-                      src="https://picsum.photos/id/237/150/150"
-                      alt="Приклад зображення"
-                      style={{ border: '2px solid green', borderRadius: '10px', maxWidth: '100%', height: 'auto' }}
-                      className="shadow-sm"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                    <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
-                      {`img {
+            {/* Приклад 4: Стиль для зображень (img) */}
+            <Collapsible className="mb-6">
+              <CollapsibleTrigger asChild>
+                <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+                      <Lightbulb className="h-6 w-6 text-yellow-500" />
+                      Стиль для зображень (`img`)
+                    </CardTitle>
+                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  </CardTitle>
+                </Card>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                <Card className="bg-card shadow-md -mt-2 rounded-t-none">
+                  <CardContent>
+                    <p className="mb-4 text-muted-foreground">
+                      Додай рамку та заокругли кути для всіх картинок.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="flex justify-center items-center p-4">
+                        <img
+                          src="https://picsum.photos/id/237/150/150"
+                          alt="Приклад зображення"
+                          style={{ border: '2px solid green', borderRadius: '10px', maxWidth: '100%', height: 'auto' }}
+                          className="shadow-sm"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                        <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                          {`img {
   border: 2px solid green; /* Зелена рамка */
   border-radius: 10px; /* Заокруглені кути */
 }`}
-                    </SyntaxHighlighter>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Встав цей код у свій `style.css` файл.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
+                        </SyntaxHighlighter>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          Встав цей код у свій `style.css` файл.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
 
-        {/* Приклад 5: Стиль для посилань (a) */}
-        <Collapsible className="mb-6">
-          <CollapsibleTrigger asChild>
-            <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Lightbulb className="h-6 w-6 text-yellow-500" />
-                  Стиль для посилань (`a`)
-                </CardTitle>
-                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-              </CardHeader>
-            </Card>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-            <Card className="bg-card shadow-md -mt-2 rounded-t-none">
-              <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  Прибери підкреслення та зміни колір для всіх посилань.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
-                    <a href="#" style={{ textDecoration: 'none', color: 'purple', padding: '5px', border: '1px dotted purple', borderRadius: '3px' }}>
-                      Посилання без підкреслення
-                    </a>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                    <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
-                      {`a {
+            {/* Приклад 5: Стиль для посилань (a) */}
+            <Collapsible className="mb-6">
+              <CollapsibleTrigger asChild>
+                <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+                      <Lightbulb className="h-6 w-6 text-yellow-500" />
+                      Стиль для посилань (`a`)
+                    </CardTitle>
+                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  </CardTitle>
+                </Card>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                <Card className="bg-card shadow-md -mt-2 rounded-t-none">
+                  <CardContent>
+                    <p className="mb-4 text-muted-foreground">
+                      Прибери підкреслення та зміни колір для всіх посилань.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                        <a href="#" style={{ textDecoration: 'none', color: 'purple', padding: '5px', border: '1px dotted purple', borderRadius: '3px' }}>
+                          Посилання без підкреслення
+                        </a>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                        <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                          {`a {
   text-decoration: none; /* Прибирає підкреслення */
   color: purple; /* Фіолетовий колір */
 }`}
-                    </SyntaxHighlighter>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Встав цей код у свій `style.css` файл.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
+                        </SyntaxHighlighter>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          Встав цей код у свій `style.css` файл.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
 
-        {/* Приклад 6: Стиль для кнопок (button) */}
-        <Collapsible className="mb-6">
-          <CollapsibleTrigger asChild>
-            <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Lightbulb className="h-6 w-6 text-yellow-500" />
-                  Стиль для кнопок (`button`)
-                </CardTitle>
-                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-              </CardHeader>
-            </Card>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-            <Card className="bg-card shadow-md -mt-2 rounded-t-none">
-              <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  Зроби кнопки яскравими та заокругленими.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
-                    <button style={{ backgroundColor: '#28a745', color: 'white', padding: '8px 15px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>
-                      Натисни мене!
-                    </button>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                    <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
-                      {`button {
+            {/* Приклад 6: Стиль для кнопок (button) */}
+            <Collapsible className="mb-6">
+              <CollapsibleTrigger asChild>
+                <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+                      <Lightbulb className="h-6 w-6 text-yellow-500" />
+                      Стиль для кнопок (`button`)
+                    </CardTitle>
+                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  </CardTitle>
+                </Card>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                <Card className="bg-card shadow-md -mt-2 rounded-t-none">
+                  <CardContent>
+                    <p className="mb-4 text-muted-foreground">
+                      Зроби кнопки яскравими та заокругленими.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                        <button style={{ backgroundColor: '#28a745', color: 'white', padding: '8px 15px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>
+                          Натисни мене!
+                        </button>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                        <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                          {`button {
   background-color: #28a745; /* Зелений фон */
   color: white; /* Білий текст */
   padding: 8px 15px; /* Внутрішні відступи */
   border-radius: 5px; /* Заокруглені кути */
 }`}
-                    </SyntaxHighlighter>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Встав цей код у свій `style.css` файл.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
-
-        {/* Приклад 7: Стиль для блоків (div, section) */}
-        <Collapsible className="mb-6">
-          <CollapsibleTrigger asChild>
-            <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Lightbulb className="h-6 w-6 text-yellow-500" />
-                  Стиль для блоків (`div`, `section`)
-                </CardTitle>
-                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-              </CardHeader>
-            </Card>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-            <Card className="bg-card shadow-md -mt-2 rounded-t-none">
-              <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  Додай фон, рамку та внутрішні відступи до блоків.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
-                    <div style={{ padding: '15px', backgroundColor: '#e9ecef', border: '1px solid #ccc', borderRadius: '8px', color: '#333' }}>
-                      <p>Це блок з інформацією. Він має світлий фон та рамку.</p>
+                        </SyntaxHighlighter>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          Встав цей код у свій `style.css` файл.
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                    <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
-                      {`div, section {
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
+
+            {/* Приклад 7: Стиль для блоків (div, section) */}
+            <Collapsible className="mb-6">
+              <CollapsibleTrigger asChild>
+                <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+                      <Lightbulb className="h-6 w-6 text-yellow-500" />
+                      Стиль для блоків (`div`, `section`)
+                    </CardTitle>
+                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  </CardTitle>
+                </Card>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                <Card className="bg-card shadow-md -mt-2 rounded-t-none">
+                  <CardContent>
+                    <p className="mb-4 text-muted-foreground">
+                      Додай фон, рамку та внутрішні відступи до блоків.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                        <div style={{ padding: '15px', backgroundColor: '#e9ecef', border: '1px solid #ccc', borderRadius: '8px', color: '#333' }}>
+                          <p>Це блок з інформацією. Він має світлий фон та рамку.</p>
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                        <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                          {`div, section {
   padding: 15px; /* Внутрішній відступ */
   background-color: #e9ecef; /* Світло-сірий фон */
   border: 1px solid #ccc; /* Сіра рамка */
   border-radius: 8px; /* Заокруглені кути */
 }`}
-                    </SyntaxHighlighter>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Встав цей код у свій `style.css` файл.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
+                        </SyntaxHighlighter>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          Встав цей код у свій `style.css` файл.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
 
-        {/* Приклад 8: Стиль для списків (ul, ol, li) */}
-        <Collapsible className="mb-6">
-          <CollapsibleTrigger asChild>
-            <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Lightbulb className="h-6 w-6 text-yellow-500" />
-                  Стиль для списків (`ul`, `ol`, `li`)
-                </CardTitle>
-                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-              </CardHeader>
-            </Card>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-            <Card className="bg-card shadow-md -mt-2 rounded-t-none">
-              <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  Додай відступ зліва для списків та зміни колір елементів.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
-                    <ul style={{ marginLeft: '25px', color: '#444' }}>
-                      <li>Елемент списку 1</li>
-                      <li>Елемент списку 2</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                    <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
-                      {`ul, ol {
+            {/* Приклад 8: Стиль для списків (ul, ol, li) */}
+            <Collapsible className="mb-6">
+              <CollapsibleTrigger asChild>
+                <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+                      <Lightbulb className="h-6 w-6 text-yellow-500" />
+                      Стиль для списків (`ul`, `ol`, `li`)
+                    </CardTitle>
+                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  </CardTitle>
+                </Card>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                <Card className="bg-card shadow-md -mt-2 rounded-t-none">
+                  <CardContent>
+                    <p className="mb-4 text-muted-foreground">
+                      Додай відступ зліва для списків та зміни колір елементів.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                        <ul style={{ marginLeft: '25px', color: '#444' }}>
+                          <li>Елемент списку 1</li>
+                          <li>Елемент списку 2</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                        <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                          {`ul, ol {
   margin-left: 25px; /* Відступ зліва */
 }
 
 li {
   color: #444; /* Колір тексту елементів списку */
 }`}
-                    </SyntaxHighlighter>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Встав цей код у свій `style.css` файл.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
+                        </SyntaxHighlighter>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          Встав цей код у свій `style.css` файл.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
 
-        {/* Приклад 9: Стиль для таблиць (table, th, td) */}
-        <Collapsible className="mb-6">
-          <CollapsibleTrigger asChild>
-            <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Lightbulb className="h-6 w-6 text-yellow-500" />
-                  Стиль для таблиць (`table`, `th`, `td`)
-                </CardTitle>
-                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-              </CardHeader>
-            </Card>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-            <Card className="bg-card shadow-md -mt-2 rounded-t-none">
-              <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  Додай рамки до таблиці та її комірок.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                      <thead>
-                        <tr>
-                          <th style={{ border: '1px solid #ccc', padding: '8px', backgroundColor: '#f8f9fa', color: '#333' }}>Заголовок 1</th>
-                          <th style={{ border: '1px solid #ccc', padding: '8px', backgroundColor: '#f8f9fa', color: '#333' }}>Заголовок 2</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td style={{ border: '1px solid #ccc', padding: '8px', color: '#555' }}>Дані 1</td>
-                          <td style={{ border: '1px solid #ccc', padding: '8px', color: '#555' }}>Дані 2</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                    <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '200px', overflowY: 'auto' }}>
-                      {`table, th, td {
+            {/* Приклад 9: Стиль для таблиць (table, th, td) */}
+            <Collapsible className="mb-6">
+              <CollapsibleTrigger asChild>
+                <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+                      <Lightbulb className="h-6 w-6 text-yellow-500" />
+                      Стиль для таблиць (`table`, `th`, `td`)
+                    </CardTitle>
+                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  </CardTitle>
+                </Card>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                <Card className="bg-card shadow-md -mt-2 rounded-t-none">
+                  <CardContent>
+                    <p className="mb-4 text-muted-foreground">
+                      Додай рамки до таблиці та її комірок.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                          <thead>
+                            <tr>
+                              <th style={{ border: '1px solid #ccc', padding: '8px', backgroundColor: '#f8f9fa', color: '#333' }}>Заголовок 1</th>
+                              <th style={{ border: '1px solid #ccc', padding: '8px', backgroundColor: '#f8f9fa', color: '#333' }}>Заголовок 2</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td style={{ border: '1px solid #ccc', padding: '8px', color: '#555' }}>Дані 1</td>
+                              <td style={{ border: '1px solid #ccc', padding: '8px', color: '#555' }}>Дані 2</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                        <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '200px', overflowY: 'auto' }}>
+                          {`table, th, td {
   border: 1px solid #ccc; /* Сіра рамка */
   border-collapse: collapse; /* Прибирає подвійні рамки */
 }
@@ -656,136 +666,136 @@ th {
   background-color: #f8f9fa; /* Світлий фон для заголовків */
   color: #333; /* Темний текст для заголовків */
 }`}
-                    </SyntaxHighlighter>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Встав цей код у свій `style.css` файл.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
-
-        {/* Приклад 10: Стиль для шапки та підвалу (header, footer) */}
-        <Collapsible className="mb-6">
-          <CollapsibleTrigger asChild>
-            <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Lightbulb className="h-6 w-6 text-yellow-500" />
-                  Стиль для шапки та підвалу (`header`, `footer`)
-                </CardTitle>
-                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-              </CardHeader>
-            </Card>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-            <Card className="bg-card shadow-md -mt-2 rounded-t-none">
-              <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  Додай фон та відступи для шапки та підвалу сайту.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
-                    <div style={{ backgroundColor: '#f8f9fa', padding: '10px', textAlign: 'center', color: '#333', borderRadius: '8px' }}>
-                      <p>Це шапка або підвал твого сайту.</p>
+                        </SyntaxHighlighter>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          Встав цей код у свій `style.css` файл.
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                    <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
-                      {`header, footer {
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
+
+            {/* Приклад 10: Стиль для шапки та підвалу (header, footer) */}
+            <Collapsible className="mb-6">
+              <CollapsibleTrigger asChild>
+                <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+                      <Lightbulb className="h-6 w-6 text-yellow-500" />
+                      Стиль для шапки та підвалу (`header`, `footer`)
+                    </CardTitle>
+                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  </CardTitle>
+                </Card>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                <Card className="bg-card shadow-md -mt-2 rounded-t-none">
+                  <CardContent>
+                    <p className="mb-4 text-muted-foreground">
+                      Додай фон та відступи для шапки та підвалу сайту.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                        <div style={{ backgroundColor: '#f8f9fa', padding: '10px', textAlign: 'center', color: '#333', borderRadius: '8px' }}>
+                          <p>Це шапка або підвал твого сайту.</p>
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                        <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                          {`header, footer {
   background-color: #f8f9fa; /* Світлий фон */
   padding: 10px; /* Внутрішній відступ */
   text-align: center; /* Текст по центру */
   color: #333; /* Темний текст */
 }`}
-                    </SyntaxHighlighter>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Встав цей код у свій `style.css` файл.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
+                        </SyntaxHighlighter>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          Встав цей код у свій `style.css` файл.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
 
-        {/* Приклад 11: Стиль для навігації (nav, a) з прихованим кодом */}
-        <Collapsible className="mb-6">
-          <CollapsibleTrigger asChild>
-            <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl text-foreground flex items-center gap-2">
-                  <Lightbulb className="h-6 w-6 text-yellow-500" />
-                  Стиль для навігації (`nav`, `a`)
-                </CardTitle>
-                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-              </CardHeader>
-            </Card>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-            <Card className="bg-card shadow-md -mt-2 rounded-t-none">
-              <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  Зроби навігаційні посилання красивими та інтерактивними.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
-                    <nav style={{
-                      backgroundColor: '#333',
-                      padding: '10px',
-                      borderRadius: '8px',
-                      display: 'flex',
-                      justifyContent: 'space-around',
-                      flexWrap: 'wrap',
-                      gap: '10px'
-                    }}>
-                      <a href="#" style={{
-                        color: 'white',
-                        textDecoration: 'none',
-                        padding: '8px 15px',
-                        borderRadius: '5px',
-                        backgroundColor: '#007bff',
-                        transition: 'background-color 0.3s ease',
-                        whiteSpace: 'nowrap'
-                      }}>Головна</a>
-                      <a href="#" style={{
-                        color: 'white',
-                        textDecoration: 'none',
-                        padding: '8px 15px',
-                        borderRadius: '5px',
-                        backgroundColor: '#007bff',
-                        transition: 'background-color 0.3s ease',
-                        whiteSpace: 'nowrap'
-                      }}>Про нас</a>
-                      <a href="#" style={{
-                        color: 'white',
-                        textDecoration: 'none',
-                        padding: '8px 15px',
-                        borderRadius: '5px',
-                        backgroundColor: '#007bff',
-                        transition: 'background-color 0.3s ease',
-                        whiteSpace: 'nowrap'
-                      }}>Контакти</a>
-                    </nav>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                    <Collapsible className="mt-2">
-                      <CollapsibleTrigger asChild>
-                        <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
-                          Показати CSS-код (для вчителя)
-                          <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                        </Button>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-                        <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
-                          <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '200px', overflowY: 'auto' }}>
-                            {`nav {
+            {/* Приклад 11: Стиль для навігації (nav, a) з прихованим кодом */}
+            <Collapsible className="mb-6">
+              <CollapsibleTrigger asChild>
+                <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+                      <Lightbulb className="h-6 w-6 text-yellow-500" />
+                      Стиль для навігації (`nav`, `a`)
+                    </CardTitle>
+                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  </CardTitle>
+                </Card>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                <Card className="bg-card shadow-md -mt-2 rounded-t-none">
+                  <CardContent>
+                    <p className="mb-4 text-muted-foreground">
+                      Зроби навігаційні посилання красивими та інтерактивними.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                        <nav style={{
+                          backgroundColor: '#333',
+                          padding: '10px',
+                          borderRadius: '8px',
+                          display: 'flex',
+                          justifyContent: 'space-around',
+                          flexWrap: 'wrap',
+                          gap: '10px'
+                        }}>
+                          <a href="#" style={{
+                            color: 'white',
+                            textDecoration: 'none',
+                            padding: '8px 15px',
+                            borderRadius: '5px',
+                            backgroundColor: '#007bff',
+                            transition: 'background-color 0.3s ease',
+                            whiteSpace: 'nowrap'
+                          }}>Головна</a>
+                          <a href="#" style={{
+                            color: 'white',
+                            textDecoration: 'none',
+                            padding: '8px 15px',
+                            borderRadius: '5px',
+                            backgroundColor: '#007bff',
+                            transition: 'background-color 0.3s ease',
+                            whiteSpace: 'nowrap'
+                          }}>Про нас</a>
+                          <a href="#" style={{
+                            color: 'white',
+                            textDecoration: 'none',
+                            padding: '8px 15px',
+                            borderRadius: '5px',
+                            backgroundColor: '#007bff',
+                            transition: 'background-color 0.3s ease',
+                            whiteSpace: 'nowrap'
+                          }}>Контакти</a>
+                        </nav>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                        <Collapsible className="mt-2">
+                          <CollapsibleTrigger asChild>
+                            <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
+                              Показати CSS-код (для вчителя)
+                              <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                            </Button>
+                          </CollapsibleTrigger>
+                          <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                            <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
+                              <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '200px', overflowY: 'auto' }}>
+                                {`nav {
   background-color: #333; /* Темний фон навігації */
   padding: 10px; /* Внутрішній відступ */
   border-radius: 8px; /* Заокруглені кути */
@@ -807,17 +817,19 @@ nav a {
 nav a:hover {
   background-color: #0056b3; /* Темніший синій при наведенні */
 }`}
-                          </SyntaxHighlighter>
-                          <p className="mt-2 text-sm text-muted-foreground">
-                            Встав цей код у свій `style.css` файл.
-                          </p>
-                        </div>
-                      </CollapsibleContent>
-                    </Collapsible>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                              </SyntaxHighlighter>
+                              <p className="mt-2 text-sm text-muted-foreground">
+                                Встав цей код у свій `style.css` файл.
+                              </p>
+                            </div>
+                          </CollapsibleContent>
+                        </Collapsible>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
           </CollapsibleContent>
         </Collapsible>
       </CardContent>
