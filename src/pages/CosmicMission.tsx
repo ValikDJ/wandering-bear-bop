@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Copy, Rocket, Code, Palette, Star, ChevronDown, CheckSquare, MessageSquareText } from "lucide-react";
-import { toast } from "sonner";
+import { toast }ner";
 import { Link } from "react-router-dom";
 import LessonNavigation from "@/components/LessonNavigation";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
@@ -481,42 +481,35 @@ const CosmicMission: React.FC = () => {
             <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
               <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
                 <p className="mb-2">
-                  Щоб краще зрозуміти, як працюють стилі та як їх застосовувати до різних елементів, ти можеш:
+                  Щоб застосувати стилі до елементів твого сайту, тобі потрібно:
                 </p>
                 <ul className="list-disc list-inside space-y-2 mb-4">
-                  <li>**Переглянути уроки:**
-                    <ul className="list-circle list-inside ml-4">
-                      <li><Link to="/html-tags" className="text-brand-primary hover:underline">Урок: HTML Теги</Link> - щоб згадати, які теги ти використовуєш.</li>
-                      <li><Link to="/css-properties" className="text-brand-primary hover:underline">Урок: CSS Властивості</Link> - щоб дізнатися про різні властивості стилів.</li>
-                      <li><Link to="/css-selectors" className="text-brand-primary hover:underline">Урок: CSS Селектори</Link> - щоб зрозуміти, як вибирати елементи для стилізації (наприклад, `body`, `h1`, `p`, `img`, `section`).</li>
-                    </ul>
-                  </li>
-                  <li>**Експериментувати:**
-                    <ul className="list-circle list-inside ml-4">
-                      <li><Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерня</Link> - для інтерактивної практики з властивостями.</li>
-                      <li><Link to="/examples" className="text-brand-primary hover:underline">Практичні Приклади</Link> - щоб побачити, як інші стилізовані елементи виглядають у дії.</li>
-                    </ul>
-                  </li>
+                  <li>**Вибрати елемент:** Використовуй **CSS-селектори** (наприклад, назву тегу `body`, `h1`, `p`, `img`, `section` або `footer`) щоб вказати, до якого елемента застосувати стиль. Якщо ти забув, як працюють селектори, переглянь <Link to="/css-selectors" className="text-brand-primary hover:underline">Урок: CSS Селектори</Link>.</li>
+                  <li>**Вибрати властивість:** Обери, що саме ти хочеш змінити (колір, розмір, фон тощо). Якщо ти забув, які властивості існують, переглянь <Link to="/css-properties" className="text-brand-primary hover:underline">Урок: CSS Властивості</Link>.</li>
+                  <li>**Встановити значення:** Признач цій властивості бажане значення (наприклад, `color: blue;` або `font-size: 20px;`).</li>
                 </ul>
                 <p className="mb-2">
-                  Спробуй змінити ці властивості, щоб твоя база виглядала унікально:
+                  Ось деякі властивості, які ти можеш спробувати змінити:
                 </p>
                 <ul className="list-disc list-inside">
-                  <li><code>color</code>: Зміни колір тексту для заголовків (`h1`, `h2`) та абзаців (`p`).</li>
-                  <li><code>background-color</code>: Зміни колір фону для `body`, `header`, `main` або `section`.</li>
-                  <li><code>font-size</code>: Збільш або зменш розмір шрифту для різних елементів.</li>
-                  <li><code>font-family</code>: Зміни тип шрифту.</li>
-                  <li><code>text-align</code>: Вирівняй текст по центру (`center`), ліворуч (`left`) або праворуч (`right`).</li>
-                  <li><code>margin</code>: Додай зовнішні відступи, щоб елементи не "злипалися".</li>
-                  <li><code>padding</code>: Додай внутрішні відступи, щоб текст не "прилипав" до країв елементів.</li>
-                  <li><code>border</code>: Додай рамки до `section`, `img` або `table`.</li>
-                  <li><code>border-radius</code>: Заокругли кути елементів, наприклад, для картинок або секцій.</li>
-                  <li><code>text-decoration</code>: Прибери підкреслення у посилань (<code>a &lbrace; text-decoration: none; &rbrace;</code>).</li>
-                  <li><code>opacity</code>: Зроби елементи напівпрозорими.</li>
-                  <li><code>width</code> / <code>height</code>: Зміни ширину або висоту елементів (наприклад, картинок).</li>
-                  <li><code>box-shadow</code>: Додай тінь до елементів.</li>
-                  <li><code>box-sizing</code>: Визнач, як розраховується загальна ширина та висота елемента.</li>
+                  <li><code>color</code>: Колір тексту.</li>
+                  <li><code>background-color</code>: Колір фону.</li>
+                  <li><code>font-size</code>: Розмір шрифту.</li>
+                  <li><code>font-family</code>: Тип шрифту.</li>
+                  <li><code>text-align</code>: Вирівнювання тексту (`center`, `left`, `right`).</li>
+                  <li><code>margin</code>: Зовнішні відступи (простір навколо елемента).</li>
+                  <li><code>padding</code>: Внутрішні відступи (простір між вмістом та рамкою).</li>
+                  <li><code>border</code>: Рамка навколо елемента.</li>
+                  <li><code>border-radius</code>: Заокруглення кутів.</li>
+                  <li><code>text-decoration</code>: Оформлення тексту (наприклад, прибрати підкреслення у посилань).</li>
+                  <li><code>opacity</code>: Прозорість елемента.</li>
+                  <li><code>width</code> / <code>height</code>: Ширина та висота елемента.</li>
+                  <li><code>box-shadow</code>: Тінь для елемента.</li>
+                  <li><code>box-sizing</code>: Як розраховується розмір елемента.</li>
                 </ul>
+                <p className="mt-2">
+                  Експериментуй! Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> для інтерактивної практики, а також <Link to="/examples" className="text-brand-primary hover:underline">Практичні Приклади</Link>, щоб побачити, як інші стилізовані елементи виглядають у дії.
+                </p>
               </div>
             </CollapsibleContent>
           </Collapsible>
