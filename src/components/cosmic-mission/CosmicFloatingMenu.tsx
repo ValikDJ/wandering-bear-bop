@@ -41,10 +41,9 @@ const CosmicFloatingMenu: React.FC<CosmicFloatingMenuProps> = (props) => {
           <CosmicAchievementsDialog {...props}>
             <Button
               variant="default"
-              size="lg"
               className={cn(
                 "shadow-lg bg-yellow-500 text-white hover:bg-yellow-600 transition-all duration-300 ease-in-out",
-                "w-16 h-16 rounded-full flex items-center justify-center"
+                "w-14 h-14 rounded-full flex items-center justify-center"
               )}
               aria-label="Відкрити Досягнення"
             >
@@ -55,10 +54,9 @@ const CosmicFloatingMenu: React.FC<CosmicFloatingMenuProps> = (props) => {
           <CosmicShopDialog {...props}>
             <Button
               variant="default"
-              size="lg"
               className={cn(
                 "shadow-lg bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover transition-all duration-300 ease-in-out",
-                "w-16 h-16 rounded-full flex items-center justify-center"
+                "w-14 h-14 rounded-full flex items-center justify-center"
               )}
               aria-label="Відкрити Космічний Магазин"
             >
@@ -71,10 +69,9 @@ const CosmicFloatingMenu: React.FC<CosmicFloatingMenuProps> = (props) => {
       <Button
         onClick={toggleMenu}
         variant="default"
-        size="lg"
         className={cn(
           "shadow-lg bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover transition-all duration-300 ease-in-out",
-          "w-16 h-16 rounded-full flex items-center justify-center"
+          "w-14 h-14 rounded-full flex items-center justify-center"
         )}
         aria-label={isOpen ? "Закрити меню" : "Відкрити меню"}
       >
