@@ -234,29 +234,30 @@ const CosmicMission: React.FC = () => {
     }
   }, [challengeCompletion]);
 
-  const handleResetProgress = () => {
-    if (window.confirm("Ви впевнені, що хочете скинути весь прогрес Космічної Місії? Це видалить всі збережені дані.")) {
-      localStorage.removeItem(LOCAL_STORAGE_ENERGY_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_MAX_ENERGY_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_ENERGY_PER_CLICK_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_TOTAL_CLICKS_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_TOTAL_ENERGY_COLLECTED_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_REGENERATION_AMOUNT_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_REGENERATION_INTERVAL_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_KEY_CHALLENGES);
-      localStorage.removeItem(LOCAL_STORAGE_HAS_RAINBOW_CRYSTAL_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_HAS_STAR_BURST_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_HAS_COSMIC_MUSIC_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_ENERGY_SPENT_ON_CHALLENGES_KEY);
-      // Clear stage completion states as well
-      localStorage.removeItem("cosmic-mission-stage1-completed");
-      localStorage.removeItem("cosmic-mission-stage2-completed");
-      localStorage.removeItem("cosmic-mission-checklist-progress");
+  // Removed handleResetProgress function and the button from JSX
+  // const handleResetProgress = () => {
+  //   if (window.confirm("Ви впевнені, що хочете скинути весь прогрес Космічної Місії? Це видалить всі збережені дані.")) {
+  //     localStorage.removeItem(LOCAL_STORAGE_ENERGY_KEY);
+  //     localStorage.removeItem(LOCAL_STORAGE_MAX_ENERGY_KEY);
+  //     localStorage.removeItem(LOCAL_STORAGE_ENERGY_PER_CLICK_KEY);
+  //     localStorage.removeItem(LOCAL_STORAGE_TOTAL_CLICKS_KEY);
+  //     localStorage.removeItem(LOCAL_STORAGE_TOTAL_ENERGY_COLLECTED_KEY);
+  //     localStorage.removeItem(LOCAL_STORAGE_REGENERATION_AMOUNT_KEY);
+  //     localStorage.removeItem(LOCAL_STORAGE_REGENERATION_INTERVAL_KEY);
+  //     localStorage.removeItem(LOCAL_STORAGE_KEY_CHALLENGES);
+  //     localStorage.removeItem(LOCAL_STORAGE_HAS_RAINBOW_CRYSTAL_KEY);
+  //     localStorage.removeItem(LOCAL_STORAGE_HAS_STAR_BURST_KEY);
+  //     localStorage.removeItem(LOCAL_STORAGE_HAS_COSMIC_MUSIC_KEY);
+  //     localStorage.removeItem(LOCAL_STORAGE_ENERGY_SPENT_ON_CHALLENGES_KEY);
+  //     // Clear stage completion states as well
+  //     localStorage.removeItem("cosmic-mission-stage1-completed");
+  //     localStorage.removeItem("cosmic-mission-stage2-completed");
+  //     localStorage.removeItem("cosmic-mission-checklist-progress");
 
-      toast.success("Прогрес Космічної Місії скинуто!");
-      window.location.reload(); // Reload the page to reset all states
-    }
-  };
+  //     toast.success("Прогрес Космічної Місії скинуто!");
+  //     window.location.reload(); // Reload the page to reset all states
+  //   }
+  // };
 
   return (
     <div className="py-8">
@@ -330,7 +331,8 @@ const CosmicMission: React.FC = () => {
       {/* Audio element for cosmic music */}
       <audio ref={audioRef} src="/sounds/cosmic_beep.mp3" preload="auto" />
 
-      <div className="text-center mt-12 no-print">
+      {/* Removed the reset button */}
+      {/* <div className="text-center mt-12 no-print">
         <Button
           onClick={handleResetProgress}
           variant="destructive"
@@ -338,7 +340,7 @@ const CosmicMission: React.FC = () => {
         >
           Скинути Прогрес Місії
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
