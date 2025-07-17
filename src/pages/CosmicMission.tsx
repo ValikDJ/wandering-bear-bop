@@ -10,6 +10,7 @@ import LessonNavigation from "@/components/LessonNavigation";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import CosmicMissionChecklist from "@/components/CosmicMissionChecklist";
+import CosmicCodeLab from "@/components/CosmicCodeLab"; // NEW IMPORT
 import { useTheme } from "@/hooks/use-theme";
 import { ThemeMode } from "@/lib/ThemeManager";
 
@@ -110,23 +111,22 @@ footer {
 
 const CosmicMission: React.FC = () => {
   useScrollToHash();
-  const { setTheme, getMode, getPreviousUserMode } = useTheme(); // ВИПРАВЛЕНО: getMode та getPreviousUserMode тепер доступні
+  const { setTheme, getMode, getPreviousUserMode } = useTheme();
   const initialThemeRef = useRef<ThemeMode | null>(null);
 
   useEffect(() => {
-    initialThemeRef.current = getMode(); // ВИПРАВЛЕНО: Використання getMode
+    initialThemeRef.current = getMode();
     setTheme(ThemeMode.Cosmic, true);
 
     return () => {
-      const previousMode = getPreviousUserMode(); // ВИПРАВЛЕНО: Використання getPreviousUserMode
+      const previousMode = getPreviousUserMode();
       if (previousMode) {
-        setTheme(previousMode, false); // ВИПРАВЛЕНО: Передача isTemporary
+        setTheme(previousMode, false);
       } else {
-        // Якщо попереднього режиму не було (наприклад, перше завантаження), повертаємося до системного або світлого
-        setTheme(ThemeMode.System, false); // ВИПРАВЛЕНО: Передача isTemporary
+        setTheme(ThemeMode.System, false);
       }
     };
-  }, [setTheme, getMode, getPreviousUserMode]); // Залежності для useEffect
+  }, [setTheme, getMode, getPreviousUserMode]);
 
   const handleCopyCss = () => {
     navigator.clipboard.writeText(cssTemplate);
@@ -204,6 +204,9 @@ const CosmicMission: React.FC = () => {
           </p>
         </CardContent>
       </Card>
+
+      {/* NEW: Космічна Лабораторія Коду */}
+      <CosmicCodeLab />
 
       {/* Етап 2: Дизайн з CSS */}
       <Card className="mb-12 bg-card shadow-md">
