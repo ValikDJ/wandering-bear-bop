@@ -73,14 +73,14 @@ const CosmicEnergyButton: React.FC<CosmicEnergyButtonProps> = ({
 
   return (
     <div className="fixed bottom-4 right-4 z-50 no-print flex flex-col items-end">
-      <div className="mb-2 p-2 bg-card rounded-lg shadow-lg flex items-center gap-2 text-foreground font-bold text-lg">
-        <Zap className="h-6 w-6 text-yellow-500" />
+      <div className="mb-1 p-1 px-2 bg-card rounded-lg shadow-lg flex items-center gap-1 text-foreground font-bold text-base"> {/* Зменшено mb-2 до mb-1, p-2 до p-1, px-2, text-lg до text-base */}
+        <Zap className="h-5 w-5 text-yellow-500" /> {/* Зменшено h-6 w-6 до h-5 w-5 */}
         <span>{currentEnergy} ЕНЕРГІЇ</span>
       </div>
       <Button
         onClick={handleClick}
         className={cn(
-          "relative w-20 h-20 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-lg", /* Зменшено w-24 h-24 до w-20 h-20, text-xl до text-lg */
+          "relative w-16 h-16 rounded-full flex items-center justify-center text-white text-base font-bold shadow-lg", /* Зменшено w-20 h-20 до w-16 h-16, text-lg до text-base */
           "bg-gradient-to-br from-purple-600 to-blue-600",
           "transition-all duration-200 ease-out",
           "hover:from-purple-700 hover:to-blue-700",
@@ -91,12 +91,12 @@ const CosmicEnergyButton: React.FC<CosmicEnergyButtonProps> = ({
           boxShadow: isClicked ? "0 0 20px rgba(129, 140, 248, 0.8), 0 0 40px rgba(129, 140, 248, 0.6)" : "0 0 10px rgba(0,0,0,0.3)",
         }}
       >
-        <Zap className="h-8 w-8" /> {/* Зменшено h-10 w-10 до h-8 w-8 */}
+        <Zap className="h-6 w-6" /> {/* Зменшено h-8 w-8 до h-6 w-6 */}
         {showPlusOne && (
           <span
             key={currentEnergy} // Key to re-render and re-trigger animation
             className={cn(
-              "absolute text-2xl font-extrabold text-yellow-300 pointer-events-none",
+              "absolute text-xl font-extrabold text-yellow-300 pointer-events-none", /* Зменшено text-2xl до text-xl */
               "animate-float-up-fade-out"
             )}
             style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
@@ -107,7 +107,7 @@ const CosmicEnergyButton: React.FC<CosmicEnergyButtonProps> = ({
         {particles.map(p => (
           <Sparkles
             key={p.id}
-            className="absolute h-4 w-4 text-yellow-200 animate-particle-burst"
+            className="absolute h-3 w-3 text-yellow-200 animate-particle-burst" /* Зменшено h-4 w-4 до h-3 w-3 */
             style={{
               left: '50%',
               top: '50%',
@@ -118,7 +118,7 @@ const CosmicEnergyButton: React.FC<CosmicEnergyButtonProps> = ({
         ))}
       </Button>
       {allCssChallengesCompleted && (
-        <div className="mt-2 p-1 px-3 bg-green-500 text-white rounded-full text-sm font-semibold shadow-md animate-bounce-once">
+        <div className="mt-1 p-0.5 px-2 bg-green-500 text-white rounded-full text-xs font-semibold shadow-md animate-bounce-once"> {/* Зменшено mt-2 до mt-1, p-1 до p-0.5, text-sm до text-xs */}
           x2 БОНУС!
         </div>
       )}
