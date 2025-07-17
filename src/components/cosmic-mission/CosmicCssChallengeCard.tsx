@@ -9,6 +9,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 interface CosmicCssChallengeCardProps {
   challengeNumber: number;
@@ -35,11 +36,18 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
   completed,
   onCompletionChange,
 }) => {
-  const [showSolution, setShowSolution] = useState(false);
+  const [showSolutionCollapsible, setShowSolutionCollapsible] = useState(false); // State to control solution collapsible visibility
 
   const handleCopy = () => {
     navigator.clipboard.writeText(initialCss);
     toast.success("CSS-код скопійовано!");
+  };
+
+  const handleHintOpenChange = (open: boolean) => {
+    if (open) {
+      // If hint is opened, allow showing the solution collapsible
+      setShowSolutionCollapsible(true);
+    }
   };
 
   return (
@@ -77,7 +85,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
             </div>
           </div>
           <div className="flex flex-col">
-            <Collapsible className="mt-4">
+            <Collapsible className="mt-4" onOpenChange={handleHintOpenChange}>
               <CollapsibleTrigger asChild>
                 <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
                   <Lightbulb className="h-5 w-5 mr-2 text-yellow-500" />
@@ -90,42 +98,48 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
                   <p className="mb-2">{hint}</p>
                   {lessonLink && lessonLinkText && (
                     <p className="mt-2">
-                      Детальніше тут: <a href={lessonLink} className="text-brand-primary hover:underline">{lessonLinkText}</a>
+                      Детальніше тут: <Link to={lessonLink} className="text-brand-primary hover:underline">{lessonLinkText}</Link>
                     </p>
                   )}
                 </div>
               </CollapsibleContent>
             </Collapsible>
 
-            <Collapsible className="mt-4">
-              <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
-                  <CheckSquare className="h-5 w-5 mr-2 text-green-500" />
-                  Рішення
-                  <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
-                <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
-                  <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
-                  <div className="relative">
-                    <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
-                      {initialCss}
-                    </SyntaxHighlighter>
-                    <Button
-                      onClick={handleCopy}
-                      className="absolute top-4 right-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 no-print"
-                      size="sm"
-                    >
-                      <Copy className="mr-2 h-4 w-4" /> Копіювати
-                    </Button>
+            {/* Solution section, initially hidden, appears after hint is opened */}
+            {showSolutionCollapsible && (
+              <Collapsible className="mt-4">
+                <CollapsibleTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
+                    <CheckSquare className="h-5 w-5 mr-2 text-green-500" />
+                    Рішення
+                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                  <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
+                    <p className="mb-2 font-semibold text-red-500">
+                      Спробуй спочатку самостійно! Рішення - це останній крок, коли ти вже все перепробував.
+                    </p>
+                    <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                    <div className="relative">
+                      <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                        {initialCss}
+                      </SyntaxHighlighter>
+                      <Button
+                        onClick={handleCopy}
+                        className="absolute top-4 right-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 no-print"
+                        size="sm"
+                      >
+                        <Copy className="mr-2 h-4 w-4" /> Копіювати
+                      </Button>
+                    </div>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      Встав цей код у свій `style.css` файл.
+                    </p>
                   </div>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Встав цей код у свій `style.css` файл.
-                  </p>
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
+                </CollapsibleContent>
+              </Collapsible>
+            )}
           </div>
         </div>
       </CardContent>
