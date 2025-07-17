@@ -420,5 +420,31 @@ export const lessonSearchItems: SearchItem[] = [
     type: "example",
     difficulty: "easy",
   },
-  // Видалено елемент пошуку для сторінки профілю
+  {
+    title: "Орбітальні Завдання: Космічний Флекс-Ряд",
+    description: "Вирівняй елементи в контейнері в один ряд по центру за допомогою Flexbox.",
+    path: "/cosmic-mission",
+    sectionId: "challenge-11-flexbox",
+    keywords: ["css", "flexbox", "вирівнювання", "display", "justify-content", "align-items"],
+    type: "lesson",
+    difficulty: "medium",
+  },
+  {
+    title: "Орбітальні Завдання: Тінь Космічного Модуля",
+    description: "Додай сяючу тінь до модуля космічної станції.",
+    path: "/cosmic-mission",
+    sectionId: "challenge-12-box-shadow",
+    keywords: ["css", "box-shadow", "тінь", "ефект"],
+    type: "lesson",
+    difficulty: "medium",
+  },
+  {
+    title: "Орбітальні Завдання: Сяючий Текст",
+    description: "Зроби текст заголовка сяючим, додавши тінь до тексту.",
+    path: "/cosmic-mission",
+    sectionId: "challenge-13-text-shadow",
+    keywords: ["css", "text-shadow", "тінь тексту", "сяйво", "ефект"],
+    type: "lesson",
+    difficulty: "medium",
+  },
 ];

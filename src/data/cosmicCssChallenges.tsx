@@ -114,8 +114,9 @@ export const cssChallenges: CosmicCssChallengeData[] = [
         style={{ borderWidth: '3px', borderStyle: 'solid', borderColor: '#ff69b4', borderRadius: '50%' }}
       />
     ),
-    initialCss: `.illuminator {
+    initialCss: `img {
   border: 3px solid #ff69b4;
+  border-radius: 50%; /* Зробити круглим */
 }`,
     hint: "Пам'ятай про `border-radius`.",
     lessonLink: "/css-properties#css-border-radius",
@@ -131,6 +132,8 @@ export const cssChallenges: CosmicCssChallengeData[] = [
       </button>
     ),
     initialCss: `button {
+  background-color: #4CAF50; /* Яскраво-зелений фон */
+  color: white; /* Білий текст */
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -151,6 +154,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
       </h2>
     ),
     initialCss: `h2 {
+  text-align: center; /* Вирівнювання по центру */
   color: #b3ffff;
 }`,
     hint: "Яке значення `text-align` вирівнює по центру?",
@@ -167,6 +171,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
       </div>
     ),
     initialCss: `.planet-info {
+  padding: 20px; /* Внутрішній відступ */
   border: 1px solid #ff69b4;
   background-color: #2a2a4a;
   color: #e0e0e0;
@@ -186,6 +191,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
       </>
     ),
     initialCss: `.asteroid {
+  margin-bottom: 15px; /* Зовнішній відступ знизу */
   border: 1px solid #b3ffff;
   background-color: #1f1f3f;
   color: #e0e0e0;
@@ -205,6 +211,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
       </div>
     ),
     initialCss: `.shield {
+  opacity: 0.7; /* Напівпрозорий */
   width: 150px;
   height: 80px;
   background-color: #ff69b4;
@@ -253,5 +260,75 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     hint: "Не забудь про атрибут `alt` для опису зображення!",
     lessonLink: "/html-tags#html-img",
     lessonLinkText: "Урок про Зображення",
+  },
+  {
+    id: "challenge-11-flexbox",
+    title: "Місія 11: Космічний Флекс-Ряд",
+    description: "Вирівняй три космічні об'єкти в один ряд по центру контейнера. Використай властивості Flexbox: `display: flex; justify-content: center; align-items: center;` для батьківського елемента.",
+    initialCss: `.flex-container {
+  display: flex; /* Увімкнути Flexbox */
+  justify-content: center; /* Вирівняти по горизонталі по центру */
+  align-items: center; /* Вирівняти по вертикалі по центру */
+  gap: 10px; /* Відступ між елементами */
+  border: 2px dashed #4ecdc4;
+  padding: 15px;
+  min-height: 120px;
+  background-color: #1a1a3a;
+}`,
+    previewContent: (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', border: '2px dashed #4ecdc4', padding: '15px', minHeight: '120px', backgroundColor: '#1a1a3a', borderRadius: '8px' }}>
+        <div style={{ width: '30px', height: '30px', backgroundColor: '#ff69b4', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '0.8em' }}>1</div>
+        <div style={{ width: '30px', height: '30px', backgroundColor: '#b3ffff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'black', fontSize: '0.8em' }}>2</div>
+        <div style={{ width: '30px', height: '30px', backgroundColor: '#00ff88', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'black', fontSize: '0.8em' }}>3</div>
+      </div>
+    ),
+    hint: "Застосуй `display: flex;` до батьківського елемента, а потім `justify-content` та `align-items`.",
+    lessonLink: "/css-properties", // Можливо, створити окремий урок про Flexbox
+    lessonLinkText: "Урок про CSS Властивості (Flexbox)",
+  },
+  {
+    id: "challenge-12-box-shadow",
+    title: "Місія 12: Тінь Космічного Модуля",
+    description: "Додай сяючу тінь до модуля космічної станції (`.module`). Використай `box-shadow: 0 0 15px rgba(0, 255, 136, 0.7);` для неонового зеленого світіння.",
+    initialCss: `.module {
+  width: 180px;
+  height: 100px;
+  background-color: #2a2a4a;
+  border: 1px solid #b3ffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e0e0e0;
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.7); /* Неонова зелена тінь */
+}`,
+    previewContent: (
+      <div style={{ width: '180px', height: '100px', backgroundColor: '#2a2a4a', border: '1px solid #b3ffff', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e0e0e0', fontWeight: 'bold', boxShadow: '0 0 15px rgba(0, 255, 136, 0.7)' }}>
+        Модуль Станції
+      </div>
+    ),
+    hint: "Властивість `box-shadow` приймає значення: зміщення по X, зміщення по Y, розмиття, розтягнення, колір.",
+    lessonLink: "/css-properties",
+    lessonLinkText: "Урок про CSS Властивості",
+  },
+  {
+    id: "challenge-13-text-shadow",
+    title: "Місія 13: Сяючий Текст",
+    description: "Зроби текст заголовка (`.glowing-text`) сяючим, додавши тінь до тексту. Спробуй `text-shadow: 0 0 8px #b3ffff, 0 0 15px #b3ffff;` для неонового синього світіння.",
+    initialCss: `.glowing-text {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #b3ffff; /* Основний колір тексту */
+  text-shadow: 0 0 8px #b3ffff, 0 0 15px #b3ffff; /* Сяюча тінь */
+}`,
+    previewContent: (
+      <h2 style={{ fontSize: '2.5em', fontWeight: 'bold', color: '#b3ffff', textShadow: '0 0 8px #b3ffff, 0 0 15px #b3ffff', textAlign: 'center' }}>
+        Сяючий Заголовок
+      </h2>
+    ),
+    hint: "Властивість `text-shadow` схожа на `box-shadow`, але для тексту.",
+    lessonLink: "/css-properties",
+    lessonLinkText: "Урок про CSS Властивості",
   },
 ];

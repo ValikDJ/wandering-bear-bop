@@ -23,12 +23,13 @@ const mapSearchItemToSidebarNavItem = (item: SearchItem): SidebarNavItem => ({
 });
 
 // Логіка групування
-const cosmicMission = searchIndex.filter(item => item.path === '/cosmic-mission'); // NEW
+const cosmicMission = searchIndex.filter(item => item.path === '/cosmic-mission' && item.type === 'project-template'); // NEW: Filter for the main mission page
+const cosmicChallenges = searchIndex.filter(item => item.path === '/cosmic-mission' && item.type === 'lesson'); // NEW: Filter for the challenges within the mission
 const homeworkAssignment = searchIndex.filter(item => item.path === '/homework');
 const htmlLessons = searchIndex.filter(item => item.path === '/html-tags' && item.type === 'lesson');
 const cssPropertiesLessons = searchIndex.filter(item => item.path === '/css-properties' && item.type === 'lesson');
 const cssSelectorsLessons = searchIndex.filter(item => item.path === '/css-selectors' && item.type === 'lesson');
-const examples = searchIndex.filter(item => item.type === 'example');
+const examples = searchIndex.filter(item => item.type === 'example' && item.path === '/examples');
 const projectTemplate = searchIndex.filter(item => item.path === '/project-template');
 const quiz = searchIndex.filter(item => item.type === 'quiz');
 const glossary = searchIndex.filter(item => item.type === 'glossary');
@@ -37,13 +38,21 @@ const cssGradientGenerator = searchIndex.filter(item => item.path === '/examples
 
 export const sidebarNavData: SidebarNavItem[] = [
   {
-    id: "cosmic-mission",
-    title: "Космічна CSS-академія", // Updated title
-    icon: Rocket, // Using Rocket icon
-    children: cosmicMission.map(item => ({
-      ...mapSearchItemToSidebarNavItem(item),
-      title: item.title.replace("🚀 Космічна CSS-академія", ""),
-    })),
+    id: "cosmic-mission-group", // Changed ID to group
+    title: "Космічна CSS-академія",
+    icon: Rocket,
+    children: [
+      ...cosmicMission.map(item => mapSearchItemToSidebarNavItem(item)), // Main mission page
+      {
+        id: "cosmic-challenges-group",
+        title: "Орбітальні Завдання",
+        icon: Lightbulb, // Using Lightbulb for challenges sub-group
+        children: cosmicChallenges.map(item => ({
+          ...mapSearchItemToSidebarNavItem(item),
+          title: item.title.replace("Орбітальні Завдання: ", ""), // Clean up title for display
+        })),
+      },
+    ],
   },
   {
     id: "homework",
