@@ -10,7 +10,6 @@ import LessonNavigation from "@/components/LessonNavigation";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import CosmicMissionChecklist from "@/components/CosmicMissionChecklist";
-import CosmicCodeLab from "@/components/CosmicCodeLab"; // NEW IMPORT
 import { useTheme } from "@/hooks/use-theme";
 import { ThemeMode } from "@/lib/ThemeManager";
 
@@ -35,15 +34,12 @@ header {
 header h1 {
     margin: 0;
     font-size: 2.5em;
-    text-shadow: 0 0 10px #b3ffff; /* Неонове світіння */
 }
 
 nav a {
     color: #b3ffff; /* Неонові посилання */
     text-decoration: none;
     margin: 0 15px;
-    font-weight: bold;
-    transition: color 0.3s ease;
 }
 
 nav a:hover {
@@ -74,18 +70,12 @@ section h2 {
     margin-top: 0;
 }
 
-p {
-    line-height: 1.6;
-}
-
 ul {
-    list-style-type: disc;
     margin-left: 20px;
 }
 
 table {
     width: 100%;
-    border-collapse: collapse;
     margin-top: 20px;
 }
 
@@ -205,9 +195,6 @@ const CosmicMission: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* NEW: Космічна Лабораторія Коду */}
-      <CosmicCodeLab />
-
       {/* Етап 2: Дизайн з CSS */}
       <Card className="mb-12 bg-card shadow-md">
         <CardHeader>
@@ -266,6 +253,8 @@ const CosmicMission: React.FC = () => {
                   <li><code>text-decoration</code>: Прибери підкреслення у посилань (<code>a &lbrace; text-decoration: none; &rbrace;</code>).</li>
                   <li><code>opacity</code>: Зроби елементи напівпрозорими.</li>
                   <li><code>width</code> / <code>height</code>: Зміни ширину або висоту елементів (наприклад, картинок).</li>
+                  <li><code>box-shadow</code>: Додай тінь до елементів.</li>
+                  <li><code>box-sizing</code>: Визнач, як розраховується загальна ширина та висота елемента.</li>
                 </ul>
                 <p className="mt-2">
                   Експериментуй! Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> для інтерактивної практики!
