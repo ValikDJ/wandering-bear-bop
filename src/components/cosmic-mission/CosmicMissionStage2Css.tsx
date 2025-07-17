@@ -249,14 +249,14 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
               <Collapsible className="mb-6">
                 <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
                   <CollapsibleTrigger asChild>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 pb-2 w-full p-6">
                       <CardTitle className="text-2xl text-foreground flex items-center gap-2">
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
                         Стиль для всього сайту (`body`)
                       </CardTitle>
                       <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                    </CardTitle>
-                  </CardHeader>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                     <CardContent>
                       <p className="mb-4 text-muted-foreground">
@@ -282,8 +282,8 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                           <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
                           <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
                             {`body {
-  background-color: #f0f8ff;
-  color: #333;
+  background-color: #f0f8ff; /* Світло-блакитний фон */
+  color: #333; /* Темно-сірий текст */
 }`}
                           </SyntaxHighlighter>
                           <p className="mt-2 text-sm text-muted-foreground">
@@ -300,14 +300,14 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
               <Collapsible className="mb-6">
                 <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
                   <CollapsibleTrigger asChild>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 pb-2 w-full p-6">
                       <CardTitle className="text-2xl text-foreground flex items-center gap-2">
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
                         Стиль для головного заголовка (`h1`)
                       </CardTitle>
                       <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                    </CardTitle>
-                  </CardHeader>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                     <CardContent>
                       <p className="mb-4 text-muted-foreground">
@@ -324,8 +324,8 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                           <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
                           <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
                             {`h1 {
-  text-align: center;
-  color: #007bff;
+  text-align: center; /* Вирівнювання по центру */
+  color: #007bff; /* Синій колір */
 }`}
                           </SyntaxHighlighter>
                           <p className="mt-2 text-sm text-muted-foreground">
@@ -342,14 +342,14 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
               <Collapsible className="mb-6">
                 <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
                   <CollapsibleTrigger asChild>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 pb-2 w-full p-6">
                       <CardTitle className="text-2xl text-foreground flex items-center gap-2">
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
                         Стиль для абзаців (`p`)
                       </CardTitle>
                       <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                    </CardTitle>
-                  </CardHeader>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                     <CardContent>
                       <p className="mb-4 text-muted-foreground">
@@ -366,8 +366,8 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                           <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
                           <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
                             {`p {
-  font-size: 16px;
-  color: #555;
+  font-size: 16px; /* Розмір шрифту */
+  color: #555; /* Темно-сірий колір */
 }`}
                           </SyntaxHighlighter>
                           <p className="mt-2 text-sm text-muted-foreground">
@@ -384,14 +384,14 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
               <Collapsible className="mb-6">
                 <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
                   <CollapsibleTrigger asChild>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 pb-2 w-full p-6">
                       <CardTitle className="text-2xl text-foreground flex items-center gap-2">
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
                         Стиль для зображень (`img`)
                       </CardTitle>
                       <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                    </CardTitle>
-                  </CardHeader>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                     <CardContent>
                       <p className="mb-4 text-muted-foreground">
@@ -410,8 +410,8 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                           <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
                           <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
                             {`img {
-  border: 2px solid green;
-  border-radius: 10px;
+  border: 2px solid green; /* Зелена рамка */
+  border-radius: 10px; /* Заокруглені кути */
 }`}
                           </SyntaxHighlighter>
                           <p className="mt-2 text-sm text-muted-foreground">
@@ -428,14 +428,14 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
               <Collapsible className="mb-6">
                 <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
                   <CollapsibleTrigger asChild>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 pb-2 w-full p-6">
                       <CardTitle className="text-2xl text-foreground flex items-center gap-2">
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
                         Стиль для посилань (`a`)
                       </CardTitle>
                       <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                    </CardTitle>
-                  </CardHeader>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                     <CardContent>
                       <p className="mb-4 text-muted-foreground">
@@ -452,8 +452,8 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                           <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
                           <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
                             {`a {
-  text-decoration: none;
-  color: purple;
+  text-decoration: none; /* Прибирає підкреслення */
+  color: purple; /* Фіолетовий колір */
 }`}
                           </SyntaxHighlighter>
                           <p className="mt-2 text-sm text-muted-foreground">
@@ -470,14 +470,14 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
               <Collapsible className="mb-6">
                 <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
                   <CollapsibleTrigger asChild>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 pb-2 w-full p-6">
                       <CardTitle className="text-2xl text-foreground flex items-center gap-2">
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
                         Стиль для кнопок (`button`)
                       </CardTitle>
                       <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                    </CardTitle>
-                  </CardHeader>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                     <CardContent>
                       <p className="mb-4 text-muted-foreground">
@@ -494,10 +494,10 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                           <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
                           <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
                             {`button {
-  background-color: #28a745;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 5px;
+  background-color: #28a745; /* Зелений фон */
+  color: white; /* Білий текст */
+  padding: 8px 15px; /* Внутрішні відступи */
+  border-radius: 5px; /* Заокруглені кути */
 }`}
                           </SyntaxHighlighter>
                           <p className="mt-2 text-sm text-muted-foreground">
@@ -514,14 +514,14 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
               <Collapsible className="mb-6">
                 <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
                   <CollapsibleTrigger asChild>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 pb-2 w-full p-6">
                       <CardTitle className="text-2xl text-foreground flex items-center gap-2">
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
                         Стиль для блоків (`div`, `section`)
                       </CardTitle>
                       <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                    </CardTitle>
-                  </CardHeader>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                     <CardContent>
                       <p className="mb-4 text-muted-foreground">
@@ -538,10 +538,10 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                           <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
                           <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
                             {`div, section {
-  padding: 15px;
-  background-color: #e9ecef;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 15px; /* Внутрішній відступ */
+  background-color: #e9ecef; /* Світло-сірий фон */
+  border: 1px solid #ccc; /* Сіра рамка */
+  border-radius: 8px; /* Заокруглені кути */
 }`}
                           </SyntaxHighlighter>
                           <p className="mt-2 text-sm text-muted-foreground">
@@ -558,14 +558,14 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
               <Collapsible className="mb-6">
                 <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
                   <CollapsibleTrigger asChild>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 pb-2 w-full p-6">
                       <CardTitle className="text-2xl text-foreground flex items-center gap-2">
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
                         Стиль для списків (`ul`, `ol`, `li`)
                       </CardTitle>
                       <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                    </CardTitle>
-                  </CardHeader>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                     <CardContent>
                       <p className="mb-4 text-muted-foreground">
@@ -583,11 +583,11 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                           <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
                           <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
                             {`ul, ol {
-  margin-left: 25px;
+  margin-left: 25px; /* Відступ зліва */
 }
 
 li {
-  color: #444;
+  color: #444; /* Колір тексту елементів списку */
 }`}
                           </SyntaxHighlighter>
                           <p className="mt-2 text-sm text-muted-foreground">
@@ -604,14 +604,14 @@ li {
               <Collapsible className="mb-6">
                 <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
                   <CollapsibleTrigger asChild>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 pb-2 w-full p-6">
                       <CardTitle className="text-2xl text-foreground flex items-center gap-2">
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
                         Стиль для таблиць (`table`, `th`, `td`)
                       </CardTitle>
                       <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                    </CardTitle>
-                  </CardHeader>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                     <CardContent>
                       <p className="mb-4 text-muted-foreground">
@@ -639,13 +639,13 @@ li {
                           <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
                           <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '200px', overflowY: 'auto' }}>
                             {`table, th, td {
-  border: 1px solid #ccc;
-  border-collapse: collapse;
+  border: 1px solid #ccc; /* Сіра рамка */
+  border-collapse: collapse; /* Прибирає подвійні рамки */
 }
 
 th {
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: #f8f9fa; /* Світлий фон для заголовків */
+  color: #333; /* Темний текст для заголовків */
 }`}
                           </SyntaxHighlighter>
                           <p className="mt-2 text-sm text-muted-foreground">
@@ -662,14 +662,14 @@ th {
               <Collapsible className="mb-6">
                 <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
                   <CollapsibleTrigger asChild>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 pb-2 w-full p-6">
                       <CardTitle className="text-2xl text-foreground flex items-center gap-2">
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
                         Стиль для шапки та підвалу (`header`, `footer`)
                       </CardTitle>
                       <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                    </CardTitle>
-                  </CardHeader>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                     <CardContent>
                       <p className="mb-4 text-muted-foreground">
@@ -706,14 +706,14 @@ th {
               <Collapsible className="mb-6">
                 <Card className="bg-card shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer no-print">
                   <CollapsibleTrigger asChild>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 pb-2 w-full p-6">
                       <CardTitle className="text-2xl text-foreground flex items-center gap-2">
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
                         Стиль для навігації (`nav`, `a`)
                       </CardTitle>
                       <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
-                    </CardTitle>
-                  </CardHeader>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
                     <CardContent>
                       <p className="mb-4 text-muted-foreground">
