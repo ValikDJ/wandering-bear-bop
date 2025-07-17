@@ -91,8 +91,8 @@ const Layout: React.FC<LayoutProps> = ({
         <main ref={mainRef} className={cn(
           "flex-grow container mx-auto p-4 bg-background overflow-y-auto",
           getMainMarginClass(),
-          isScrolled ? "pt-12" : "pt-16"
-          // Removed "max-w-prose" from here
+          isScrolled ? "pt-12" : "pt-16",
+          "max-w-screen-lg" // NEW: Apply a specific max-width to make it narrower
         )}>
           <BreadcrumbNav />
           {children}
