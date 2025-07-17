@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Copy, Palette, ChevronDown } from "lucide-react";
+import { Copy, Palette, ChevronDown, Lightbulb } from "lucide-react";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -21,234 +21,70 @@ const LOCAL_STORAGE_KEY = "cosmic-mission-stage2-completed";
 
 const cssTemplateUncommented = `/* style.css - Твої віртуальні пензлі! */
 
-/* Загальні стилі для всієї сторінки */
-body {
-  background-color: #1a1a2e;
-  color: #e0e0e0;
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 20px;
-}
+/* Властивості для тексту */
+color: #b3ffff;
+font-size: 1.2em;
+font-family: 'Arial', sans-serif;
+text-align: center; /* або left, right, justify */
+line-height: 1.6;
+text-decoration: none; /* або underline, line-through */
+font-weight: bold; /* або normal, lighter */
 
-/* Стилі для заголовків */
-h1 {
-  color: #b3ffff;
-  font-size: 2.5em;
-  text-align: center;
-  margin-bottom: 20px;
-}
+/* Властивості для фону */
+background-color: #2a2a4a;
 
-h2 {
-  color: #ff69b4;
-  border-bottom: 1px dashed #8a2be2;
-  padding-bottom: 10px;
-  margin-top: 0;
-}
+/* Властивості для рамок та кутів */
+border: 2px solid #8a2be2; /* товщина, стиль (solid, dashed, dotted), колір */
+border-radius: 8px; /* або 50% для кола */
 
-/* Стилі для абзаців тексту */
-p {
-  color: #e0e0e0;
-  font-size: 18px;
-  line-height: 1.6;
-}
+/* Властивості для відступів */
+margin: 20px; /* або margin-top, margin-bottom, margin-left, margin-right */
+padding: 15px; /* або padding-top, padding-bottom, padding-left, padding-right */
 
-/* Стилі для посилань */
-a {
-  color: #b3ffff;
-  text-decoration: none;
-}
+/* Властивості для розмірів */
+width: 100%; /* або 200px, 50% */
+height: auto; /* або 150px */
 
-a:hover {
-  color: #ff69b4;
-}
-
-/* Стилі для зображень */
-img {
-  width: 100%;
-  height: auto;
-  border: 2px solid #8a2be2;
-  border-radius: 8px;
-  opacity: 0.8;
-  display: block;
-  margin: 10px auto;
-}
-
-/* Стилі для кнопок */
-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* Стилі для універсальних блоків (div) або секцій */
-div, section {
-  background-color: #252545;
-  border: 1px solid #8a2be2;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  box-sizing: border-box;
-}
-
-/* Стилі для списків */
-ul, ol {
-  margin-left: 20px;
-  color: #e0e0e0;
-}
-
-li {
-  margin-bottom: 5px;
-}
-
-/* Стилі для таблиць */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  border: 1px solid #8a2be2;
-  padding: 10px;
-  text-align: left;
-}
-
-th {
-  background-color: #3a3a5a;
-  color: #b3ffff;
-}
-
-/* Стилі для підвалу сайту */
-footer {
-  text-align: center;
-  margin-top: 40px;
-  padding: 20px;
-  color: #a0a0a0;
-  border-top: 1px solid #3a3a5a;
-}
+/* Інші корисні властивості */
+opacity: 0.8; /* прозорість (від 0 до 1) */
+display: block; /* або inline, inline-block, flex */
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* тінь */
+box-sizing: border-box; /* як розраховується загальна ширина/висота */
+cursor: pointer; /* тип курсору */
 `;
 
 const cssTemplateCommented = `/* style.css - Твої віртуальні пензлі! */
 
-/* Загальні стилі для всієї сторінки */
-body {
-  background-color: #1a1a2e; /* Колір фону для всієї сторінки (наприклад, темний космос) */
-  color: #e0e0e0; /* Колір тексту для всієї сторінки (наприклад, світлі зірки) */
-  font-family: 'Arial', sans-serif; /* Тип шрифту для всього тексту */
-  margin: 0; /* Прибирає зовнішні відступи за замовчуванням */
-  padding: 20px; /* Додає внутрішні відступи навколо вмісту сторінки */
-}
+/* Властивості для тексту */
+color: #b3ffff; /* Встановлює колір тексту */
+font-size: 1.2em; /* Встановлює розмір шрифту */
+font-family: 'Arial', sans-serif; /* Встановлює тип шрифту */
+text-align: center; /* Вирівнює текст всередині елемента (left, right, center, justify) */
+line-height: 1.6; /* Встановлює висоту рядка тексту */
+text-decoration: none; /* Додає або видаляє лінії під текстом (none, underline, line-through) */
+font-weight: bold; /* Встановлює жирність шрифту (bold, normal, lighter) */
 
-/* Стилі для заголовків */
-h1 {
-  color: #b3ffff; /* Колір головного заголовка */
-  font-size: 2.5em; /* Розмір шрифту головного заголовка */
-  text-align: center; /* Вирівнювання тексту по центру */
-  margin-bottom: 20px; /* Відступ знизу */
-}
+/* Властивості для фону */
+background-color: #2a2a4a; /* Встановлює колір фону елемента */
 
-h2 {
-  color: #ff69b4; /* Колір підзаголовків */
-  border-bottom: 1px dashed #8a2be2; /* Лінія під підзаголовком */
-  padding-bottom: 10px; /* Відступ під лінією */
-  margin-top: 0; /* Прибирає верхній зовнішній відступ */
-}
+/* Властивості для рамок та кутів */
+border: 2px solid #8a2be2; /* Додає рамку навколо елемента (товщина, стиль, колір) */
+border-radius: 8px; /* Заокруглює кути елемента (наприклад, 50% для створення кола) */
 
-/* Стилі для абзаців тексту */
-p {
-  color: #e0e0e0; /* Колір тексту абзаців */
-  font-size: 18px; /* Розмір шрифту абзаців */
-  line-height: 1.6; /* Висота рядка для кращої читабельності */
-}
+/* Властивості для відступів */
+margin: 20px; /* Створює зовнішній відступ навколо елемента, відштовхуючи його від інших елементів */
+padding: 15px; /* Створює внутрішній відступ між вмістом елемента та його рамкою */
 
-/* Стилі для посилань */
-a {
-  color: #b3ffff; /* Колір посилань */
-  text-decoration: none; /* Прибирає підкреслення */
-  /* text-decoration: underline;  Додає підкреслення */
-}
+/* Властивості для розмірів */
+width: 100%; /* Встановлює ширину елемента (наприклад, 100% від батьківського елемента, або 200px, 50%) */
+height: auto; /* Встановлює висоту елемента (наприклад, auto для автоматичної висоти, або 150px) */
 
-a:hover {
-  color: #ff69b4; /* Колір посилання при наведенні курсору */
-}
-
-/* Стилі для зображень */
-img {
-  width: 100%; /* Ширина зображення (100% від батьківського елемента) */
-  height: auto; /* Автоматична висота для збереження пропорцій */
-  border: 2px solid #8a2be2; /* Рамка навколо зображення */
-  border-radius: 8px; /* Заокруглення кутів зображення */
-  opacity: 0.8; /* Напівпрозорість */
-  display: block; /* Робить зображення блоковим елементом */
-  margin: 10px auto; /* Центрує зображення по горизонталі */
-}
-
-/* Стилі для кнопок */
-button {
-  background-color: #4CAF50; /* Колір фону кнопки */
-  color: white; /* Колір тексту кнопки */
-  padding: 10px 20px; /* Внутрішні відступи кнопки */
-  border: none; /* Прибирає рамку */
-  border-radius: 5px; /* Заокруглення кутів кнопки */
-  cursor: pointer; /* Змінює курсор на вказівник */
-  font-weight: bold; /* Жирний шрифт */
-}
-
-/* Стилі для універсальних блоків (div) або секцій */
-div, section {
-  background-color: #252545; /* Колір фону для блоків/секцій */
-  border: 1px solid #8a2be2; /* Рамка для блоків/секцій */
-  border-radius: 10px; /* Заокруглення кутів */
-  padding: 20px; /* Внутрішні відступи */
-  margin-bottom: 20px; /* Зовнішній відступ знизу */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Тінь */
-  /* width: 80%;  Ширина блоку */
-  /* height: 150px;  Висота блоку */
-  opacity: 0.9; /* Прозорість */
-  box-sizing: border-box; /* Включає padding та border у загальну ширину/висоту */
-}
-
-/* Стилі для списків */
-ul, ol {
-  margin-left: 20px; /* Відступ зліва для списків */
-  color: #e0e0e0; /* Колір тексту списків */
-}
-
-li {
-  margin-bottom: 5px; /* Відступ між елементами списку */
-}
-
-/* Стилі для таблиць */
-table {
-  width: 100%; /* Таблиця займає всю доступну ширину */
-  border-collapse: collapse; /* Прибирає подвійні рамки між комірками */
-  margin-top: 20px; /* Верхній зовнішній відступ */
-}
-
-th, td {
-  border: 1px solid #8a2be2; /* Рамка для комірок таблиці */
-  padding: 10px; /* Внутрішні відступи для комірок */
-  text-align: left; /* Вирівнювання тексту в комірках */
-}
-
-th {
-  background-color: #3a3a5a; /* Фон для заголовків таблиці */
-  color: #b3ffff; /* Колір тексту заголовків таблиці */
-}
-
-/* Стилі для підвалу сайту */
-footer {
-  text-align: center; /* Вирівнює текст в підвалі по центру */
-  margin-top: 40px; /* Верхній зовнішній відступ */
-  padding: 20px; /* Внутрішні відступи */
-  color: #a0a0a0; /* Колір тексту в підвалі */
-  border-top: 1px solid #3a3a5a; /* Лінія над підвалом */
-}
+/* Інші корисні властивості */
+opacity: 0.8; /* Встановлює рівень прозорості елемента (від 0 - повністю прозорий, до 1 - повністю непрозорий) */
+display: block; /* Визначає, як елемент відображається (block, inline, inline-block, flex) */
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Додає тінь до елемента */
+box-sizing: border-box; /* Визначає, як розраховується загальна ширина та висота елемента (content-box, border-box) */
+cursor: pointer; /* Визначає тип курсору миші при наведенні на елемент */
 `;
 
 const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ completed, onCompletionChange }) => {
@@ -309,7 +145,7 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
           {`<link rel="stylesheet" href="style.css">`}
         </SyntaxHighlighter>
         <p className="mb-4 text-muted-foreground text-sm">
-          А ось базові стилі, які ти можеш скопіювати у вкладку **CSS** на платформі Logika. Потім експериментуй з кольорами та іншими властивостями, щоб прикрасити *свій власний* сайт!
+          А ось список CSS-властивостей, які ти можеш використовувати. Скопіюй їх у вкладку **CSS** на платформі Logika і змінюй значення, щоб прикрасити *свій власний* сайт!
         </p>
         
         <div className="relative mb-6">
@@ -362,8 +198,8 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                 Щоб застосувати стилі до елементів твого сайту, тобі потрібно:
               </p>
               <ul className="list-disc list-inside space-y-2 mb-4">
-                <li>**Вибрати елемент:** Використовуй **CSS-селектори** (наприклад, назву тегу `body`, `h1`, `p`, `img`, `section` або `footer`) щоб вказати, до якого елемента застосувати стиль.</li>
-                <li>**Вибрати властивість:** Обери, що саме ти хочеш змінити (колір, розмір, фон тощо).</li>
+                <li>**Вибрати елемент:** Використовуй **CSS-селектори** (наприклад, назву тегу `body`, `h1`, `p`, `img`, `section` або `footer`) щоб вказати, до якого елемента застосувати стиль. Якщо ти забув, як працюють селектори, переглянь <Link to="/css-selectors" className="text-brand-primary hover:underline">Урок: CSS Селектори</Link>.</li>
+                <li>**Вибрати властивість:** Обери, що саме ти хочеш змінити (колір, розмір, фон тощо). Якщо ти забув, які властивості існують, переглянь <Link to="/css-properties" className="text-brand-primary hover:underline">Урок: CSS Властивості</Link>.</li>
                 <li>**Встановити значення:** Признач цій властивості бажане значення (наприклад, `color: blue;` або `font-size: 20px;`).</li>
               </ul>
               <p className="mb-2">
@@ -386,6 +222,61 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
             </div>
           </CollapsibleContent>
         </Collapsible>
+
+        {/* NEW: Приклад простого дизайну */}
+        <Card className="mt-12 bg-card shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              Приклад простого дизайну: "Космічна Посилка"
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Ось приклад, як можна стилізувати звичайний блок (`&lt;div&gt;`) за допомогою кількох CSS-властивостей. Спробуй повторити цей дизайн на своєму сайті!
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                <div
+                  style={{
+                    backgroundColor: '#4a2a4a', // Dark purple
+                    color: '#b3ffff', // Neon cyan
+                    padding: '20px',
+                    border: '2px solid #ff69b4', // Pink border
+                    borderRadius: '15px',
+                    textAlign: 'center',
+                    boxShadow: '0 0 15px rgba(179, 255, 255, 0.5)', // Glowing effect
+                    fontSize: '1.2em',
+                    fontWeight: 'bold',
+                  }}
+                  className="flex items-center justify-center min-h-[120px] rounded-md"
+                >
+                  Космічна Посилка Прибула!
+                </div>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код для цього:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '250px', overflowY: 'auto' }}>
+                  {`.cosmic-package {
+  background-color: #4a2a4a; /* Темно-фіолетовий фон */
+  color: #b3ffff; /* Неоновий синій текст */
+  padding: 20px; /* Внутрішній відступ */
+  border: 2px solid #ff69b4; /* Рожева рамка */
+  border-radius: 15px; /* Заокруглені кути */
+  text-align: center; /* Текст по центру */
+  box-shadow: 0 0 15px rgba(179, 255, 255, 0.5); /* Світіння */
+  font-size: 1.2em; /* Розмір шрифту */
+  font-weight: bold; /* Жирний шрифт */
+}`}
+                </SyntaxHighlighter>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Щоб використати цей стиль, додай `class="cosmic-package"` до свого `&lt;div&gt;` або іншого тегу в HTML.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </CardContent>
     </Card>
   );
