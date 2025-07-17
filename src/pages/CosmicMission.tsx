@@ -466,7 +466,7 @@ const CosmicMission: React.FC = () => {
           <LiveCodeEditor
             id="cosmic-mission-css-editor"
             initialHtml={demoHtmlForCssEditor}
-            initialCss={cssTemplateUncommented} // Live editor always starts with uncommented
+            initialCss={cssTemplateUncommented}
             title="Твій Космічний Дизайн-Стенд"
             description="Змінюй CSS-код і дивись, як твій сайт оживає!"
           />
@@ -474,13 +474,33 @@ const CosmicMission: React.FC = () => {
           <Collapsible className="mt-6">
             <CollapsibleTrigger asChild>
               <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
-                🎨 Ідеї для стилізації (Натисни, щоб дізнатися)
+                🎨 Ідеї для стилізації та допомога (Натисни, щоб дізнатися)
                 <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
               <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
-                <p className="mb-2">Використовуй властивості, які ти вже вивчив в уроці <Link to="/css-properties" className="text-brand-primary hover:underline">"CSS Властивості"</Link>! Спробуй змінити ці властивості, щоб твоя база виглядала унікально:</p>
+                <p className="mb-2">
+                  Щоб краще зрозуміти, як працюють стилі та як їх застосовувати до різних елементів, ти можеш:
+                </p>
+                <ul className="list-disc list-inside space-y-2 mb-4">
+                  <li>**Переглянути уроки:**
+                    <ul className="list-circle list-inside ml-4">
+                      <li><Link to="/html-tags" className="text-brand-primary hover:underline">Урок: HTML Теги</Link> - щоб згадати, які теги ти використовуєш.</li>
+                      <li><Link to="/css-properties" className="text-brand-primary hover:underline">Урок: CSS Властивості</Link> - щоб дізнатися про різні властивості стилів.</li>
+                      <li><Link to="/css-selectors" className="text-brand-primary hover:underline">Урок: CSS Селектори</Link> - щоб зрозуміти, як вибирати елементи для стилізації (наприклад, `body`, `h1`, `p`, `img`, `section`).</li>
+                    </ul>
+                  </li>
+                  <li>**Експериментувати:**
+                    <ul className="list-circle list-inside ml-4">
+                      <li><Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерня</Link> - для інтерактивної практики з властивостями.</li>
+                      <li><Link to="/examples" className="text-brand-primary hover:underline">Практичні Приклади</Link> - щоб побачити, як інші стилізовані елементи виглядають у дії.</li>
+                    </ul>
+                  </li>
+                </ul>
+                <p className="mb-2">
+                  Спробуй змінити ці властивості, щоб твоя база виглядала унікально:
+                </p>
                 <ul className="list-disc list-inside">
                   <li><code>color</code>: Зміни колір тексту для заголовків (`h1`, `h2`) та абзаців (`p`).</li>
                   <li><code>background-color</code>: Зміни колір фону для `body`, `header`, `main` або `section`.</li>
@@ -497,9 +517,6 @@ const CosmicMission: React.FC = () => {
                   <li><code>box-shadow</code>: Додай тінь до елементів.</li>
                   <li><code>box-sizing</code>: Визнач, як розраховується загальна ширина та висота елемента.</li>
                 </ul>
-                <p className="mt-2">
-                  Експериментуй! Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> для інтерактивної практики!
-                </p>
               </div>
             </CollapsibleContent>
           </Collapsible>
