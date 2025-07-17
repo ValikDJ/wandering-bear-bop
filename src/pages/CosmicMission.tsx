@@ -49,10 +49,10 @@ const CosmicMission: React.FC = () => {
   const [cosmicEnergy, setCosmicEnergy] = useState<number>(() => {
     try {
       const storedEnergy = localStorage.getItem(LOCAL_STORAGE_ENERGY_KEY);
-      return storedEnergy ? JSON.parse(storedEnergy) : 200;
+      return storedEnergy ? JSON.parse(storedEnergy) : 100; // Changed from 200 to 100
     } catch (error) {
       console.error("Failed to load cosmic energy from localStorage:", error);
-      return 200;
+      return 100; // Changed from 200 to 100
     }
   });
 
@@ -63,7 +63,8 @@ const CosmicMission: React.FC = () => {
     try {
       const storedEnergyPerClick = localStorage.getItem(LOCAL_STORAGE_ENERGY_PER_CLICK_KEY);
       return storedEnergyPerClick ? JSON.parse(storedEnergyPerClick) : 1;
-    } catch (error) {
+    }
+    catch (error) {
       console.error("Failed to load energy per click from localStorage:", error);
       return 1;
     }

@@ -80,26 +80,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSidebar, isScrolled }) => {
           {/* Theme Toggle */}
           <ThemeToggle />
 
-          {/* Sidebar Mode Selector (Desktop Only) - REMOVED */}
-          {/* {!isMobile && (
-            <Select value={sidebarMode} onValueChange={(value: SidebarMode) => setSidebarMode(value)}>
-              <SelectTrigger className="w-[180px] bg-primary text-primary-foreground hover:bg-primary-foreground/20">
-                <SelectValue placeholder="Режим сайдбару" />
-              </SelectTrigger>
-              <SelectContent className="bg-popover text-popover-foreground">
-                <SelectItem value="pinned-full" className="flex items-center gap-2 cursor-pointer">
-                  <PanelLeftOpen className="h-4 w-4" /> Закріплений
-                </SelectItem>
-                <SelectItem value="interactive-hover" className="flex items-center gap-2 cursor-pointer">
-                  <PanelLeft className="h-4 w-4" /> При наведенні
-                </SelectItem>
-                <SelectItem value="hidden" className="flex items-center gap-2 cursor-pointer">
-                  <PanelLeftClose className="h-4 w-4" /> Прихований
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          )} */}
-
           {/* Desktop Navigation Links - visible only on desktop, disappear on scroll */}
           {!isMobile && (
             <div
@@ -126,20 +106,15 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSidebar, isScrolled }) => {
             </div>
           )}
 
-          {/* Menu Button - always renders, but its visibility and style change */}
-          {/* On desktop, this button is only visible in 'hidden' mode or when scrolled */}
-          {(isMobile || sidebarMode === 'hidden' || isScrolled) && (
+          {/* Menu Button - only visible if sidebar is not otherwise visible (mobile or hidden mode) */}
+          {(isMobile || sidebarMode === 'hidden') && (
             <Button
               variant="ghost"
               size="icon"
               className={cn(
                 "text-primary-foreground hover:bg-primary-foreground/20 transition-all duration-300 ease-in-out",
-                // Приховати на десктопі, коли не прокручено І сайдбар не в 'hidden' режимі
-                !isMobile && !isScrolled && sidebarMode !== 'hidden' && "opacity-0 pointer-events-none",
-                // Застосувати компактний стиль при прокручуванні (як на мобільному, так і на десктопі)
                 isScrolled && "rounded-full bg-accent text-accent-foreground shadow-md",
-                // На мобільному, завжди видимий, але його стиль залежить від прокручування
-                isMobile && !isScrolled && "rounded-md" // Стандартний мобільний стиль, коли не прокручено
+                !isScrolled && "rounded-md"
               )}
               onClick={onOpenSidebar}
             >

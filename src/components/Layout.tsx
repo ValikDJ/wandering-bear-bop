@@ -69,7 +69,7 @@ const Layout: React.FC<LayoutProps> = ({
       <div className="flex flex-1">
         {isMobile || sidebarMode === 'hidden' ? (
           <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-            <SheetContent side="left" className="w-64 sm:w-72 h-full p-0 no-print">
+            <SheetContent side="left" className="w-64 sm:w-72 h-full p-0 no-print z-50"> {/* Added z-50 */}
               <SheetTitle className="sr-only">Навігація по сайту</SheetTitle>
               <SheetDescription className="sr-only">Перелік уроків та розділів сайту.</SheetDescription>
               <Sidebar
@@ -92,7 +92,7 @@ const Layout: React.FC<LayoutProps> = ({
           "flex-grow container mx-auto p-4 bg-background overflow-y-auto",
           getMainMarginClass(),
           isScrolled ? "pt-12" : "pt-16",
-          "max-w-screen-lg" // NEW: Apply a specific max-width to make it narrower
+          "max-w-screen-lg"
         )}>
           <BreadcrumbNav />
           {children}

@@ -386,10 +386,10 @@
 
   /* Ensure main content takes full width and has appropriate padding */
   main {
-    margin-left: 0 !important;
+    margin: 0 auto !important; /* Changed to center */
     padding: 1rem !important;
     width: 100% !important;
-    max-width: none !important;
+    max-width: 700px !important; /* Added a max-width for print readability */
     min-height: auto !important;
   }
 
