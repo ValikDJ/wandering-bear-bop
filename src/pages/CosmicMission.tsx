@@ -240,7 +240,7 @@ const CosmicMission: React.FC = () => {
                   <li><code>padding</code>: Додай внутрішні відступи, щоб текст не "прилипав" до країв елементів.</li>
                   <li><code>border</code>: Додай рамки до `section`, `img` або `table`.</li>
                   <li><code>border-radius</code>: Заокругли кути елементів, наприклад, для картинок або секцій.</li>
-                  <li><code>text-decoration</code>: Прибери підкреслення у посилань (<code>a { text-decoration: none; }</code>).</li>
+                  <li><code>text-decoration</code>: Прибери підкреслення у посилань (<code>a &lbrace; text-decoration: none; &rbrace;</code>).</li>
                   <li><code>opacity</code>: Зроби елементи напівпрозорими.</li>
                   <li><code>width</code> / <code>height</code>: Зміни ширину або висоту елементів (наприклад, картинок).</li>
                 </ul>
