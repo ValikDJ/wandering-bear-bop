@@ -7,6 +7,8 @@ interface CosmicAchievementsProps {
   totalClicks: number;
   totalEnergyCollected: number;
   allCssChallengesCompleted: boolean;
+  currentEnergy: number; // NEW PROP
+  maxEnergy: number; // NEW PROP
 }
 
 interface Achievement {
@@ -21,6 +23,8 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
   totalClicks,
   totalEnergyCollected,
   allCssChallengesCompleted,
+  currentEnergy, // Use new prop
+  maxEnergy, // Use new prop
 }) => {
   const achievements: Achievement[] = [
     {
@@ -29,6 +33,13 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
       description: "Зроби 10 кліків по енергетичній кнопці.",
       isUnlocked: totalClicks >= 10,
       icon: MousePointerClick,
+    },
+    {
+      id: "full-tank",
+      name: "Повний Бак",
+      description: "Досягни максимального рівня енергії.",
+      isUnlocked: currentEnergy >= maxEnergy, // Check if current energy is at max
+      icon: Zap,
     },
     {
       id: "energy-collector",
@@ -42,6 +53,13 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
       name: "Майстер Реактора",
       description: "Збери 1000 енергії всього.",
       isUnlocked: totalEnergyCollected >= 1000,
+      icon: Zap,
+    },
+    {
+      id: "max-power",
+      name: "Максимальна Потужність",
+      description: "Досягни 300 максимальної енергії.",
+      isUnlocked: maxEnergy >= 300, // Check if max energy is 300
       icon: Zap,
     },
     {

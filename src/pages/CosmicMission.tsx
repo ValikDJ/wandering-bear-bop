@@ -24,6 +24,8 @@ const LOCAL_STORAGE_MAX_ENERGY_KEY = "cosmic-mission-max-energy";
 const LOCAL_STORAGE_ENERGY_PER_CLICK_KEY = "cosmic-mission-energy-per-click";
 const LOCAL_STORAGE_TOTAL_CLICKS_KEY = "cosmic-mission-total-clicks";
 const LOCAL_STORAGE_TOTAL_ENERGY_COLLECTED_KEY = "cosmic-mission-total-energy-collected";
+const LOCAL_STORAGE_REGENERATION_AMOUNT_KEY = "cosmic-mission-regeneration-amount";
+const LOCAL_STORAGE_REGENERATION_INTERVAL_KEY = "cosmic-mission-regeneration-interval";
 const LOCAL_STORAGE_KEY_CHALLENGES = "cosmic-css-challenges-progress";
 
 const CosmicMission: React.FC = () => {
@@ -63,6 +65,26 @@ const CosmicMission: React.FC = () => {
     } catch (error) {
       console.error("Failed to load energy per click from localStorage:", error);
       return 1;
+    }
+  });
+
+  const [regenerationAmountPerTick, setRegenerationAmountPerTick] = useState<number>(() => {
+    try {
+      const storedAmount = localStorage.getItem(LOCAL_STORAGE_REGENERATION_AMOUNT_KEY);
+      return storedAmount ? JSON.parse(storedAmount) : 1;
+    } catch (error) {
+      console.error("Failed to load regeneration amount from localStorage:", error);
+      return 1;
+    }
+  });
+
+  const [regenerationTickIntervalMs, setRegenerationTickIntervalMs] = useState<number>(() => {
+    try {
+      const storedInterval = localStorage.getItem(LOCAL_STORAGE_REGENERATION_INTERVAL_KEY);
+      return storedInterval ? JSON.parse(storedInterval) : 10000; // Default: 1 energy every 10 seconds
+    } catch (error) {
+      console.error("Failed to load regeneration interval from localStorage:", error);
+      return 10000;
     }
   });
 
@@ -106,26 +128,28 @@ const CosmicMission: React.FC = () => {
       localStorage.setItem(LOCAL_STORAGE_ENERGY_KEY, JSON.stringify(cosmicEnergy));
       localStorage.setItem(LOCAL_STORAGE_MAX_ENERGY_KEY, JSON.stringify(maxEnergy));
       localStorage.setItem(LOCAL_STORAGE_ENERGY_PER_CLICK_KEY, JSON.stringify(energyPerClick));
+      localStorage.setItem(LOCAL_STORAGE_REGENERATION_AMOUNT_KEY, JSON.stringify(regenerationAmountPerTick));
+      localStorage.setItem(LOCAL_STORAGE_REGENERATION_INTERVAL_KEY, JSON.stringify(regenerationTickIntervalMs));
       localStorage.setItem(LOCAL_STORAGE_TOTAL_CLICKS_KEY, JSON.stringify(totalClicks));
       localStorage.setItem(LOCAL_STORAGE_TOTAL_ENERGY_COLLECTED_KEY, JSON.stringify(totalEnergyCollected));
     } catch (error) {
       console.error("Failed to save energy system data to localStorage:", error);
     }
-  }, [cosmicEnergy, maxEnergy, energyPerClick, totalClicks, totalEnergyCollected]);
+  }, [cosmicEnergy, maxEnergy, energyPerClick, regenerationAmountPerTick, regenerationTickIntervalMs, totalClicks, totalEnergyCollected]);
 
   // Passive energy regeneration
   useEffect(() => {
     const regenerationInterval = setInterval(() => {
       setCosmicEnergy(prevEnergy => {
         if (prevEnergy < maxEnergy) {
-          return Math.min(prevEnergy + 1, maxEnergy);
+          return Math.min(prevEnergy + regenerationAmountPerTick, maxEnergy);
         }
         return prevEnergy;
       });
-    }, 10000); // +1 energy every 10 seconds
+    }, regenerationTickIntervalMs);
 
     return () => clearInterval(regenerationInterval);
-  }, [maxEnergy]);
+  }, [maxEnergy, regenerationAmountPerTick, regenerationTickIntervalMs]);
 
   // Function to add cosmic energy (from button click)
   const addCosmicEnergy = useCallback((amount: number) => {
@@ -134,12 +158,18 @@ const CosmicMission: React.FC = () => {
     setTotalEnergyCollected(prevTotal => prevTotal + amount);
   }, [maxEnergy]);
 
-  // Function to decrease cosmic energy (for hints/solutions)
-  const decreaseCosmicEnergy = useCallback((amount: number, actionType: 'hint' | 'solution') => {
+  // Function to decrease cosmic energy (for hints/solutions/purchases)
+  const decreaseCosmicEnergy = useCallback((amount: number, actionType: 'hint' | 'solution' | 'purchase') => {
     setCosmicEnergy(prevEnergy => {
       const newEnergy = Math.max(0, prevEnergy - amount);
       if (newEnergy < prevEnergy) {
-        toast.info(`Витрачено ${amount} од. Космічної Енергії за ${actionType === 'hint' ? 'підказку' : 'рішення'}. Залишилось: ${newEnergy}`);
+        if (actionType === 'hint') {
+          toast.info(`Витрачено ${amount} од. Космічної Енергії за підказку. Залишилось: ${newEnergy}`);
+        } else if (actionType === 'solution') {
+          toast.info(`Витрачено ${amount} од. Космічної Енергії за рішення. Залишилось: ${newEnergy}`);
+        } else if (actionType === 'purchase') {
+          // Toast for purchase is handled in CosmicShop
+        }
       } else if (prevEnergy === 0) {
         toast.warning("Недостатньо Космічної Енергії!");
       }
@@ -202,6 +232,10 @@ const CosmicMission: React.FC = () => {
         setMaxEnergy={setMaxEnergy}
         energyPerClick={energyPerClick}
         setEnergyPerClick={setEnergyPerClick}
+        regenerationAmountPerTick={regenerationAmountPerTick}
+        setRegenerationAmountPerTick={setRegenerationAmountPerTick}
+        regenerationTickIntervalMs={regenerationTickIntervalMs}
+        setRegenerationTickIntervalMs={setRegenerationTickIntervalMs}
         currentEnergy={cosmicEnergy}
         decreaseCosmicEnergy={decreaseCosmicEnergy}
       />
@@ -211,6 +245,8 @@ const CosmicMission: React.FC = () => {
         totalClicks={totalClicks}
         totalEnergyCollected={totalEnergyCollected}
         allCssChallengesCompleted={allCssChallengesCompleted}
+        currentEnergy={cosmicEnergy} // Pass current energy for 'Full Tank'
+        maxEnergy={maxEnergy} // Pass max energy for 'Full Tank'
       />
 
       <CosmicMissionStage3Launch />
