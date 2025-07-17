@@ -57,7 +57,6 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
       isUnlocked: totalEnergyCollected >= 1000,
       icon: Zap,
     },
-    // Removed "Max Power" achievement as max energy is now fixed at 200.
     {
       id: "marathoner",
       name: "Марафонець",
@@ -78,6 +77,18 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
       description: "Виконай всі CSS-завдання, витративши менше 100 енергії на підказки/рішення.",
       isUnlocked: allCssChallengesCompleted && energySpentOnChallenges <= 100,
       icon: CheckCircle,
+    },
+    {
+      id: "shop-explorer",
+      name: "Дослідник Магазину",
+      description: "Придбай будь-яке покращення в Космічному Магазині.",
+      isUnlocked: (localStorage.getItem("cosmic-mission-energy-per-click") && JSON.parse(localStorage.getItem("cosmic-mission-energy-per-click")!) > 1) ||
+                  (localStorage.getItem("cosmic-mission-regeneration-amount") && JSON.parse(localStorage.getItem("cosmic-mission-regeneration-amount")!) > 1) ||
+                  (localStorage.getItem("cosmic-mission-regeneration-interval") && JSON.parse(localStorage.getItem("cosmic-mission-regeneration-interval")!) < 10000) ||
+                  (localStorage.getItem("cosmic-mission-has-rainbow-crystal") && JSON.parse(localStorage.getItem("cosmic-mission-has-rainbow-crystal")!)) ||
+                  (localStorage.getItem("cosmic-mission-has-star-burst") && JSON.parse(localStorage.getItem("cosmic-mission-has-star-burst")!)) ||
+                  (localStorage.getItem("cosmic-mission-has-cosmic-music") && JSON.parse(localStorage.getItem("cosmic-mission-has-cosmic-music")!)),
+      icon: Zap, // Using Zap for shop-related achievement
     },
   ];
 
