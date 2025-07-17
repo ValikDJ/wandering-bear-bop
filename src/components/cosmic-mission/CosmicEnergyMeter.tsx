@@ -2,17 +2,20 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CustomProgressBar } from "@/components/CustomProgressBar"; // NEW IMPORT
+import { CustomProgressBar } from "@/components/CustomProgressBar";
 
 interface CosmicEnergyMeterProps {
   energy: number;
+  maxEnergy: number; // NEW PROP
 }
 
-const CosmicEnergyMeter: React.FC<CosmicEnergyMeterProps> = ({ energy }) => {
+const CosmicEnergyMeter: React.FC<CosmicEnergyMeterProps> = ({ energy, maxEnergy }) => {
+  const progress = (energy / maxEnergy) * 100;
+
   const progressColorClass = cn(
-    energy > 70 && "bg-green-500",
-    energy <= 70 && energy > 30 && "bg-yellow-500",
-    energy <= 30 && "bg-red-500"
+    progress > 70 && "bg-green-500",
+    progress <= 70 && progress > 30 && "bg-yellow-500",
+    progress <= 30 && "bg-red-500"
   );
 
   return (
@@ -20,8 +23,8 @@ const CosmicEnergyMeter: React.FC<CosmicEnergyMeterProps> = ({ energy }) => {
       <CardContent className="p-4 flex items-center gap-4">
         <Zap className="h-8 w-8 text-primary flex-shrink-0" />
         <div className="flex-grow">
-          <h3 className="text-xl font-bold text-foreground mb-2">Космічна Енергія: {energy} / 100</h3>
-          <CustomProgressBar value={energy} className="w-full h-3" indicatorClassName={progressColorClass} />
+          <h3 className="text-xl font-bold text-foreground mb-2">Космічна Енергія: {energy} / {maxEnergy}</h3>
+          <CustomProgressBar value={progress} className="w-full h-3" indicatorClassName={progressColorClass} />
         </div>
       </CardContent>
     </Card>
