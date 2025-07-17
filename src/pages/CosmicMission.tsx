@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Copy, Rocket, Code, Palette, Star, ChevronDown, CheckSquare, MessageSquareText } from "lucide-react";
-import { toast }ner";
+import { toast } from "sonner"; // Виправлено: 'sonner' замість 'ner"'
 import { Link } from "react-router-dom";
 import LessonNavigation from "@/components/LessonNavigation";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
@@ -505,7 +505,7 @@ const CosmicMission: React.FC = () => {
                   <li><code>opacity</code>: Прозорість елемента.</li>
                   <li><code>width</code> / <code>height</code>: Ширина та висота елемента.</li>
                   <li><code>box-shadow</code>: Тінь для елемента.</li>
-                  <li><code>box-sizing</code>: Як розраховується розмір елемента.</li>
+                  <li><code>box-sizing</code>: Як розраховується загальна ширина та висота елемента.</li>
                 </ul>
                 <p className="mt-2">
                   Експериментуй! Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> для інтерактивної практики, а також <Link to="/examples" className="text-brand-primary hover:underline">Практичні Приклади</Link>, щоб побачити, як інші стилізовані елементи виглядають у дії.
