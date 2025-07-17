@@ -10,7 +10,7 @@ interface CosmicEnergyButtonProps {
   energyPerClick: number;
   allCssChallengesCompleted: boolean;
   hasRainbowCrystal: boolean; // NEW PROP
-  hasStarBurst: boolean; // NEW PROP
+  hasStarBurst: boolean: // NEW PROP
   hasCosmicMusic: boolean; // NEW PROP
 }
 
@@ -20,6 +20,8 @@ interface Particle {
   y: number;
   delay: number;
 }
+
+const LOCAL_STORAGE_LAST_ACHIEVEMENT_KEY = "cosmic-mission-last-achievement"; // NEW: Key for localStorage
 
 const CosmicEnergyButton: React.FC<CosmicEnergyButtonProps> = ({
   currentEnergy,
@@ -33,7 +35,17 @@ const CosmicEnergyButton: React.FC<CosmicEnergyButtonProps> = ({
   const [isClicked, setIsClicked] = useState(false);
   const [showPlusOne, setShowPlusOne] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
-  const [lastAchievement, setLastAchievement] = useState(0);
+  
+  // NEW: Initialize lastAchievement from localStorage
+  const [lastAchievement, setLastAchievement] = useState<number>(() => {
+    try {
+      const storedAchievement = localStorage.getItem(LOCAL_STORAGE_LAST_ACHIEVEMENT_KEY);
+      return storedAchievement ? JSON.parse(storedAchievement) : 0;
+    } catch (error) {
+      console.error("Failed to load last achievement from localStorage:", error);
+      return 0;
+    }
+  });
 
   const energyToAdd = energyPerClick * (allCssChallengesCompleted ? 2 : 1); // Apply bonus here
 
@@ -51,6 +63,15 @@ const CosmicEnergyButton: React.FC<CosmicEnergyButtonProps> = ({
   useEffect(() => {
     checkAchievements(currentEnergy);
   }, [currentEnergy, checkAchievements]);
+
+  // NEW: Effect to save lastAchievement to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem(LOCAL_STORAGE_LAST_ACHIEVEMENT_KEY, JSON.stringify(lastAchievement));
+    } catch (error) {
+      console.error("Failed to save last achievement to localStorage:", error);
+    }
+  }, [lastAchievement]);
 
   const handleClick = () => {
     if (isClicked) return; // Prevent spamming
