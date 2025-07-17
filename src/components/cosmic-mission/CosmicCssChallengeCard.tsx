@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Copy, ChevronDown, Lightbulb, CheckSquare, Rocket } from "lucide-react";
+import { Copy, ChevronDown, Lightbulb, CheckSquare, Rocket, Sparkles } from "lucide-react"; // NEW: Import Sparkles
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,8 +22,8 @@ interface CosmicCssChallengeCardProps {
   lessonLinkText?: string;
   completed: boolean;
   onCompletionChange: (completed: boolean) => void;
-  cosmicEnergy: number; // NEW PROP
-  decreaseCosmicEnergy: (amount: number, actionType: 'hint' | 'solution') => void; // NEW PROP
+  cosmicEnergy: number;
+  decreaseCosmicEnergy: (amount: number, actionType: 'hint' | 'solution') => void;
 }
 
 const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
@@ -37,15 +37,27 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
   lessonLinkText,
   completed,
   onCompletionChange,
-  cosmicEnergy, // NEW
-  decreaseCosmicEnergy, // NEW
+  cosmicEnergy,
+  decreaseCosmicEnergy,
 }) => {
-  const [showSolutionCollapsible, setShowSolutionCollapsible] = useState(false); // State to control solution collapsible visibility
-  const [hintUsed, setHintUsed] = useState(false); // NEW: Track if hint was used
-  const [solutionUsed, setSolutionUsed] = useState(false); // NEW: Track if solution was used
+  const [showSolutionCollapsible, setShowSolutionCollapsible] = useState(false);
+  const [hintUsed, setHintUsed] = useState(false);
+  const [solutionUsed, setSolutionUsed] = useState(false);
+  const [showSparkle, setShowSparkle] = useState(false); // NEW STATE
 
   const HINT_COST = 10;
   const SOLUTION_COST = 25;
+
+  // NEW EFFECT for sparkle animation
+  useEffect(() => {
+    if (completed) {
+      setShowSparkle(true);
+      const timer = setTimeout(() => {
+        setShowSparkle(false);
+      }, 600); // Show sparkle for 0.6 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [completed]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(initialCss);
@@ -86,7 +98,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
           <Rocket className={cn("h-6 w-6", completed ? "text-green-500" : "text-primary")} />
           Завдання {challengeNumber}: {challengeTitle}
         </CardTitle>
-        <div className="flex items-center space-x-2 no-print">
+        <div className="flex items-center space-x-2 no-print relative"> {/* Added relative */}
           <Checkbox
             id={`challenge-${challengeNumber}-completed`}
             checked={completed}
@@ -96,6 +108,9 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
           <Label htmlFor={`challenge-${challengeNumber}-completed`} className="text-lg font-medium text-muted-foreground">
             Виконано
           </Label>
+          {showSparkle && completed && ( // Only show if completed and sparkle is active
+            <Sparkles className="absolute h-8 w-8 text-yellow-400 animate-sparkle-pop -right-8" /> {/* Position relative to parent */}
+          )}
         </div>
       </CardHeader>
       <CardContent>
@@ -116,7 +131,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
                 <Button
                   variant="outline"
                   className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print"
-                  disabled={cosmicEnergy < HINT_COST && !hintUsed} // Disable if not enough energy and hint not used
+                  disabled={cosmicEnergy < HINT_COST && !hintUsed}
                 >
                   <Lightbulb className="h-5 w-5 mr-2 text-yellow-500" />
                   Підказка {hintUsed ? "(Використано)" : `(-${HINT_COST} Енергії)`}
@@ -142,7 +157,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
                   <Button
                     variant="outline"
                     className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print"
-                    disabled={cosmicEnergy < SOLUTION_COST && !solutionUsed} // Disable if not enough energy and solution not used
+                    disabled={cosmicEnergy < SOLUTION_COST && !solutionUsed}
                   >
                     <CheckSquare className="h-5 w-5 mr-2 text-green-500" />
                     Рішення {solutionUsed ? "(Використано)" : `(-${SOLUTION_COST} Енергії)`}
