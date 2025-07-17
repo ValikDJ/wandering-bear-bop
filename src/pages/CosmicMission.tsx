@@ -186,11 +186,8 @@ const CosmicMission: React.FC = () => {
     toast.success("CSS-код скопійовано! 🎨");
   };
 
-  const handlePublicationInstructions = () => {
-    // Placeholder for actual publication instructions link
-    toast.info("Інструкції з публікації будуть тут! 🚀");
-    // In a real app, you might link to a specific page or external resource:
-    // window.open("https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site", "_blank");
+  const handleSubmitInstructions = () => {
+    toast.info("Збережи файли на платформі Logika та покажи вчителю! 🧑‍🏫");
   };
 
   return (
@@ -199,7 +196,7 @@ const CosmicMission: React.FC = () => {
         🚀 Космічна Місія: Будуємо та Прикрашаємо Твій Сайт!
       </h1>
       <p className="text-xl text-center mb-10 max-w-3xl mx-auto text-muted-foreground">
-        Вітаю, юний Космічний Архітекторе! Сьогодні твоя місія — створити власну веб-сторінку, яка стане твоєю особистою космічною базою в Інтернеті. Ми пройдемо три важливі етапи: будівництво каркасу (HTML), прикрашання (CSS) та запуск у космос (публікація)!
+        Вітаю, юний Космічний Архітекторе! Сьогодні твоя місія — створити власну веб-сторінку, яка стане твоєю особистою космічною базою в Інтернеті. Ми пройдемо три важливі етапи: будівництво каркасу (HTML), прикрашання (CSS) та запуск у космос (перегляд та здача)!
       </p>
 
       {/* Етап 1: Структура HTML */}
@@ -224,6 +221,9 @@ const CosmicMission: React.FC = () => {
 
           <div className="relative mb-6">
             <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Твій HTML-креслення:</h4>
+            <p className="mb-2 text-muted-foreground text-sm">
+              Скопіюй цей код у вкладку **HTML** на платформі Logika. Потім зміни текст та посилання, щоб зробити його унікальним!
+            </p>
             <SyntaxHighlighter language="html" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '500px', overflowY: 'auto' }}>
               {htmlTemplate}
             </SyntaxHighlighter>
@@ -259,6 +259,14 @@ const CosmicMission: React.FC = () => {
               </div>
             </CollapsibleContent>
           </Collapsible>
+
+          <p className="mt-6 text-muted-foreground">
+            Хочеш більше дізнатися про HTML-теги або потренуватися їх створювати? Відвідай:
+            <ul className="list-disc list-inside ml-4 mt-2">
+              <li><Link to="/html-tags" className="text-brand-primary hover:underline">Урок: HTML Теги</Link></li>
+              <li><Link to="/examples#example-html-creator" className="text-brand-primary hover:underline">Практика: Створи свій HTML-елемент!</Link></li>
+            </ul>
+          </p>
         </CardContent>
       </Card>
 
@@ -280,8 +288,8 @@ const CosmicMission: React.FC = () => {
           <SyntaxHighlighter language="html" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', marginBottom: '20px' }}>
             {`<link rel="stylesheet" href="style.css">`}
           </SyntaxHighlighter>
-          <p className="mb-4 text-muted-foreground">
-            А ось базові стилі, які ти можеш скопіювати у файл `style.css` (створи його поруч з `index.html`):
+          <p className="mb-4 text-muted-foreground text-sm">
+            А ось базові стилі, які ти можеш скопіювати у вкладку **CSS** на платформі Logika (створи її поруч з `index.html`). Потім експериментуй з кольорами та іншими властивостями!
           </p>
           <div className="relative mb-6">
             <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Твої CSS-пензлі:</h4>
@@ -296,6 +304,31 @@ const CosmicMission: React.FC = () => {
               <Copy className="mr-2 h-4 w-4" /> Копіювати CSS
             </Button>
           </div>
+
+          <Collapsible className="mt-6">
+            <CollapsibleTrigger asChild>
+              <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
+                🎨 Ідеї для стилізації (Натисни, щоб дізнатися)
+                <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+              <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
+                <p className="mb-2">Спробуй змінити ці властивості, щоб твоя база виглядала унікально:</p>
+                <ul className="list-disc list-inside">
+                  <li>`background-color`: Зміни колір фону для `body` або `section`.</li>
+                  <li>`color`: Зміни колір тексту для заголовків (`h1`, `h2`) та абзаців (`p`).</li>
+                  <li>`font-size`: Збільш або зменш розмір шрифту.</li>
+                  <li>`border`: Додай рамки до `section` або `img`.</li>
+                  <li>`border-radius`: Заокругли кути елементів.</li>
+                  <li>`text-align`: Вирівняй текст по центру (`center`), ліворуч (`left`) або праворуч (`right`).</li>
+                </ul>
+                <p className="mt-2">
+                  Експериментуй! Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> або <Link to="/css-properties" className="text-brand-primary hover:underline">Урок з CSS Властивостей</Link> для підказок!
+                </p>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </CardContent>
       </Card>
 
@@ -304,22 +337,22 @@ const CosmicMission: React.FC = () => {
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-foreground flex items-center gap-3">
             <Rocket className="h-8 w-8 text-primary" />
-            Етап 3: Запускаємо в Космос! (Публікація)
+            Етап 3: Запускаємо в Космос! (Перегляд та Здача)
           </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="mb-4 text-muted-foreground">
-            Твоя космічна база готова до запуску! Щоб її побачив весь світ, ми використаємо технологію GitHub Pages. Це як твій особистий космодром, звідки твій сайт полетить у безмежний Інтернет!
+            Твоя космічна база готова до запуску! Після того, як ти вставив HTML та CSS код у відповідні вкладки на платформі Logika, ти зможеш одразу побачити результат!
           </p>
           <p className="mb-6 text-muted-foreground">
-            Для цього тобі потрібно буде завантажити файли `index.html` та `style.css` на GitHub.
+            Коли ти впевнений, що твій сайт виглядає чудово, настав час показати його своєму вчителю!
           </p>
           <div className="text-center mb-6">
             <Button
-              onClick={handlePublicationInstructions}
+              onClick={handleSubmitInstructions}
               className="bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover text-lg px-8 py-4 rounded-full shadow-lg transition-all duration-300 hover:scale-105 no-print"
             >
-              ➡️ ІНСТРУКЦІЯ З ПУБЛІКАЦІЇ ⬅️
+              ➡️ Як здати роботу вчителю ⬅️
             </Button>
           </div>
         </CardContent>
@@ -338,15 +371,15 @@ const CosmicMission: React.FC = () => {
             Перевір, чи все готово до запуску! Познач виконані завдання:
           </p>
           <ul className="list-none space-y-3 text-muted-foreground">
-            <li>[ ] Я створив файл `index.html` та скопіював туди HTML-креслення.</li>
+            <li>[ ] Я скопіював HTML-креслення у вкладку HTML на платформі Logika.</li>
             <li>[ ] Я замінив "Назва Твоєї Космічної Місії" на свою назву.</li>
             <li>[ ] Я замінив посилання в навігації (`&lt;nav&gt;`) на свої розділи.</li>
             <li>[ ] Я замінив заголовки (`&lt;h2&gt;`) та текст (`&lt;p&gt;`) у кожній `&lt;section&gt;` на свою інформацію.</li>
             <li>[ ] Я додав хоча б одну картинку (`&lt;img&gt;`) з атрибутами `src` та `alt`.</li>
-            <li>[ ] Я створив файл `style.css` поруч з `index.html` та скопіював туди CSS-пензлі.</li>
+            <li>[ ] Я скопіював CSS-пензлі у вкладку CSS на платформі Logika.</li>
             <li>[ ] Я змінив кольори або інші стилі в `style.css` на свій смак.</li>
             <li>[ ] Я перевірив, чи всі посилання та картинки працюють.</li>
-            <li>[ ] Я завантажив `index.html` та `style.css` на GitHub Pages.</li>
+            <li>[ ] Я показав свій сайт вчителю.</li>
           </ul>
         </CardContent>
       </Card>
