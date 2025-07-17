@@ -23,7 +23,13 @@ const CosmicEnergyMeter: React.FC<CosmicEnergyMeterProps> = ({ energy, maxEnergy
       <CardContent className="p-4 flex items-center gap-4">
         <Zap className="h-8 w-8 text-primary flex-shrink-0" />
         <div className="flex-grow">
-          <h3 className="text-xl font-bold text-foreground mb-2">Космічна Енергія: {energy} / {maxEnergy}</h3>
+          <h3 className="text-xl font-bold text-foreground mb-2">
+            Космічна Енергія:{" "}
+            <span key={energy} className="inline-block animate-energy-pulse"> {/* Added key and animation class */}
+              {energy}
+            </span>{" "}
+            / {maxEnergy}
+          </h3>
           <CustomProgressBar value={progress} className="w-full h-3" indicatorClassName={progressColorClass} />
         </div>
       </CardContent>

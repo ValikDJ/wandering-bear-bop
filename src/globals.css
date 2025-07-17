@@ -350,6 +350,26 @@
   animation: pulse-rainbow 4s ease infinite;
 }
 
+/* NEW: Energy Pulse for Cosmic Energy Meter */
+@keyframes energy-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-energy-pulse {
+  animation: energy-pulse 0.3s ease-out; /* Quick pulse on change */
+}
+
 
 /* Print Styles */
 @media print {

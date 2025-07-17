@@ -4,6 +4,7 @@ import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 import { useTheme } from "@/hooks/use-theme";
 import { ThemeMode } from "@/lib/ThemeManager";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button"; // Import Button
 
 // Імпорт нових модульних компонентів
 import CosmicMissionHeader from "@/components/cosmic-mission/CosmicMissionHeader";
@@ -16,7 +17,7 @@ import CosmicMissionWhatsNext from "@/components/cosmic-mission/CosmicMissionWha
 import CosmicEnergyMeter from "@/components/cosmic-mission/CosmicEnergyMeter";
 import CosmicEnergyButton from "@/components/CosmicEnergyButton";
 import CosmicShopDialog from "@/components/cosmic-mission/CosmicShopDialog";
-import CosmicAchievementsDialog from "@/components/cosmic-mission/CosmicAchievementsDialog"; // NEW IMPORT
+import CosmicAchievementsDialog from "@/components/cosmic-mission/CosmicAchievementsDialog";
 import { cssChallenges } from "@/data/cosmicCssChallenges";
 
 const LOCAL_STORAGE_ENERGY_KEY = "cosmic-mission-energy";
@@ -31,7 +32,9 @@ const LOCAL_STORAGE_HAS_RAINBOW_CRYSTAL_KEY = "cosmic-mission-has-rainbow-crysta
 const LOCAL_STORAGE_HAS_STAR_BURST_KEY = "cosmic-mission-has-star-burst";
 const LOCAL_STORAGE_HAS_COSMIC_MUSIC_KEY = "cosmic-mission-has-cosmic-music";
 const LOCAL_STORAGE_ENERGY_SPENT_ON_CHALLENGES_KEY = "cosmic-mission-energy-spent-on-challenges";
-
+const LOCAL_STORAGE_STAGE1_COMPLETED_KEY = "cosmic-mission-stage1-completed"; // Added for reset
+const LOCAL_STORAGE_STAGE2_COMPLETED_KEY = "cosmic-mission-stage2-completed"; // Added for reset
+const LOCAL_STORAGE_CHECKLIST_COMPLETED_KEY = "cosmic-mission-checklist-progress"; // Added for reset
 
 const CosmicMission: React.FC = () => {
   useScrollToHash();
@@ -231,6 +234,29 @@ const CosmicMission: React.FC = () => {
     }
   }, [challengeCompletion]);
 
+  const handleResetProgress = () => {
+    if (window.confirm("Ви впевнені, що хочете скинути весь прогрес Космічної Місії? Це видалить всі збережені дані.")) {
+      localStorage.removeItem(LOCAL_STORAGE_ENERGY_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_MAX_ENERGY_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_ENERGY_PER_CLICK_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_TOTAL_CLICKS_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_TOTAL_ENERGY_COLLECTED_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_REGENERATION_AMOUNT_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_REGENERATION_INTERVAL_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_KEY_CHALLENGES);
+      localStorage.removeItem(LOCAL_STORAGE_HAS_RAINBOW_CRYSTAL_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_HAS_STAR_BURST_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_HAS_COSMIC_MUSIC_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_ENERGY_SPENT_ON_CHALLENGES_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_STAGE1_COMPLETED_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_STAGE2_COMPLETED_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_CHECKLIST_COMPLETED_KEY); // Clear the main checklist progress too
+
+      toast.success("Прогрес Космічної Місії скинуто!");
+      window.location.reload(); // Reload the page to reset all states
+    }
+  };
+
   return (
     <div className="py-8">
       <CosmicMissionHeader />
@@ -308,6 +334,16 @@ const CosmicMission: React.FC = () => {
       />
       {/* Audio element for cosmic music */}
       <audio ref={audioRef} src="/sounds/cosmic_beep.mp3" preload="auto" />
+
+      <div className="text-center mt-12 no-print">
+        <Button
+          onClick={handleResetProgress}
+          variant="destructive"
+          className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 text-lg"
+        >
+          Скинути Прогрес Місії
+        </Button>
+      </div>
     </div>
   );
 };
