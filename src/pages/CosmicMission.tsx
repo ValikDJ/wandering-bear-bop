@@ -15,8 +15,8 @@ import CosmicMissionChecklist from "@/components/CosmicMissionChecklist";
 import CosmicMissionWhatsNext from "@/components/cosmic-mission/CosmicMissionWhatsNext";
 import CosmicEnergyMeter from "@/components/cosmic-mission/CosmicEnergyMeter";
 import CosmicEnergyButton from "@/components/CosmicEnergyButton";
-import CosmicShopDialog from "@/components/cosmic-mission/CosmicShopDialog"; // NEW IMPORT
-import CosmicAchievements from "@/components/cosmic-mission/CosmicAchievements";
+import CosmicShopDialog from "@/components/cosmic-mission/CosmicShopDialog";
+import CosmicAchievementsDialog from "@/components/cosmic-mission/CosmicAchievementsDialog"; // NEW IMPORT
 import { cssChallenges } from "@/data/cosmicCssChallenges";
 
 const LOCAL_STORAGE_ENERGY_KEY = "cosmic-mission-energy";
@@ -278,8 +278,8 @@ const CosmicMission: React.FC = () => {
         setHasCosmicMusic={setHasCosmicMusic}
       />
 
-      {/* NEW: Cosmic Achievements Placeholder */}
-      <CosmicAchievements
+      {/* NEW: Cosmic Achievements Dialog */}
+      <CosmicAchievementsDialog
         totalClicks={totalClicks}
         totalEnergyCollected={totalEnergyCollected}
         allCssChallengesCompleted={allCssChallengesCompleted}

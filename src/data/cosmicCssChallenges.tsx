@@ -127,7 +127,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 5: Космічна Кнопка",
     description: "Створи кнопку для запуску ракети! Додай тег `<button>` з текстом 'Запустити Ракету!' та зроби її фон яскраво-зеленим (`#4CAF50`) та текст білим.",
     previewContent: (
-      <button style={{ backgroundColor: '#00ff88', color: 'white', padding: '10px 20px', borderRadius: '8px', borderWidth: '0', borderStyle: 'none', cursor: 'pointer' }}>
+      <button style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px 20px', borderRadius: '5px', borderWidth: '0', borderStyle: 'none', cursor: 'pointer', fontWeight: 'bold' }}>
         Запустити!
       </button>
     ),
@@ -166,7 +166,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 7: Відступи для Планет",
     description: "Додай внутрішні відступи (padding) до блоку з інформацією про планету, щоб текст не 'прилипав' до країв. Встанови `padding: 20px;`.",
     previewContent: (
-      <div style={{ padding: '20px', backgroundColor: '#1a1a3a', borderWidth: '1px', borderStyle: 'solid', borderColor: '#4ecdc4', borderRadius: '10px', color: '#e0e0e0' }}>
+      <div style={{ padding: '20px', backgroundColor: '#2a2a4a', borderWidth: '1px', borderStyle: 'solid', borderColor: '#ff69b4', borderRadius: '8px', color: '#e0e0e0' }}>
         <p>Це модуль космічної бази. Він має темний фон та бірюзову рамку.</p>
       </div>
     ),
@@ -186,7 +186,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     description: "Додай зовнішні відступи (margin) між двома блоками 'Астероїд', щоб вони не злипалися. Встанови `margin-bottom: 15px;` для першого астероїда.",
     previewContent: (
       <>
-        <div style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: '#b3ffff', backgroundColor: '#1f1f3f', color: '#e0e0e0', padding: '10px', marginBottom: '15px', borderRadius: '8px' }}>Астероїд Альфа</div>
+        <div style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: '#b3ffff', backgroundColor: '#1f1f3f', color: '#e0e0e0', padding: '10px', borderRadius: '8px', marginBottom: '15px' }}>Астероїд Альфа</div>
         <div style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: '#b3ffff', backgroundColor: '#1f1f3f', color: '#e0e0e0', padding: '10px', borderRadius: '8px' }}>Астероїд Бета</div>
       </>
     ),
