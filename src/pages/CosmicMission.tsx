@@ -33,10 +33,10 @@ const CosmicMission: React.FC = () => {
   const [cosmicEnergy, setCosmicEnergy] = useState<number>(() => {
     try {
       const storedEnergy = localStorage.getItem(LOCAL_STORAGE_ENERGY_KEY);
-      return storedEnergy ? JSON.parse(storedEnergy) : 100; // Default to 100
+      return storedEnergy ? JSON.parse(storedEnergy) : 200; // Default to 200
     } catch (error) {
       console.error("Failed to load cosmic energy from localStorage:", error);
-      return 100;
+      return 200;
     }
   });
 
