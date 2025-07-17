@@ -229,17 +229,23 @@ const CosmicMission: React.FC = () => {
             </CollapsibleTrigger>
             <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
               <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
-                <p className="mb-2">Спробуй змінити ці властивості, щоб твоя база виглядала унікально:</p>
+                <p className="mb-2">Використовуй властивості, які ти вже вивчив в уроці <Link to="/css-properties" className="text-brand-primary hover:underline">"CSS Властивості"</Link>! Спробуй змінити ці властивості, щоб твоя база виглядала унікально:</p>
                 <ul className="list-disc list-inside">
-                  <li>`background-color`: Зміни колір фону для `body` або `section`.</li>
                   <li>`color`: Зміни колір тексту для заголовків (`h1`, `h2`) та абзаців (`p`).</li>
-                  <li>`font-size`: Збільш або зменш розмір шрифту.</li>
-                  <li>`border`: Додай рамки до `section` або `img`.</li>
-                  <li>`border-radius`: Заокругли кути елементів.</li>
+                  <li>`background-color`: Зміни колір фону для `body`, `header`, `main` або `section`.</li>
+                  <li>`font-size`: Збільш або зменш розмір шрифту для різних елементів.</li>
+                  <li>`font-family`: Зміни тип шрифту.</li>
                   <li>`text-align`: Вирівняй текст по центру (`center`), ліворуч (`left`) або праворуч (`right`).</li>
+                  <li>`margin`: Додай зовнішні відступи, щоб елементи не "злипалися".</li>
+                  <li>`padding`: Додай внутрішні відступи, щоб текст не "прилипав" до країв елементів.</li>
+                  <li>`border`: Додай рамки до `section`, `img` або `table`.</li>
+                  <li>`border-radius`: Заокругли кути елементів, наприклад, для картинок або секцій.</li>
+                  <li>`text-decoration`: Прибери підкреслення у посилань (`a { text-decoration: none; }`).</li>
+                  <li>`opacity`: Зроби елементи напівпрозорими.</li>
+                  <li>`width` / `height`: Зміни ширину або висоту елементів (наприклад, картинок).</li>
                 </ul>
                 <p className="mt-2">
-                  Експериментуй! Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> або <Link to="/css-properties" className="text-brand-primary hover:underline">Урок з CSS Властивостей</Link> для підказок!
+                  Експериментуй! Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> для інтерактивної практики!
                 </p>
               </div>
             </CollapsibleContent>
@@ -292,7 +298,7 @@ const CosmicMission: React.FC = () => {
             <li>[ ] Я перевірив заголовки (`&lt;h2&gt;`) та текст (`&lt;p&gt;`) у своєму HTML.</li>
             <li>[ ] Я перевірив картинки (`&lt;img&gt;`) у своєму HTML.</li>
             <li>[ ] Я скопіював базові CSS-стилі у вкладку CSS на платформі Logika.</li>
-            <li>[ ] Я змінив кольори або інші стилі в CSS, щоб прикрасити свій сайт.</li>
+            <li>[ ] Я застосував вивчені CSS-властивості (наприклад, `color`, `background-color`, `font-size`, `margin`, `padding`, `border`, `border-radius`, `text-align`) до елементів свого сайту.</li>
             <li>[ ] Я перевірив, чи всі посилання та картинки працюють після стилізації.</li>
             <li>[ ] Я показав свій стилізований сайт вчителю.</li>
           </ul>
