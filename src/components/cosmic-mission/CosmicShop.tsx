@@ -11,7 +11,7 @@ interface CosmicShopProps {
   energyPerClick: number;
   setEnergyPerClick: (value: number) => void;
   regenerationAmountPerTick: number;
-  setRegenerationAmountPerTick: (value: number) => void;
+  setRegenerationAmountPerTick: React.Dispatch<React.SetStateAction<number>>; // FIX: Changed type here
   regenerationTickIntervalMs: number;
   setRegenerationTickIntervalMs: (value: number) => void;
   currentEnergy: number;
@@ -153,7 +153,7 @@ const CosmicShop: React.FC<CosmicShopProps> = ({
               <p className="text-sm text-muted-foreground mb-2">{upgrade.description}</p>
             </div>
             <div className="flex items-center justify-between mt-2">
-              <span className="text-lg font-bold text-foreground flex items-center gap-1"> {/* Changed text-primary to text-foreground */}
+              <span className="text-lg font-bold text-foreground flex items-center gap-1">
                 <Zap className="h-5 w-5 text-yellow-500" /> {upgrade.cost}
               </span>
               {upgrade.isPurchased ? (
@@ -184,7 +184,7 @@ const CosmicShop: React.FC<CosmicShopProps> = ({
               <p className="text-sm text-muted-foreground mb-2">{upgrade.description}</p>
             </div>
             <div className="flex items-center justify-between mt-2">
-              <span className="text-lg font-bold text-foreground flex items-center gap-1"> {/* Changed text-primary to text-foreground */}
+              <span className="text-lg font-bold text-foreground flex items-center gap-1">
                 <Zap className="h-5 w-5 text-yellow-500" /> {upgrade.cost}
               </span>
               {upgrade.isPurchased ? (
@@ -219,7 +219,7 @@ const CosmicShop: React.FC<CosmicShopProps> = ({
                 <p className="text-sm text-muted-foreground mb-2">{upgrade.description}</p>
               </div>
               <div className="flex items-center justify-between mt-2">
-                <span className="text-lg font-bold text-foreground flex items-center gap-1"> {/* Changed text-primary to text-foreground */}
+                <span className="text-lg font-bold text-foreground flex items-center gap-1">
                   <Zap className="h-5 w-5 text-yellow-500" /> {upgrade.cost}
                 </span>
                 {upgrade.isPurchased ? (

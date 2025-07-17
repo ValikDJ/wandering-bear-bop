@@ -69,7 +69,7 @@ const Layout: React.FC<LayoutProps> = ({
       <div className="flex flex-1">
         {isMobile || sidebarMode === 'hidden' ? (
           <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-            <SheetContent side="left" className="w-64 sm:w-72 h-full p-0 no-print z-50"> {/* Added z-50 to ensure it's on top */}
+            <SheetContent side="left" className="w-64 sm:w-72 h-full p-0 no-print z-50">
               <SheetTitle className="sr-only">Навігація по сайту</SheetTitle>
               <SheetDescription className="sr-only">Перелік уроків та розділів сайту.</SheetDescription>
               <Sidebar
@@ -116,7 +116,7 @@ const Layout: React.FC<LayoutProps> = ({
       )}
 
       {/* Sidebar Toggle Button (Desktop only) */}
-      {!isMobile && ( {/* Condition changed to always show on desktop */}
+      {!isMobile && ( /* Condition changed to always show on desktop */
         <Button
           onClick={toggleSidebar}
           variant="outline"
@@ -124,7 +124,8 @@ const Layout: React.FC<LayoutProps> = ({
           className="fixed top-20 left-4 z-40 shadow-lg bg-card text-card-foreground hover:bg-card/80 no-print"
           aria-label={sidebarMode === 'interactive-hover' ? "Розгорнути бічну панель" : "Згорнути бічну панель"}
         >
-          {sidebarMode === 'interactive-hover' || sidebarMode === 'hidden' ? ( {/* Show PanelLeftOpen when interactive-hover or hidden */}
+          {/* Show PanelLeftOpen when interactive-hover or hidden */}
+          {sidebarMode === 'interactive-hover' || sidebarMode === 'hidden' ? (
             <PanelLeftOpen className="h-5 w-5" />
           ) : (
             <PanelLeftClose className="h-5 w-5" />
