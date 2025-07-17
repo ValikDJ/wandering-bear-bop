@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import LessonNavigation from "@/components/LessonNavigation";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"; // For details/summary like behavior
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import CosmicMissionChecklist from "@/components/CosmicMissionChecklist"; // NEW IMPORT
 
 const cssTemplate = `/* style.css - Твої віртуальні пензлі! */
