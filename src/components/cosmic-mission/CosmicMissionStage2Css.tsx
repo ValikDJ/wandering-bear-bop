@@ -25,32 +25,32 @@ const cssTemplateUncommented = `/* style.css - Твої віртуальні п�
 color: #b3ffff;
 font-size: 1.2em;
 font-family: 'Arial', sans-serif;
-text-align: center;
+text-align: center; /* або left, right, justify */
 line-height: 1.6;
-text-decoration: none;
-font-weight: bold;
+text-decoration: none; /* або underline, line-through */
+font-weight: bold; /* або normal, lighter */
 
 /* Властивості для фону */
 background-color: #2a2a4a;
 
 /* Властивості для рамок та кутів */
-border: 2px solid #8a2be2;
-border-radius: 8px;
+border: 2px solid #8a2be2; /* товщина, стиль (solid, dashed, dotted), колір */
+border-radius: 8px; /* або 50% для кола */
 
 /* Властивості для відступів */
-margin: 20px;
-padding: 15px;
+margin: 20px; /* або margin-top, margin-bottom, margin-left, margin-right */
+padding: 15px; /* або padding-top, padding-bottom, padding-left, padding-right */
 
 /* Властивості для розмірів */
-width: 100%;
-height: auto;
+width: 100%; /* або 200px, 50% */
+height: auto; /* або 150px */
 
 /* Інші корисні властивості */
-opacity: 0.8;
-display: block;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-box-sizing: border-box;
-cursor: pointer;
+opacity: 0.8; /* прозорість (від 0 до 1) */
+display: block; /* або inline, inline-block, flex */
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* тінь */
+box-sizing: border-box; /* як розраховується загальна ширина/висота */
+cursor: pointer; /* тип курсору */
 `;
 
 const cssTemplateCommented = `/* style.css - Твої віртуальні пензлі! */
@@ -228,103 +228,394 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
           </CollapsibleContent>
         </Collapsible>
 
-        {/* Приклад простого дизайну: "Космічна Посилка" */}
-        <Card className="mt-12 bg-card shadow-md">
+        {/* Прості ідеї для стилізації твого сайту */}
+        <h3 className="text-3xl font-bold text-foreground mt-12 mb-6 text-center">
+          Прості ідеї для стилізації твого сайту
+        </h3>
+        <p className="mb-8 text-muted-foreground text-center max-w-2xl mx-auto">
+          Ось кілька легких прикладів, які ти можеш спробувати додати до свого файлу `style.css`. Просто скопіюй код і встав його, а потім змінюй значення!
+        </p>
+
+        {/* Приклад 1: Стиль для всього сайту (body) */}
+        <Card className="mb-6 bg-card shadow-md">
           <CardHeader>
             <CardTitle className="text-2xl text-foreground flex items-center gap-2">
               <Lightbulb className="h-6 w-6 text-yellow-500" />
-              Приклад простого дизайну: "Космічна Посилка"
+              Стиль для всього сайту (`body`)
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-muted-foreground">
-              Ось приклад, як можна стилізувати звичайний блок (`&lt;div&gt;`) за допомогою кількох CSS-властивостей. Спробуй повторити цей дизайн на своєму сайті!
+              Зміни колір фону та тексту для всієї сторінки.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
                 <div
                   style={{
-                    backgroundColor: '#4a2a4a', // Dark purple
-                    color: '#b3ffff', // Neon cyan
+                    backgroundColor: '#f0f8ff', // AliceBlue
+                    color: '#333', // Dark gray text
                     padding: '20px',
-                    border: '2px solid #ff69b4', // Pink border
-                    borderRadius: '15px',
+                    borderRadius: '8px',
                     textAlign: 'center',
-                    boxShadow: '0 0 15px rgba(179, 255, 255, 0.5)', // Glowing effect
-                    fontSize: '1.2em',
-                    fontWeight: 'bold',
                   }}
-                  className="flex items-center justify-center min-h-[120px] rounded-md"
+                  className="min-h-[100px] flex items-center justify-center"
                 >
-                  Космічна Посилка Прибула!
+                  <p>Тут буде твій сайт зі світлим фоном та темним текстом.</p>
                 </div>
               </div>
               <div>
-                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код для цього:</h4>
-                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '250px', overflowY: 'auto' }}>
-                  {`.cosmic-package {
-  background-color: #4a2a4a; /* Темно-фіолетовий фон */
-  color: #b3ffff; /* Неоновий синій текст */
-  padding: 20px; /* Внутрішній відступ */
-  border: 2px solid #ff69b4; /* Рожева рамка */
-  border-radius: 15px; /* Заокруглені кути */
-  text-align: center; /* Текст по центру */
-  box-shadow: 0 0 15px rgba(179, 255, 255, 0.5); /* Світіння */
-  font-size: 1.2em; /* Розмір шрифту */
-  font-weight: bold; /* Жирний шрифт */
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                  {`body {
+  background-color: #f0f8ff; /* Світло-блакитний фон */
+  color: #333; /* Темно-сірий текст */
 }`}
                 </SyntaxHighlighter>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Щоб використати цей стиль, додай `class="cosmic-package"` до свого `&lt;div&gt;` або іншого тегу в HTML.
+                  Встав цей код у свій `style.css` файл.
                 </p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* NEW: Приклад простого дизайну: "Космічний Портрет" */}
-        <Card className="mt-12 bg-card shadow-md">
+        {/* Приклад 2: Стиль для головного заголовка (h1) */}
+        <Card className="mb-6 bg-card shadow-md">
           <CardHeader>
             <CardTitle className="text-2xl text-foreground flex items-center gap-2">
               <Lightbulb className="h-6 w-6 text-yellow-500" />
-              Приклад простого дизайну: "Космічний Портрет"
+              Стиль для головного заголовка (`h1`)
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-muted-foreground">
-              Ось як можна стилізувати зображення (`&lt;img&gt;`), щоб воно виглядало як космічний портрет!
+              Зроби головний заголовок по центру та зміни його колір.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                <h1 style={{ textAlign: 'center', color: '#007bff', fontSize: '2em' }} className="p-2">
+                  Мій Крутий Заголовок
+                </h1>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                  {`h1 {
+  text-align: center; /* Вирівнювання по центру */
+  color: #007bff; /* Синій колір */
+}`}
+                </SyntaxHighlighter>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Встав цей код у свій `style.css` файл.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Приклад 3: Стиль для абзаців (p) */}
+        <Card className="mb-6 bg-card shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              Стиль для абзаців (`p`)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Зміни розмір шрифту та колір для всіх абзаців.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                <p style={{ fontSize: '16px', color: '#555', padding: '10px', border: '1px dashed #ccc', borderRadius: '5px' }}>
+                  Це приклад тексту в абзаці. Він стане трохи більшим і сірим.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                  {`p {
+  font-size: 16px; /* Розмір шрифту */
+  color: #555; /* Темно-сірий колір */
+}`}
+                </SyntaxHighlighter>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Встав цей код у свій `style.css` файл.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Приклад 4: Стиль для зображень (img) */}
+        <Card className="mb-6 bg-card shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              Стиль для зображень (`img`)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Додай рамку та заокругли кути для всіх картинок.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex justify-center items-center p-4">
                 <img
-                  src="https://picsum.photos/id/1080/200/200"
-                  alt="Космічний портрет"
-                  style={{
-                    border: '5px solid #ff69b4', // Pink border
-                    borderRadius: '50%', // Circular shape
-                    boxShadow: '0 0 20px rgba(255, 105, 180, 0.7)', // Pink glow
-                    transition: 'transform 0.3s ease-in-out', // Smooth hover effect
-                  }}
-                  className="max-w-full h-auto block"
+                  src="https://picsum.photos/id/237/150/150"
+                  alt="Приклад зображення"
+                  style={{ border: '2px solid green', borderRadius: '10px', maxWidth: '100%', height: 'auto' }}
+                  className="shadow-sm"
                 />
               </div>
               <div>
-                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код для цього:</h4>
-                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '250px', overflowY: 'auto' }}>
-                  {`.cosmic-portrait {
-  border: 5px solid #ff69b4; /* Рожева рамка */
-  border-radius: 50%; /* Кругла форма */
-  box-shadow: 0 0 20px rgba(255, 105, 180, 0.7); /* Рожеве світіння */
-  transition: transform 0.3s ease-in-out; /* Плавний перехід при наведенні */
-}
-
-.cosmic-portrait:hover {
-  transform: scale(1.05); /* Збільшення при наведенні */
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                  {`img {
+  border: 2px solid green; /* Зелена рамка */
+  border-radius: 10px; /* Заокруглені кути */
 }`}
                 </SyntaxHighlighter>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Щоб використати цей стиль, додай `class="cosmic-portrait"` до свого `&lt;img&gt;` тегу в HTML.
+                  Встав цей код у свій `style.css` файл.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Приклад 5: Стиль для посилань (a) */}
+        <Card className="mb-6 bg-card shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              Стиль для посилань (`a`)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Прибери підкреслення та зміни колір для всіх посилань.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                <a href="#" style={{ textDecoration: 'none', color: 'purple', padding: '5px', border: '1px dotted purple', borderRadius: '3px' }}>
+                  Посилання без підкреслення
+                </a>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                  {`a {
+  text-decoration: none; /* Прибирає підкреслення */
+  color: purple; /* Фіолетовий колір */
+}`}
+                </SyntaxHighlighter>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Встав цей код у свій `style.css` файл.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Приклад 6: Стиль для кнопок (button) */}
+        <Card className="mb-6 bg-card shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              Стиль для кнопок (`button`)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Зроби кнопки яскравими та заокругленими.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex justify-center items-center p-4">
+                <button style={{ backgroundColor: '#28a745', color: 'white', padding: '8px 15px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>
+                  Натисни мене!
+                </button>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                  {`button {
+  background-color: #28a745; /* Зелений фон */
+  color: white; /* Білий текст */
+  padding: 8px 15px; /* Внутрішні відступи */
+  border-radius: 5px; /* Заокруглені кути */
+}`}
+                </SyntaxHighlighter>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Встав цей код у свій `style.css` файл.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Приклад 7: Стиль для блоків (div, section) */}
+        <Card className="mb-6 bg-card shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              Стиль для блоків (`div`, `section`)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Додай фон, рамку та внутрішні відступи до блоків.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                <div style={{ padding: '15px', backgroundColor: '#e9ecef', border: '1px solid #ccc', borderRadius: '8px', color: '#333' }}>
+                  <p>Це блок з інформацією. Він має світлий фон та рамку.</p>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                  {`div, section {
+  padding: 15px; /* Внутрішній відступ */
+  background-color: #e9ecef; /* Світло-сірий фон */
+  border: 1px solid #ccc; /* Сіра рамка */
+  border-radius: 8px; /* Заокруглені кути */
+}`}
+                </SyntaxHighlighter>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Встав цей код у свій `style.css` файл.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Приклад 8: Стиль для списків (ul, ol, li) */}
+        <Card className="mb-6 bg-card shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              Стиль для списків (`ul`, `ol`, `li`)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Додай відступ зліва для списків та зміни колір елементів.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                <ul style={{ marginLeft: '25px', color: '#444' }}>
+                  <li>Елемент списку 1</li>
+                  <li>Елемент списку 2</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                  {`ul, ol {
+  margin-left: 25px; /* Відступ зліва */
+}
+
+li {
+  color: #444; /* Колір тексту елементів списку */
+}`}
+                </SyntaxHighlighter>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Встав цей код у свій `style.css` файл.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Приклад 9: Стиль для таблиць (table, th, td) */}
+        <Card className="mb-6 bg-card shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              Стиль для таблиць (`table`, `th`, `td`)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Додай рамки до таблиці та її комірок.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ border: '1px solid #ccc', padding: '8px', backgroundColor: '#f8f9fa', color: '#333' }}>Заголовок 1</th>
+                      <th style={{ border: '1px solid #ccc', padding: '8px', backgroundColor: '#f8f9fa', color: '#333' }}>Заголовок 2</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style={{ border: '1px solid #ccc', padding: '8px', color: '#555' }}>Дані 1</td>
+                      <td style={{ border: '1px solid #ccc', padding: '8px', color: '#555' }}>Дані 2</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '200px', overflowY: 'auto' }}>
+                  {`table, th, td {
+  border: 1px solid #ccc; /* Сіра рамка */
+  border-collapse: collapse; /* Прибирає подвійні рамки */
+}
+
+th {
+  background-color: #f8f9fa; /* Світлий фон для заголовків */
+  color: #333; /* Темний текст для заголовків */
+}`}
+                </SyntaxHighlighter>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Встав цей код у свій `style.css` файл.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Приклад 10: Стиль для шапки та підвалу (header, footer) */}
+        <Card className="mb-6 bg-card shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              Стиль для шапки та підвалу (`header`, `footer`)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Додай фон та відступи для шапки та підвалу сайту.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                <div style={{ backgroundColor: '#f8f9fa', padding: '10px', textAlign: 'center', color: '#333', borderRadius: '8px' }}>
+                  <p>Це шапка або підвал твого сайту.</p>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '150px', overflowY: 'auto' }}>
+                  {`header, footer {
+  background-color: #f8f9fa; /* Світлий фон */
+  padding: 10px; /* Внутрішній відступ */
+  text-align: center; /* Текст по центру */
+  color: #333; /* Темний текст */
+}`}
+                </SyntaxHighlighter>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Встав цей код у свій `style.css` файл.
                 </p>
               </div>
             </div>
