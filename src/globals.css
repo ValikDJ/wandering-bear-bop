@@ -206,12 +206,18 @@
   }
 
   body {
-    @apply bg-background text-foreground min-h-full;
+    @apply bg-background text-foreground min-h-full text-base leading-relaxed; /* NEW: text-base (16px) and leading-relaxed (1.6) */
   }
 
   /* Ensure root element takes full height and uses flex for layout */
   #root {
     @apply flex flex-col min-h-screen;
+  }
+
+  /* Ensure buttons are at least 44x44px for touch targets */
+  button, a.button, .btn { /* Assuming .btn might be a custom button class */
+    min-width: 44px;
+    min-height: 44px;
   }
 }
 

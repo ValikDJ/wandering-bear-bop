@@ -7,9 +7,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import ThemeToggle from "./ThemeToggle";
 import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import { cn } from "@/lib/utils";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useLayout } from "@/contexts/LayoutContext"; // NEW IMPORT
-import type { SidebarMode } from "@/contexts/LayoutContext"; // NEW IMPORT for type
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // Keep Select for now, might be removed later
+import { useLayout } from "@/contexts/LayoutContext";
+import type { SidebarMode } from "@/contexts/LayoutContext";
 
 interface NavbarProps {
   onOpenSidebar: () => void;
@@ -18,7 +18,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ onOpenSidebar, isScrolled }) => {
   const isMobile = useIsMobile();
-  const { sidebarMode, setSidebarMode } = useLayout(); // NEW: Consume context
+  const { sidebarMode, setSidebarMode } = useLayout(); // Consume context
 
   const renderMobileNavLinks = (items: SidebarNavItem[], level: number = 0) => {
     return items.map(item => {
@@ -80,8 +80,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSidebar, isScrolled }) => {
           {/* Theme Toggle */}
           <ThemeToggle />
 
-          {/* Sidebar Mode Selector (Desktop Only) */}
-          {!isMobile && (
+          {/* Sidebar Mode Selector (Desktop Only) - REMOVED */}
+          {/* {!isMobile && (
             <Select value={sidebarMode} onValueChange={(value: SidebarMode) => setSidebarMode(value)}>
               <SelectTrigger className="w-[180px] bg-primary text-primary-foreground hover:bg-primary-foreground/20">
                 <SelectValue placeholder="Режим сайдбару" />
@@ -98,7 +98,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSidebar, isScrolled }) => {
                 </SelectItem>
               </SelectContent>
             </Select>
-          )}
+          )} */}
 
           {/* Desktop Navigation Links - visible only on desktop, disappear on scroll */}
           {!isMobile && (

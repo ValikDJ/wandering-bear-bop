@@ -10,8 +10,8 @@ import { sidebarNavData, SidebarNavItem } from "@/data/sidebarNavData";
 import Fuse from 'fuse.js';
 import type { FuseResult } from 'fuse.js';
 import { expandQueryWithSynonyms } from "@/data/synonymMap";
-import { useLayout } from "@/contexts/LayoutContext"; // NEW IMPORT
-import type { SidebarMode } from "@/contexts/LayoutContext"; // NEW IMPORT for type
+import { useLayout } from "@/contexts/LayoutContext";
+import type { SidebarMode } from "@/contexts/LayoutContext";
 
 interface SidebarProps {
   searchTerm: string;
@@ -55,7 +55,7 @@ const MAX_RECENT_SEARCHES = 3;
 
 const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, onCloseSidebar, className }) => {
   const location = useLocation();
-  const { sidebarMode } = useLayout(); // NEW: Consume context
+  const { sidebarMode } = useLayout();
   const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(sidebarNavData.map(item => item.id)));
   const [filteredNavData, setFilteredNavData] = useState<SidebarNavItem[]>(sidebarNavData);
   const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
@@ -359,7 +359,7 @@ const Sidebar: React.FC<SidebarProps> = ({ searchTerm, setSearchTerm, isMobile, 
     saveSearchTerm(term);
   };
 
-  const sidebarWidthClass = isMobile || sidebarMode === 'hidden'
+  const sidebarWidthClass = isMobile
     ? "w-full"
     : sidebarMode === 'pinned-full'
       ? "w-[var(--sidebar-width)]"

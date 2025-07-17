@@ -8,8 +8,9 @@ import { useLocation, Link } from "react-router-dom";
 import { useScrollPosition } from "@/hooks/use-scroll-position";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Home } from "lucide-react";
-import { useLayout } from "@/contexts/LayoutContext"; // NEW IMPORT
+import { Home, PanelLeftOpen, PanelLeftClose } from "lucide-react"; // NEW: Import PanelLeftOpen, PanelLeftClose
+import { useLayout } from "@/contexts/LayoutContext";
+import BreadcrumbNav from "./BreadcrumbNav"; // NEW: Import BreadcrumbNav
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -28,10 +29,20 @@ const Layout: React.FC<LayoutProps> = ({
   const scrollTop = useScrollPosition(mainRef);
   const isScrolled = scrollTop > 50;
   const location = useLocation();
-  const { sidebarMode } = useLayout(); // NEW: Consume context
+  const { sidebarMode, setSidebarMode } = useLayout(); // Consume context
 
   const handleOpenSidebar = () => setIsSidebarOpen(true);
   const handleCloseSidebar = () => setIsSidebarOpen(false);
+
+  const toggleSidebar = () => {
+    if (sidebarMode === 'pinned-full') {
+      setSidebarMode('interactive-hover'); // Collapse to interactive
+    } else if (sidebarMode === 'interactive-hover') {
+      setSidebarMode('hidden'); // Hide completely
+    } else {
+      setSidebarMode('pinned-full'); // Show full
+    }
+  };
 
   const getMainMarginClass = () => {
     if (isMobile) {
@@ -80,8 +91,10 @@ const Layout: React.FC<LayoutProps> = ({
         <main ref={mainRef} className={cn(
           "flex-grow container mx-auto p-4 bg-background overflow-y-auto",
           getMainMarginClass(),
-          isScrolled ? "pt-12" : "pt-16"
+          isScrolled ? "pt-12" : "pt-16",
+          "max-w-prose" // NEW: Max width for readability
         )}>
+          <BreadcrumbNav /> {/* NEW: Add BreadcrumbNav */}
           {children}
         </main>
       </div>
@@ -99,6 +112,23 @@ const Layout: React.FC<LayoutProps> = ({
             <Home className="h-5 w-5 mr-2" />
             На головну
           </Link>
+        </Button>
+      )}
+
+      {/* Sidebar Toggle Button (Desktop only, when not hidden) */}
+      {!isMobile && sidebarMode !== 'hidden' && (
+        <Button
+          onClick={toggleSidebar}
+          variant="outline"
+          size="icon"
+          className="fixed top-20 left-4 z-40 shadow-lg bg-card text-card-foreground hover:bg-card/80 no-print"
+          aria-label={sidebarMode === 'interactive-hover' ? "Розгорнути бічну панель" : "Згорнути бічну панель"}
+        >
+          {sidebarMode === 'interactive-hover' ? (
+            <PanelLeftOpen className="h-5 w-5" />
+          ) : (
+            <PanelLeftClose className="h-5 w-5" />
+          )}
         </Button>
       )}
     </div>
