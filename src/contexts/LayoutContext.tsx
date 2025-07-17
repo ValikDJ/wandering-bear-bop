@@ -19,7 +19,7 @@ export const LayoutProvider: React.FC<React.PropsWithChildren> = ({ children }) 
       return 'interactive-hover'; // Collapsed by default for homework
     }
     // You might want to load a user preference from localStorage here for other pages
-    return 'pinned-full'; // Default for other pages
+    return 'hidden'; // NEW: Default to hidden for other pages
   };
 
   const [sidebarMode, setSidebarMode] = useState<SidebarMode>(getInitialSidebarMode);
