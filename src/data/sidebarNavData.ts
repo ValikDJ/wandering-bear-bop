@@ -37,12 +37,12 @@ const cssGradientGenerator = searchIndex.filter(item => item.path === '/examples
 
 export const sidebarNavData: SidebarNavItem[] = [
   {
-    id: "cosmic-mission", // NEW
-    title: "Космічна Місія",
+    id: "cosmic-mission",
+    title: "Космічна CSS-академія", // Updated title
     icon: Rocket, // Using Rocket icon
     children: cosmicMission.map(item => ({
       ...mapSearchItemToSidebarNavItem(item),
-      title: item.title.replace("🚀 Космічна Місія: ", ""),
+      title: item.title.replace("🚀 Космічна CSS-академія", ""),
     })),
   },
   {

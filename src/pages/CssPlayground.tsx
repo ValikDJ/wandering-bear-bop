@@ -10,14 +10,14 @@ const CssPlayground: React.FC = () => {
   const { actualTheme } = useTheme();
 
   // Initialize colors based on the current theme
-  const getInitialBgColor = (theme: "light" | "dark" | "cosmic") => { // ОНОВЛЕНО: Додано "cosmic"
+  const getInitialBgColor = (theme: "light" | "dark" | "cosmic") => {
     if (theme === ThemeMode.Dark) return "#1a1a1a";
-    if (theme === ThemeMode.Cosmic) return "#14141f"; // ОНОВЛЕНО: Змінено Cyberpunk на Cosmic
+    if (theme === ThemeMode.Cosmic) return "#0a0a23"; // Updated to new cosmic background
     return "#ffffff";
   };
-  const getInitialTextColor = (theme: "light" | "dark" | "cosmic") => { // ОНОВЛЕНО: Додано "cosmic"
+  const getInitialTextColor = (theme: "light" | "dark" | "cosmic") => {
     if (theme === ThemeMode.Dark) return "#e9ecef";
-    if (theme === ThemeMode.Cosmic) return "#b3ffff"; // ОНОВЛЕНО: Змінено Cyberpunk на Cosmic
+    if (theme === ThemeMode.Cosmic) return "#4ecdc4"; // Updated to new cosmic foreground
     return "#0c0a09";
   };
 

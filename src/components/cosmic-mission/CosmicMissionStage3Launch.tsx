@@ -14,7 +14,7 @@ const CosmicMissionStage3Launch: React.FC = () => {
       <CardHeader>
         <CardTitle className="text-3xl font-bold text-foreground flex items-center gap-3">
           <Rocket className="h-8 w-8 text-primary" />
-          Етап 3: Запускаємо в Космос! (Перегляд та Здача)
+          Етап 3: Запуск Місії CSS! (Перегляд та Здача)
         </CardTitle>
       </CardHeader>
       <CardContent>

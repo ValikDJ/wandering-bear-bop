@@ -134,50 +134,50 @@
   }
 
   .cosmic {
-    /* Cosmic Theme Colors (formerly Cyberpunk) */
-    --background: 240 10% 8%; /* Deep dark blue-purple */
-    --foreground: 180 100% 75%; /* Neon Cyan */
+    /* Cosmic Theme Colors (based on #0a0a23, #00ff88, #ff6b6b, #4ecdc4) */
+    --background: 240 50% 7%; /* #0a0a23 */
+    --foreground: 174 50% 54%; /* #4ecdc4 */
 
-    --card: 240 10% 12%; /* Slightly lighter dark for cards */
-    --card-foreground: 180 100% 75%;
+    --card: 240 50% 10%; /* Slightly lighter dark for cards */
+    --card-foreground: 174 50% 54%;
 
-    --popover: 240 10% 15%;
-    --popover-foreground: 180 100% 75%;
+    --popover: 240 50% 12%;
+    --popover-foreground: 174 50% 54%;
 
-    --primary: 260 80% 40%; /* Vibrant Purple */
+    --primary: 140 100% 50%; /* Neon Green #00ff88 */
     --primary-foreground: 0 0% 100%; /* White text on primary */
 
-    --secondary: 240 15% 20%; /* Darker gray-blue for secondary */
-    --secondary-foreground: 180 100% 75%;
+    --secondary: 240 50% 15%; /* Darker gray-blue for secondary */
+    --secondary-foreground: 174 50% 54%;
 
-    --muted: 240 10% 15%;
+    --muted: 240 50% 10%;
     --muted-foreground: 200 10% 60%; /* Muted blue-gray */
 
-    --accent: 300 100% 60%; /* Bright Magenta */
+    --accent: 0 100% 71%; /* Bright Magenta #ff6b6b */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 100% 60%; /* Neon Red */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 10% 25%; /* Dark blue-gray border */
-    --input: 240 10% 20%;
-    --ring: 180 100% 75%; /* Neon Cyan ring */
+    --border: 240 50% 15%; /* Dark blue-gray border */
+    --input: 240 50% 12%;
+    --ring: 174 50% 54%; /* Neon Cyan ring */
 
     /* Custom brand colors for cosmic */
-    --brand-primary: 220 100% 60%; /* Electric Blue */
-    --brand-primary-hover: 220 100% 50%; /* Darker Electric Blue */
-    --brand-secondary: 240 15% 20%;
-    --brand-secondary-foreground: 180 100% 75%;
+    --brand-primary: 174 50% 54%; /* Electric Blue (using foreground for consistency) */
+    --brand-primary-hover: 174 50% 44%; /* Darker Electric Blue */
+    --brand-secondary: 240 50% 15%;
+    --brand-secondary-foreground: 174 50% 54%;
 
     /* Sidebar colors */
-    --sidebar-background: 240 10% 5%; /* Even darker for sidebar */
-    --sidebar-foreground: 180 100% 75%;
-    --sidebar-primary: 220 100% 60%; /* Electric Blue for active */
+    --sidebar-background: 240 50% 5%; /* Even darker for sidebar */
+    --sidebar-foreground: 174 50% 54%;
+    --sidebar-primary: 140 100% 50%; /* Neon Green for active */
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 15% 20%;
-    --sidebar-accent-foreground: 180 100% 75%;
-    --sidebar-border: 240 10% 25%;
-    --sidebar-ring: 180 100% 75%;
+    --sidebar-accent: 240 50% 15%;
+    --sidebar-accent-foreground: 174 50% 54%;
+    --sidebar-border: 240 50% 15%;
+    --sidebar-ring: 174 50% 54%;
 
     /* Box Model Visualizer Colors - Cosmic Theme */
     --box-model-margin-bg: 0 80% 15%; /* Dark red */

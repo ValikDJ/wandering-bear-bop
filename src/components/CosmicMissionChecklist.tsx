@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { CheckSquare, HelpCircle, ChevronDown } from "lucide-react";
+import { CheckSquare, HelpCircle, ChevronDown, Star } from "lucide-react"; // Додано Star
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -69,8 +69,8 @@ const CosmicMissionChecklist: React.FC<CosmicMissionChecklistProps> = ({ onCompl
     <Card className="mb-12 bg-card shadow-md animate-fade-in-up">
       <CardHeader>
         <CardTitle className="text-3xl font-bold text-foreground flex items-center gap-3">
-          <CheckSquare className="h-8 w-8 text-primary" />
-          Чек-ліст Космічного Архітектора
+          <Star className="h-8 w-8 text-primary" />
+          Чек-ліст Космічного Коду
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -101,7 +101,7 @@ const CosmicMissionChecklist: React.FC<CosmicMissionChecklistProps> = ({ onCompl
 
         {allItemsCompleted && (
           <div className="mt-6 p-4 bg-green-100 text-green-800 border border-green-300 rounded-md text-center font-semibold">
-            🎉 Чудово! Всі завдання виконано! Ти готовий до запуску! 🎉
+            🎉 Чудово! Всі завдання виконано! Твій Космічний Код готовий до запуску! 🎉
           </div>
         )}
 
@@ -109,7 +109,7 @@ const CosmicMissionChecklist: React.FC<CosmicMissionChecklistProps> = ({ onCompl
           <CollapsibleTrigger asChild>
             <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
               <HelpCircle className="h-5 w-5 mr-2 text-destructive" />
-              Застряг у Космосі?
+              Застряг у Галактиці Стилів?
               <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
             </Button>
           </CollapsibleTrigger>

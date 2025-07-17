@@ -18,7 +18,7 @@ const CosmicMissionProgressBar: React.FC<CosmicMissionProgressBarProps> = ({
 
   return (
     <div className="mb-10 no-print">
-      <h3 className="text-2xl font-bold text-foreground mb-4">Прогрес Місії:</h3>
+      <h3 className="text-2xl font-bold text-foreground mb-4">Прогрес Орбітальних Завдань:</h3>
       <Progress value={progress} className="w-full h-4 bg-muted bg-brand-primary" />
       <p className="text-right text-sm text-muted-foreground mt-2">{Math.round(progress)}% виконано</p>
     </div>

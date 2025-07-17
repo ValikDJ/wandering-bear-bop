@@ -24,7 +24,7 @@ const Index: React.FC = () => {
             <Card className="bg-card hover:shadow-lg transition-shadow duration-300 relative">
               <CardHeader>
                 <CardTitle className="text-2xl text-card-foreground flex justify-between items-center">
-                  🚀 Космічна Місія: Будуємо та Прикрашаємо Твій Сайт!
+                  🚀 Космічна CSS-академія
                   <Badge variant="destructive" className="ml-2 bg-purple-500 text-white">АКТУАЛЬНО!</Badge> {/* New badge color */}
                 </CardTitle>
               </CardHeader>
