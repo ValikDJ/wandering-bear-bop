@@ -621,6 +621,105 @@ th {
             </div>
           </CardContent>
         </Card>
+
+        {/* NEW: Приклад 11: Стиль для навігації (nav, a) з прихованим кодом */}
+        <Card className="mb-6 bg-card shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              Стиль для навігації (`nav`, `a`)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Зроби навігаційні посилання красивими та інтерактивними.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Як це виглядає:</h4>
+                <nav style={{
+                  backgroundColor: '#333',
+                  padding: '10px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  flexWrap: 'wrap',
+                  gap: '10px'
+                }}>
+                  <a href="#" style={{
+                    color: 'white',
+                    textDecoration: 'none',
+                    padding: '8px 15px',
+                    borderRadius: '5px',
+                    backgroundColor: '#007bff',
+                    transition: 'background-color 0.3s ease',
+                    whiteSpace: 'nowrap'
+                  }}>Головна</a>
+                  <a href="#" style={{
+                    color: 'white',
+                    textDecoration: 'none',
+                    padding: '8px 15px',
+                    borderRadius: '5px',
+                    backgroundColor: '#007bff',
+                    transition: 'background-color 0.3s ease',
+                    whiteSpace: 'nowrap'
+                  }}>Про нас</a>
+                  <a href="#" style={{
+                    color: 'white',
+                    textDecoration: 'none',
+                    padding: '8px 15px',
+                    borderRadius: '5px',
+                    backgroundColor: '#007bff',
+                    transition: 'background-color 0.3s ease',
+                    whiteSpace: 'nowrap'
+                  }}>Контакти</a>
+                </nav>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код:</h4>
+                <Collapsible className="mt-2">
+                  <CollapsibleTrigger asChild>
+                    <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
+                      Показати CSS-код (для вчителя)
+                      <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                    </Button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
+                    <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
+                      <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '200px', overflowY: 'auto' }}>
+                        {`nav {
+  background-color: #333; /* Темний фон навігації */
+  padding: 10px; /* Внутрішній відступ */
+  border-radius: 8px; /* Заокруглені кути */
+  display: flex; /* Використовуємо Flexbox для вирівнювання */
+  justify-content: space-around; /* Розподіляє елементи рівномірно */
+  flex-wrap: wrap; /* Дозволяє елементам переноситися на новий рядок */
+  gap: 10px; /* Відстань між елементами */
+}
+
+nav a {
+  color: white; /* Білий колір тексту посилань */
+  text-decoration: none; /* Прибирає підкреслення */
+  padding: 8px 15px; /* Внутрішні відступи для посилань */
+  border-radius: 5px; /* Заокруглені кути посилань */
+  background-color: #007bff; /* Синій фон посилань */
+  transition: background-color 0.3s ease; /* Плавний перехід кольору фону */
+}
+
+nav a:hover {
+  background-color: #0056b3; /* Темніший синій при наведенні */
+}`}
+                      </SyntaxHighlighter>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        Встав цей код у свій `style.css` файл.
+                      </p>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </CardContent>
     </Card>
   );
