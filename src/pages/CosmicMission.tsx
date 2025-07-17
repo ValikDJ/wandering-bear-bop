@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Copy, Rocket, Code, Palette, Star, ChevronDown, CheckSquare } from "lucide-react";
+import { Copy, Rocket, Code, Palette, Star, ChevronDown, CheckSquare, MessageSquareText } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import LessonNavigation from "@/components/LessonNavigation";
@@ -15,9 +15,11 @@ import { ThemeMode } from "@/lib/ThemeManager";
 import { Progress } from "@/components/ui/progress";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import LiveCodeEditor from "@/components/LiveCodeEditor"; // Import LiveCodeEditor
+import LiveCodeEditor from "@/components/LiveCodeEditor";
+import { Switch } from "@/components/ui/switch"; // Import Switch
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"; // Import DropdownMenu
 
-const cssTemplate = `body {
+const cssTemplateUncommented = `body {
     font-family: 'Arial', sans-serif;
     background-color: #1a1a2e;
     color: #e0e0e0;
@@ -101,6 +103,92 @@ footer {
 }
 `;
 
+const cssTemplateCommented = `/* style.css - Твої віртуальні пензлі! */
+
+body {
+    font-family: 'Arial', sans-serif; /* Встановлює шрифт для всього тексту на сторінці */
+    background-color: #1a1a2e; /* Темний космічний фон для всієї сторінки */
+    color: #e0e0e0; /* Світлий колір тексту для зірок */
+    margin: 0; /* Прибирає зовнішні відступи за замовчуванням */
+    padding: 20px; /* Додає внутрішні відступи навколо вмісту сторінки */
+}
+
+header {
+    background-color: #2a2a4a; /* Темніший фон для шапки сайту */
+    color: #b3ffff; /* Неоновий синій колір тексту в шапці */
+    padding: 15px 20px; /* Внутрішні відступи для шапки */
+    text-align: center; /* Вирівнює текст по центру */
+    border-bottom: 2px solid #8a2be2; /* Фіолетова лінія під шапкою */
+}
+
+header h1 {
+    margin: 0; /* Прибирає зовнішні відступи для заголовка h1 */
+    font-size: 2.5em; /* Збільшує розмір шрифту заголовка */
+}
+
+nav a {
+    color: #b3ffff; /* Колір посилань в навігації */
+    text-decoration: none; /* Прибирає підкреслення посилань */
+    margin: 0 15px; /* Зовнішні відступи між посиланнями */
+}
+
+nav a:hover {
+    color: #ff69b4; /* Змінює колір посилань при наведенні курсору */
+}
+
+main {
+    max-width: 900px; /* Максимальна ширина основного вмісту */
+    margin: 20px auto; /* Центрує основний вміст по горизонталі та додає зовнішні відступи */
+    background-color: #1f1f3f; /* Фон для основного вмісту */
+    padding: 30px; /* Внутрішні відступи для основного вмісту */
+    border-radius: 10px; /* Заокруглює кути основного вмісту */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Додає тінь */
+}
+
+section {
+    margin-bottom: 40px; /* Зовнішній відступ між секціями */
+    padding: 20px; /* Внутрішні відступи для секцій */
+    border: 1px solid #8a2be2; /* Фіолетова рамка для секцій */
+    border-radius: 8px; /* Заокруглює кути секцій */
+    background-color: #252545; /* Фон для секцій */
+}
+
+section h2 {
+    color: #ff69b4; /* Колір заголовків секцій */
+    border-bottom: 1px dashed #8a2be2; /* Пунктирна лінія під заголовком секції */
+    padding-bottom: 10px; /* Внутрішній відступ знизу для заголовка */
+    margin-top: 0; /* Прибирає верхній зовнішній відступ */
+}
+
+ul {
+    margin-left: 20px; /* Відступ для невпорядкованих списків */
+}
+
+table {
+    width: 100%; /* Таблиця займає всю доступну ширину */
+    margin-top: 20px; /* Верхній зовнішній відступ для таблиці */
+}
+
+th, td {
+    border: 1px solid #8a2be2; /* Рамка для комірок таблиці */
+    padding: 10px; /* Внутрішні відступи для комірок */
+    text-align: left; /* Вирівнювання тексту в комірках по лівому краю */
+}
+
+th {
+    background-color: #3a3a5a; /* Фон для заголовків таблиці */
+    color: #b3ffff; /* Колір тексту заголовків таблиці */
+}
+
+footer {
+    text-align: center; /* Вирівнює текст в підвалі по центру */
+    margin-top: 40px; /* Верхній зовнішній відступ для підвалу */
+    padding: 20px; /* Внутрішні відступи для підвалу */
+    color: #a0a0a0; /* Колір тексту в підвалі */
+    border-top: 1px solid #3a3a5a; /* Лінія над підвалом */
+}
+`;
+
 // Simple HTML for the embedded editor to demonstrate CSS
 const demoHtmlForCssEditor = `<!DOCTYPE html>
 <html>
@@ -162,6 +250,7 @@ const CosmicMission: React.FC = () => {
   });
   // Assuming CosmicMissionChecklist handles its own completion state, we'll just read it
   const [checklistCompleted, setChecklistCompleted] = useState<boolean>(false);
+  const [displayCommentedCss, setDisplayCommentedCss] = useState(false); // NEW state for toggling comments
 
   useEffect(() => {
     initialThemeRef.current = getMode();
@@ -204,9 +293,10 @@ const CosmicMission: React.FC = () => {
   const totalStages = 3; // HTML Ready, CSS Applied, Checklist Completed
   const progress = (completedStagesCount / totalStages) * 100;
 
-  const handleCopyCss = () => {
-    navigator.clipboard.writeText(cssTemplate);
-    toast.success("CSS-код скопійовано! 🎨");
+  const handleCopyCss = (version: 'uncommented' | 'commented') => {
+    const textToCopy = version === 'commented' ? cssTemplateCommented : cssTemplateUncommented;
+    navigator.clipboard.writeText(textToCopy);
+    toast.success(`CSS-код (${version === 'commented' ? 'з коментарями' : 'без коментарів'}) скопійовано! 🎨`);
   };
 
   const handleSubmitInstructions = () => {
@@ -334,16 +424,39 @@ const CosmicMission: React.FC = () => {
           
           <div className="relative mb-6">
             <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">Твої CSS-пензлі:</h4>
+            <div className="flex justify-end items-center gap-4 mb-2 no-print">
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="toggle-css-comments"
+                  checked={displayCommentedCss}
+                  onCheckedChange={setDisplayCommentedCss}
+                />
+                <Label htmlFor="toggle-css-comments" className="text-sm text-muted-foreground">
+                  {displayCommentedCss ? "Коментарі УВІМКНЕНО" : "Коментарі ВИМКНЕНО"}
+                </Label>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    className="bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                    size="sm"
+                  >
+                    <Copy className="mr-2 h-4 w-4" /> Копіювати CSS
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="bg-popover text-popover-foreground">
+                  <DropdownMenuItem onClick={() => handleCopyCss('uncommented')} className="cursor-pointer">
+                    Без коментарів
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleCopyCss('commented')} className="cursor-pointer">
+                    З коментарями
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
             <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '500px', overflowY: 'auto' }}>
-              {cssTemplate}
+              {displayCommentedCss ? cssTemplateCommented : cssTemplateUncommented}
             </SyntaxHighlighter>
-            <Button
-              onClick={handleCopyCss}
-              className="absolute top-4 right-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 no-print"
-              size="sm"
-            >
-              <Copy className="mr-2 h-4 w-4" /> Копіювати CSS
-            </Button>
           </div>
 
           <h3 className="text-2xl font-bold text-foreground mb-4">Спробуй сам: Інтерактивний редактор!</h3>
@@ -353,7 +466,7 @@ const CosmicMission: React.FC = () => {
           <LiveCodeEditor
             id="cosmic-mission-css-editor"
             initialHtml={demoHtmlForCssEditor}
-            initialCss={cssTemplate}
+            initialCss={cssTemplateUncommented} {/* Live editor always starts with uncommented */}
             title="Твій Космічний Дизайн-Стенд"
             description="Змінюй CSS-код і дивись, як твій сайт оживає!"
           />
