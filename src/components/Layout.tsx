@@ -89,13 +89,14 @@ const Layout: React.FC<LayoutProps> = ({
           />
         )}
         <main ref={mainRef} className={cn(
-          "flex-grow container mx-auto p-4 bg-background overflow-y-auto",
+          "flex-grow p-4 bg-background overflow-y-auto", // Removed container, mx-auto, max-w-screen-lg from here
           getMainMarginClass(),
-          isScrolled ? "pt-12" : "pt-16",
-          "max-w-screen-lg"
+          isScrolled ? "pt-12" : "pt-16"
         )}>
-          <BreadcrumbNav />
-          {children}
+          <div className="container mx-auto max-w-screen-lg"> {/* New wrapper div for centering content */}
+            <BreadcrumbNav />
+            {children}
+          </div>
         </main>
       </div>
       <Footer />
@@ -116,19 +117,22 @@ const Layout: React.FC<LayoutProps> = ({
       )}
 
       {/* Sidebar Toggle Button (Desktop only) */}
-      {!isMobile && ( /* Condition changed to always show on desktop */
+      {!isMobile && ( /* Always show on desktop */
         <Button
           onClick={toggleSidebar}
           variant="outline"
           size="icon"
           className="fixed top-20 left-4 z-40 shadow-lg bg-card text-card-foreground hover:bg-card/80 no-print"
-          aria-label={sidebarMode === 'interactive-hover' ? "Розгорнути бічну панель" : "Згорнути бічну панель"}
+          aria-label={
+            sidebarMode === 'pinned-full'
+              ? "Згорнути бічну панель"
+              : "Розгорнути бічну панель"
+          }
         >
-          {/* Show PanelLeftOpen when interactive-hover or hidden */}
-          {sidebarMode === 'interactive-hover' || sidebarMode === 'hidden' ? (
-            <PanelLeftOpen className="h-5 w-5" />
-          ) : (
+          {sidebarMode === 'pinned-full' ? (
             <PanelLeftClose className="h-5 w-5" />
+          ) : (
+            <PanelLeftOpen className="h-5 w-5" />
           )}
         </Button>
       )}
