@@ -153,7 +153,7 @@ const CosmicShop: React.FC<CosmicShopProps> = ({
               <p className="text-sm text-muted-foreground mb-2">{upgrade.description}</p>
             </div>
             <div className="flex items-center justify-between mt-2">
-              <span className="text-lg font-bold text-primary flex items-center gap-1">
+              <span className="text-lg font-bold text-foreground flex items-center gap-1"> {/* Changed text-primary to text-foreground */}
                 <Zap className="h-5 w-5 text-yellow-500" /> {upgrade.cost}
               </span>
               {upgrade.isPurchased ? (
@@ -184,7 +184,7 @@ const CosmicShop: React.FC<CosmicShopProps> = ({
               <p className="text-sm text-muted-foreground mb-2">{upgrade.description}</p>
             </div>
             <div className="flex items-center justify-between mt-2">
-              <span className="text-lg font-bold text-primary flex items-center gap-1">
+              <span className="text-lg font-bold text-foreground flex items-center gap-1"> {/* Changed text-primary to text-foreground */}
                 <Zap className="h-5 w-5 text-yellow-500" /> {upgrade.cost}
               </span>
               {upgrade.isPurchased ? (
@@ -219,7 +219,7 @@ const CosmicShop: React.FC<CosmicShopProps> = ({
                 <p className="text-sm text-muted-foreground mb-2">{upgrade.description}</p>
               </div>
               <div className="flex items-center justify-between mt-2">
-                <span className="text-lg font-bold text-primary flex items-center gap-1">
+                <span className="text-lg font-bold text-foreground flex items-center gap-1"> {/* Changed text-primary to text-foreground */}
                   <Zap className="h-5 w-5 text-yellow-500" /> {upgrade.cost}
                 </span>
                 {upgrade.isPurchased ? (
