@@ -18,6 +18,15 @@ export const lessonSearchItems: SearchItem[] = [
     difficulty: "easy",
   },
   {
+    title: "Конструктор HTML-проекту", // NEW SEARCH ITEM
+    description: "Інтерактивний інструмент для створення базової структури HTML-сайту.",
+    path: "/homework", // It's part of the homework page
+    sectionId: "homework-code-template", // Assuming it's within the HomeworkCodeTemplate card
+    keywords: ["html", "конструктор", "будівництво сайту", "структура", "генератор", "проект"],
+    type: "example", // It's an interactive example/tool
+    difficulty: "easy",
+  },
+  {
     title: "HTML Теги: Заголовки",
     description: "Теги <h1>, <h2>, <h3> для створення заголовків різного рівня.",
     path: "/html-tags",

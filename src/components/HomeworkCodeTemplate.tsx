@@ -6,6 +6,8 @@ import { ChevronDown, Copy, Code } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { toast } from "sonner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import HtmlProjectBuilder from "./HtmlProjectBuilder"; // NEW IMPORT
 
 const htmlTemplate = `<!DOCTYPE html>
 <html lang="uk">
@@ -48,25 +50,39 @@ const HomeworkCodeTemplate: React.FC = () => {
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Code className="h-6 w-6 text-primary" />
-          Крок 2: Скопіюй базовий код
+          Крок 2: Скопіюй або Створи базовий код
         </CardTitle>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-muted-foreground">
-          Ось базовий шаблон HTML, який ти можеш використовувати для свого сайту. Скопіюй його і встав у вікно редактора HTML на платформі Logika або в текстовому редакторі!
+          Ось базовий шаблон HTML, який ти можеш використовувати для свого сайту. Скопіюй його і встав у вікно редактора HTML на платформі Logika або в текстовому редакторі! Або ж спробуй створити свій власний, використовуючи наш конструктор!
         </p>
-        <div className="relative mb-4">
-          <SyntaxHighlighter language="html" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '400px', overflowY: 'auto' }}>
-            {htmlTemplate}
-          </SyntaxHighlighter>
-          <Button
-            onClick={handleCopy}
-            className="absolute top-4 right-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 no-print"
-            size="sm"
-          >
-            <Copy className="mr-2 h-4 w-4" /> Копіювати
-          </Button>
-        </div>
+
+        <Tabs defaultValue="default-template" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-4 no-print">
+            <TabsTrigger value="default-template">Готовий Шаблон</TabsTrigger>
+            <TabsTrigger value="build-your-own">Створити Свій</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="default-template">
+            <div className="relative mb-4">
+              <SyntaxHighlighter language="html" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '400px', overflowY: 'auto' }}>
+                {htmlTemplate}
+              </SyntaxHighlighter>
+              <Button
+                onClick={handleCopy}
+                className="absolute top-4 right-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 no-print"
+                size="sm"
+              >
+                <Copy className="mr-2 h-4 w-4" /> Копіювати
+              </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="build-your-own">
+            <HtmlProjectBuilder />
+          </TabsContent>
+        </Tabs>
 
         <Collapsible className="mt-6">
           <CollapsibleTrigger asChild>
