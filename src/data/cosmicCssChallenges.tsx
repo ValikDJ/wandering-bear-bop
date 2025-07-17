@@ -17,8 +17,8 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Космічний Фон Бази",
     description: "Зміни колір фону та тексту для всієї сторінки, щоб вона виглядала як космічний простір. Спробуй `background-color: #0a0a23;` та `color: #e0e0e0;`.",
     initialCss: `body {
-  background-color: #0a0a23; /* Темний космічний фон */
-  color: #e0e0e0; /* Світлий текст */
+  background-color: #0a0a23;
+  color: #e0e0e0;
 }`,
     previewContent: (
       <div
@@ -43,13 +43,13 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Навігаційні Зв'язки",
     description: "Зроби посилання в навігації (`header a`) схожими на кнопки космічного корабля: додай фон `#007bff` (синій), білий текст, внутрішні відступи `8px 15px`, заокруглені кути `5px` та прибери підкреслення.",
     initialCss: `header a {
-  display: inline-block; /* Щоб можна було застосувати padding */
-  background-color: #007bff; /* Синій фон */
-  color: white; /* Білий текст */
-  padding: 8px 15px; /* Внутрішні відступи */
-  border-radius: 5px; /* Заокруглені кути */
-  text-decoration: none; /* Прибрати підкреслення */
-  margin: 0 5px; /* Невеликий зовнішній відступ між посиланнями */
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  margin: 0 5px;
 }`,
     previewContent: (
       <div style={{ backgroundColor: '#0a0a23', padding: '10px', textAlign: 'center', borderRadius: '8px' }}>
@@ -66,8 +66,8 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Головний Заголовок Місії",
     description: "Зроби головний заголовок (`h1`) по центру та зміни його колір на яскравий, наприклад, `#00ff88` (неоновий зелений).",
     initialCss: `h1 {
-  text-align: center; /* Вирівнювання по центру */
-  color: #00ff88; /* Неоновий зелений колір */
+  text-align: center;
+  color: #00ff88;
 }`,
     previewContent: (
       <h1 style={{ textAlign: 'center', color: '#00ff88', fontSize: '2em' }} className="p-2">
@@ -83,8 +83,8 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Текст Бортового Журналу",
     description: "Зміни розмір шрифту для всіх абзаців (`p`) на `18px` та колір на `#b3ffff` (світло-блакитний).",
     initialCss: `p {
-  font-size: 18px; /* Розмір шрифту */
-  color: #b3ffff; /* Світло-блакитний колір */
+  font-size: 18px;
+  color: #b3ffff;
 }`,
     previewContent: (
       <p style={{
@@ -108,7 +108,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 4: Заокруглені Ілюмінатори",
     description: "Зроби ілюмінатори твого космічного корабля (зображення) круглими. Використай властивість `border-radius` зі значенням `50%`.",
     initialCss: `img {
-  border-radius: 50%; /* Зробити круглим */
+  border-radius: 50%;
 }`,
     previewContent: (
       <img
@@ -126,8 +126,8 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 5: Космічна Кнопка",
     description: "Створи кнопку для запуску ракети! Додай тег `<button>` з текстом 'Запустити Ракету!' та зроби її фон яскраво-зеленим (`#4CAF50`) та текст білим.",
     initialCss: `button {
-  background-color: #4CAF50; /* Яскраво-зелений фон */
-  color: white; /* Білий текст */
+  background-color: #4CAF50;
+  color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -146,7 +146,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 6: Вирівнювання Супутника",
     description: "Вирівняй текст 'Мій Супутник' по центру. Використай тег `<h2>` та властивість `text-align`.",
     initialCss: `h2 {
-  text-align: center; /* Вирівнювання по центру */
+  text-align: center;
 }`,
     previewContent: (
       <h2 style={{ textAlign: 'center', color: '#b3ffff', fontSize: '1.5em' }}>
@@ -162,7 +162,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 7: Відступи для Планет",
     description: "Додай внутрішні відступи (padding) до блоку з інформацією про планету, щоб текст не 'прилипав' до країв. Встанови `padding: 20px;`.",
     initialCss: `.planet-info {
-  padding: 20px; /* Внутрішній відступ */
+  padding: 20px;
 }`,
     previewContent: (
       <div style={{ padding: '20px', backgroundColor: '#2a2a4a', border: '1px solid #ff69b4', borderRadius: '8px', color: '#e0e0e0' }}>
@@ -178,7 +178,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 8: Зовнішні Відступи між Астероїдами",
     description: "Додай зовнішні відступи (margin) між двома блоками 'Астероїд', щоб вони не злипалися. Встанови `margin-bottom: 15px;` для першого астероїда.",
     initialCss: `.asteroid {
-  margin-bottom: 15px; /* Зовнішній відступ знизу */
+  margin-bottom: 15px;
 }`,
     previewContent: (
       <>
@@ -195,7 +195,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 9: Прозорий Щит",
     description: "Зроби захисний щит (блок `div`) напівпрозорим. Використай властивість `opacity` зі значенням `0.7`.",
     initialCss: `.shield {
-  opacity: 0.7; /* Напівпрозорий */
+  opacity: 0.7;
 }`,
     previewContent: (
       <div style={{ width: '150px', height: '80px', backgroundColor: '#ff69b4', border: '2px solid #b3ffff', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
@@ -246,10 +246,10 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 11: Космічний Флекс-Ряд",
     description: "Вирівняй три космічні об'єкти в один ряд по центру контейнера. Використай властивості Flexbox: `display: flex; justify-content: center; align-items: center;` для батьківського елемента.",
     initialCss: `.flex-container {
-  display: flex; /* Увімкнути Flexbox */
-  justify-content: center; /* Вирівняти по горизонталі по центру */
-  align-items: center; /* Вирівняти по вертикалі по центру */
-  gap: 10px; /* Відступ між елементами */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }`,
     previewContent: (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', border: '2px dashed #4ecdc4', padding: '15px', minHeight: '120px', backgroundColor: '#1a1a3a', borderRadius: '8px' }}>
@@ -267,7 +267,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 12: Тінь Космічного Модуля",
     description: "Додай сяючу тінь до модуля космічної станції (`.module`). Використай `box-shadow: 0 0 15px rgba(0, 255, 136, 0.7);` для неонового зеленого світіння.",
     initialCss: `.module {
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.7); /* Неонова зелена тінь */
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.7);
 }`,
     previewContent: (
       <div style={{ width: '180px', height: '100px', backgroundColor: '#2a2a4a', border: '1px solid #b3ffff', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e0e0e0', fontWeight: 'bold', boxShadow: '0 0 15px rgba(0, 255, 136, 0.7)' }}>
@@ -283,7 +283,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 13: Сяючий Текст",
     description: "Зроби текст заголовка (`.glowing-text`) сяючим, додавши тінь до тексту. Спробуй `text-shadow: 0 0 8px #b3ffff, 0 0 15px #b3ffff;` для неонового синього світіння.",
     initialCss: `.glowing-text {
-  text-shadow: 0 0 8px #b3ffff, 0 0 15px #b3ffff; /* Сяюча тінь */
+  text-shadow: 0 0 8px #b3ffff, 0 0 15px #b3ffff;
 }`,
     previewContent: (
       <h2 style={{ fontSize: '2.5em', fontWeight: 'bold', color: '#b3ffff', textShadow: '0 0 8px #b3ffff, 0 0 15px #b3ffff', textAlign: 'center' }}>
