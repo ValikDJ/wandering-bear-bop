@@ -19,7 +19,7 @@ const CosmicEnergyMeter: React.FC<CosmicEnergyMeterProps> = ({ energy, maxEnergy
   );
 
   return (
-    <Card className="mb-10 bg-card shadow-md no-print">
+    <Card className="mb-10 bg-card shadow-md no-print max-w-lg mx-auto"> {/* Added max-w-lg and mx-auto */}
       <CardContent className="p-4 flex items-center gap-4">
         <Zap className="h-8 w-8 text-primary flex-shrink-0" />
         <div className="flex-grow">
