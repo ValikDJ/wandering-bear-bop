@@ -7,8 +7,8 @@ export interface CosmicCssChallengeData {
   initialCss: string;
   previewContent: React.ReactNode;
   hint: string;
-  lessonLink?: string;
-  lessonLinkText?: string;
+  lessonLink?: string; // Path to a relevant lesson page
+  lessonLinkText?: string; // Text for the lesson link
 }
 
 export const cssChallenges: CosmicCssChallengeData[] = [
@@ -87,7 +87,15 @@ export const cssChallenges: CosmicCssChallengeData[] = [
   color: #b3ffff; /* Світло-блакитний колір */
 }`,
     previewContent: (
-      <p style={{ fontSize: '18px', color: '#b3ffff', padding: '10px', border: '1px dashed #4ecdc4', borderRadius: '5px' }}>
+      <p style={{
+        fontSize: '18px',
+        color: '#b3ffff',
+        padding: '10px',
+        borderWidth: '1px', // Changed from shorthand
+        borderStyle: 'dashed', // Changed from shorthand
+        borderColor: '#4ecdc4', // Changed from shorthand
+        borderRadius: '5px'
+      }}>
         Це приклад тексту бортового журналу. Він стане трохи більшим і світло-блакитним.
       </p>
     ),
@@ -96,101 +104,157 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     lessonLinkText: "Урок про Розмір Шрифту",
   },
   {
-    id: "challenge-img-style",
-    title: "Рамки для Космічних Знімків",
-    description: "Додай рамку (`border`) товщиною `3px`, стилем `solid` та кольором `#ff69b4` (рожевий) до всіх зображень (`img`). Заокругли кути на `15px`.",
-    initialCss: `img {
-  border: 3px solid #ff69b4; /* Рожева рамка */
-  border-radius: 15px; /* Заокруглені кути */
+    id: "challenge-4",
+    title: "Місія 4: Заокруглені Ілюмінатори",
+    description: "Зроби ілюмінатори твого космічного корабля (зображення) круглими. Використай властивість `border-radius` зі значенням `50%`.",
+    initialHtml: `<img src="https://picsum.photos/id/66/100/100" alt="Ілюмінатор" class="illuminator">`,
+    initialCss: `.illuminator {
+  border: 3px solid #ff69b4;
 }`,
-    previewContent: (
-      <div className="flex justify-center items-center p-4">
-        <img
-          src="https://picsum.photos/id/66/150/150"
-          alt="Приклад зображення"
-          style={{ border: '3px solid #ff69b4', borderRadius: '15px', maxWidth: '100%', height: 'auto' }}
-          className="shadow-sm"
-        />
-      </div>
-    ),
-    hint: "Використай селектор `img` та властивості `border` і `border-radius`.",
+    hint: "Пам'ятай про `border-radius`.",
     lessonLink: "/css-properties#css-border-radius",
-    lessonLinkText: "Урок про Рамки та Заокруглення",
+    lessonLinkText: "Урок про Заокруглення Кутів",
   },
   {
-    id: "challenge-a-style",
-    title: "Навігаційні Промені",
-    description: "Прибери підкреслення (`text-decoration: none;`) та зміни колір для всіх посилань (`a`) на `#4ecdc4` (бірюзовий).",
-    initialCss: `a {
-  text-decoration: none; /* Прибирає підкреслення */
-  color: #4ecdc4; /* Бірюзовий колір */
-}`,
-    previewContent: (
-      <a href="#" style={{ textDecoration: 'none', color: '#4ecdc4', padding: '5px', border: '1px dotted #4ecdc4', borderRadius: '3px' }}>
-        Посилання без підкреслення
-      </a>
-    ),
-    hint: "Використай селектор `a` та властивості `text-decoration` і `color`.",
-    lessonLink: "/css-properties#css-text-decoration",
-    lessonLinkText: "Урок про Оформлення Тексту",
-  },
-  {
-    id: "challenge-button-style",
-    title: "Кнопка Запуску",
-    description: "Зроби кнопки (`button`) яскравими та заокругленими. Встанови `background-color: #00ff88;` (неоновий зелений), `color: white;`, `padding: 10px 20px;` та `border-radius: 8px;`.",
+    id: "challenge-5",
+    title: "Місія 5: Космічна Кнопка",
+    description: "Створи кнопку для запуску ракети! Додай тег `<button>` з текстом 'Запустити Ракету!' та зроби її фон яскраво-зеленим (`#4CAF50`) та текст білим.",
+    initialHtml: ``,
     initialCss: `button {
-  background-color: #00ff88; /* Неоновий зелений фон */
-  color: white; /* Білий текст */
-  padding: 10px 20px; /* Внутрішні відступи */
-  border-radius: 8px; /* Заокруглені кути */
+  padding: 10px 20px;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
 }`,
     previewContent: (
       <button style={{ backgroundColor: '#00ff88', color: 'white', padding: '10px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer' }}>
         Запустити!
       </button>
     ),
-    hint: "Використай селектор `button` та властивості `background-color`, `color`, `padding`, `border-radius`.",
+    hint: "Використай `background-color` та `color` для кнопки.",
     lessonLink: "/html-tags#html-button",
     lessonLinkText: "Урок про Кнопки",
   },
   {
-    id: "challenge-div-section-style",
-    title: "Модулі Космічної Бази",
-    description: "Додай фон, рамку та внутрішні відступи до блоків (`div`, `section`). Спробуй `padding: 20px;`, `background-color: #1a1a3a;` та `border: 1px solid #4ecdc4;`.",
-    initialCss: `div, section {
-  padding: 20px; /* Внутрішній відступ */
-  background-color: #1a1a3a; /* Темно-синій фон */
-  border: 1px solid #4ecdc4; /* Бірюзова рамка */
-  border-radius: 10px; /* Заокруглені кути */
+    id: "challenge-6",
+    title: "Місія 6: Вирівнювання Супутника",
+    description: "Вирівняй текст 'Мій Супутник' по центру. Використай тег `<h2>` та властивість `text-align`.",
+    initialHtml: `<h2>Мій Супутник</h2>`,
+    initialCss: `h2 {
+  color: #b3ffff;
+}`,
+    previewContent: (
+      <h2 style={{ textAlign: 'center', color: '#b3ffff', fontSize: '1.5em' }}>
+        Мій Супутник
+      </h2>
+    ),
+    hint: "Яке значення `text-align` вирівнює по центру?",
+    lessonLink: "/css-properties#css-text-align",
+    lessonLinkText: "Урок про Вирівнювання Тексту",
+  },
+  {
+    id: "challenge-7",
+    title: "Місія 7: Відступи для Планет",
+    description: "Додай внутрішні відступи (padding) до блоку з інформацією про планету, щоб текст не 'прилипав' до країв. Встанови `padding: 20px;`.",
+    initialHtml: `<div class="planet-info">
+  <h3>Планета Xylo</h3>
+  <p>Ця планета відома своїми кришталевими горами.</p>
+</div>`,
+    initialCss: `.planet-info {
+  border: 1px solid #ff69b4;
+  background-color: #2a2a4a;
+  color: #e0e0e0;
 }`,
     previewContent: (
       <div style={{ padding: '20px', backgroundColor: '#1a1a3a', border: '1px solid #4ecdc4', borderRadius: '10px', color: '#e0e0e0' }}>
         <p>Це модуль космічної бази. Він має темний фон та бірюзову рамку.</p>
       </div>
     ),
-    hint: "Використай селектори `div, section` та властивості `padding`, `background-color`, `border`, `border-radius`.",
-    lessonLink: "/html-tags#html-div",
-    lessonLinkText: "Урок про Блоки",
+    hint: "Пам'ятай, `padding` - це внутрішній відступ.",
+    lessonLink: "/css-properties#css-padding",
+    lessonLinkText: "Урок про Внутрішні Відступи",
   },
   {
-    id: "challenge-header-footer-style",
-    title: "Командний Місток та Техвідсік",
-    description: "Додай фон та відступи для шапки (`header`) та підвалу (`footer`) сайту. Спробуй `background-color: #0a0a23;` та `padding: 15px;`.",
-    initialCss: `header, footer {
-  background-color: #0a0a23; /* Темний космічний фон */
-  padding: 15px;
-  text-align: center;
+    id: "challenge-8",
+    title: "Місія 8: Зовнішні Відступи між Астероїдами",
+    description: "Додай зовнішні відступи (margin) між двома блоками 'Астероїд', щоб вони не злипалися. Встанови `margin-bottom: 15px;` для першого астероїда.",
+    initialHtml: `<div class="asteroid">Астероїд Альфа</div>
+<div class="asteroid">Астероїд Бета</div>`,
+    initialCss: `.asteroid {
+  border: 1px solid #b3ffff;
+  background-color: #1f1f3f;
   color: #e0e0e0;
+  padding: 10px;
 }`,
     previewContent: (
       <div style={{ backgroundColor: '#0a0a23', padding: '15px', textAlign: 'center', color: '#e0e0e0', borderRadius: '8px' }}>
         <p>Це командний місток або техвідсік твого сайту.</p>
       </div>
     ),
-    hint: "Використай селектори `header, footer` та властивості `background-color`, `padding`, `text-align`, `color`.",
-    lessonLink: "/html-tags#html-header",
-    lessonLinkText: "Урок про Шапку та Підвал",
+    hint: "Яка властивість створює простір *навколо* елемента?",
+    lessonLink: "/css-properties#css-margin",
+    lessonLinkText: "Урок про Зовнішні Відступи",
+  },
+  {
+    id: "challenge-9",
+    title: "Місія 9: Прозорий Щит",
+    description: "Зроби захисний щит (блок `div`) напівпрозорим. Використай властивість `opacity` зі значенням `0.7`.",
+    initialHtml: `<div class="shield">Захисний Щит</div>`,
+    initialCss: `.shield {
+  width: 150px;
+  height: 80px;
+  background-color: #ff69b4;
+  border: 2px solid #b3ffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}`,
+    previewContent: (
+      <div style={{ width: '150px', height: '80px', backgroundColor: '#ff69b4', border: '2px solid #b3ffff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', opacity: 0.7, borderRadius: '8px' }}>
+        Захисний Щит
+      </div>
+    ),
+    hint: "Значення `opacity` від 0 до 1.",
+    lessonLink: "/css-properties#css-opacity",
+    lessonLinkText: "Урок про Прозорість",
+  },
+  {
+    id: "challenge-10",
+    title: "Місія 10: Космічна Галерея",
+    description: "Додай три зображення космічних об'єктів. Використай тег `<img>` для кожного. Знайди картинки в інтернеті (наприклад, на Unsplash.com) і встав їх URL в атрибут `src`.",
+    initialHtml: ``,
+    initialCss: `img {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  margin: 5px;
+  border: 2px solid #b3ffff;
+  border-radius: 8px;
+}`,
+    previewContent: (
+      <div className="flex justify-center items-center p-4">
+        <img
+          src="https://picsum.photos/id/200/150/100"
+          alt="Космічний об'єкт 1"
+          style={{ width: '150px', height: '100px', objectFit: 'cover', margin: '5px', border: '2px solid #b3ffff', borderRadius: '8px' }}
+        />
+        <img
+          src="https://picsum.photos/id/201/150/100"
+          alt="Космічний об'єкт 2"
+          style={{ width: '150px', height: '100px', objectFit: 'cover', margin: '5px', border: '2px solid #b3ffff', borderRadius: '8px' }}
+        />
+        <img
+          src="https://picsum.photos/id/202/150/100"
+          alt="Космічний об'єкт 3"
+          style={{ width: '150px', height: '100px', objectFit: 'cover', margin: '5px', border: '2px solid #b3ffff', borderRadius: '8px' }}
+        />
+      </div>
+    ),
+    hint: "Не забудь про атрибут `alt` для опису зображення!",
+    lessonLink: "/html-tags#html-img",
+    lessonLinkText: "Урок про Зображення",
   },
 ];
