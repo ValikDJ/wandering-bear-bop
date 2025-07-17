@@ -17,22 +17,20 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import LiveCodeEditor from "@/components/LiveCodeEditor"; // Import LiveCodeEditor
 
-const cssTemplate = `/* style.css - Твої віртуальні пензлі! */
-
-body {
+const cssTemplate = `body {
     font-family: 'Arial', sans-serif;
-    background-color: #1a1a2e; /* Темний космічний фон */
-    color: #e0e0e0; /* Світлий текст для зірок */
+    background-color: #1a1a2e;
+    color: #e0e0e0;
     margin: 0;
     padding: 20px;
 }
 
 header {
-    background-color: #2a2a4a; /* Темніша панель управління */
-    color: #b3ffff; /* Неоновий синій для заголовків */
+    background-color: #2a2a4a;
+    color: #b3ffff;
     padding: 15px 20px;
     text-align: center;
-    border-bottom: 2px solid #8a2be2; /* Фіолетова лінія горизонту */
+    border-bottom: 2px solid #8a2be2;
 }
 
 header h1 {
@@ -41,19 +39,19 @@ header h1 {
 }
 
 nav a {
-    color: #b3ffff; /* Неонові посилання */
+    color: #b3ffff;
     text-decoration: none;
     margin: 0 15px;
 }
 
 nav a:hover {
-    color: #ff69b4; /* Рожеве світіння при наведенні */
+    color: #ff69b4;
 }
 
 main {
     max-width: 900px;
     margin: 20px auto;
-    background-color: #1f1f3f; /* Фон для секцій */
+    background-color: #1f1f3f;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
@@ -62,13 +60,13 @@ main {
 section {
     margin-bottom: 40px;
     padding: 20px;
-    border: 1px solid #8a2be2; /* Фіолетова рамка */
+    border: 1px solid #8a2be2;
     border-radius: 8px;
-    background-color: #252545; /* Трохи світліший фон секції */
+    background-color: #252545;
 }
 
 section h2 {
-    color: #ff69b4; /* Неоновий рожевий для підзаголовків */
+    color: #ff69b4;
     border-bottom: 1px dashed #8a2be2;
     padding-bottom: 10px;
     margin-top: 0;
