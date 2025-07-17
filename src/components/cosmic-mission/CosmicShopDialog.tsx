@@ -22,9 +22,11 @@ interface CosmicShopDialogProps {
   setHasStarBurst: (value: boolean) => void;
   hasCosmicMusic: boolean;
   setHasCosmicMusic: (value: boolean) => void;
+  children: React.ReactNode; // NEW: Accept children for the trigger button
 }
 
 const CosmicShopDialog: React.FC<CosmicShopDialogProps> = ({
+  children, // NEW
   maxEnergy,
   setMaxEnergy,
   energyPerClick,
@@ -45,17 +47,7 @@ const CosmicShopDialog: React.FC<CosmicShopDialogProps> = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          variant="default"
-          size="lg"
-          className={cn(
-            "fixed bottom-24 right-4 z-50 shadow-lg bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover transition-all duration-300 ease-in-out no-print",
-            "w-16 h-16 rounded-full flex items-center justify-center"
-          )}
-          aria-label="Відкрити Космічний Магазин"
-        >
-          <ShoppingCart className="h-7 w-7" />
-        </Button>
+        {children}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto bg-card text-card-foreground p-6">
         <DialogHeader>

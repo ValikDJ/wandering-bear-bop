@@ -16,7 +16,7 @@ import CosmicMissionChecklist from "@/components/CosmicMissionChecklist";
 import CosmicMissionWhatsNext from "@/components/cosmic-mission/CosmicMissionWhatsNext";
 import CosmicEnergyMeter from "@/components/cosmic-mission/CosmicEnergyMeter";
 import CosmicEnergyButton from "@/components/CosmicEnergyButton";
-import CosmicFloatingButtons from "@/components/cosmic-mission/CosmicFloatingButtons"; // NEW IMPORT
+import CosmicFloatingMenu from "@/components/cosmic-mission/CosmicFloatingMenu"; // NEW IMPORT
 import { cssChallenges } from "@/data/cosmicCssChallenges";
 
 const LOCAL_STORAGE_ENERGY_KEY = "cosmic-mission-energy";
@@ -247,9 +247,10 @@ const CosmicMission: React.FC = () => {
       localStorage.removeItem(LOCAL_STORAGE_HAS_STAR_BURST_KEY);
       localStorage.removeItem(LOCAL_STORAGE_HAS_COSMIC_MUSIC_KEY);
       localStorage.removeItem(LOCAL_STORAGE_ENERGY_SPENT_ON_CHALLENGES_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_STAGE1_COMPLETED_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_STAGE2_COMPLETED_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_CHECKLIST_COMPLETED_KEY); // Clear the main checklist progress too
+      // Clear stage completion states as well
+      localStorage.removeItem("cosmic-mission-stage1-completed");
+      localStorage.removeItem("cosmic-mission-stage2-completed");
+      localStorage.removeItem("cosmic-mission-checklist-progress");
 
       toast.success("Прогрес Космічної Місії скинуто!");
       window.location.reload(); // Reload the page to reset all states
@@ -283,8 +284,8 @@ const CosmicMission: React.FC = () => {
         onChallengeCompletionChange={handleChallengeCompletionChange}
       />
 
-      {/* NEW: Cosmic Floating Buttons */}
-      <CosmicFloatingButtons
+      {/* NEW: Cosmic Floating Menu (Shop and Achievements) */}
+      <CosmicFloatingMenu
         maxEnergy={maxEnergy}
         setMaxEnergy={() => { /* Max energy is fixed, no-op */ }}
         energyPerClick={energyPerClick}
