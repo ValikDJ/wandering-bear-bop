@@ -19,10 +19,12 @@ interface CosmicMissionStage2CssProps {
   onCompletionChange: (completed: boolean) => void;
   cosmicEnergy: number;
   decreaseCosmicEnergy: (amount: number, actionType: 'hint' | 'solution') => void;
+  challengeCompletion: { [key: string]: boolean }; // NEW: Receive challenge completion state
+  onChallengeCompletionChange: (id: string, isChecked: boolean) => void; // NEW: Receive handler
 }
 
 const LOCAL_STORAGE_KEY_STAGE2 = "cosmic-mission-stage2-completed";
-const LOCAL_STORAGE_KEY_CHALLENGES = "cosmic-css-challenges-progress";
+// const LOCAL_STORAGE_KEY_CHALLENGES = "cosmic-css-challenges-progress"; // This key is now managed by parent
 
 const cssTemplateUncommented = `/* style.css - Твої віртуальні пензлі! */
 
@@ -80,17 +82,16 @@ height: auto; /* Встановлює висоту елемента (напри�
 opacity: 0.8; /* Встановлює рівень прозорості елемента (від 0 - повністю прозорий, до 1 - повністю непрозорий) */
 `;
 
-const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ completed, onCompletionChange, cosmicEnergy, decreaseCosmicEnergy }) => {
+const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({
+  completed,
+  onCompletionChange,
+  cosmicEnergy,
+  decreaseCosmicEnergy,
+  challengeCompletion, // NEW
+  onChallengeCompletionChange, // NEW
+}) => {
   const [displayCommentedCss, setDisplayCommentedCss] = useState(false);
-  const [challengeCompletion, setChallengeCompletion] = useState<{ [key: string]: boolean }>(() => {
-    try {
-      const stored = localStorage.getItem(LOCAL_STORAGE_KEY_CHALLENGES);
-      return stored ? JSON.parse(stored) : {};
-    } catch (error) {
-      console.error("Failed to load cosmic CSS challenges completion:", error);
-      return {};
-    }
-  });
+  // challengeCompletion state is now managed by parent and passed as prop
 
   useEffect(() => {
     try {
@@ -111,22 +112,18 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
     }
   }, [completed]);
 
-  useEffect(() => {
-    try {
-      localStorage.setItem(LOCAL_STORAGE_KEY_CHALLENGES, JSON.stringify(challengeCompletion));
-    } catch (error) {
-      console.error("Failed to save cosmic CSS challenges progress:", error);
-    }
-    const allChallengesCompleted = cssChallenges.every(challenge => challengeCompletion[challenge.id]);
-    onCompletionChange(allChallengesCompleted);
-  }, [challengeCompletion, onCompletionChange]);
+  // No longer saving challengeCompletion here, it's handled by parent
+  // useEffect(() => {
+  //   try {
+  //     localStorage.setItem(LOCAL_STORAGE_KEY_CHALLENGES, JSON.stringify(challengeCompletion));
+  //   } catch (error) {
+  //     console.error("Failed to save cosmic CSS challenges progress:", error);
+  //   }
+  //   const allChallengesCompleted = cssChallenges.every(challenge => challengeCompletion[challenge.id]);
+  //   onCompletionChange(allChallengesCompleted);
+  // }, [challengeCompletion, onCompletionChange]);
 
-  const handleChallengeCompletionChange = (id: string, isChecked: boolean) => {
-    setChallengeCompletion(prev => ({
-      ...prev,
-      [id]: isChecked,
-    }));
-  };
+  // handleChallengeCompletionChange is now passed as prop
 
   const handleCopyCss = (version: 'uncommented' | 'commented') => {
     const textToCopy = version === 'commented' ? cssTemplateCommented : cssTemplateUncommented;
@@ -274,7 +271,7 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                   lessonLink={challenge.lessonLink}
                   lessonLinkText={challenge.lessonLinkText}
                   completed={!!challengeCompletion[challenge.id]}
-                  onCompletionChange={(isChecked) => handleChallengeCompletionChange(challenge.id, isChecked)}
+                  onCompletionChange={(isChecked) => onChallengeCompletionChange(challenge.id, isChecked)}
                   cosmicEnergy={cosmicEnergy}
                   decreaseCosmicEnergy={decreaseCosmicEnergy}
                 />

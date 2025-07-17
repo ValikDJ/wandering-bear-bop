@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import LessonNavigation from "@/components/LessonNavigation";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 import { useTheme } from "@/hooks/use-theme";
@@ -13,9 +13,12 @@ import CosmicMissionStage2Css from "@/components/cosmic-mission/CosmicMissionSta
 import CosmicMissionStage3Launch from "@/components/cosmic-mission/CosmicMissionStage3Launch";
 import CosmicMissionChecklist from "@/components/CosmicMissionChecklist";
 import CosmicMissionWhatsNext from "@/components/cosmic-mission/CosmicMissionWhatsNext";
-import CosmicEnergyMeter from "@/components/cosmic-mission/CosmicEnergyMeter"; // NEW IMPORT
+import CosmicEnergyMeter from "@/components/cosmic-mission/CosmicEnergyMeter";
+import CosmicEnergyButton from "@/components/CosmicEnergyButton"; // NEW IMPORT
+import { cssChallenges } from "@/data/cosmicCssChallenges"; // NEW IMPORT to check all challenges completion
 
 const LOCAL_STORAGE_ENERGY_KEY = "cosmic-mission-energy";
+const LOCAL_STORAGE_KEY_CHALLENGES = "cosmic-css-challenges-progress"; // NEW: Import key for challenges progress
 
 const CosmicMission: React.FC = () => {
   useScrollToHash();
@@ -26,7 +29,7 @@ const CosmicMission: React.FC = () => {
   const [stage2Completed, setStage2Completed] = useState<boolean>(false);
   const [checklistCompleted, setChecklistCompleted] = useState<boolean>(false);
 
-  // NEW: State for Cosmic Energy
+  // State for Cosmic Energy
   const [cosmicEnergy, setCosmicEnergy] = useState<number>(() => {
     try {
       const storedEnergy = localStorage.getItem(LOCAL_STORAGE_ENERGY_KEY);
@@ -37,7 +40,21 @@ const CosmicMission: React.FC = () => {
     }
   });
 
-  // NEW: Persist cosmic energy to localStorage
+  // NEW: State for individual challenge completion
+  const [challengeCompletion, setChallengeCompletion] = useState<{ [key: string]: boolean }>(() => {
+    try {
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEY_CHALLENGES);
+      return stored ? JSON.parse(stored) : {};
+    } catch (error) {
+      console.error("Failed to load cosmic CSS challenges completion:", error);
+      return {};
+    }
+  });
+
+  // NEW: Determine if all CSS challenges are completed
+  const allCssChallengesCompleted = cssChallenges.every(challenge => challengeCompletion[challenge.id]);
+
+  // Persist cosmic energy to localStorage
   useEffect(() => {
     try {
       localStorage.setItem(LOCAL_STORAGE_ENERGY_KEY, JSON.stringify(cosmicEnergy));
@@ -46,8 +63,13 @@ const CosmicMission: React.FC = () => {
     }
   }, [cosmicEnergy]);
 
-  // NEW: Function to decrease cosmic energy
-  const decreaseCosmicEnergy = (amount: number, actionType: 'hint' | 'solution') => {
+  // Function to add cosmic energy
+  const addCosmicEnergy = useCallback((amount: number) => {
+    setCosmicEnergy(prevEnergy => prevEnergy + amount);
+  }, []);
+
+  // Function to decrease cosmic energy (for hints/solutions)
+  const decreaseCosmicEnergy = useCallback((amount: number, actionType: 'hint' | 'solution') => {
     setCosmicEnergy(prevEnergy => {
       const newEnergy = Math.max(0, prevEnergy - amount);
       if (newEnergy < prevEnergy) {
@@ -57,7 +79,20 @@ const CosmicMission: React.FC = () => {
       }
       return newEnergy;
     });
-  };
+  }, []);
+
+  // Callback for CosmicMissionStage2Css to update challenge completion
+  const handleChallengeCompletionChange = useCallback((id: string, isChecked: boolean) => {
+    setChallengeCompletion(prev => ({
+      ...prev,
+      [id]: isChecked,
+    }));
+  }, []);
+
+  // Effect to update stage2Completed based on allCssChallengesCompleted
+  useEffect(() => {
+    setStage2Completed(allCssChallengesCompleted);
+  }, [allCssChallengesCompleted]);
 
   useEffect(() => {
     // Якщо ви хочете, щоб ця сторінка завжди починалася з космічної теми,
@@ -77,7 +112,7 @@ const CosmicMission: React.FC = () => {
         checklistCompleted={checklistCompleted}
       />
 
-      {/* NEW: Cosmic Energy Meter */}
+      {/* Cosmic Energy Meter */}
       <CosmicEnergyMeter energy={cosmicEnergy} />
 
       <CosmicMissionStage1Html
@@ -88,8 +123,10 @@ const CosmicMission: React.FC = () => {
       <CosmicMissionStage2Css
         completed={stage2Completed}
         onCompletionChange={setStage2Completed}
-        cosmicEnergy={cosmicEnergy} // NEW: Pass energy
-        decreaseCosmicEnergy={decreaseCosmicEnergy} // NEW: Pass energy decrease function
+        cosmicEnergy={cosmicEnergy}
+        decreaseCosmicEnergy={decreaseCosmicEnergy}
+        challengeCompletion={challengeCompletion} // Pass challenge completion state
+        onChallengeCompletionChange={handleChallengeCompletionChange} // Pass handler
       />
 
       <CosmicMissionStage3Launch />
@@ -99,6 +136,13 @@ const CosmicMission: React.FC = () => {
       <CosmicMissionWhatsNext />
 
       <LessonNavigation />
+
+      {/* Cosmic Energy Button */}
+      <CosmicEnergyButton
+        currentEnergy={cosmicEnergy}
+        addEnergy={addCosmicEnergy}
+        allCssChallengesCompleted={allCssChallengesCompleted}
+      />
     </div>
   );
 };

@@ -261,6 +261,70 @@
   animation-name: fade-out;
 }
 
+/* Cosmic Energy Button Animations */
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(129, 140, 248, 0.6); /* Blue glow */
+  }
+}
+
+@keyframes float-up-fade-out {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(-50px);
+  }
+}
+
+@keyframes particle-burst {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0) translateY(-30px);
+  }
+}
+
+@keyframes bounce-once {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-5px);
+  }
+  40% {
+    transform: translateY(0);
+  }
+}
+
+
+.animate-pulse-slow {
+  animation: pulse-slow 2s infinite ease-in-out;
+}
+
+.animate-float-up-fade-out {
+  animation: float-up-fade-out 0.8s ease-out forwards;
+}
+
+.animate-particle-burst {
+  animation: particle-burst 0.8s ease-out forwards;
+}
+
+.animate-bounce-once {
+  animation: bounce-once 0.6s ease-out;
+}
+
+
 /* Print Styles */
 @media print {
   /* Hide elements not needed for print */
