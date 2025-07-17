@@ -231,18 +231,18 @@ const CosmicMission: React.FC = () => {
               <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
                 <p className="mb-2">Використовуй властивості, які ти вже вивчив в уроці <Link to="/css-properties" className="text-brand-primary hover:underline">"CSS Властивості"</Link>! Спробуй змінити ці властивості, щоб твоя база виглядала унікально:</p>
                 <ul className="list-disc list-inside">
-                  <li>`color`: Зміни колір тексту для заголовків (`h1`, `h2`) та абзаців (`p`).</li>
-                  <li>`background-color`: Зміни колір фону для `body`, `header`, `main` або `section`.</li>
-                  <li>`font-size`: Збільш або зменш розмір шрифту для різних елементів.</li>
-                  <li>`font-family`: Зміни тип шрифту.</li>
-                  <li>`text-align`: Вирівняй текст по центру (`center`), ліворуч (`left`) або праворуч (`right`).</li>
-                  <li>`margin`: Додай зовнішні відступи, щоб елементи не "злипалися".</li>
-                  <li>`padding`: Додай внутрішні відступи, щоб текст не "прилипав" до країв елементів.</li>
-                  <li>`border`: Додай рамки до `section`, `img` або `table`.</li>
-                  <li>`border-radius`: Заокругли кути елементів, наприклад, для картинок або секцій.</li>
-                  <li>`text-decoration`: Прибери підкреслення у посилань (`a { text-decoration: none; }`).</li>
-                  <li>`opacity`: Зроби елементи напівпрозорими.</li>
-                  <li>`width` / `height`: Зміни ширину або висоту елементів (наприклад, картинок).</li>
+                  <li><code>color</code>: Зміни колір тексту для заголовків (`h1`, `h2`) та абзаців (`p`).</li>
+                  <li><code>background-color</code>: Зміни колір фону для `body`, `header`, `main` або `section`.</li>
+                  <li><code>font-size</code>: Збільш або зменш розмір шрифту для різних елементів.</li>
+                  <li><code>font-family</code>: Зміни тип шрифту.</li>
+                  <li><code>text-align</code>: Вирівняй текст по центру (`center`), ліворуч (`left`) або праворуч (`right`).</li>
+                  <li><code>margin</code>: Додай зовнішні відступи, щоб елементи не "злипалися".</li>
+                  <li><code>padding</code>: Додай внутрішні відступи, щоб текст не "прилипав" до країв елементів.</li>
+                  <li><code>border</code>: Додай рамки до `section`, `img` або `table`.</li>
+                  <li><code>border-radius</code>: Заокругли кути елементів, наприклад, для картинок або секцій.</li>
+                  <li><code>text-decoration</code>: Прибери підкреслення у посилань (<code>a { text-decoration: none; }</code>).</li>
+                  <li><code>opacity</code>: Зроби елементи напівпрозорими.</li>
+                  <li><code>width</code> / <code>height</code>: Зміни ширину або висоту елементів (наприклад, картинок).</li>
                 </ul>
                 <p className="mt-2">
                   Експериментуй! Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> для інтерактивної практики!
