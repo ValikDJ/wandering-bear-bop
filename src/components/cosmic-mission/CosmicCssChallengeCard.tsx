@@ -110,7 +110,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
           </Label>
           {/* Only show if completed and sparkle is active */}
           {showSparkle && completed && (
-            <Sparkles className="absolute h-8 w-8 text-yellow-400 animate-sparkle-pop -right-8" /> {/* Position relative to parent */}
+            <Sparkles className="absolute h-8 w-8 text-yellow-400 animate-sparkle-pop -right-8" />
           )}
         </div>
       </CardHeader>
