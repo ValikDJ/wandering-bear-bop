@@ -81,7 +81,6 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
   const handleSolutionOpenChange = (open: boolean) => {
     if (open && !solutionUsed && cosmicEnergy >= SOLUTION_COST) {
       decreaseCosmicEnergy(SOLUTION_COST, 'solution');
-      setSolutionUsed(true);
     } else if (open && !solutionUsed && cosmicEnergy < SOLUTION_COST) {
       toast.error("Недостатньо Космічної Енергії для рішення!");
       return; // Prevent opening if not enough energy
@@ -108,7 +107,8 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
           <Label htmlFor={`challenge-${challengeNumber}-completed`} className="text-lg font-medium text-muted-foreground">
             Виконано
           </Label>
-          {showSparkle && completed && ( /* Only show if completed and sparkle is active */
+          {/* Only show if completed and sparkle is active */}
+          {showSparkle && completed && (
             <Sparkles className="absolute h-8 w-8 text-yellow-400 animate-sparkle-pop -right-8" /> {/* Position relative to parent */}
           )}
         </div>
