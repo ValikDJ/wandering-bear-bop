@@ -46,15 +46,15 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
     {
       id: "energy-collector",
       name: "Енергетичний Збирач",
-      description: "Збери 500 енергії всього.",
-      isUnlocked: totalEnergyCollected >= 500,
+      description: "Збери 200 енергії всього.", // Adjusted threshold
+      isUnlocked: totalEnergyCollected >= 200,
       icon: Zap,
     },
     {
       id: "reactor-master",
       name: "Майстер Реактора",
-      description: "Збери 1000 енергії всього.",
-      isUnlocked: totalEnergyCollected >= 1000,
+      description: "Збери 500 енергії всього.", // Adjusted threshold
+      isUnlocked: totalEnergyCollected >= 500,
       icon: Zap,
     },
     {

@@ -16,8 +16,7 @@ import CosmicMissionChecklist from "@/components/CosmicMissionChecklist";
 import CosmicMissionWhatsNext from "@/components/cosmic-mission/CosmicMissionWhatsNext";
 import CosmicEnergyMeter from "@/components/cosmic-mission/CosmicEnergyMeter";
 import CosmicEnergyButton from "@/components/CosmicEnergyButton";
-import CosmicShopDialog from "@/components/cosmic-mission/CosmicShopDialog";
-import CosmicAchievementsDialog from "@/components/cosmic-mission/CosmicAchievementsDialog";
+import CosmicFloatingButtons from "@/components/cosmic-mission/CosmicFloatingButtons"; // NEW IMPORT
 import { cssChallenges } from "@/data/cosmicCssChallenges";
 
 const LOCAL_STORAGE_ENERGY_KEY = "cosmic-mission-energy";
@@ -284,8 +283,8 @@ const CosmicMission: React.FC = () => {
         onChallengeCompletionChange={handleChallengeCompletionChange}
       />
 
-      {/* NEW: Cosmic Shop Dialog */}
-      <CosmicShopDialog
+      {/* NEW: Cosmic Floating Buttons */}
+      <CosmicFloatingButtons
         maxEnergy={maxEnergy}
         setMaxEnergy={() => { /* Max energy is fixed, no-op */ }}
         energyPerClick={energyPerClick}
@@ -302,15 +301,9 @@ const CosmicMission: React.FC = () => {
         setHasStarBurst={setHasStarBurst}
         hasCosmicMusic={hasCosmicMusic}
         setHasCosmicMusic={setHasCosmicMusic}
-      />
-
-      {/* NEW: Cosmic Achievements Dialog */}
-      <CosmicAchievementsDialog
         totalClicks={totalClicks}
         totalEnergyCollected={totalEnergyCollected}
         allCssChallengesCompleted={allCssChallengesCompleted}
-        currentEnergy={cosmicEnergy}
-        maxEnergy={maxEnergy}
         energySpentOnChallenges={energySpentOnChallenges}
       />
 
