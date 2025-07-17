@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Copy, Palette, ChevronDown, Lightbulb, Plane } from "lucide-react"; // Changed Planet to Plane
+import { Copy, Palette, ChevronDown, Lightbulb, Plane } from "lucide-react";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,14 +11,15 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
-import CssExampleCard from "./CssExampleCard";
+import CosmicCssChallengeCard from "./CosmicCssChallengeCard"; // Updated import
 
 interface CosmicMissionStage2CssProps {
   completed: boolean;
   onCompletionChange: (completed: boolean) => void;
 }
 
-const LOCAL_STORAGE_KEY = "cosmic-mission-stage2-completed";
+const LOCAL_STORAGE_KEY_STAGE2 = "cosmic-mission-stage2-completed";
+const LOCAL_STORAGE_KEY_CHALLENGES = "cosmic-css-challenges-progress";
 
 const cssTemplateUncommented = `/* style.css - Твої віртуальні пензлі! */
 
@@ -76,12 +77,193 @@ height: auto; /* Встановлює висоту елемента (напри�
 opacity: 0.8; /* Встановлює рівень прозорості елемента (від 0 - повністю прозорий, до 1 - повністю непрозорий) */
 `;
 
+interface CosmicCssChallengeData {
+  id: string;
+  title: string;
+  description: string;
+  initialCss: string;
+  previewContent: React.ReactNode;
+  hint: string;
+  lessonLink?: string;
+  lessonLinkText?: string;
+}
+
+const cssChallenges: CosmicCssChallengeData[] = [
+  {
+    id: "challenge-body-style",
+    title: "Космічний Фон Бази",
+    description: "Зміни колір фону та тексту для всієї сторінки, щоб вона виглядала як космічний простір. Спробуй `background-color: #0a0a23;` та `color: #e0e0e0;`.",
+    initialCss: `body {
+  background-color: #0a0a23; /* Темний космічний фон */
+  color: #e0e0e0; /* Світлий текст */
+}`,
+    previewContent: (
+      <div
+        style={{
+          backgroundColor: '#0a0a23',
+          color: '#e0e0e0',
+          padding: '20px',
+          borderRadius: '8px',
+          textAlign: 'center',
+        }}
+        className="min-h-[100px] flex items-center justify-center"
+      >
+        <p>Тут буде твій сайт з космічним фоном та світлим текстом.</p>
+      </div>
+    ),
+    hint: "Використай селектор `body` та властивості `background-color` і `color`.",
+    lessonLink: "/css-properties#css-background-color",
+    lessonLinkText: "Урок про Колір Фону",
+  },
+  {
+    id: "challenge-h1-style",
+    title: "Головний Заголовок Місії",
+    description: "Зроби головний заголовок (`h1`) по центру та зміни його колір на яскравий, наприклад, `#00ff88` (неоновий зелений).",
+    initialCss: `h1 {
+  text-align: center; /* Вирівнювання по центру */
+  color: #00ff88; /* Неоновий зелений колір */
+}`,
+    previewContent: (
+      <h1 style={{ textAlign: 'center', color: '#00ff88', fontSize: '2em' }} className="p-2">
+        Мій Космічний Заголовок
+      </h1>
+    ),
+    hint: "Використай селектор `h1` та властивості `text-align` і `color`.",
+    lessonLink: "/css-properties#css-text-align",
+    lessonLinkText: "Урок про Вирівнювання Тексту",
+  },
+  {
+    id: "challenge-p-style",
+    title: "Текст Бортового Журналу",
+    description: "Зміни розмір шрифту для всіх абзаців (`p`) на `18px` та колір на `#b3ffff` (світло-блакитний).",
+    initialCss: `p {
+  font-size: 18px; /* Розмір шрифту */
+  color: #b3ffff; /* Світло-блакитний колір */
+}`,
+    previewContent: (
+      <p style={{ fontSize: '18px', color: '#b3ffff', padding: '10px', border: '1px dashed #4ecdc4', borderRadius: '5px' }}>
+        Це приклад тексту бортового журналу. Він стане трохи більшим і світло-блакитним.
+      </p>
+    ),
+    hint: "Використай селектор `p` та властивості `font-size` і `color`.",
+    lessonLink: "/css-properties#css-font-size",
+    lessonLinkText: "Урок про Розмір Шрифту",
+  },
+  {
+    id: "challenge-img-style",
+    title: "Рамки для Космічних Знімків",
+    description: "Додай рамку (`border`) товщиною `3px`, стилем `solid` та кольором `#ff69b4` (рожевий) до всіх зображень (`img`). Заокругли кути на `15px`.",
+    initialCss: `img {
+  border: 3px solid #ff69b4; /* Рожева рамка */
+  border-radius: 15px; /* Заокруглені кути */
+}`,
+    previewContent: (
+      <div className="flex justify-center items-center p-4">
+        <img
+          src="https://picsum.photos/id/66/150/150"
+          alt="Приклад зображення"
+          style={{ border: '3px solid #ff69b4', borderRadius: '15px', maxWidth: '100%', height: 'auto' }}
+          className="shadow-sm"
+        />
+      </div>
+    ),
+    hint: "Використай селектор `img` та властивості `border` і `border-radius`.",
+    lessonLink: "/css-properties#css-border-radius",
+    lessonLinkText: "Урок про Рамки та Заокруглення",
+  },
+  {
+    id: "challenge-a-style",
+    title: "Навігаційні Промені",
+    description: "Прибери підкреслення (`text-decoration: none;`) та зміни колір для всіх посилань (`a`) на `#4ecdc4` (бірюзовий).",
+    initialCss: `a {
+  text-decoration: none; /* Прибирає підкреслення */
+  color: #4ecdc4; /* Бірюзовий колір */
+}`,
+    previewContent: (
+      <a href="#" style={{ textDecoration: 'none', color: '#4ecdc4', padding: '5px', border: '1px dotted #4ecdc4', borderRadius: '3px' }}>
+        Посилання без підкреслення
+      </a>
+    ),
+    hint: "Використай селектор `a` та властивості `text-decoration` і `color`.",
+    lessonLink: "/css-properties#css-text-decoration",
+    lessonLinkText: "Урок про Оформлення Тексту",
+  },
+  {
+    id: "challenge-button-style",
+    title: "Кнопка Запуску",
+    description: "Зроби кнопки (`button`) яскравими та заокругленими. Встанови `background-color: #00ff88;` (неоновий зелений), `color: white;`, `padding: 10px 20px;` та `border-radius: 8px;`.",
+    initialCss: `button {
+  background-color: #00ff88; /* Неоновий зелений фон */
+  color: white; /* Білий текст */
+  padding: 10px 20px; /* Внутрішні відступи */
+  border-radius: 8px; /* Заокруглені кути */
+  border: none;
+  cursor: pointer;
+}`,
+    previewContent: (
+      <button style={{ backgroundColor: '#00ff88', color: 'white', padding: '10px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer' }}>
+        Запустити!
+      </button>
+    ),
+    hint: "Використай селектор `button` та властивості `background-color`, `color`, `padding`, `border-radius`.",
+    lessonLink: "/html-tags#html-button",
+    lessonLinkText: "Урок про Кнопки",
+  },
+  {
+    id: "challenge-div-section-style",
+    title: "Модулі Космічної Бази",
+    description: "Додай фон, рамку та внутрішні відступи до блоків (`div`, `section`). Спробуй `padding: 20px;`, `background-color: #1a1a3a;` та `border: 1px solid #4ecdc4;`.",
+    initialCss: `div, section {
+  padding: 20px; /* Внутрішній відступ */
+  background-color: #1a1a3a; /* Темно-синій фон */
+  border: 1px solid #4ecdc4; /* Бірюзова рамка */
+  border-radius: 10px; /* Заокруглені кути */
+}`,
+    previewContent: (
+      <div style={{ padding: '20px', backgroundColor: '#1a1a3a', border: '1px solid #4ecdc4', borderRadius: '10px', color: '#e0e0e0' }}>
+        <p>Це модуль космічної бази. Він має темний фон та бірюзову рамку.</p>
+      </div>
+    ),
+    hint: "Використай селектори `div, section` та властивості `padding`, `background-color`, `border`, `border-radius`.",
+    lessonLink: "/html-tags#html-div",
+    lessonLinkText: "Урок про Блоки",
+  },
+  {
+    id: "challenge-header-footer-style",
+    title: "Командний Місток та Техвідсік",
+    description: "Додай фон та відступи для шапки (`header`) та підвалу (`footer`) сайту. Спробуй `background-color: #0a0a23;` та `padding: 15px;`.",
+    initialCss: `header, footer {
+  background-color: #0a0a23; /* Темний космічний фон */
+  padding: 15px;
+  text-align: center;
+  color: #e0e0e0;
+}`,
+    previewContent: (
+      <div style={{ backgroundColor: '#0a0a23', padding: '15px', textAlign: 'center', color: '#e0e0e0', borderRadius: '8px' }}>
+        <p>Це командний місток або техвідсік твого сайту.</p>
+      </div>
+    ),
+    hint: "Використай селектори `header, footer` та властивості `background-color`, `padding`, `text-align`, `color`.",
+    lessonLink: "/html-tags#html-header",
+    lessonLinkText: "Урок про Шапку та Підвал",
+  },
+];
+
 const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ completed, onCompletionChange }) => {
   const [displayCommentedCss, setDisplayCommentedCss] = useState(false);
+  const [challengeCompletion, setChallengeCompletion] = useState<{ [key: string]: boolean }>(() => {
+    try {
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEY_CHALLENGES);
+      return stored ? JSON.parse(stored) : {};
+    } catch (error) {
+      console.error("Failed to load cosmic CSS challenges completion:", error);
+      return {};
+    }
+  });
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEY_STAGE2);
       if (stored) {
         onCompletionChange(JSON.parse(stored));
       }
@@ -92,11 +274,28 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
 
   useEffect(() => {
     try {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(completed));
+      localStorage.setItem(LOCAL_STORAGE_KEY_STAGE2, JSON.stringify(completed));
     } catch (error) {
       console.error("Failed to save stage 2 completion:", error);
     }
   }, [completed]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY_CHALLENGES, JSON.stringify(challengeCompletion));
+    } catch (error) {
+      console.error("Failed to save cosmic CSS challenges progress:", error);
+    }
+    const allChallengesCompleted = cssChallenges.every(challenge => challengeCompletion[challenge.id]);
+    onCompletionChange(allChallengesCompleted);
+  }, [challengeCompletion, onCompletionChange]);
+
+  const handleChallengeCompletionChange = (id: string, isChecked: boolean) => {
+    setChallengeCompletion(prev => ({
+      ...prev,
+      [id]: isChecked,
+    }));
+  };
 
   const handleCopyCss = (version: 'uncommented' | 'commented') => {
     const textToCopy = version === 'commented' ? cssTemplateCommented : cssTemplateUncommented;
@@ -215,13 +414,13 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
           </CollapsibleContent>
         </Collapsible>
 
-        {/* Прості ідеї для стилізації твого сайту - Зовнішній Collapsible */}
-        <Collapsible className="mt-12">
+        {/* Орбітальні Завдання */}
+        <Collapsible className="mt-12" defaultOpen={true}>
           <CollapsibleTrigger asChild>
             <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
               <div className="flex items-center gap-2">
                 <Lightbulb className="h-6 w-6 text-yellow-500" />
-                Прості ідеї для стилізації твого сайту
+                Орбітальні Завдання: Стилізуй Свою Базу!
               </div>
               <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
             </Button>
@@ -229,276 +428,30 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
           <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
             <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
               <p className="mb-8 text-center max-w-2xl mx-auto text-muted-foreground">
-                Ось кілька легких прикладів, які ти можеш спробувати додати до свого файлу `style.css`. Просто скопіюй код і встав його, а потім змінюй значення!
+                Виконай ці міні-завдання, щоб навчитися застосовувати CSS-стилі до своєї космічної бази. Кожне завдання допоможе тобі краще зрозуміти, як працюють властивості CSS!
               </p>
 
-              <CssExampleCard
-                title="Стиль для всього сайту (`body`)"
-                description="Зміни колір фону та тексту для всієї сторінки."
-                cssCode={`body {
-  background-color: #f0f8ff; /* Світло-блакитний фон */
-  color: #333; /* Темно-сірий текст */
-}`}
-                previewContent={
-                  <div
-                    style={{
-                      backgroundColor: '#f0f8ff', // AliceBlue
-                      color: '#333', // Dark gray text
-                      padding: '20px',
-                      borderRadius: '8px',
-                      textAlign: 'center',
-                    }}
-                    className="min-h-[100px] flex items-center justify-center"
-                  >
-                    <p>Тут буде твій сайт зі світлим фоном та темним текстом.</p>
-                  </div>
-                }
-              />
+              {cssChallenges.map((challenge, index) => (
+                <CosmicCssChallengeCard
+                  key={challenge.id}
+                  challengeNumber={index + 1}
+                  challengeTitle={challenge.title}
+                  challengeDescription={challenge.description}
+                  initialCss={challenge.initialCss}
+                  previewContent={challenge.previewContent}
+                  hint={challenge.hint}
+                  lessonLink={challenge.lessonLink}
+                  lessonLinkText={challenge.lessonLinkText}
+                  completed={!!challengeCompletion[challenge.id]}
+                  onCompletionChange={(isChecked) => handleChallengeCompletionChange(challenge.id, isChecked)}
+                />
+              ))}
 
-              <CssExampleCard
-                title="Стиль для головного заголовка (`h1`)"
-                description="Зроби головний заголовок по центру та зміни його колір."
-                cssCode={`h1 {
-  text-align: center; /* Вирівнювання по центру */
-  color: #007bff; /* Синій колір */
-}`}
-                previewContent={
-                  <h1 style={{ textAlign: 'center', color: '#007bff', fontSize: '2em' }} className="p-2">
-                    Мій Крутий Заголовок
-                  </h1>
-                }
-              />
-
-              <CssExampleCard
-                title="Стиль для абзаців (`p`)"
-                description="Зміни розмір шрифту та колір для всіх абзаців."
-                cssCode={`p {
-  font-size: 16px; /* Розмір шрифту */
-  color: #555; /* Темно-сірий колір */
-}`}
-                previewContent={
-                  <p style={{ fontSize: '16px', color: '#555', padding: '10px', border: '1px dashed #ccc', borderRadius: '5px' }}>
-                    Це приклад тексту в абзаці. Він стане трохи більшим і сірим.
-                  </p>
-                }
-              />
-
-              <CssExampleCard
-                title="Стиль для зображень (`img`)"
-                description="Додай рамку та заокругли кути для всіх картинок."
-                cssCode={`img {
-  border: 2px solid green; /* Зелена рамка */
-  border-radius: 10px; /* Заокруглені кути */
-}`}
-                previewContent={
-                  <div className="flex justify-center items-center p-4">
-                    <img
-                      src="https://picsum.photos/id/237/150/150"
-                      alt="Приклад зображення"
-                      style={{ border: '2px solid green', borderRadius: '10px', maxWidth: '100%', height: 'auto' }}
-                      className="shadow-sm"
-                    />
-                  </div>
-                }
-              />
-
-              <CssExampleCard
-                title="Стиль для посилань (`a`)"
-                description="Прибери підкреслення та зміни колір для всіх посилань."
-                cssCode={`a {
-  text-decoration: none; /* Прибирає підкреслення */
-  color: purple; /* Фіолетовий колір */
-}`}
-                previewContent={
-                  <a href="#" style={{ textDecoration: 'none', color: 'purple', padding: '5px', border: '1px dotted purple', borderRadius: '3px' }}>
-                    Посилання без підкреслення
-                  </a>
-                }
-              />
-
-              <CssExampleCard
-                title="Стиль для кнопок (`button`)"
-                description="Зроби кнопки яскравими та заокругленими."
-                cssCode={`button {
-  background-color: #28a745; /* Зелений фон */
-  color: white; /* Білий текст */
-  padding: 8px 15px; /* Внутрішні відступи */
-  border-radius: 5px; /* Заокруглені кути */
-}`}
-                previewContent={
-                  <button style={{ backgroundColor: '#28a745', color: 'white', padding: '8px 15px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>
-                    Натисни мене!
-                  </button>
-                }
-              />
-
-              <CssExampleCard
-                title="Стиль для блоків (`div`, `section`)"
-                description="Додай фон, рамку та внутрішні відступи до блоків."
-                cssCode={`div, section {
-  padding: 15px; /* Внутрішній відступ */
-  background-color: #e9ecef; /* Світло-сірий фон */
-  border: 1px solid #ccc; /* Сіра рамка */
-  border-radius: 8px; /* Заокруглені кути */
-}`}
-                previewContent={
-                  <div style={{ padding: '15px', backgroundColor: '#e9ecef', border: '1px solid #ccc', borderRadius: '8px', color: '#333' }}>
-                    <p>Це блок з інформацією. Він має світлий фон та рамку.</p>
-                  </div>
-                }
-              />
-
-              <CssExampleCard
-                title="Стиль для списків (`ul`, `ol`, `li`)"
-                description="Додай відступ зліва для списків та зміни колір елементів."
-                cssCode={`ul, ol {
-  margin-left: 25px; /* Відступ зліва */
-}
-
-li {
-  color: #444; /* Колір тексту елементів списку */
-}`}
-                previewContent={
-                  <ul style={{ marginLeft: '25px', color: '#444' }}>
-                    <li>Елемент списку 1</li>
-                    <li>Елемент списку 2</li>
-                  </ul>
-                }
-              />
-
-              <CssExampleCard
-                title="Стиль для таблиць (`table`, `th`, `td`)"
-                description="Додай рамки до таблиці та її комірок."
-                cssCode={`table, th, td {
-  border: 1px solid #ccc; /* Сіра рамка */
-  border-collapse: collapse; /* Прибирає подвійні рамки */
-}
-
-th {
-  background-color: #f8f9fa; /* Світлий фон для заголовків */
-  color: #333; /* Темний текст для заголовків */
-}`}
-                previewContent={
-                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead>
-                      <tr>
-                        <th style={{ border: '1px solid #ccc', padding: '8px', backgroundColor: '#f8f9fa', color: '#333' }}>Заголовок 1</th>
-                        <th style={{ border: '1px solid #ccc', padding: '8px', backgroundColor: '#f8f9fa', color: '#333' }}>Заголовок 2</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td style={{ border: '1px solid #ccc', padding: '8px', color: '#555' }}>Дані 1</td>
-                        <td style={{ border: '1px solid #ccc', padding: '8px', color: '#555' }}>Дані 2</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                }
-              />
-
-              <CssExampleCard
-                title="Стиль для шапки та підвалу (`header`, `footer`)"
-                description="Додай фон та відступи для шапки та підвалу сайту."
-                cssCode={`header, footer {
-  background-color: #f8f9fa;
-  padding: 10px;
-  text-align: center;
-  color: #333;
-}`}
-                previewContent={
-                  <div style={{ backgroundColor: '#f8f9fa', padding: '10px', textAlign: 'center', color: '#333', borderRadius: '8px' }}>
-                    <p>Це шапка або підвал твого сайту.</p>
-                  </div>
-                }
-              />
-
-              <CssExampleCard
-                title="Стиль для навігації (`nav`, `a`)"
-                description="Зроби навігаційні посилання красивими та інтерактивними."
-                cssCode={`nav {
-  background-color: #333;
-  padding: 10px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  background-color: #007bff;
-  transition: background-color 0.3s ease;
-}
-
-nav a:hover {
-  background-color: #0056b3;
-}`}
-                previewContent={
-                  <nav style={{
-                    backgroundColor: '#333',
-                    padding: '10px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    flexWrap: 'wrap',
-                    gap: '10px'
-                  }}>
-                    <a href="#" style={{
-                      color: 'white',
-                      textDecoration: 'none',
-                      padding: '8px 15px',
-                      borderRadius: '5px',
-                      backgroundColor: '#007bff',
-                      transition: 'background-color 0.3s ease',
-                      whiteSpace: 'nowrap'
-                    }}>Головна</a>
-                    <a href="#" style={{
-                      color: 'white',
-                      textDecoration: 'none',
-                      padding: '8px 15px',
-                      borderRadius: '5px',
-                      backgroundColor: '#007bff',
-                      transition: 'background-color 0.3s ease',
-                      whiteSpace: 'nowrap'
-                    }}>Про нас</a>
-                    <a href="#" style={{
-                      color: 'white',
-                      textDecoration: 'none',
-                      padding: '8px 15px',
-                      borderRadius: '5px',
-                      backgroundColor: '#007bff',
-                      transition: 'background-color 0.3s ease',
-                      whiteSpace: 'nowrap'
-                    }}>Контакти</a>
-                  </nav>
-                }
-                copyText={`nav {
-  background-color: #333;
-  padding: 10px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  background-color: #007bff;
-  transition: background-color 0.3s ease;
-}
-
-nav a:hover {
-  background-color: #0056b3;
-}`}
-              />
+              {completed && (
+                <div className="mt-6 p-4 bg-green-100 text-green-800 border border-green-300 rounded-md text-center font-semibold">
+                  🎉 Всі Орбітальні Завдання виконано! Ти справжній майстер стилів! 🎉
+                </div>
+              )}
             </div>
           </CollapsibleContent>
         </Collapsible>
