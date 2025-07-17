@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Lightbulb, Copy, ExternalLink } from "lucide-react";
+import { ChevronLeft, ChevronRight, Lightbulb, Copy, ExternalLink, Rocket, ChevronDown } from "lucide-react"; // ВИПРАВЛЕНО: Додано Rocket та ChevronDown
 import { cosmicChallenges, CosmicChallenge } from "@/data/cosmicChallenges";
 import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
