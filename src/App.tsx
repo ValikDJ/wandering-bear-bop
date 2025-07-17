@@ -16,7 +16,7 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import CssPlayground from "./pages/CssPlayground";
 import HomeworkAssignment from "./pages/HomeworkAssignment";
-import CosmicMission from "./pages/CosmicMission"; // NEW IMPORT
+import CosmicMission from "./pages/CosmicMission";
 import React, { useState } from "react";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { LayoutProvider } from "./contexts/LayoutContext";
@@ -32,7 +32,8 @@ const App = () => {
       <ThemeProvider>
         <TooltipProvider>
           <Toaster />
-          <Sonner />
+          {/* Збільшуємо z-index для Sonner, щоб він був поверх інших фіксованих елементів */}
+          <Sonner className="z-[999]" />
           <BrowserRouter basename={appBasename} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <LayoutProvider>
               <Layout
@@ -51,7 +52,7 @@ const App = () => {
                   <Route path="/glossary" element={<GlossaryPage />} />
                   <Route path="/css-playground" element={<CssPlayground />} />
                   <Route path="/homework" element={<HomeworkAssignment />} />
-                  <Route path="/cosmic-mission" element={<CosmicMission />} /> {/* NEW ROUTE */}
+                  <Route path="/cosmic-mission" element={<CosmicMission />} />
                   {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
