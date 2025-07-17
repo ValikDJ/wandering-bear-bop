@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import LiveCodeEditor from "@/components/LiveCodeEditor";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
@@ -20,209 +19,237 @@ interface CosmicMissionStage2CssProps {
 
 const LOCAL_STORAGE_KEY = "cosmic-mission-stage2-completed";
 
-const cssTemplateUncommented = `body {
-    font-family: 'Arial', sans-serif;
-    background-color: #1a1a2e;
-    color: #e0e0e0;
-    margin: 0;
-    padding: 20px;
+const cssTemplateUncommented = `/* style.css - Твої віртуальні пензлі! */
+
+/* Загальні стилі для всієї сторінки */
+body {
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 20px;
 }
 
-header {
-    background-color: #2a2a4a;
-    color: #b3ffff;
-    padding: 15px 20px;
-    text-align: center;
-    border-bottom: 2px solid #8a2be2;
+/* Стилі для заголовків */
+h1 {
+  color: #b3ffff;
+  font-size: 2.5em;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 2.5em;
+h2 {
+  color: #ff69b4;
+  border-bottom: 1px dashed #8a2be2;
+  padding-bottom: 10px;
+  margin-top: 0;
 }
 
-nav a {
-    color: #b3ffff;
-    text-decoration: none;
-    margin: 0 15px;
+/* Стилі для абзаців тексту */
+p {
+  color: #e0e0e0;
+  font-size: 18px;
+  line-height: 1.6;
 }
 
-nav a:hover {
-    color: #ff69b4;
+/* Стилі для посилань */
+a {
+  color: #b3ffff;
+  text-decoration: none;
 }
 
-main {
-    max-width: 900px;
-    margin: 20px auto;
-    background-color: #1f1f3f;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+a:hover {
+  color: #ff69b4;
 }
 
-section {
-    margin-bottom: 40px;
-    padding: 20px;
-    border: 1px solid #8a2be2;
-    border-radius: 8px;
-    background-color: #252545;
+/* Стилі для зображень */
+img {
+  width: 100%;
+  height: auto;
+  border: 2px solid #8a2be2;
+  border-radius: 8px;
+  opacity: 0.8;
+  display: block;
+  margin: 10px auto;
 }
 
-section h2 {
-    color: #ff69b4;
-    border-bottom: 1px dashed #8a2be2;
-    padding-bottom: 10px;
-    margin-top: 0;
+/* Стилі для кнопок */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-ul {
-    margin-left: 20px;
+/* Стилі для універсальних блоків (div) або секцій */
+div, section {
+  background-color: #252545;
+  border: 1px solid #8a2be2;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
 }
 
+/* Стилі для списків */
+ul, ol {
+  margin-left: 20px;
+  color: #e0e0e0;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+/* Стилі для таблиць */
 table {
-    width: 100%;
-    margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
 th, td {
-    border: 1px solid #8a2be2;
-    padding: 10px;
-    text-align: left;
+  border: 1px solid #8a2be2;
+  padding: 10px;
+  text-align: left;
 }
 
 th {
-    background-color: #3a3a5a;
-    color: #b3ffff;
+  background-color: #3a3a5a;
+  color: #b3ffff;
 }
 
+/* Стилі для підвалу сайту */
 footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 20px;
-    color: #a0a0a0;
-    border-top: 1px solid #3a3a5a;
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  color: #a0a0a0;
+  border-top: 1px solid #3a3a5a;
 }
 `;
 
 const cssTemplateCommented = `/* style.css - Твої віртуальні пензлі! */
 
+/* Загальні стилі для всієї сторінки */
 body {
-    font-family: 'Arial', sans-serif; /* Встановлює шрифт для всього тексту на сторінці */
-    background-color: #1a1a2e; /* Темний космічний фон для всієї сторінки */
-    color: #e0e0e0; /* Світлий колір тексту для зірок */
-    margin: 0; /* Прибирає зовнішні відступи за замовчуванням */
-    padding: 20px; /* Додає внутрішні відступи навколо вмісту сторінки */
+  background-color: #1a1a2e; /* Колір фону для всієї сторінки (наприклад, темний космос) */
+  color: #e0e0e0; /* Колір тексту для всієї сторінки (наприклад, світлі зірки) */
+  font-family: 'Arial', sans-serif; /* Тип шрифту для всього тексту */
+  margin: 0; /* Прибирає зовнішні відступи за замовчуванням */
+  padding: 20px; /* Додає внутрішні відступи навколо вмісту сторінки */
 }
 
-header {
-    background-color: #2a2a4a; /* Темніший фон для шапки сайту */
-    color: #b3ffff; /* Неоновий синій колір тексту в шапці */
-    padding: 15px 20px; /* Внутрішні відступи для шапки */
-    text-align: center; /* Вирівнює текст по центру */
-    border-bottom: 2px solid #8a2be2; /* Фіолетова лінія під шапкою */
+/* Стилі для заголовків */
+h1 {
+  color: #b3ffff; /* Колір головного заголовка */
+  font-size: 2.5em; /* Розмір шрифту головного заголовка */
+  text-align: center; /* Вирівнювання тексту по центру */
+  margin-bottom: 20px; /* Відступ знизу */
 }
 
-header h1 {
-    margin: 0; /* Прибирає зовнішні відступи для заголовка h1 */
-    font-size: 2.5em; /* Збільшує розмір шрифту заголовка */
+h2 {
+  color: #ff69b4; /* Колір підзаголовків */
+  border-bottom: 1px dashed #8a2be2; /* Лінія під підзаголовком */
+  padding-bottom: 10px; /* Відступ під лінією */
+  margin-top: 0; /* Прибирає верхній зовнішній відступ */
 }
 
-nav a {
-    color: #b3ffff; /* Колір посилань в навігації */
-    text-decoration: none; /* Прибирає підкреслення посилань */
-    margin: 0 15px; /* Зовнішні відступи між посиланнями */
+/* Стилі для абзаців тексту */
+p {
+  color: #e0e0e0; /* Колір тексту абзаців */
+  font-size: 18px; /* Розмір шрифту абзаців */
+  line-height: 1.6; /* Висота рядка для кращої читабельності */
 }
 
-nav a:hover {
-    color: #ff69b4; /* Змінює колір посилань при наведенні курсору */
+/* Стилі для посилань */
+a {
+  color: #b3ffff; /* Колір посилань */
+  text-decoration: none; /* Прибирає підкреслення */
+  /* text-decoration: underline;  Додає підкреслення */
 }
 
-main {
-    max-width: 900px; /* Максимальна ширина основного вмісту */
-    margin: 20px auto; /* Центрує основний вміст по горизонталі та додає зовнішні відступи */
-    background-color: #1f1f3f; /* Фон для основного вмісту */
-    padding: 30px; /* Внутрішні відступи для основного вмісту */
-    border-radius: 10px; /* Заокруглює кути основного вмісту */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Додає тінь */
+a:hover {
+  color: #ff69b4; /* Колір посилання при наведенні курсору */
 }
 
-section {
-    margin-bottom: 40px; /* Зовнішній відступ між секціями */
-    padding: 20px; /* Внутрішні відступи для секцій */
-    border: 1px solid #8a2be2; /* Фіолетова рамка для секцій */
-    border-radius: 8px; /* Заокруглює кути секцій */
-    background-color: #252545; /* Фон для секцій */
+/* Стилі для зображень */
+img {
+  width: 100%; /* Ширина зображення (100% від батьківського елемента) */
+  height: auto; /* Автоматична висота для збереження пропорцій */
+  border: 2px solid #8a2be2; /* Рамка навколо зображення */
+  border-radius: 8px; /* Заокруглення кутів зображення */
+  opacity: 0.8; /* Напівпрозорість */
+  display: block; /* Робить зображення блоковим елементом */
+  margin: 10px auto; /* Центрує зображення по горизонталі */
 }
 
-section h2 {
-    color: #ff69b4; /* Колір заголовків секцій */
-    border-bottom: 1px dashed #8a2be2; /* Пунктирна лінія під заголовком секції */
-    padding-bottom: 10px; /* Внутрішній відступ знизу для заголовка */
-    margin-top: 0; /* Прибирає верхній зовнішній відступ */
+/* Стилі для кнопок */
+button {
+  background-color: #4CAF50; /* Колір фону кнопки */
+  color: white; /* Колір тексту кнопки */
+  padding: 10px 20px; /* Внутрішні відступи кнопки */
+  border: none; /* Прибирає рамку */
+  border-radius: 5px; /* Заокруглення кутів кнопки */
+  cursor: pointer; /* Змінює курсор на вказівник */
+  font-weight: bold; /* Жирний шрифт */
 }
 
-ul {
-    margin-left: 20px; /* Відступ для невпорядкованих списків */
+/* Стилі для універсальних блоків (div) або секцій */
+div, section {
+  background-color: #252545; /* Колір фону для блоків/секцій */
+  border: 1px solid #8a2be2; /* Рамка для блоків/секцій */
+  border-radius: 10px; /* Заокруглення кутів */
+  padding: 20px; /* Внутрішні відступи */
+  margin-bottom: 20px; /* Зовнішній відступ знизу */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Тінь */
+  /* width: 80%;  Ширина блоку */
+  /* height: 150px;  Висота блоку */
+  opacity: 0.9; /* Прозорість */
+  box-sizing: border-box; /* Включає padding та border у загальну ширину/висоту */
 }
 
+/* Стилі для списків */
+ul, ol {
+  margin-left: 20px; /* Відступ зліва для списків */
+  color: #e0e0e0; /* Колір тексту списків */
+}
+
+li {
+  margin-bottom: 5px; /* Відступ між елементами списку */
+}
+
+/* Стилі для таблиць */
 table {
-    width: 100%; /* Таблиця займає всю доступну ширину */
-    margin-top: 20px; /* Верхній зовнішній відступ для таблиці */
+  width: 100%; /* Таблиця займає всю доступну ширину */
+  border-collapse: collapse; /* Прибирає подвійні рамки між комірками */
+  margin-top: 20px; /* Верхній зовнішній відступ */
 }
 
 th, td {
-    border: 1px solid #8a2be2; /* Рамка для комірок таблиці */
-    padding: 10px; /* Внутрішні відступи для комірок */
-    text-align: left; /* Вирівнювання тексту в комірках по лівому краю */
+  border: 1px solid #8a2be2; /* Рамка для комірок таблиці */
+  padding: 10px; /* Внутрішні відступи для комірок */
+  text-align: left; /* Вирівнювання тексту в комірках */
 }
 
 th {
-    background-color: #3a3a5a; /* Фон для заголовків таблиці */
-    color: #b3ffff; /* Колір тексту заголовків таблиці */
+  background-color: #3a3a5a; /* Фон для заголовків таблиці */
+  color: #b3ffff; /* Колір тексту заголовків таблиці */
 }
 
+/* Стилі для підвалу сайту */
 footer {
-    text-align: center; /* Вирівнює текст в підвалі по центру */
-    margin-top: 40px; /* Верхній зовнішній відступ для підвалу */
-    padding: 20px; /* Внутрішні відступи для підвалу */
-    color: #a0a0a0; /* Колір тексту в підвалі */
-    border-top: 1px solid #3a3a5a; /* Лінія над підвалом */
+  text-align: center; /* Вирівнює текст в підвалі по центру */
+  margin-top: 40px; /* Верхній зовнішній відступ */
+  padding: 20px; /* Внутрішні відступи */
+  color: #a0a0a0; /* Колір тексту в підвалі */
+  border-top: 1px solid #3a3a5a; /* Лінія над підвалом */
 }
 `;
-
-const demoHtmlForCssEditor = `<!DOCTYPE html>
-<html>
-<head>
-  <title>Демо-сайт</title>
-</head>
-<body>
-  <header>
-    <h1>Мій Космічний Проект</h1>
-    <nav>
-      <a href="#">Головна</a>
-      <a href="#">Про нас</a>
-    </nav>
-  </header>
-  <main>
-    <section>
-      <h2>Ласкаво просимо!</h2>
-      <p>Це приклад тексту на моїй космічній сторінці.</p>
-      <img src="https://picsum.photos/id/200/150/100" alt="Космічний пейзаж" style="max-width: 100%; height: auto; border-radius: 8px; margin-top: 10px;" />
-    </section>
-    <section>
-      <h2>Наші Планети</h2>
-      <ul>
-        <li>Марс</li>
-        <li>Юпітер</li>
-        <li>Сатурн</li>
-      </ul>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2024 Космічний Дослідник</p>
-  </footer>
-</body>
-</html>`;
 
 const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ completed, onCompletionChange }) => {
   const [displayCommentedCss, setDisplayCommentedCss] = useState(false);
@@ -322,18 +349,6 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
           </SyntaxHighlighter>
         </div>
 
-        <h3 className="text-2xl font-bold text-foreground mb-4">Спробуй сам: Інтерактивний редактор!</h3>
-        <p className="mb-4 text-muted-foreground">
-          Встав скопійований CSS-код у редактор нижче і спробуй змінити деякі значення (наприклад, `background-color` або `color`) та побач, як змінюється вигляд!
-        </p>
-        <LiveCodeEditor
-          id="cosmic-mission-css-editor"
-          initialHtml={demoHtmlForCssEditor}
-          initialCss={cssTemplateUncommented}
-          title="Твій Космічний Дизайн-Стенд"
-          description="Змінюй CSS-код і дивись, як твій сайт оживає!"
-        />
-
         <Collapsible className="mt-6">
           <CollapsibleTrigger asChild>
             <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
@@ -347,28 +362,23 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                 Щоб застосувати стилі до елементів твого сайту, тобі потрібно:
               </p>
               <ul className="list-disc list-inside space-y-2 mb-4">
-                <li>**Вибрати елемент:** Використовуй **CSS-селектори** (наприклад, назву тегу `body`, `h1`, `p`, `img`, `section` або `footer`) щоб вказати, до якого елемента застосувати стиль. Якщо ти забув, як працюють селектори, переглянь <Link to="/css-selectors" className="text-brand-primary hover:underline">Урок: CSS Селектори</Link>.</li>
-                <li>**Вибрати властивість:** Обери, що саме ти хочеш змінити (колір, розмір, фон тощо). Якщо ти забув, які властивості існують, переглянь <Link to="/css-properties" className="text-brand-primary hover:underline">Урок: CSS Властивості</Link>.</li>
+                <li>**Вибрати елемент:** Використовуй **CSS-селектори** (наприклад, назву тегу `body`, `h1`, `p`, `img`, `section` або `footer`) щоб вказати, до якого елемента застосувати стиль.</li>
+                <li>**Вибрати властивість:** Обери, що саме ти хочеш змінити (колір, розмір, фон тощо).</li>
                 <li>**Встановити значення:** Признач цій властивості бажане значення (наприклад, `color: blue;` або `font-size: 20px;`).</li>
               </ul>
               <p className="mb-2">
-                Ось деякі властивості, які ти можеш спробувати змінити:
+                **Куди застосувати стилі?**
               </p>
-              <ul className="list-disc list-inside">
-                <li><code>color</code>: Колір тексту.</li>
-                <li><code>background-color</code>: Колір фону.</li>
-                <li><code>font-size</code>: Розмір шрифту.</li>
-                <li><code>font-family</code>: Тип шрифту.</li>
-                <li><code>text-align</code>: Вирівнювання тексту (`center`, `left`, `right`).</li>
-                <li><code>margin</code>: Зовнішні відступи (простір навколо елемента).</li>
-                <li><code>padding</code>: Внутрішні відступи (простір між вмістом та рамкою).</li>
-                <li><code>border</code>: Рамка навколо елемента.</li>
-                <li><code>border-radius</code>: Заокруглення кутів.</li>
-                <li><code>text-decoration</code>: Оформлення тексту (наприклад, прибрати підкреслення у посилань).</li>
-                <li><code>opacity</code>: Прозорість елемента.</li>
-                <li><code>width</code> / <code>height</code>: Ширина та висота елемента.</li>
-                <li><code>box-shadow</code>: Тінь для елемента.</li>
-                <li><code>box-sizing</code>: Як розраховується загальна ширина та висота елемента.</li>
+              <ul className="list-disc list-inside space-y-2 mb-4">
+                <li>**`body`**: Зміни фон (`background-color`) або загальний колір тексту (`color`) для всієї сторінки.</li>
+                <li>**`h1`, `h2`, `p`**: Зміни колір тексту (`color`), розмір шрифту (`font-size`), тип шрифту (`font-family`) або вирівнювання тексту (`text-align`).</li>
+                <li>**`img`**: Додай рамку (`border`), заокругли кути (`border-radius`), зміни ширину (`width`) або висоту (`height`), зроби напівпрозорою (`opacity`).</li>
+                <li>**`a` (посилання)**: Зміни колір (`color`), прибери підкреслення (`text-decoration: none;`).</li>
+                <li>**`button`**: Зміни фон (`background-color`), колір тексту (`color`), внутрішні відступи (`padding`), заокругли кути (`border-radius`).</li>
+                <li>**`div`, `section`**: Зміни фон (`background-color`), додай рамку (`border`), внутрішні (`padding`) та зовнішні (`margin`) відступи, тінь (`box-shadow`).</li>
+                <li>**`ul`, `ol`, `li` (списки)**: Зміни відступи (`margin-left`), колір тексту.</li>
+                <li>**`table`, `th`, `td` (таблиці)**: Додай рамки (`border`), зміни фон (`background-color`) для заголовків (`th`).</li>
+                <li>**`header`, `footer`**: Зміни фон (`background-color`), колір тексту (`color`), відступи (`padding`).</li>
               </ul>
               <p className="mt-2">
                 Експериментуй! Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> для інтерактивної практики, а також <Link to="/examples" className="text-brand-primary hover:underline">Практичні Приклади</Link>, щоб побачити, як інші стилізовані елементи виглядають у дії.
