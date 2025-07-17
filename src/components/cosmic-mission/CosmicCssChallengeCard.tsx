@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Copy, ChevronDown, Lightbulb, CheckSquare, Rocket, Sparkles } from "lucide-react"; // NEW: Import Sparkles
+import { Copy, ChevronDown, Lightbulb, CheckSquare, Rocket, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -43,7 +43,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
   const [showSolutionCollapsible, setShowSolutionCollapsible] = useState(false);
   const [hintUsed, setHintUsed] = useState(false);
   const [solutionUsed, setSolutionUsed] = useState(false);
-  const [showSparkle, setShowSparkle] = useState(false); // NEW STATE
+  const [showSparkle, setShowSparkle] = useState(false);
 
   const HINT_COST = 10;
   const SOLUTION_COST = 25;
@@ -98,7 +98,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
           <Rocket className={cn("h-6 w-6", completed ? "text-green-500" : "text-primary")} />
           Завдання {challengeNumber}: {challengeTitle}
         </CardTitle>
-        <div className="flex items-center space-x-2 no-print relative"> {/* Added relative */}
+        <div className="flex items-center space-x-2 no-print relative">
           <Checkbox
             id={`challenge-${challengeNumber}-completed`}
             checked={completed}
@@ -108,7 +108,7 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
           <Label htmlFor={`challenge-${challengeNumber}-completed`} className="text-lg font-medium text-muted-foreground">
             Виконано
           </Label>
-          {showSparkle && completed && ( // Only show if completed and sparkle is active
+          {showSparkle && completed && ( /* Only show if completed and sparkle is active */
             <Sparkles className="absolute h-8 w-8 text-yellow-400 animate-sparkle-pop -right-8" /> {/* Position relative to parent */}
           )}
         </div>
