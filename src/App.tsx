@@ -32,8 +32,8 @@ const App = () => {
       <ThemeProvider>
         <TooltipProvider>
           <Toaster />
-          {/* Збільшуємо z-index для Sonner, щоб він був поверх інших фіксованих елементів */}
-          <Sonner className="z-[999]" />
+          {/* Збільшуємо z-index для Sonner до максимального значення, щоб він був поверх інших фіксованих елементів */}
+          <Sonner className="z-[9999]" />
           <BrowserRouter basename={appBasename} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <LayoutProvider>
               <Layout
