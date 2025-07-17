@@ -111,7 +111,7 @@
     --sidebar-background: 240 5.9% 10%; /* Dark gray */
     --sidebar-foreground: 240 4.8% 95.9%; /* Light text */
     --sidebar-primary: 207 80% 60%; /* Lighter blue for active */
-    --sidebar-primary-foreground: 0 0% 100%; /* White text on active */
+    --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 217.2 32.6% 25%; /* Lighter dark gray for hover */
     --sidebar-accent-foreground: 210 40% 98%; /* Light text on hover */
     --sidebar-border: 217.2 32.6% 17.5%; /* Dark border */
@@ -199,15 +199,14 @@
 @layer base {
   * {
     @apply border-border;
-    /* REMOVED: transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, fill 0.3s ease, stroke 0.3s ease; */
   }
 
   html {
-    @apply h-full transition-colors duration-300 ease-in-out; /* Added transition-colors */
+    @apply h-full;
   }
 
   body {
-    @apply bg-background text-foreground min-h-full transition-colors duration-300 ease-in-out; /* Added transition-colors */
+    @apply bg-background text-foreground min-h-full;
   }
 
   /* Ensure root element takes full height and uses flex for layout */
