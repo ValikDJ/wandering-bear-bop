@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -132,12 +132,13 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
               <CollapsibleTrigger asChild>
                 <Button
                   variant="outline"
-                  className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print"
+                  size="sm" {/* Changed size to sm */}
+                  className="w-full justify-between font-semibold text-secondary-foreground hover:bg-secondary/80 no-print" // Removed text-lg
                   disabled={cosmicEnergy < HINT_COST && !hintUsed}
                 >
-                  <Lightbulb className="h-5 w-5 mr-2 text-yellow-500" />
+                  <Lightbulb className="h-4 w-4 mr-2 text-yellow-500" /> {/* Adjusted icon size */}
                   Підказка {hintUsed ? "(Використано)" : `(-${HINT_COST} Енергії)`}
-                  <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                  <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180 chevron-icon" /> {/* Adjusted icon size */}
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
@@ -158,12 +159,13 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
                 <CollapsibleTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print"
+                    size="sm" {/* Changed size to sm */}
+                    className="w-full justify-between font-semibold text-secondary-foreground hover:bg-secondary/80 no-print" // Removed text-lg
                     disabled={cosmicEnergy < SOLUTION_COST && !solutionUsed}
                   >
-                    <CheckSquare className="h-5 w-5 mr-2 text-green-500" />
+                    <CheckSquare className="h-4 w-4 mr-2 text-green-500" /> {/* Adjusted icon size */}
                     Рішення {solutionUsed ? "(Використано)" : `(-${SOLUTION_COST} Енергії)`}
-                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
+                    <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180 chevron-icon" /> {/* Adjusted icon size */}
                   </Button>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
