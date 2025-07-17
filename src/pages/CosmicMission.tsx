@@ -16,8 +16,8 @@ import { Progress } from "@/components/ui/progress";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import LiveCodeEditor from "@/components/LiveCodeEditor";
-import { Switch } from "@/components/ui/switch"; // Import Switch
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"; // Import DropdownMenu
+import { Switch } from "@/components/ui/switch";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const cssTemplateUncommented = `body {
     font-family: 'Arial', sans-serif;
@@ -466,7 +466,7 @@ const CosmicMission: React.FC = () => {
           <LiveCodeEditor
             id="cosmic-mission-css-editor"
             initialHtml={demoHtmlForCssEditor}
-            initialCss={cssTemplateUncommented} {/* Live editor always starts with uncommented */}
+            initialCss={cssTemplateUncommented} // Live editor always starts with uncommented
             title="Твій Космічний Дизайн-Стенд"
             description="Змінюй CSS-код і дивись, як твій сайт оживає!"
           />
