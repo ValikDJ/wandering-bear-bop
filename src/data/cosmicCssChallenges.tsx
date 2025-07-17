@@ -242,25 +242,27 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     lessonLinkText: "Урок про Зображення",
   },
   {
-    id: "challenge-11-flexbox",
-    title: "Місія 11: Космічний Флекс-Ряд",
-    description: "Вирівняй три космічні об'єкти в один ряд по центру контейнера. Використай властивості Flexbox: `display: flex; justify-content: center; align-items: center;` для батьківського елемента.",
-    initialCss: `.flex-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+    id: "challenge-11-line-height", // NEW ID
+    title: "Місія 11: Міжрядковий Інтервал", // NEW TITLE
+    description: "Зміни відстань між рядками тексту в абзаці (`p`), щоб він виглядав більш читабельним. Спробуй `line-height: 1.8;`.", // NEW DESCRIPTION
+    initialCss: `p {
+  line-height: 1.8;
 }`,
     previewContent: (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', border: '2px dashed #4ecdc4', padding: '15px', minHeight: '120px', backgroundColor: '#1a1a3a', borderRadius: '8px' }}>
-        <div style={{ width: '30px', height: '30px', backgroundColor: '#ff69b4', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '0.8em' }}>1</div>
-        <div style={{ width: '30px', height: '30px', backgroundColor: '#b3ffff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'black', fontSize: '0.8em' }}>2</div>
-        <div style={{ width: '30px', height: '30px', backgroundColor: '#00ff88', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'black', fontSize: '0.8em' }}>3</div>
-      </div>
+      <p style={{
+        fontSize: '16px',
+        color: '#e0e0e0',
+        backgroundColor: '#1a1a3a',
+        padding: '15px',
+        borderRadius: '8px',
+        lineHeight: '1.8', // Apply the style here for preview
+      }}>
+        Цей текст має змінений міжрядковий інтервал. Це робить його легшим для читання, особливо для довгих абзаців. Спробуй різні значення, щоб побачити різницю.
+      </p>
     ),
-    hint: "Застосуй `display: flex;` до батьківського елемента, а потім `justify-content` та `align-items`.",
-    lessonLink: "/css-properties", // Можливо, створити окремий урок про Flexbox
-    lessonLinkText: "Урок про CSS Властивості (Flexbox)",
+    hint: "Властивість `line-height` контролює висоту кожного рядка тексту. Значення без одиниць (наприклад, 1.5) є відносним до розміру шрифту.", // NEW HINT
+    lessonLink: "/css-properties", // Link to general CSS properties lesson
+    lessonLinkText: "Урок про CSS Властивості", // General lesson text
   },
   {
     id: "challenge-12-box-shadow",

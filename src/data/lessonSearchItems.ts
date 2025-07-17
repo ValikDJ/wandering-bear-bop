@@ -421,13 +421,13 @@ export const lessonSearchItems: SearchItem[] = [
     difficulty: "easy",
   },
   {
-    title: "Орбітальні Завдання: Космічний Флекс-Ряд",
-    description: "Вирівняй елементи в контейнері в один ряд по центру за допомогою Flexbox.",
+    title: "Орбітальні Завдання: Міжрядковий Інтервал", // NEW SEARCH ITEM
+    description: "Зміни відстань між рядками тексту в абзаці (`p`) за допомогою `line-height`.",
     path: "/cosmic-mission",
-    sectionId: "challenge-11-flexbox",
-    keywords: ["css", "flexbox", "вирівнювання", "display", "justify-content", "align-items"],
+    sectionId: "challenge-11-line-height",
+    keywords: ["css", "line-height", "міжрядковий інтервал", "текст", "читабельність"],
     type: "lesson",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     title: "Орбітальні Завдання: Тінь Космічного Модуля",
