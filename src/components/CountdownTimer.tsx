@@ -54,7 +54,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ deadline }) => {
   return (
     <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg p-6 text-center countdown-timer no-print">
       <CardContent className="p-0">
-        <h3 className="text-2xl font-semibold mb-4">До здачі залишилось:</h3>
+        <h3 className="text-2xl font-semibold mb-4 text-white"> {/* Changed to text-white */}
+          До здачі залишилось:
+        </h3>
         <div className="flex justify-center items-center">
           {timerComponents.length ? (
             timerComponents
