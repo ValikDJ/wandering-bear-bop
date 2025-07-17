@@ -126,7 +126,7 @@ export const cssChallenges: CosmicCssChallengeData[] = [
     title: "Місія 5: Космічна Кнопка",
     description: "Створи кнопку для запуску ракети! Додай тег `<button>` з текстом 'Запустити Ракету!' та зроби її фон яскраво-зеленим (`#4CAF50`) та текст білим.",
     previewContent: (
-      <button style={{ backgroundColor: '#00ff88', color: 'white', padding: '10px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer' }}>
+      <button style={{ backgroundColor: '#00ff88', color: 'white', padding: '10px 20px', borderRadius: '8px', borderWidth: '0', borderStyle: 'none', cursor: 'pointer' }}>
         Запустити!
       </button>
     ),
