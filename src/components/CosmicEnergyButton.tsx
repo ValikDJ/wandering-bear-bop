@@ -10,7 +10,7 @@ interface CosmicEnergyButtonProps {
   energyPerClick: number;
   allCssChallengesCompleted: boolean;
   hasRainbowCrystal: boolean; // NEW PROP
-  hasStarBurst: boolean: // NEW PROP
+  hasStarBurst: boolean; // NEW PROP
   hasCosmicMusic: boolean; // NEW PROP
 }
 
