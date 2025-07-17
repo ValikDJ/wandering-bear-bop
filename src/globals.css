@@ -307,6 +307,27 @@
   }
 }
 
+/* NEW: Rainbow Pulse for Cosmic Energy Button */
+@keyframes pulse-rainbow {
+  0%, 100% {
+    background-position: 0% 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+  25% {
+    background-position: 50% 50%;
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.6); /* Orange glow */
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.8); /* Green glow */
+  }
+  75% {
+    background-position: 50% 50%;
+    box-shadow: 0 0 20px rgba(0, 0, 255, 0.6); /* Blue glow */
+  }
+}
+
 
 .animate-pulse-slow {
   animation: pulse-slow 2s infinite ease-in-out;
@@ -322,6 +343,11 @@
 
 .animate-bounce-once {
   animation: bounce-once 0.6s ease-out;
+}
+
+.animate-pulse-rainbow {
+  background-size: 200% 200%;
+  animation: pulse-rainbow 4s ease infinite;
 }
 
 

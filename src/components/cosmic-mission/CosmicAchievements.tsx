@@ -9,6 +9,7 @@ interface CosmicAchievementsProps {
   allCssChallengesCompleted: boolean;
   currentEnergy: number; // NEW PROP
   maxEnergy: number; // NEW PROP
+  energySpentOnChallenges: number; // NEW PROP
 }
 
 interface Achievement {
@@ -23,8 +24,9 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
   totalClicks,
   totalEnergyCollected,
   allCssChallengesCompleted,
-  currentEnergy, // Use new prop
-  maxEnergy, // Use new prop
+  currentEnergy,
+  maxEnergy,
+  energySpentOnChallenges,
 }) => {
   const achievements: Achievement[] = [
     {
@@ -38,7 +40,7 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
       id: "full-tank",
       name: "Повний Бак",
       description: "Досягни максимального рівня енергії.",
-      isUnlocked: currentEnergy >= maxEnergy, // Check if current energy is at max
+      isUnlocked: currentEnergy >= maxEnergy,
       icon: Zap,
     },
     {
@@ -59,8 +61,15 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
       id: "max-power",
       name: "Максимальна Потужність",
       description: "Досягни 300 максимальної енергії.",
-      isUnlocked: maxEnergy >= 300, // Check if max energy is 300
+      isUnlocked: maxEnergy >= 300,
       icon: Zap,
+    },
+    {
+      id: "marathoner",
+      name: "Марафонець",
+      description: "Зроби 100 кліків по енергетичній кнопці.",
+      isUnlocked: totalClicks >= 100,
+      icon: MousePointerClick,
     },
     {
       id: "css-hero",
@@ -69,7 +78,13 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
       isUnlocked: allCssChallengesCompleted,
       icon: CheckCircle,
     },
-    // Add more achievements here as they are implemented
+    {
+      id: "efficient",
+      name: "Ефективний",
+      description: "Виконай всі CSS-завдання, витративши менше 100 енергії на підказки/рішення.",
+      isUnlocked: allCssChallengesCompleted && energySpentOnChallenges <= 100,
+      icon: CheckCircle,
+    },
   ];
 
   const unlockedAchievements = achievements.filter(a => a.isUnlocked).length;

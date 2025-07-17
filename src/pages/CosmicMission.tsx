@@ -27,10 +27,16 @@ const LOCAL_STORAGE_TOTAL_ENERGY_COLLECTED_KEY = "cosmic-mission-total-energy-co
 const LOCAL_STORAGE_REGENERATION_AMOUNT_KEY = "cosmic-mission-regeneration-amount";
 const LOCAL_STORAGE_REGENERATION_INTERVAL_KEY = "cosmic-mission-regeneration-interval";
 const LOCAL_STORAGE_KEY_CHALLENGES = "cosmic-css-challenges-progress";
+const LOCAL_STORAGE_HAS_RAINBOW_CRYSTAL_KEY = "cosmic-mission-has-rainbow-crystal";
+const LOCAL_STORAGE_HAS_STAR_BURST_KEY = "cosmic-mission-has-star-burst";
+const LOCAL_STORAGE_HAS_COSMIC_MUSIC_KEY = "cosmic-mission-has-cosmic-music";
+const LOCAL_STORAGE_ENERGY_SPENT_ON_CHALLENGES_KEY = "cosmic-mission-energy-spent-on-challenges";
+
 
 const CosmicMission: React.FC = () => {
   useScrollToHash();
   const { setTheme, getMode, getPreviousUserMode } = useTheme();
+  const audioRef = useRef<HTMLAudioElement>(null); // Ref for audio element
 
   // State for main stage completion
   const [stage1Completed, setStage1Completed] = useState<boolean>(false);
@@ -108,6 +114,32 @@ const CosmicMission: React.FC = () => {
     }
   });
 
+  // Visual Upgrades states
+  const [hasRainbowCrystal, setHasRainbowCrystal] = useState<boolean>(() => {
+    try {
+      const stored = localStorage.getItem(LOCAL_STORAGE_HAS_RAINBOW_CRYSTAL_KEY);
+      return stored ? JSON.parse(stored) : false;
+    } catch (error) { return false; }
+  });
+  const [hasStarBurst, setHasStarBurst] = useState<boolean>(() => {
+    try {
+      const stored = localStorage.getItem(LOCAL_STORAGE_HAS_STAR_BURST_KEY);
+      return stored ? JSON.parse(stored) : false;
+    } catch (error) { return false; }
+  });
+  const [hasCosmicMusic, setHasCosmicMusic] = useState<boolean>(() => {
+    try {
+      const stored = localStorage.getItem(LOCAL_STORAGE_HAS_COSMIC_MUSIC_KEY);
+      return stored ? JSON.parse(stored) : false;
+    } catch (error) { return false; }
+  });
+  const [energySpentOnChallenges, setEnergySpentOnChallenges] = useState<number>(() => {
+    try {
+      const stored = localStorage.getItem(LOCAL_STORAGE_ENERGY_SPENT_ON_CHALLENGES_KEY);
+      return stored ? JSON.parse(stored) : 0;
+    } catch (error) { return 0; }
+  });
+
   // State for individual challenge completion
   const [challengeCompletion, setChallengeCompletion] = useState<{ [key: string]: boolean }>(() => {
     try {
@@ -132,10 +164,14 @@ const CosmicMission: React.FC = () => {
       localStorage.setItem(LOCAL_STORAGE_REGENERATION_INTERVAL_KEY, JSON.stringify(regenerationTickIntervalMs));
       localStorage.setItem(LOCAL_STORAGE_TOTAL_CLICKS_KEY, JSON.stringify(totalClicks));
       localStorage.setItem(LOCAL_STORAGE_TOTAL_ENERGY_COLLECTED_KEY, JSON.stringify(totalEnergyCollected));
+      localStorage.setItem(LOCAL_STORAGE_HAS_RAINBOW_CRYSTAL_KEY, JSON.stringify(hasRainbowCrystal));
+      localStorage.setItem(LOCAL_STORAGE_HAS_STAR_BURST_KEY, JSON.stringify(hasStarBurst));
+      localStorage.setItem(LOCAL_STORAGE_HAS_COSMIC_MUSIC_KEY, JSON.stringify(hasCosmicMusic));
+      localStorage.setItem(LOCAL_STORAGE_ENERGY_SPENT_ON_CHALLENGES_KEY, JSON.stringify(energySpentOnChallenges));
     } catch (error) {
       console.error("Failed to save energy system data to localStorage:", error);
     }
-  }, [cosmicEnergy, maxEnergy, energyPerClick, regenerationAmountPerTick, regenerationTickIntervalMs, totalClicks, totalEnergyCollected]);
+  }, [cosmicEnergy, maxEnergy, energyPerClick, regenerationAmountPerTick, regenerationTickIntervalMs, totalClicks, totalEnergyCollected, hasRainbowCrystal, hasStarBurst, hasCosmicMusic, energySpentOnChallenges]);
 
   // Passive energy regeneration
   useEffect(() => {
@@ -156,17 +192,20 @@ const CosmicMission: React.FC = () => {
     setCosmicEnergy(prevEnergy => Math.min(prevEnergy + amount, maxEnergy));
     setTotalClicks(prevClicks => prevClicks + 1);
     setTotalEnergyCollected(prevTotal => prevTotal + amount);
-  }, [maxEnergy]);
+    if (hasCosmicMusic && audioRef.current) {
+      audioRef.current.currentTime = 0; // Rewind to start
+      audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+    }
+  }, [maxEnergy, hasCosmicMusic]);
 
   // Function to decrease cosmic energy (for hints/solutions/purchases)
   const decreaseCosmicEnergy = useCallback((amount: number, actionType: 'hint' | 'solution' | 'purchase') => {
     setCosmicEnergy(prevEnergy => {
       const newEnergy = Math.max(0, prevEnergy - amount);
       if (newEnergy < prevEnergy) {
-        if (actionType === 'hint') {
-          toast.info(`Витрачено ${amount} од. Космічної Енергії за підказку. Залишилось: ${newEnergy}`);
-        } else if (actionType === 'solution') {
-          toast.info(`Витрачено ${amount} од. Космічної Енергії за рішення. Залишилось: ${newEnergy}`);
+        if (actionType === 'hint' || actionType === 'solution') {
+          setEnergySpentOnChallenges(prevSpent => prevSpent + amount);
+          toast.info(`Витрачено ${amount} од. Космічної Енергії за ${actionType === 'hint' ? 'підказку' : 'рішення'}. Залишилось: ${newEnergy}`);
         } else if (actionType === 'purchase') {
           // Toast for purchase is handled in CosmicShop
         }
@@ -238,6 +277,12 @@ const CosmicMission: React.FC = () => {
         setRegenerationTickIntervalMs={setRegenerationTickIntervalMs}
         currentEnergy={cosmicEnergy}
         decreaseCosmicEnergy={decreaseCosmicEnergy}
+        hasRainbowCrystal={hasRainbowCrystal}
+        setHasRainbowCrystal={setHasRainbowCrystal}
+        hasStarBurst={hasStarBurst}
+        setHasStarBurst={setHasStarBurst}
+        hasCosmicMusic={hasCosmicMusic}
+        setHasCosmicMusic={setHasCosmicMusic}
       />
 
       {/* NEW: Cosmic Achievements Placeholder */}
@@ -245,8 +290,9 @@ const CosmicMission: React.FC = () => {
         totalClicks={totalClicks}
         totalEnergyCollected={totalEnergyCollected}
         allCssChallengesCompleted={allCssChallengesCompleted}
-        currentEnergy={cosmicEnergy} // Pass current energy for 'Full Tank'
-        maxEnergy={maxEnergy} // Pass max energy for 'Full Tank'
+        currentEnergy={cosmicEnergy}
+        maxEnergy={maxEnergy}
+        energySpentOnChallenges={energySpentOnChallenges}
       />
 
       <CosmicMissionStage3Launch />
@@ -260,10 +306,15 @@ const CosmicMission: React.FC = () => {
       {/* Cosmic Energy Button */}
       <CosmicEnergyButton
         currentEnergy={cosmicEnergy}
-        addEnergy={() => addCosmicEnergy(energyPerClick)} // Pass energyPerClick
-        energyPerClick={energyPerClick} // Pass energyPerClick for animation
+        addEnergy={() => addCosmicEnergy(energyPerClick)}
+        energyPerClick={energyPerClick}
         allCssChallengesCompleted={allCssChallengesCompleted}
+        hasRainbowCrystal={hasRainbowCrystal}
+        hasStarBurst={hasStarBurst}
+        hasCosmicMusic={hasCosmicMusic}
       />
+      {/* Audio element for cosmic music */}
+      <audio ref={audioRef} src="/sounds/cosmic_beep.mp3" preload="auto" />
     </div>
   );
 };

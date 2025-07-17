@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Zap } from "lucide-react";
+import { ShoppingCart, Zap, Palette, Sparkles, Music } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +16,12 @@ interface CosmicShopProps {
   setRegenerationTickIntervalMs: (value: number) => void;
   currentEnergy: number;
   decreaseCosmicEnergy: (amount: number, actionType: 'purchase') => void;
+  hasRainbowCrystal: boolean;
+  setHasRainbowCrystal: (value: boolean) => void;
+  hasStarBurst: boolean;
+  setHasStarBurst: (value: boolean) => void;
+  hasCosmicMusic: boolean;
+  setHasCosmicMusic: (value: boolean) => void;
 }
 
 const CosmicShop: React.FC<CosmicShopProps> = ({
@@ -29,6 +35,12 @@ const CosmicShop: React.FC<CosmicShopProps> = ({
   setRegenerationTickIntervalMs,
   currentEnergy,
   decreaseCosmicEnergy,
+  hasRainbowCrystal,
+  setHasRainbowCrystal,
+  hasStarBurst,
+  setHasStarBurst,
+  hasCosmicMusic,
+  setHasCosmicMusic,
 }) => {
   const upgrades = [
     {
@@ -101,6 +113,39 @@ const CosmicShop: React.FC<CosmicShopProps> = ({
       isPurchased: regenerationAmountPerTick >= 4,
       category: "automation",
     },
+    {
+      id: "rainbow-crystal",
+      name: "Райдужний Кристал",
+      description: "Кнопка енергії світиться всіма кольорами веселки.",
+      cost: 100,
+      effect: () => setHasRainbowCrystal(true),
+      isAvailable: !hasRainbowCrystal,
+      isPurchased: hasRainbowCrystal,
+      category: "visual",
+      icon: Palette,
+    },
+    {
+      id: "star-burst",
+      name: "Зоряний Вибух",
+      description: "Більше енергетичних частинок при кліку.",
+      cost: 200,
+      effect: () => setHasStarBurst(true),
+      isAvailable: !hasStarBurst,
+      isPurchased: hasStarBurst,
+      category: "visual",
+      icon: Sparkles,
+    },
+    {
+      id: "cosmic-music",
+      name: "Космічна Музика",
+      description: "Додає космічний звук при зборі енергії.",
+      cost: 50,
+      effect: () => setHasCosmicMusic(true),
+      isAvailable: !hasCosmicMusic,
+      isPurchased: hasCosmicMusic,
+      category: "visual",
+      icon: Music,
+    },
   ];
 
   const handlePurchase = (upgrade: typeof upgrades[0]) => {
@@ -115,6 +160,7 @@ const CosmicShop: React.FC<CosmicShopProps> = ({
 
   const energyUpgrades = upgrades.filter(u => u.category === "energy");
   const automationUpgrades = upgrades.filter(u => u.category === "automation");
+  const visualUpgrades = upgrades.filter(u => u.category === "visual");
 
   return (
     <Card className="mb-12 bg-card shadow-md">
@@ -192,9 +238,40 @@ const CosmicShop: React.FC<CosmicShopProps> = ({
         </div>
 
         <h3 className="text-2xl font-bold text-foreground mt-8 mb-4">Візуальні Покращення:</h3>
-        <p className="text-muted-foreground">
-          (Тут будуть візуальні ефекти для твоєї бази)
-        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {visualUpgrades.map((upgrade) => {
+            const Icon = upgrade.icon;
+            return (
+              <Card key={upgrade.id} className={cn(
+                "bg-muted p-4 flex flex-col justify-between",
+                upgrade.isPurchased && "border-2 border-green-500 opacity-80"
+              )}>
+                <div>
+                  <h4 className="font-semibold text-lg text-secondary-foreground flex items-center gap-2">
+                    {Icon && <Icon className="h-5 w-5 text-primary" />} {upgrade.name}
+                  </h4>
+                  <p className="text-sm text-muted-foreground mb-2">{upgrade.description}</p>
+                </div>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-lg font-bold text-primary flex items-center gap-1">
+                    <Zap className="h-5 w-5 text-yellow-500" /> {upgrade.cost}
+                  </span>
+                  {upgrade.isPurchased ? (
+                    <Button disabled className="bg-green-600 text-white">Придбано!</Button>
+                  ) : (
+                    <Button
+                      onClick={() => handlePurchase(upgrade)}
+                      disabled={!upgrade.isAvailable || currentEnergy < upgrade.cost}
+                      className="bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover"
+                    >
+                      {upgrade.isAvailable ? "Придбати" : "Недоступно"}
+                    </Button>
+                  )}
+                </div>
+              </Card>
+            );
+          })}
+        </div>
       </CardContent>
     </Card>
   );

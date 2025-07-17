@@ -135,6 +135,25 @@ export default {
             transform: "translateY(0)",
           },
         },
+        "pulse-rainbow": { // NEW KEYFRAME
+          "0%, 100%": {
+            "background-position": "0% 50%",
+            "box-shadow": "0 0 10px rgba(0,0,0,0.3)",
+          },
+          "25%": {
+            "background-position": "50% 50%",
+            "box-shadow": "0 0 20px rgba(255, 165, 0, 0.6)",
+          },
+          "50%": {
+            "background-position": "100% 50%",
+            "transform": "scale(1.05)",
+            "box-shadow": "0 0 30px rgba(0, 255, 0, 0.8)",
+          },
+          "75%": {
+            "background-position": "50% 50%",
+            "box-shadow": "0 0 20px rgba(0, 0, 255, 0.6)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -145,6 +164,7 @@ export default {
         "float-up-fade-out": "float-up-fade-out 0.8s ease-out forwards", // NEW ANIMATION
         "particle-burst": "particle-burst 0.8s ease-out forwards", // NEW ANIMATION
         "bounce-once": "bounce-once 0.6s ease-out", // NEW ANIMATION
+        "pulse-rainbow": "pulse-rainbow 4s ease infinite", // NEW ANIMATION
       },
     },
   },
