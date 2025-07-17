@@ -17,7 +17,32 @@ const Index: React.FC = () => {
       </p>
 
       <div className="w-full max-w-5xl space-y-12"> {/* Increased space between sections */}
-        {/* Домашнє завдання - новий розділ, перенесений нагору */}
+        {/* Нова Космічна Місія - актуальний розділ */}
+        <section>
+          <h2 className="text-4xl font-bold text-center mb-8 text-foreground">Твоя Нова Місія!</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <Card className="bg-card hover:shadow-lg transition-shadow duration-300 relative">
+              <CardHeader>
+                <CardTitle className="text-2xl text-card-foreground flex justify-between items-center">
+                  🚀 Космічна Місія: Будуємо та Прикрашаємо Твій Сайт!
+                  <Badge variant="destructive" className="ml-2 bg-purple-500 text-white">АКТУАЛЬНО!</Badge> {/* New badge color */}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-4">
+                  Вирушай у захопливу подорож, щоб створити та запустити свою власну веб-сторінку!
+                </p>
+                <Button asChild size="lg" className="w-full bg-brand-primary text-primary-foreground hover:bg-brand-primary-hover">
+                  <Link to="/cosmic-mission">Розпочати Місію</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        <Separator className="my-12" /> {/* Separator between sections */}
+
+        {/* Домашнє завдання - перенесений розділ */}
         <section>
           <h2 className="text-4xl font-bold text-center mb-8 text-foreground">Твоє Перше Завдання!</h2>
           <div className="grid grid-cols-1 gap-6">
@@ -84,7 +109,7 @@ const Index: React.FC = () => {
           </div>
         </section>
 
-        <Separator className="my-12" /> {/* Separator between sections */}
+        <Separator className="my-12" />
 
         {/* Практика та Проекти */}
         <section>

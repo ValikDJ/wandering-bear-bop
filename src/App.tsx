@@ -16,9 +16,10 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import CssPlayground from "./pages/CssPlayground";
 import HomeworkAssignment from "./pages/HomeworkAssignment";
+import CosmicMission from "./pages/CosmicMission"; // NEW IMPORT
 import React, { useState } from "react";
 import { ThemeProvider } from "@/hooks/use-theme";
-import { LayoutProvider } from "./contexts/LayoutContext"; // NEW IMPORT
+import { LayoutProvider } from "./contexts/LayoutContext";
 
 const queryClient = new QueryClient();
 const appBasename = import.meta.env.BASE_URL;
@@ -33,7 +34,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter basename={appBasename} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-            <LayoutProvider> {/* Wrap Layout with LayoutProvider */}
+            <LayoutProvider>
               <Layout
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
@@ -50,6 +51,7 @@ const App = () => {
                   <Route path="/glossary" element={<GlossaryPage />} />
                   <Route path="/css-playground" element={<CssPlayground />} />
                   <Route path="/homework" element={<HomeworkAssignment />} />
+                  <Route path="/cosmic-mission" element={<CosmicMission />} /> {/* NEW ROUTE */}
                   {/* ДОДАЙТЕ ВСІ ВЛАСНІ МАРШРУТИ НАД МАРШРУТОМ "*" */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

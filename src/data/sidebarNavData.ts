@@ -1,5 +1,5 @@
 import { SearchItem, searchIndex } from "./searchIndex";
-import { BookOpenText, Code, Lightbulb, GraduationCap, FileText, Book, Paintbrush, Home } from "lucide-react"; // Додано Home для домашнього завдання
+import { BookOpenText, Code, Lightbulb, GraduationCap, FileText, Book, Paintbrush, Home, Rocket } from "lucide-react"; // Додано Home та Rocket для домашнього завдання та місії
 
 export interface SidebarNavItem {
   id: string;
@@ -23,6 +23,7 @@ const mapSearchItemToSidebarNavItem = (item: SearchItem): SidebarNavItem => ({
 });
 
 // Логіка групування
+const cosmicMission = searchIndex.filter(item => item.path === '/cosmic-mission'); // NEW
 const homeworkAssignment = searchIndex.filter(item => item.path === '/homework');
 const htmlLessons = searchIndex.filter(item => item.path === '/html-tags' && item.type === 'lesson');
 const cssPropertiesLessons = searchIndex.filter(item => item.path === '/css-properties' && item.type === 'lesson');
@@ -35,6 +36,15 @@ const cssPlayground = searchIndex.filter(item => item.path === '/css-playground'
 const cssGradientGenerator = searchIndex.filter(item => item.path === '/examples' && item.sectionId === 'example-css-gradient-generator');
 
 export const sidebarNavData: SidebarNavItem[] = [
+  {
+    id: "cosmic-mission", // NEW
+    title: "Космічна Місія",
+    icon: Rocket, // Using Rocket icon
+    children: cosmicMission.map(item => ({
+      ...mapSearchItemToSidebarNavItem(item),
+      title: item.title.replace("🚀 Космічна Місія: ", ""),
+    })),
+  },
   {
     id: "homework",
     title: "Домашнє Завдання",
