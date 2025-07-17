@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"; // Додано useRef
+import React, { useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -10,8 +10,8 @@ import LessonNavigation from "@/components/LessonNavigation";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import CosmicMissionChecklist from "@/components/CosmicMissionChecklist";
-import { useTheme } from "@/hooks/use-theme"; // NEW IMPORT
-import { ThemeMode } from "@/lib/ThemeManager"; // NEW IMPORT
+import { useTheme } from "@/hooks/use-theme";
+import { ThemeMode } from "@/lib/ThemeManager";
 
 const cssTemplate = `/* style.css - Твої віртуальні пензлі! */
 
@@ -110,22 +110,23 @@ footer {
 
 const CosmicMission: React.FC = () => {
   useScrollToHash();
-  const { setTheme, getMode, getPreviousUserMode } = useTheme(); // ОНОВЛЕНО: Додано getPreviousUserMode
-  const initialThemeRef = useRef<ThemeMode | null>(null); // NEW: Для збереження теми перед перемиканням
+  const { setTheme, getMode, getPreviousUserMode } = useTheme(); // ВИПРАВЛЕНО: getMode та getPreviousUserMode тепер доступні
+  const initialThemeRef = useRef<ThemeMode | null>(null);
 
   useEffect(() => {
-    // Зберігаємо поточну тему користувача при вході на сторінку
-    initialThemeRef.current = getMode();
-    // Встановлюємо космічну тему
-    setTheme(ThemeMode.Cosmic, true); // true означає тимчасову зміну
+    initialThemeRef.current = getMode(); // ВИПРАВЛЕНО: Використання getMode
+    setTheme(ThemeMode.Cosmic, true);
 
-    // Функція очищення: повертаємо попередню тему при виході зі сторінки
     return () => {
-      if (initialThemeRef.current) {
-        setTheme(initialThemeRef.current, false); // false означає, що це не тимчасова зміна, а відновлення
+      const previousMode = getPreviousUserMode(); // ВИПРАВЛЕНО: Використання getPreviousUserMode
+      if (previousMode) {
+        setTheme(previousMode, false); // ВИПРАВЛЕНО: Передача isTemporary
+      } else {
+        // Якщо попереднього режиму не було (наприклад, перше завантаження), повертаємося до системного або світлого
+        setTheme(ThemeMode.System, false); // ВИПРАВЛЕНО: Передача isTemporary
       }
     };
-  }, [setTheme, getMode]); // Залежності для useEffect
+  }, [setTheme, getMode, getPreviousUserMode]); // Залежності для useEffect
 
   const handleCopyCss = () => {
     navigator.clipboard.writeText(cssTemplate);

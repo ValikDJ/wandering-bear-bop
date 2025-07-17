@@ -3,21 +3,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import InteractiveCssEditor from "@/components/InteractiveCssEditor";
 import ColorPicker from "@/components/ColorPicker";
 import LessonNavigation from "@/components/LessonNavigation";
-import { useTheme } from "@/hooks/use-theme"; // Import useTheme hook
-import { ThemeMode } from "@/lib/ThemeManager"; // Import ThemeMode enum
+import { useTheme } from "@/hooks/use-theme";
+import { ThemeMode } from "@/lib/ThemeManager";
 
 const CssPlayground: React.FC = () => {
   const { actualTheme } = useTheme();
 
   // Initialize colors based on the current theme
-  const getInitialBgColor = (theme: "light" | "dark" | "cyberpunk") => {
+  const getInitialBgColor = (theme: "light" | "dark" | "cosmic") => { // ОНОВЛЕНО: Додано "cosmic"
     if (theme === ThemeMode.Dark) return "#1a1a1a";
-    if (theme === ThemeMode.Cyberpunk) return "#14141f"; // Темний фон для кіберпанку
+    if (theme === ThemeMode.Cosmic) return "#14141f"; // ОНОВЛЕНО: Змінено Cyberpunk на Cosmic
     return "#ffffff";
   };
-  const getInitialTextColor = (theme: "light" | "dark" | "cyberpunk") => {
+  const getInitialTextColor = (theme: "light" | "dark" | "cosmic") => { // ОНОВЛЕНО: Додано "cosmic"
     if (theme === ThemeMode.Dark) return "#e9ecef";
-    if (theme === ThemeMode.Cyberpunk) return "#b3ffff"; // Неоновий текст для кіберпанку
+    if (theme === ThemeMode.Cosmic) return "#b3ffff"; // ОНОВЛЕНО: Змінено Cyberpunk на Cosmic
     return "#0c0a09";
   };
 

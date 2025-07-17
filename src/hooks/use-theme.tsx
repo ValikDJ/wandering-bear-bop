@@ -14,9 +14,11 @@ const themeManagerInstance = new ThemeManager();
  */
 interface ThemeContextType {
   mode: ThemeMode; // Обраний режим (light, dark, system)
-  actualTheme: "light" | "dark" | "cyberpunk"; // Фактично застосована тема (light, dark або cyberpunk)
-  setTheme: (mode: ThemeMode) => void;
+  actualTheme: "light" | "dark" | "cosmic"; // Фактично застосована тема (light, dark або cosmic)
+  setTheme: (mode: ThemeMode, isTemporary?: boolean) => void; // ОНОВЛЕНО: Додано isTemporary
   toggleTheme: () => void;
+  getMode: () => ThemeMode; // NEW: Додано метод
+  getPreviousUserMode: () => ThemeMode | null; // NEW: Додано метод
 }
 
 // Створюємо контекст теми
@@ -28,7 +30,7 @@ const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined
  */
 export const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [mode, setMode] = useState<ThemeMode>(themeManagerInstance.getMode());
-  const [actualTheme, setActualTheme] = useState<"light" | "dark" | "cyberpunk">(themeManagerInstance.getActualTheme());
+  const [actualTheme, setActualTheme] = useState<"light" | "dark" | "cosmic">(themeManagerInstance.getActualTheme()); // ОНОВЛЕНО: Додано "cosmic"
 
   // Оновлюємо стан компонента при зміні теми в ThemeManager
   useEffect(() => {
@@ -46,8 +48,10 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) =
   const contextValue = useMemo(() => ({
     mode,
     actualTheme,
-    setTheme: (newMode: ThemeMode) => themeManagerInstance.setTheme(newMode),
+    setTheme: (newMode: ThemeMode, isTemporary: boolean = false) => themeManagerInstance.setTheme(newMode, isTemporary), // ОНОВЛЕНО: Передаємо isTemporary
     toggleTheme: () => themeManagerInstance.toggleTheme(),
+    getMode: () => themeManagerInstance.getMode(), // NEW: Додано метод
+    getPreviousUserMode: () => themeManagerInstance.getPreviousUserMode(), // NEW: Додано метод
   }), [mode, actualTheme]);
 
   return (

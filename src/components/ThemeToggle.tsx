@@ -5,7 +5,7 @@
  */
 
 import React from "react";
-import { Sun, Moon, Laptop, Rocket } from "lucide-react"; // ОНОВЛЕНО: Змінено Zap на Rocket
+import { Sun, Moon, Laptop, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,8 +13,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTheme } from "@/hooks/use-theme"; // Імпортуємо наш хук теми
-import { ThemeMode } from "@/lib/ThemeManager"; // Імпортуємо перелік режимів
+import { useTheme } from "@/hooks/use-theme";
+import { ThemeMode } from "@/lib/ThemeManager";
+import { cn } from "@/lib/utils"; // NEW: Імпортуємо cn
 
 const ThemeToggle: React.FC = () => {
   const { mode, actualTheme, setTheme } = useTheme();
@@ -26,9 +27,9 @@ const ThemeToggle: React.FC = () => {
   if (actualTheme === ThemeMode.Dark) {
     CurrentIconComponent = Moon;
     currentLabelText = "Темна";
-  } else if (actualTheme === ThemeMode.Cosmic) { // ОНОВЛЕНО: Змінено Cyberpunk на Cosmic
-    CurrentIconComponent = Rocket; // ОНОВЛЕНО: Використовуємо Rocket
-    currentLabelText = "Космічна"; // ОНОВЛЕНО: Змінено на Космічна
+  } else if (actualTheme === ThemeMode.Cosmic) {
+    CurrentIconComponent = Rocket;
+    currentLabelText = "Космічна";
   } else {
     CurrentIconComponent = Sun;
     currentLabelText = "Світла";
@@ -48,9 +49,9 @@ const ThemeToggle: React.FC = () => {
           aria-label={`Поточна тема: ${currentLabelText}. Натисніть, щоб змінити.`}
         >
           {/* Icons for Light, Dark, and Cosmic */}
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 cosmic:scale-0" /> {/* ОНОВЛЕНО: cosmic:scale-0 */}
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 cosmic:scale-0" /> {/* ОНОВЛЕНО: cosmic:scale-0 */}
-          <Rocket className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all cosmic:rotate-0 cosmic:scale-100" /> {/* ОНОВЛЕНО: cosmic:rotate-0 cosmic:scale-100 */}
+          <Sun className={cn("h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all", "dark:-rotate-90 dark:scale-0", "cosmic:scale-0")} />
+          <Moon className={cn("absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all", "dark:rotate-0 dark:scale-100", "cosmic:scale-0")} />
+          <Rocket className={cn("absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all", "cosmic:rotate-0 cosmic:scale-100")} />
           <span className="sr-only">Перемкнути тему</span>
         </Button>
       </DropdownMenuTrigger>
@@ -70,11 +71,11 @@ const ThemeToggle: React.FC = () => {
           <Moon className="h-4 w-4" /> Темна
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => handleThemeChange(ThemeMode.Cosmic)} {/* ОНОВЛЕНО: Змінено Cyberpunk на Cosmic */}
+          onClick={() => handleThemeChange(ThemeMode.Cosmic)}
           className="cursor-pointer flex items-center gap-2"
-          aria-label="Встановити космічну тему" {/* ОНОВЛЕНО: Змінено на Космічна */}
+          aria-label="Встановити космічну тему"
         >
-          <Rocket className="h-4 w-4" /> Космічна {/* ОНОВЛЕНО: Змінено на Космічна */}
+          <Rocket className="h-4 w-4" /> Космічна
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => handleThemeChange(ThemeMode.System)}
