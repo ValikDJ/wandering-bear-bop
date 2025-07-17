@@ -25,32 +25,32 @@ const cssTemplateUncommented = `/* style.css - Твої віртуальні п�
 color: #b3ffff;
 font-size: 1.2em;
 font-family: 'Arial', sans-serif;
-text-align: center; /* або left, right, justify */
+text-align: center;
 line-height: 1.6;
-text-decoration: none; /* або underline, line-through */
-font-weight: bold; /* або normal, lighter */
+text-decoration: none;
+font-weight: bold;
 
 /* Властивості для фону */
 background-color: #2a2a4a;
 
 /* Властивості для рамок та кутів */
-border: 2px solid #8a2be2; /* товщина, стиль (solid, dashed, dotted), колір */
-border-radius: 8px; /* або 50% для кола */
+border: 2px solid #8a2be2;
+border-radius: 8px;
 
 /* Властивості для відступів */
-margin: 20px; /* або margin-top, margin-bottom, margin-left, margin-right */
-padding: 15px; /* або padding-top, padding-bottom, padding-left, padding-right */
+margin: 20px;
+padding: 15px;
 
 /* Властивості для розмірів */
-width: 100%; /* або 200px, 50% */
-height: auto; /* або 150px */
+width: 100%;
+height: auto;
 
 /* Інші корисні властивості */
-opacity: 0.8; /* прозорість (від 0 до 1) */
-display: block; /* або inline, inline-block, flex */
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* тінь */
-box-sizing: border-box; /* як розраховується загальна ширина/висота */
-cursor: pointer; /* тип курсору */
+opacity: 0.8;
+display: block;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+box-sizing: border-box;
+cursor: pointer;
 `;
 
 const cssTemplateCommented = `/* style.css - Твої віртуальні пензлі! */
@@ -203,18 +203,23 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                 <li>**Встановити значення:** Признач цій властивості бажане значення (наприклад, `color: blue;` або `font-size: 20px;`).</li>
               </ul>
               <p className="mb-2">
-                **Куди застосувати стилі?**
+                Ось деякі властивості, які ти можеш спробувати змінити:
               </p>
-              <ul className="list-disc list-inside space-y-2 mb-4">
-                <li>**`body`**: Зміни фон (`background-color`) або загальний колір тексту (`color`) для всієї сторінки.</li>
-                <li>**`h1`, `h2`, `p`**: Зміни колір тексту (`color`), розмір шрифту (`font-size`), тип шрифту (`font-family`) або вирівнювання тексту (`text-align`).</li>
-                <li>**`img`**: Додай рамку (`border`), заокругли кути (`border-radius`), зміни ширину (`width`) або висоту (`height`), зроби напівпрозорою (`opacity`).</li>
-                <li>**`a` (посилання)**: Зміни колір (`color`), прибери підкреслення (`text-decoration: none;`).</li>
-                <li>**`button`**: Зміни фон (`background-color`), колір тексту (`color`), внутрішні відступи (`padding`), заокругли кути (`border-radius`).</li>
-                <li>**`div`, `section`**: Зміни фон (`background-color`), додай рамку (`border`), внутрішні (`padding`) та зовнішні (`margin`) відступи, тінь (`box-shadow`).</li>
-                <li>**`ul`, `ol`, `li` (списки)**: Зміни відступи (`margin-left`), колір тексту.</li>
-                <li>**`table`, `th`, `td` (таблиці)**: Додай рамки (`border`), зміни фон (`background-color`) для заголовків (`th`).</li>
-                <li>**`header`, `footer`**: Зміни фон (`background-color`), колір тексту (`color`), відступи (`padding`).</li>
+              <ul className="list-disc list-inside">
+                <li><code>color</code>: Колір тексту.</li>
+                <li><code>background-color</code>: Колір фону.</li>
+                <li><code>font-size</code>: Розмір шрифту.</li>
+                <li><code>font-family</code>: Тип шрифту.</li>
+                <li><code>text-align</code>: Вирівнювання тексту (`center`, `left`, `right`).</li>
+                <li><code>margin</code>: Зовнішні відступи (простір навколо елемента).</li>
+                <li><code>padding</code>: Внутрішні відступи (простір між вмістом та рамкою).</li>
+                <li><code>border</code>: Рамка навколо елемента.</li>
+                <li><code>border-radius</code>: Заокруглення кутів.</li>
+                <li><code>text-decoration</code>: Оформлення тексту (наприклад, прибрати підкреслення у посилань).</li>
+                <li><code>opacity</code>: Прозорість елемента.</li>
+                <li><code>width</code> / <code>height</code>: Ширина та висота елемента.</li>
+                <li><code>box-shadow</code>: Тінь для елемента.</li>
+                <li><code>box-sizing</code>: Як розраховується загальна ширина та висота елемента.</li>
               </ul>
               <p className="mt-2">
                 Експериментуй! Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> для інтерактивної практики, а також <Link to="/examples" className="text-brand-primary hover:underline">Практичні Приклади</Link>, щоб побачити, як інші стилізовані елементи виглядають у дії.
@@ -223,7 +228,7 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
           </CollapsibleContent>
         </Collapsible>
 
-        {/* NEW: Приклад простого дизайну */}
+        {/* Приклад простого дизайну: "Космічна Посилка" */}
         <Card className="mt-12 bg-card shadow-md">
           <CardHeader>
             <CardTitle className="text-2xl text-foreground flex items-center gap-2">
@@ -272,6 +277,54 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                 </SyntaxHighlighter>
                 <p className="mt-2 text-sm text-muted-foreground">
                   Щоб використати цей стиль, додай `class="cosmic-package"` до свого `&lt;div&gt;` або іншого тегу в HTML.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* NEW: Приклад простого дизайну: "Космічний Портрет" */}
+        <Card className="mt-12 bg-card shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-foreground flex items-center gap-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              Приклад простого дизайну: "Космічний Портрет"
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Ось як можна стилізувати зображення (`&lt;img&gt;`), щоб воно виглядало як космічний портрет!
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex justify-center items-center p-4">
+                <img
+                  src="https://picsum.photos/id/1080/200/200"
+                  alt="Космічний портрет"
+                  style={{
+                    border: '5px solid #ff69b4', // Pink border
+                    borderRadius: '50%', // Circular shape
+                    boxShadow: '0 0 20px rgba(255, 105, 180, 0.7)', // Pink glow
+                    transition: 'transform 0.3s ease-in-out', // Smooth hover effect
+                  }}
+                  className="max-w-full h-auto block"
+                />
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 text-lg text-secondary-foreground">CSS-код для цього:</h4>
+                <SyntaxHighlighter language="css" style={atomDark} customStyle={{ borderRadius: '8px', padding: '16px', fontSize: '0.9em', maxHeight: '250px', overflowY: 'auto' }}>
+                  {`.cosmic-portrait {
+  border: 5px solid #ff69b4; /* Рожева рамка */
+  border-radius: 50%; /* Кругла форма */
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.7); /* Рожеве світіння */
+  transition: transform 0.3s ease-in-out; /* Плавний перехід при наведенні */
+}
+
+.cosmic-portrait:hover {
+  transform: scale(1.05); /* Збільшення при наведенні */
+}`}
+                </SyntaxHighlighter>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Щоб використати цей стиль, додай `class="cosmic-portrait"` до свого `&lt;img&gt;` тегу в HTML.
                 </p>
               </div>
             </div>
