@@ -16,6 +16,8 @@ import CosmicCssChallengeCard from "./CosmicCssChallengeCard"; // Updated import
 interface CosmicMissionStage2CssProps {
   completed: boolean;
   onCompletionChange: (completed: boolean) => void;
+  cosmicEnergy: number; // NEW PROP
+  decreaseCosmicEnergy: (amount: number, actionType: 'hint' | 'solution') => void; // NEW PROP
 }
 
 const LOCAL_STORAGE_KEY_STAGE2 = "cosmic-mission-stage2-completed";
@@ -249,7 +251,7 @@ const cssChallenges: CosmicCssChallengeData[] = [
   },
 ];
 
-const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ completed, onCompletionChange }) => {
+const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ completed, onCompletionChange, cosmicEnergy, decreaseCosmicEnergy }) => {
   const [displayCommentedCss, setDisplayCommentedCss] = useState(false);
   const [challengeCompletion, setChallengeCompletion] = useState<{ [key: string]: boolean }>(() => {
     try {
@@ -444,6 +446,8 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                   lessonLinkText={challenge.lessonLinkText}
                   completed={!!challengeCompletion[challenge.id]}
                   onCompletionChange={(isChecked) => handleChallengeCompletionChange(challenge.id, isChecked)}
+                  cosmicEnergy={cosmicEnergy} // NEW: Pass energy
+                  decreaseCosmicEnergy={decreaseCosmicEnergy} // NEW: Pass energy decrease function
                 />
               ))}
 

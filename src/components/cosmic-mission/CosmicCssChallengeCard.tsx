@@ -22,6 +22,8 @@ interface CosmicCssChallengeCardProps {
   lessonLinkText?: string;
   completed: boolean;
   onCompletionChange: (completed: boolean) => void;
+  cosmicEnergy: number; // NEW PROP
+  decreaseCosmicEnergy: (amount: number, actionType: 'hint' | 'solution') => void; // NEW PROP
 }
 
 const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
@@ -35,8 +37,15 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
   lessonLinkText,
   completed,
   onCompletionChange,
+  cosmicEnergy, // NEW
+  decreaseCosmicEnergy, // NEW
 }) => {
   const [showSolutionCollapsible, setShowSolutionCollapsible] = useState(false); // State to control solution collapsible visibility
+  const [hintUsed, setHintUsed] = useState(false); // NEW: Track if hint was used
+  const [solutionUsed, setSolutionUsed] = useState(false); // NEW: Track if solution was used
+
+  const HINT_COST = 10;
+  const SOLUTION_COST = 25;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(initialCss);
@@ -44,9 +53,26 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
   };
 
   const handleHintOpenChange = (open: boolean) => {
+    if (open && !hintUsed && cosmicEnergy >= HINT_COST) {
+      decreaseCosmicEnergy(HINT_COST, 'hint');
+      setHintUsed(true);
+    } else if (open && !hintUsed && cosmicEnergy < HINT_COST) {
+      toast.error("Недостатньо Космічної Енергії для підказки!");
+      return; // Prevent opening if not enough energy
+    }
+    // Always allow showing solution collapsible if hint is opened, regardless of energy
     if (open) {
-      // If hint is opened, allow showing the solution collapsible
       setShowSolutionCollapsible(true);
+    }
+  };
+
+  const handleSolutionOpenChange = (open: boolean) => {
+    if (open && !solutionUsed && cosmicEnergy >= SOLUTION_COST) {
+      decreaseCosmicEnergy(SOLUTION_COST, 'solution');
+      setSolutionUsed(true);
+    } else if (open && !solutionUsed && cosmicEnergy < SOLUTION_COST) {
+      toast.error("Недостатньо Космічної Енергії для рішення!");
+      return; // Prevent opening if not enough energy
     }
   };
 
@@ -87,9 +113,13 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
           <div className="flex flex-col">
             <Collapsible className="mt-4" onOpenChange={handleHintOpenChange}>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
+                <Button
+                  variant="outline"
+                  className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print"
+                  disabled={cosmicEnergy < HINT_COST && !hintUsed} // Disable if not enough energy and hint not used
+                >
                   <Lightbulb className="h-5 w-5 mr-2 text-yellow-500" />
-                  Підказка
+                  Підказка {hintUsed ? "(Використано)" : `(-${HINT_COST} Енергії)`}
                   <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
                 </Button>
               </CollapsibleTrigger>
@@ -107,11 +137,15 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
 
             {/* Solution section, initially hidden, appears after hint is opened */}
             {showSolutionCollapsible && (
-              <Collapsible className="mt-4">
+              <Collapsible className="mt-4" onOpenChange={handleSolutionOpenChange}>
                 <CollapsibleTrigger asChild>
-                  <Button variant="outline" className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-between text-lg font-semibold text-secondary-foreground hover:bg-secondary/80 no-print"
+                    disabled={cosmicEnergy < SOLUTION_COST && !solutionUsed} // Disable if not enough energy and solution not used
+                  >
                     <CheckSquare className="h-5 w-5 mr-2 text-green-500" />
-                    Рішення
+                    Рішення {solutionUsed ? "(Використано)" : `(-${SOLUTION_COST} Енергії)`}
                     <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180 chevron-icon" />
                   </Button>
                 </CollapsibleTrigger>
