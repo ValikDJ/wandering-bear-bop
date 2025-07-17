@@ -80,7 +80,7 @@ const CosmicEnergyButton: React.FC<CosmicEnergyButtonProps> = ({
       <Button
         onClick={handleClick}
         className={cn(
-          "relative w-24 h-24 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg",
+          "relative w-20 h-20 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-lg", /* Зменшено w-24 h-24 до w-20 h-20, text-xl до text-lg */
           "bg-gradient-to-br from-purple-600 to-blue-600",
           "transition-all duration-200 ease-out",
           "hover:from-purple-700 hover:to-blue-700",
@@ -91,7 +91,7 @@ const CosmicEnergyButton: React.FC<CosmicEnergyButtonProps> = ({
           boxShadow: isClicked ? "0 0 20px rgba(129, 140, 248, 0.8), 0 0 40px rgba(129, 140, 248, 0.6)" : "0 0 10px rgba(0,0,0,0.3)",
         }}
       >
-        <Zap className="h-10 w-10" />
+        <Zap className="h-8 w-8" /> {/* Зменшено h-10 w-10 до h-8 w-8 */}
         {showPlusOne && (
           <span
             key={currentEnergy} // Key to re-render and re-trigger animation
