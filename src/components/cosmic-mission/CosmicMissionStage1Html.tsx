@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Code, ChevronDown, Planet } from "lucide-react"; // Додано Planet
+import { Code, ChevronDown, Plane } from "lucide-react"; // Changed Planet to Plane
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -38,7 +38,7 @@ const CosmicMissionStage1Html: React.FC<CosmicMissionStage1HtmlProps> = ({ compl
     <Card className="mb-12 bg-card shadow-md">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-3xl font-bold text-foreground flex items-center gap-3">
-          <Planet className="h-8 w-8 text-primary" />
+          <Plane className="h-8 w-8 text-primary" />
           Етап 1: Твій Орбітальний Каркас (HTML)
         </CardTitle>
         <div className="flex items-center space-x-2 no-print">

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Copy, Palette, ChevronDown, Lightbulb, Planet } from "lucide-react";
+import { Copy, Palette, ChevronDown, Lightbulb, Plane } from "lucide-react"; // Changed Planet to Plane
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -108,7 +108,7 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
     <Card className="mb-12 bg-card shadow-md">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-3xl font-bold text-foreground flex items-center gap-3">
-          <Planet className="h-8 w-8 text-primary" />
+          <Plane className="h-8 w-8 text-primary" />
           Етап 2: Дослідження Галактики Стилів (CSS)
         </CardTitle>
         <div className="flex items-center space-x-2 no-print">
