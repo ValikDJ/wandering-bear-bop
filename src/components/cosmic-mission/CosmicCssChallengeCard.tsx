@@ -132,8 +132,8 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
               <CollapsibleTrigger asChild>
                 <Button
                   variant="outline"
-                  size="icon" {/* Changed to icon size */}
-                  className="ml-auto text-secondary-foreground hover:bg-secondary/80 no-print" {/* Removed w-full, justify-between, font-semibold */}
+                  size="icon"
+                  className="ml-auto text-secondary-foreground hover:bg-secondary/80 no-print"
                   disabled={cosmicEnergy < HINT_COST && !hintUsed}
                 >
                   <Lightbulb className="h-4 w-4 text-yellow-500" />
@@ -157,8 +157,8 @@ const CosmicCssChallengeCard: React.FC<CosmicCssChallengeCardProps> = ({
                 <CollapsibleTrigger asChild>
                   <Button
                     variant="outline"
-                    size="icon" {/* Changed to icon size */}
-                    className="ml-auto text-secondary-foreground hover:bg-secondary/80 no-print" {/* Removed w-full, justify-between, font-semibold */}
+                    size="icon"
+                    className="ml-auto text-secondary-foreground hover:bg-secondary/80 no-print"
                     disabled={cosmicEnergy < SOLUTION_COST && !solutionUsed}
                   >
                     <CheckSquare className="h-4 w-4 text-green-500" />
