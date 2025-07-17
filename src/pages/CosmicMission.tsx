@@ -15,8 +15,8 @@ import CosmicMissionChecklist from "@/components/CosmicMissionChecklist";
 import CosmicMissionWhatsNext from "@/components/cosmic-mission/CosmicMissionWhatsNext";
 import CosmicEnergyMeter from "@/components/cosmic-mission/CosmicEnergyMeter";
 import CosmicEnergyButton from "@/components/CosmicEnergyButton";
-import CosmicShop from "@/components/cosmic-mission/CosmicShop"; // NEW IMPORT
-import CosmicAchievements from "@/components/cosmic-mission/CosmicAchievements"; // NEW IMPORT
+import CosmicShopDialog from "@/components/cosmic-mission/CosmicShopDialog"; // NEW IMPORT
+import CosmicAchievements from "@/components/cosmic-mission/CosmicAchievements";
 import { cssChallenges } from "@/data/cosmicCssChallenges";
 
 const LOCAL_STORAGE_ENERGY_KEY = "cosmic-mission-energy";
@@ -54,15 +54,8 @@ const CosmicMission: React.FC = () => {
     }
   });
 
-  const [maxEnergy, setMaxEnergy] = useState<number>(() => {
-    try {
-      const storedMaxEnergy = localStorage.getItem(LOCAL_STORAGE_MAX_ENERGY_KEY);
-      return storedMaxEnergy ? JSON.parse(storedMaxEnergy) : 200;
-    } catch (error) {
-      console.error("Failed to load max energy from localStorage:", error);
-      return 200;
-    }
-  });
+  // Max energy is now fixed at 200
+  const maxEnergy = 200;
 
   const [energyPerClick, setEnergyPerClick] = useState<number>(() => {
     try {
@@ -158,7 +151,7 @@ const CosmicMission: React.FC = () => {
   useEffect(() => {
     try {
       localStorage.setItem(LOCAL_STORAGE_ENERGY_KEY, JSON.stringify(cosmicEnergy));
-      localStorage.setItem(LOCAL_STORAGE_MAX_ENERGY_KEY, JSON.stringify(maxEnergy));
+      // localStorage.setItem(LOCAL_STORAGE_MAX_ENERGY_KEY, JSON.stringify(maxEnergy)); // Max energy is now fixed
       localStorage.setItem(LOCAL_STORAGE_ENERGY_PER_CLICK_KEY, JSON.stringify(energyPerClick));
       localStorage.setItem(LOCAL_STORAGE_REGENERATION_AMOUNT_KEY, JSON.stringify(regenerationAmountPerTick));
       localStorage.setItem(LOCAL_STORAGE_REGENERATION_INTERVAL_KEY, JSON.stringify(regenerationTickIntervalMs));
@@ -265,10 +258,10 @@ const CosmicMission: React.FC = () => {
         onChallengeCompletionChange={handleChallengeCompletionChange}
       />
 
-      {/* NEW: Cosmic Shop Placeholder */}
-      <CosmicShop
+      {/* NEW: Cosmic Shop Dialog */}
+      <CosmicShopDialog
         maxEnergy={maxEnergy}
-        setMaxEnergy={setMaxEnergy}
+        setMaxEnergy={() => { /* Max energy is fixed, no-op */ }}
         energyPerClick={energyPerClick}
         setEnergyPerClick={setEnergyPerClick}
         regenerationAmountPerTick={regenerationAmountPerTick}

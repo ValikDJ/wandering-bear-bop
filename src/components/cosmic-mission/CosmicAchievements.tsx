@@ -7,9 +7,9 @@ interface CosmicAchievementsProps {
   totalClicks: number;
   totalEnergyCollected: number;
   allCssChallengesCompleted: boolean;
-  currentEnergy: number; // NEW PROP
-  maxEnergy: number; // NEW PROP
-  energySpentOnChallenges: number; // NEW PROP
+  currentEnergy: number;
+  maxEnergy: number;
+  energySpentOnChallenges: number;
 }
 
 interface Achievement {
@@ -39,7 +39,7 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
     {
       id: "full-tank",
       name: "Повний Бак",
-      description: "Досягни максимального рівня енергії.",
+      description: "Досягни максимального рівня енергії (200).",
       isUnlocked: currentEnergy >= maxEnergy,
       icon: Zap,
     },
@@ -57,13 +57,7 @@ const CosmicAchievements: React.FC<CosmicAchievementsProps> = ({
       isUnlocked: totalEnergyCollected >= 1000,
       icon: Zap,
     },
-    {
-      id: "max-power",
-      name: "Максимальна Потужність",
-      description: "Досягни 300 максимальної енергії.",
-      isUnlocked: maxEnergy >= 300,
-      icon: Zap,
-    },
+    // Removed "Max Power" achievement as max energy is now fixed at 200.
     {
       id: "marathoner",
       name: "Марафонець",
