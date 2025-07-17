@@ -3,12 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Copy, Rocket, Code, Palette, CheckSquare, HelpCircle, Star, ChevronDown } from "lucide-react";
+import { Copy, Rocket, Code, Palette, Star, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import LessonNavigation from "@/components/LessonNavigation";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"; // For details/summary like behavior
+import CosmicMissionChecklist from "@/components/CosmicMissionChecklist"; // NEW IMPORT
 
 const cssTemplate = `/* style.css - Твої віртуальні пензлі! */
 
@@ -279,53 +280,8 @@ const CosmicMission: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Чек-ліст */}
-      <Card className="mb-12 bg-card shadow-md">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold text-foreground flex items-center gap-3">
-            <CheckSquare className="h-8 w-8 text-primary" />
-            Чек-ліст Космічного Архітектора
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="mb-4 text-muted-foreground">
-            Перевір, чи все готово до запуску! Познач виконані завдання:
-          </p>
-          <ul className="list-none space-y-3 text-muted-foreground">
-            <li>[ ] Я маю свій HTML-файл з домашнього завдання.</li>
-            <li>[ ] Я перевірив назву свого сайту в HTML.</li>
-            <li>[ ] Я перевірив посилання в навігації (`&lt;nav&gt;`) свого сайту.</li>
-            <li>[ ] Я перевірив заголовки (`&lt;h2&gt;`) та текст (`&lt;p&gt;`) у своєму HTML.</li>
-            <li>[ ] Я перевірив картинки (`&lt;img&gt;`) у своєму HTML.</li>
-            <li>[ ] Я скопіював базові CSS-стилі у вкладку CSS на платформі Logika.</li>
-            <li>[ ] Я застосував вивчені CSS-властивості (наприклад, `color`, `background-color`, `font-size`, `margin`, `padding`, `border`, `border-radius`, `text-align`) до елементів свого сайту.</li>
-            <li>[ ] Я перевірив, чи всі посилання та картинки працюють після стилізації.</li>
-            <li>[ ] Я показав свій стилізований сайт вчителю.</li>
-          </ul>
-        </CardContent>
-      </Card>
-
-      {/* Секція допомоги */}
-      <Card className="mb-12 bg-card shadow-md">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold text-foreground flex items-center gap-3">
-            <HelpCircle className="h-8 w-8 text-destructive" />
-            Застряг у Космосі?
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="mb-4 text-muted-foreground">
-            Не хвилюйся, навіть досвідчені космонавти іноді потребують допомоги! Якщо щось пішло не так:
-          </p>
-          <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-            <li>**Перевір свій код:** Уважно переглянь HTML та CSS на наявність помилок (забуті `&lt;/div&gt;`, неправильні назви властивостей).</li>
-            <li>**Запитай сусіда:** Можливо, твій товариш по місії вже стикався з такою проблемою.</li>
-            <li>**Поклич вчителя:** Твій командир завжди готовий допомогти тобі повернутися на правильний курс!</li>
-            <li>**Використай Словник Термінів:** <Link to="/glossary" className="text-brand-primary hover:underline">Швидко знайди значення незрозумілих слів</Link>.</li>
-            <li>**Переглянь Приклади:** <Link to="/examples" className="text-brand-primary hover:underline">Подивись, як працюють інші приклади</Link>.</li>
-          </ul>
-        </CardContent>
-      </Card>
+      {/* Чек-ліст Космічного Архітектора */}
+      <CosmicMissionChecklist />
 
       {/* Що далі? */}
       <Card className="mb-12 bg-card shadow-md">
