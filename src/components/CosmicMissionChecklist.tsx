@@ -119,11 +119,11 @@ const CosmicMissionChecklist: React.FC<CosmicMissionChecklistProps> = ({ onCompl
                 Не хвилюйся, навіть досвідчені космонавти іноді потребують допомоги! Якщо щось пішло не так:
               </p>
               <ul className="list-disc list-inside space-y-2">
-                <li>**Перевір свій код:** Уважно переглянь HTML та CSS на наявність помилок (забуті `&lt;/div&gt;`, неправильні назви властивостей).</li>
-                <li>**Запитай сусіда:** Можливо, твій товариш по місії вже стикався з такою проблемою.</li>
-                <li>**Поклич вчителя:** Твій командир завжди готовий допомогти тобі повернутися на правильний курс!</li>
-                <li>**Використай Словник Термінів:** <Link to="/glossary" className="text-brand-primary hover:underline">Швидко знайди значення незрозумілих слів</Link>.</li>
-                <li>**Переглянь Приклади:** <Link to="/examples" className="text-brand-primary hover:underline">Подивись, як працюють інші приклади</Link>.</li>
+                <li><strong>Перевір свій код:</strong> Уважно переглянь HTML та CSS на наявність помилок (забуті `&lt;/div&gt;`, неправильні назви властивостей).</li>
+                <li><strong>Запитай сусіда:</strong> Можливо, твій товариш по місії вже стикався з такою проблемою.</li>
+                <li><strong>Поклич вчителя:</strong> Твій командир завжди готовий допомогти тобі повернутися на правильний курс!</li>
+                <li><strong>Використай Словник Термінів:</strong> <Link to="/glossary" className="text-brand-primary hover:underline">Швидко знайди значення незрозумілих слів</Link>.</li>
+                <li><strong>Переглянь Приклади:</strong> <Link to="/examples" className="text-brand-primary hover:underline">Подивись, як працюють інші приклади</Link>.</li>
               </ul>
             </div>
           </CollapsibleContent>

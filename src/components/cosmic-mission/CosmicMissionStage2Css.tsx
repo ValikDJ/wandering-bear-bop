@@ -164,7 +164,7 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
           {`<link rel="stylesheet" href="style.css">`}
         </SyntaxHighlighter>
         <p className="mb-4 text-muted-foreground text-sm">
-          А ось список CSS-властивостей, які ти можеш використовувати. Скопіюй їх у вкладку **CSS** на платформі Logika і змінюй значення, щоб прикрасити *свій власний* сайт!
+          А ось список CSS-властивостей, які ти можеш використовувати. Скопіюй їх у вкладку <strong>CSS</strong> на платформі Logika і змінюй значення, щоб прикрасити *свій власний* сайт!
         </p>
         
         <div className="relative mb-6">
@@ -217,9 +217,9 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                 Щоб застосувати стилі до елементів твого сайту, тобі потрібно:
               </p>
               <ul className="list-disc list-inside space-y-2 mb-4">
-                <li>**Вибрати елемент:** Використовуй **CSS-селектори** (наприклад, назву тегу `body`, `h1`, `p`, `img`, `section` або `footer`) щоб вказати, до якого елемента застосувати стиль. Якщо ти забув, як працюють селектори, переглянь <Link to="/css-selectors" className="text-brand-primary hover:underline">Урок: CSS Селектори</Link>.</li>
-                <li>**Вибрати властивість:** Обери, що саме ти хочеш змінити (колір, розмір, фон тощо). Якщо ти забув, які властивості існують, переглянь <Link to="/css-properties" className="text-brand-primary hover:underline">Урок: CSS Властивості</Link>.</li>
-                <li>**Встановити значення:** Признач цій властивості бажане значення (наприклад, `color: blue;` або `font-size: 20px;`).</li>
+                <li><strong>Вибрати елемент:</strong> Використовуй <strong>CSS-селектори</strong> (наприклад, назву тегу `body`, `h1`, `p`, `img`, `section` або `footer`) щоб вказати, до якого елемента застосувати стиль. Якщо ти забув, як працюють селектори, переглянь <Link to="/css-selectors" className="text-brand-primary hover:underline">Урок: CSS Селектори</Link>.</li>
+                <li><strong>Вибрати властивість:</strong> Обери, що саме ти хочеш змінити (колір, розмір, фон тощо). Якщо ти забув, які властивості існують, переглянь <Link to="/css-properties" className="text-brand-primary hover:underline">Урок: CSS Властивості</Link>.</li>
+                <li><strong>Встановити значення:</strong> Признач цій властивості бажане значення (наприклад, `color: blue;` або `font-size: 20px;`).</li>
               </ul>
               <p className="mb-2">
                 Ось деякі властивості, які ти можеш спробувати змінити:

@@ -58,7 +58,7 @@ const CosmicMissionStage1Html: React.FC<CosmicMissionStage1HtmlProps> = ({ compl
           Ти вже виконав домашнє завдання і маєш свій HTML-код! Це креслення твоєї космічної бази, яке визначає, де будуть стіни, двері, вікна.
         </p>
         <p className="mb-4 text-muted-foreground font-semibold">
-          **Відкрий свій HTML-файл на платформі Logika.** Переконайся, що він містить:
+          <strong>Відкрий свій HTML-файл на платформі Logika.</strong> Переконайся, що він містить:
         </p>
         <ul className="list-disc list-inside space-y-2 mb-6 text-muted-foreground">
           <li><code>&lt;header&gt;</code>: Командний місток з назвою та навігацією.</li>
@@ -80,12 +80,12 @@ const CosmicMissionStage1Html: React.FC<CosmicMissionStage1HtmlProps> = ({ compl
           <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden collapsible-content">
             <div className="p-4 border border-border rounded-b-md bg-muted mt-2 text-muted-foreground">
               <p className="mb-2">
-                Використання тегів на кшталт `&lt;header&gt;`, `&lt;main&gt;`, `&lt;footer&gt;` та `&lt;section&gt;` робить твій код не просто набором символів, а осмисленою структурою! Це називається **семантичною розміткою**.
+                Використання тегів на кшталт `&lt;header&gt;`, `&lt;main&gt;`, `&lt;footer&gt;` та `&lt;section&gt;` робить твій код не просто набором символів, а осмисленою структурою! Це називається <strong>семантичною розміткою</strong>.
               </p>
               <ul className="list-disc list-inside">
-                <li>**Для людей:** Твій код легше читати та розуміти іншим розробникам (і тобі самому через місяць!).</li>
-                <li>**Для пошукових систем:** Google та інші пошуковики краще розуміють, про що твій сайт, і можуть показувати його вище в результатах пошуку.</li>
-                <li>**Для доступності:** Програми для людей з обмеженими можливостями (наприклад, для читання екрану) краще орієнтуються на сайті, якщо він має чітку структуру.</li>
+                <li><strong>Для людей:</strong> Твій код легше читати та розуміти іншим розробникам (і тобі самому через місяць!).</li>
+                <li><strong>Для пошукових систем:</strong> Google та інші пошуковики краще розуміють, про що твій сайт, і можуть показувати його вище в результатах пошуку.</li>
+                <li><strong>Для доступності:</strong> Програми для людей з обмеженими можливостями (наприклад, для читання екрану) краще орієнтуються на сайті, якщо він має чітку структуру.</li>
               </ul>
               <p className="mt-2">
                 Тож, це не просто "складно", це "розумно" і "професійно"!

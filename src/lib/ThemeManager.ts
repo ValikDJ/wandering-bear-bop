@@ -11,7 +11,7 @@ export enum ThemeMode {
   Light = "light",
   Dark = "dark",
   System = "system",
-  Cosmic = "cosmic", // ОНОВЛЕНО: Перейменовано з Cyberpunk на Cosmic
+  Cosmic = "cosmic",
 }
 
 /**
@@ -29,7 +29,7 @@ export class ThemeManager {
   private previousUserMode: ThemeMode | null = null; // NEW: Для збереження попереднього режиму користувача
 
   constructor() {
-    this.currentMode = this._getPreference() || ThemeMode.System;
+    this.currentMode = this._getPreference() || ThemeMode.Light; // ЗМІНЕНО: Тема за замовчуванням тепер Light
     this._initializeTheme();
   }
 
@@ -58,7 +58,7 @@ export class ThemeManager {
     const actualTheme = this._getActualTheme(mode);
 
     // Видаляємо всі можливі класи тем
-    htmlElement.classList.remove(ThemeMode.Light, ThemeMode.Dark, ThemeMode.Cosmic); // ОНОВЛЕНО: Додано Cosmic
+    htmlElement.classList.remove(ThemeMode.Light, ThemeMode.Dark, ThemeMode.Cosmic);
 
     // Додаємо клас для поточної теми
     htmlElement.classList.add(actualTheme);
@@ -79,7 +79,7 @@ export class ThemeManager {
    * @param mode Обраний режим теми.
    * @returns Фактична тема ('light', 'dark' або 'cosmic').
    */
-  private _getActualTheme(mode: ThemeMode): "light" | "dark" | "cosmic" { // ОНОВЛЕНО: Додано cosmic
+  private _getActualTheme(mode: ThemeMode): "light" | "dark" | "cosmic" {
     if (mode === ThemeMode.System) {
       if (typeof window !== "undefined" && window.matchMedia) {
         return window.matchMedia("(prefers-color-scheme: dark)").matches ? ThemeMode.Dark : ThemeMode.Light;
@@ -140,7 +140,7 @@ export class ThemeManager {
    * Перемикає тему між Light, Dark, System та Cosmic.
    */
   public toggleTheme(): void {
-    const modes = [ThemeMode.Light, ThemeMode.Dark, ThemeMode.System, ThemeMode.Cosmic]; // ОНОВЛЕНО: Додано Cosmic
+    const modes = [ThemeMode.Light, ThemeMode.Dark, ThemeMode.System, ThemeMode.Cosmic];
     const currentIndex = modes.indexOf(this.currentMode);
     const nextIndex = (currentIndex + 1) % modes.length;
     this.setTheme(modes[nextIndex]);
@@ -158,7 +158,7 @@ export class ThemeManager {
    * Повертає фактично застосовану тему ('light', 'dark' або 'cosmic').
    * @returns Фактично застосована тема.
    */
-  public getActualTheme(): "light" | "dark" | "cosmic" { // ОНОВЛЕНО: Додано cosmic
+  public getActualTheme(): "light" | "dark" | "cosmic" {
     return this._getActualTheme(this.currentMode);
   }
 
@@ -166,7 +166,7 @@ export class ThemeManager {
    * Повертає попередній режим теми, який був встановлений користувачем.
    * @returns Попередній режим теми або null, якщо його не було.
    */
-  public getPreviousUserMode(): ThemeMode | null { // NEW: Додано метод
+  public getPreviousUserMode(): ThemeMode | null {
     return this.previousUserMode;
   }
 

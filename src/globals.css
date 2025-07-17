@@ -36,8 +36,8 @@
     --radius: 0.5rem;
 
     /* Custom colors for the theme system */
-    --brand-primary: 211 100% 50%; /* #007bff - for main buttons/links */
-    --brand-primary-hover: 211 100% 40%; /* Darker blue on hover */
+    --brand-primary: 211 90% 45%; /* ЗМІНЕНО: Трохи інший синій для посилань */
+    --brand-primary-hover: 211 90% 35%; /* Darker blue on hover */
     --brand-secondary: 210 40% 96.1%; /* #f8f9fa */
     --brand-secondary-foreground: 222.2 47.4% 11.2%; /* #1c1917 */
 
@@ -102,8 +102,8 @@
     --ring: 212.7 26.8% 83.9%; /* #d1d5db - ring color */
 
     /* Custom colors for the theme system */
-    --brand-primary: 207 80% 60%; /* #4dabf7 - for main buttons/links */
-    --brand-primary-hover: 207 80% 50%; /* Darker blue on hover */
+    --brand-primary: 207 70% 55%; /* ЗМІНЕНО: Трохи інший синій для посилань */
+    --brand-primary-hover: 207 70% 45%; /* Darker blue on hover */
     --brand-secondary: 217.2 32.6% 17.5%; /* #2d2d2d */
     --brand-secondary-foreground: 210 40% 98%; /* #e9ecef */
 
