@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Copy, Palette, ChevronDown, Lightbulb, Planet } from "lucide-react"; // Додано Planet
+import { Copy, Palette, ChevronDown, Lightbulb, Planet } from "lucide-react";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
-import CssExampleCard from "./CssExampleCard"; // NEW IMPORT
+import CssExampleCard from "./CssExampleCard";
 
 interface CosmicMissionStage2CssProps {
   completed: boolean;
@@ -27,9 +27,7 @@ color: #b3ffff;
 font-size: 1.2em;
 font-family: 'Arial', sans-serif;
 text-align: center;
-line-height: 1.6;
 text-decoration: none;
-font-weight: bold;
 
 /* Властивості для фону */
 background-color: #2a2a4a;
@@ -48,10 +46,6 @@ height: auto;
 
 /* Інші корисні властивості */
 opacity: 0.8;
-display: block;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-box-sizing: border-box;
-cursor: pointer;
 `;
 
 const cssTemplateCommented = `/* style.css - Твої віртуальні пензлі! */
@@ -61,9 +55,7 @@ color: #b3ffff; /* Встановлює колір тексту */
 font-size: 1.2em; /* Встановлює розмір шрифту */
 font-family: 'Arial', sans-serif; /* Встановлює тип шрифту */
 text-align: center; /* Вирівнює текст всередині елемента (left, right, center, justify) */
-line-height: 1.6; /* Встановлює висоту рядка тексту */
 text-decoration: none; /* Додає або видаляє лінії під текстом (none, underline, line-through) */
-font-weight: bold; /* Встановлює жирність шрифту (bold, normal, lighter) */
 
 /* Властивості для фону */
 background-color: #2a2a4a; /* Встановлює колір фону елемента */
@@ -82,10 +74,6 @@ height: auto; /* Встановлює висоту елемента (напри�
 
 /* Інші корисні властивості */
 opacity: 0.8; /* Встановлює рівень прозорості елемента (від 0 - повністю прозорий, до 1 - повністю непрозорий) */
-display: block; /* Визначає, як елемент відображається (block, inline, inline-block, flex) */
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Додає тінь до елемента */
-box-sizing: border-box; /* Визначає, як розраховується загальна ширина та висота елемента (content-box, border-box) */
-cursor: pointer; /* Визначає тип курсору миші при наведенні на елемент */
 `;
 
 const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ completed, onCompletionChange }) => {
@@ -219,8 +207,6 @@ const CosmicMissionStage2Css: React.FC<CosmicMissionStage2CssProps> = ({ complet
                 <li><code>text-decoration</code>: Оформлення тексту (наприклад, прибрати підкреслення у посилань).</li>
                 <li><code>opacity</code>: Прозорість елемента.</li>
                 <li><code>width</code> / <code>height</code>: Ширина та висота елемента.</li>
-                <li><code>box-shadow</code>: Тінь для елемента.</li>
-                <li><code>box-sizing</code>: Як розраховується загальна ширина та висота елемента.</li>
               </ul>
               <p className="mt-2">
                 Експериментуй! Ти можеш використовувати <Link to="/css-playground" className="text-brand-primary hover:underline">CSS Майстерню</Link> для інтерактивної практики, а також <Link to="/examples" className="text-brand-primary hover:underline">Практичні Приклади</Link>, щоб побачити, як інші стилізовані елементи виглядають у дії.
