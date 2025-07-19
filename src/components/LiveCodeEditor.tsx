@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useTheme } from "@/hooks/use-theme"; // Import useTheme
 import { cn } from "@/lib/utils"; // Import cn
+import { Switch } from "@/components/ui/switch"; // NEW: Import Switch
+import { Label } from "@/components/ui/label"; // NEW: Import Label
 
 interface LiveCodeEditorProps {
   id?: string; // Додано id
@@ -14,8 +16,8 @@ interface LiveCodeEditorProps {
 
 const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
   id,
-  initialHtml = "<h1>Привіт!</h1>\n<p>Зміни мене!</p>",
-  initialCss = "h1 {\n  color: blue;\n}\np {\n  font-family: sans-serif;\n}",
+  initialHtml = "<h1>Привіт, Веб-Майстер!</h1>\n<p>Це твій перший інтерактивний код.</p>\n<button>Натисни мене</button>",
+  initialCss = "h1 {\n  color: #4CAF50; /* Зелений */\n  text-align: center;\n}\np {\n  font-family: 'Comic Sans MS', cursive;\n  font-size: 18px;\n}\nbutton {\n  background-color: #008CBA; /* Синій */\n  color: white;\n  padding: 10px 20px;\n  border: none;\n  border-radius: 5px;\n  cursor: pointer;\n}",
   title = "Спробуй сам!",
   description = "Зміни код HTML та CSS нижче і побач результат одразу!",
 }) => {
@@ -23,6 +25,7 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
   const [cssCode, setCssCode] = useState(initialCss);
   const [outputSrcDoc, setOutputSrcDoc] = useState("");
   const { actualTheme } = useTheme(); // Get current theme
+  const [isCssApplied, setIsCssApplied] = useState(true); // NEW: State for toggle
 
   useEffect(() => {
     const rootStyles = getComputedStyle(document.documentElement);
@@ -70,7 +73,7 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
               cursor: pointer;
             }
             /* User's CSS will override these */
-            ${cssCode}
+            ${isCssApplied ? cssCode : ''} {/* NEW: Conditionally apply user's CSS */}
           </style>
         </head>
         <body>
@@ -80,7 +83,7 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
       `;
     };
     setOutputSrcDoc(generateSrcDoc());
-  }, [htmlCode, cssCode, actualTheme]); // Add actualTheme to dependencies
+  }, [htmlCode, cssCode, actualTheme, isCssApplied]); // Add isCssApplied to dependencies
 
   const handleHtmlChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setHtmlCode(e.target.value);
@@ -92,8 +95,19 @@ const LiveCodeEditor: React.FC<LiveCodeEditorProps> = ({
 
   return (
     <Card id={id} className="mb-6 bg-card shadow-md">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"> {/* NEW: Added flex layout */}
         <CardTitle className="text-2xl text-foreground">{title}</CardTitle>
+        {/* NEW: Toggle for applying CSS */}
+        <div className="flex items-center space-x-2 no-print">
+          <Switch
+            id={`${id}-toggle-css`}
+            checked={isCssApplied}
+            onCheckedChange={setIsCssApplied}
+          />
+          <Label htmlFor={`${id}-toggle-css`} className="text-lg font-medium text-muted-foreground">
+            Застосувати CSS
+          </Label>
+        </div>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-muted-foreground">{description}</p>
