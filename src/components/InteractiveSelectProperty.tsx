@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { Switch } from "@/components/ui/switch"; // NEW: Import Switch
 
 interface SelectOption {
   value: string;
@@ -37,6 +38,7 @@ const InteractiveSelectProperty: React.FC<InteractiveSelectPropertyProps> = ({
   baseStyle = {},
 }) => {
   const [selectedValue, setSelectedValue] = useState(initialValue);
+  const [isStyleApplied, setIsStyleApplied] = useState(true); // NEW: State for toggle
 
   const getKebabCase = (camelCaseString: string) => {
     return camelCaseString.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
@@ -53,10 +55,10 @@ const InteractiveSelectProperty: React.FC<InteractiveSelectPropertyProps> = ({
   const styledExampleContent = React.isValidElement(exampleContent)
     ? React.cloneElement(exampleContent as React.ReactElement, {
         className: `bg-accent text-accent-foreground border border-border rounded-md p-2`,
-        style: { ...baseStyle, ...dynamicStyle, ...(exampleContent.props.style || {}) },
+        style: { ...baseStyle, ...(isStyleApplied ? dynamicStyle : {}), ...(exampleContent.props.style || {}) }, // NEW: Apply dynamicStyle conditionally
       })
     : (
-        <div className={`bg-accent text-accent-foreground border border-border rounded-md p-2`} style={{ ...baseStyle, ...dynamicStyle }}>
+        <div className={`bg-accent text-accent-foreground border border-border rounded-md p-2`} style={{ ...baseStyle, ...(isStyleApplied ? dynamicStyle : {}) }}> {/* NEW: Apply dynamicStyle conditionally */}
           {exampleContent}
         </div>
       );
@@ -68,11 +70,22 @@ const InteractiveSelectProperty: React.FC<InteractiveSelectPropertyProps> = ({
 
   return (
     <Card id={id} className="mb-6 bg-card shadow-md">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"> {/* NEW: Added flex layout */}
         <CardTitle className="text-2xl text-foreground flex items-center gap-2">
           {title}
           <Badge variant="secondary" className="ml-2 bg-blue-500 text-white no-print">Інтерактивно!</Badge>
         </CardTitle>
+        {/* NEW: Toggle for applying style */}
+        <div className="flex items-center space-x-2 no-print">
+          <Switch
+            id={`${id}-toggle-style`}
+            checked={isStyleApplied}
+            onCheckedChange={setIsStyleApplied}
+          />
+          <Label htmlFor={`${id}-toggle-style`} className="text-lg font-medium text-muted-foreground">
+            Застосувати стиль
+          </Label>
+        </div>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-muted-foreground">{description}</p>

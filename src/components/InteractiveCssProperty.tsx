@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"; // Import Button
 import { Copy } from "lucide-react"; // Import Copy icon
 import { toast } from "sonner"; // Import toast for notifications
 import { cn } from "@/lib/utils"; // Import cn
+import { Switch } from "@/components/ui/switch"; // NEW: Import Switch
 
 interface InteractiveCssPropertyProps {
   id?: string; // New: Optional ID for direct linking
@@ -36,6 +37,7 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
   baseStyle = {},
 }) => {
   const [value, setValue] = useState<number[]>([initialValue]);
+  const [isStyleApplied, setIsStyleApplied] = useState(true); // NEW: State for toggle
 
   const currentSliderValue = value[0];
   let currentCssValue: string | number = `${currentSliderValue}${unit}`;
@@ -68,9 +70,7 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
 .my-element {
   ${cssPropertyKebabCase}: ${currentCssValue}${cssProperty === "opacity" || cssProperty === "lineHeight" || cssProperty === "boxShadow" ? '' : unit};
 }`;
-  // Adjust code example for opacity and line-height to not show unit if it's a ratio
-  // And for box-shadow to show the full value
-
+  
   // Визначаємо адаптивні стилі для фону та тексту прикладів
   const exampleBgClass = "bg-accent";
   const exampleTextColorClass = "text-accent-foreground";
@@ -80,10 +80,10 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
   const styledExampleContent = React.isValidElement(exampleContent)
     ? React.cloneElement(exampleContent as React.ReactElement, {
         className: `${exampleBgClass} ${exampleTextColorClass} border ${exampleBorderClass} rounded-md p-2`, // Додаємо класи
-        style: { ...baseStyle, ...dynamicStyle, ...(exampleContent.props.style || {}) },
+        style: { ...baseStyle, ...(isStyleApplied ? dynamicStyle : {}), ...(exampleContent.props.style || {}) }, // NEW: Apply dynamicStyle conditionally
       })
     : (
-        <div className={`${exampleBgClass} ${exampleTextColorClass} border ${exampleBorderClass} rounded-md p-2`} style={{ ...baseStyle, ...dynamicStyle }}>
+        <div className={`${exampleBgClass} ${exampleTextColorClass} border ${exampleBorderClass} rounded-md p-2`} style={{ ...baseStyle, ...(isStyleApplied ? dynamicStyle : {}) }}> {/* NEW: Apply dynamicStyle conditionally */}
           {exampleContent}
         </div>
       );
@@ -99,11 +99,22 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
 
   return (
     <Card id={id} className="mb-6 bg-card shadow-md"> {/* Apply ID here */}
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"> {/* NEW: Added flex layout */}
         <CardTitle className="text-2xl text-foreground flex items-center gap-2">
           {title.replace(' (Інтерактивно!)', '')} {/* Remove the text from title */}
           <Badge variant="secondary" className="ml-2 bg-blue-500 text-white no-print">Інтерактивно!</Badge> {/* Add the badge */}
         </CardTitle>
+        {/* NEW: Toggle for applying style */}
+        <div className="flex items-center space-x-2 no-print">
+          <Switch
+            id={`${id}-toggle-style`}
+            checked={isStyleApplied}
+            onCheckedChange={setIsStyleApplied}
+          />
+          <Label htmlFor={`${id}-toggle-style`} className="text-lg font-medium text-muted-foreground">
+            Застосувати стиль
+          </Label>
+        </div>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-muted-foreground">{description}</p>
