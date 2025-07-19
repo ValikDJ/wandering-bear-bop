@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
@@ -37,10 +37,9 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
 }) => {
   const [value, setValue] = useState<number[]>([initialValue]);
 
-  const currentCssValue = `${value[0]}${unit}`;
-  const dynamicStyle: React.CSSProperties = {
-    [cssProperty]: currentCssValue,
-  };
+  const currentSliderValue = value[0];
+  let currentCssValue: string | number = `${currentSliderValue}${unit}`;
+  let dynamicStyle: React.CSSProperties = {};
 
   // Helper to convert camelCase to kebab-case for CSS property names in code example
   const getKebabCase = (camelCaseString: string) => {
@@ -49,10 +48,28 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
 
   const cssPropertyKebabCase = getKebabCase(cssProperty);
 
+  // Special handling for specific CSS properties
+  if (cssProperty === "opacity") {
+    currentCssValue = currentSliderValue / 100; // Convert 0-100 to 0-1 for opacity
+    dynamicStyle = { [cssProperty]: currentCssValue };
+  } else if (cssProperty === "lineHeight") {
+    currentCssValue = currentSliderValue / 100; // Convert 100-250 to 1.0-2.5 for line-height
+    dynamicStyle = { [cssProperty]: currentCssValue };
+  } else if (cssProperty === "boxShadow") {
+    // For box-shadow, we'll control the blur radius
+    currentCssValue = `0 0 ${currentSliderValue}px rgba(0,0,0,0.5)`;
+    dynamicStyle = { boxShadow: currentCssValue };
+  }
+  else {
+    dynamicStyle = { [cssProperty]: currentCssValue };
+  }
+
   const codeExample = `/* CSS */
 .my-element {
-  ${cssPropertyKebabCase}: ${currentCssValue};
+  ${cssPropertyKebabCase}: ${currentCssValue}${cssProperty === "opacity" || cssProperty === "lineHeight" || cssProperty === "boxShadow" ? '' : unit};
 }`;
+  // Adjust code example for opacity and line-height to not show unit if it's a ratio
+  // And for box-shadow to show the full value
 
   // Визначаємо адаптивні стилі для фону та тексту прикладів
   const exampleBgClass = "bg-accent";
@@ -93,7 +110,7 @@ const InteractiveCssProperty: React.FC<InteractiveCssPropertyProps> = ({
         
         <div className="mb-6 no-print">
           <Label htmlFor="css-slider" className="text-lg font-semibold text-secondary-foreground mb-2 block">
-            Змінити значення {cssPropertyKebabCase}: {currentCssValue}
+            Змінити значення {cssPropertyKebabCase}: {cssProperty === "opacity" || cssProperty === "lineHeight" ? currentSliderValue / 100 : currentSliderValue}{unit}
           </Label>
           <Slider
             id="css-slider"
