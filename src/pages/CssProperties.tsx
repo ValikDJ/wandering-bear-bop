@@ -3,10 +3,12 @@ import LessonCard from "@/components/LessonCard";
 import InteractiveCssProperty from "@/components/InteractiveCssProperty";
 import CssBoxModelVisualizer from "@/components/CssBoxModelVisualizer";
 import LessonNavigation from "@/components/LessonNavigation";
-import { useScrollToHash } from "@/hooks/use-scroll-to-hash"; // Import the new hook
+import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
+import InteractiveColorInputProperty from "@/components/InteractiveColorInputProperty"; // NEW IMPORT
+import InteractiveSelectProperty from "@/components/InteractiveSelectProperty"; // NEW IMPORT
 
 const CssProperties: React.FC = () => {
-  useScrollToHash(); // Use the hook here
+  useScrollToHash();
 
   return (
     <div className="py-8">
@@ -16,19 +18,18 @@ const CssProperties: React.FC = () => {
       </p>
 
       <div className="space-y-8">
-        <LessonCard
-          id="css-color" // Added ID
-          title="color: Колір Тексту"
+        <InteractiveColorInputProperty
+          id="css-color"
+          title="color: Колір Тексту (Інтерактивно!)"
           description="Властивість `color` змінює колір тексту елемента. Ти можеш використовувати назви кольорів (red, blue), HEX-коди (#FF0000) або RGB-значення."
-          codeExample={`p {
-  color: blue;
-}`}
-          language="css"
-          result={<p style={{ color: 'hsl(var(--brand-primary))' }}>Цей текст синій.</p>}
+          cssProperty="color"
+          initialValue="#2196F3" // Blue
+          exampleContent={<p>Цей текст змінює свій колір.</p>}
+          baseStyle={{ fontSize: '20px' }}
         />
 
         <InteractiveCssProperty
-          id="css-font-size" // Added ID
+          id="css-font-size"
           title="font-size: Розмір Шрифту (Інтерактивно!)"
           description="Властивість `font-size` встановлює розмір тексту. Перетягни повзунок, щоб побачити, як змінюється розмір!"
           cssProperty="fontSize"
@@ -40,42 +41,51 @@ const CssProperties: React.FC = () => {
           baseStyle={{}}
         />
 
-        <LessonCard
-          id="css-font-family" // Added ID
-          title="font-family: Тип Шрифту"
+        <InteractiveSelectProperty
+          id="css-font-family"
+          title="font-family: Тип Шрифту (Інтерактивно!)"
           description="Властивість `font-family` змінює тип шрифту тексту. Можна вказати кілька шрифтів через кому, якщо перший недоступний."
-          codeExample={`p {
-  font-family: Arial, sans-serif;
-}`}
-          language="css"
-          result={<p style={{ fontFamily: 'Arial, sans-serif' }}>Текст шрифтом Arial.</p>}
+          cssProperty="fontFamily"
+          initialValue="Arial, sans-serif"
+          options={[
+            { value: "Arial, sans-serif", label: "Arial" },
+            { value: "'Times New Roman', serif", label: "Times New Roman" },
+            { value: "'Courier New', monospace", label: "Courier New" },
+            { value: "Verdana, sans-serif", label: "Verdana" },
+            { value: "Georgia, serif", label: "Georgia" },
+          ]}
+          exampleContent={<p>Цей текст змінює свій тип шрифту.</p>}
+          baseStyle={{ fontSize: '20px' }}
         />
 
-        <LessonCard
-          id="css-background-color" // Added ID
-          title="background-color: Колір Фону"
+        <InteractiveColorInputProperty
+          id="css-background-color"
+          title="background-color: Колір Фону (Інтерактивно!)"
           description="Властивість `background-color` встановлює колір фону елемента. Ти можеш використовувати назви кольорів, HEX-коди або RGB-значення."
-          codeExample={`div {
-  background-color: lightgreen;
-  padding: 10px;
-}`}
-          language="css"
-          result={<div style={{ backgroundColor: 'hsl(var(--playground-element-bg))', padding: '10px', color: 'hsl(var(--playground-element-text))' }}>Це блок з зеленим фоном.</div>}
+          cssProperty="backgroundColor"
+          initialValue="#4CAF50" // Green
+          exampleContent={<div style={{ padding: '20px', textAlign: 'center' }}>Це блок з фоном, що змінюється.</div>}
+          baseStyle={{}}
         />
 
-        <LessonCard
-          id="css-text-align" // Added ID
-          title="text-align: Вирівнювання Тексту"
+        <InteractiveSelectProperty
+          id="css-text-align"
+          title="text-align: Вирівнювання Тексту (Інтерактивно!)"
           description="Властивість `text-align` вирівнює текст всередині елемента: `left` (ліворуч), `right` (праворуч), `center` (по центру), `justify` (по ширині)."
-          codeExample={`h2 {
-  text-align: center;
-}`}
-          language="css"
-          result={<h2 style={{ textAlign: 'center' }}>Заголовок по центру</h2>}
+          cssProperty="textAlign"
+          initialValue="center"
+          options={[
+            { value: "left", label: "Ліворуч" },
+            { value: "center", label: "По центру" },
+            { value: "right", label: "Праворуч" },
+            { value: "justify", label: "По ширині" },
+          ]}
+          exampleContent={<p>Цей текст змінює своє вирівнювання.</p>}
+          baseStyle={{ width: '100%', border: '1px dashed hsl(var(--border))' }}
         />
 
         <InteractiveCssProperty
-          id="css-margin" // Added ID
+          id="css-margin"
           title="margin: Зовнішні Відступи (Інтерактивно!)"
           description="Властивість `margin` створює простір *навколо* елемента, відштовхуючи його від інших елементів. Перетягни повзунок, щоб побачити, як змінюється зовнішній відступ цього блоку."
           cssProperty="margin"
@@ -88,7 +98,7 @@ const CssProperties: React.FC = () => {
         />
 
         <InteractiveCssProperty
-          id="css-padding" // Added ID
+          id="css-padding"
           title="padding: Внутрішні Відступи (Інтерактивно!)"
           description="Властивість `padding` створює простір *між вмістом* елемента та його рамкою. Перетягни повзунок, щоб побачити, як змінюється внутрішній відступ цього блоку."
           cssProperty="padding"
@@ -100,23 +110,53 @@ const CssProperties: React.FC = () => {
           baseStyle={{ backgroundColor: 'hsl(var(--playground-element-bg))', border: '1px solid hsl(var(--playground-element-border))', color: 'hsl(var(--playground-element-text))' }}
         />
 
-        {/* New Box Model Visualizer */}
         <CssBoxModelVisualizer />
 
-        <LessonCard
-          id="css-border" // Added ID
-          title="border: Рамка"
-          description="Властивість `border` додає рамку навколо елемента. Вказується товщина, стиль (solid, dotted, dashed) та колір."
-          codeExample={`p {
-  border: 2px solid red;
-  padding: 5px;
-}`}
-          language="css"
-          result={<p style={{ border: '2px solid hsl(var(--destructive))', padding: '5px', color: 'hsl(var(--foreground))' }}>Текст з червоною рамкою.</p>}
+        {/* Interactive Border Properties */}
+        <InteractiveCssProperty
+          id="css-border-width"
+          title="border-width: Товщина Рамки (Інтерактивно!)"
+          description="Властивість `border-width` встановлює товщину рамки елемента."
+          cssProperty="borderWidth"
+          unit="px"
+          min={0}
+          max={10}
+          initialValue={2}
+          exampleContent={<div style={{ width: '150px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', borderStyle: 'solid', borderColor: 'red' }}>Рамка</div>}
+          baseStyle={{ backgroundColor: 'hsl(var(--playground-element-bg))', color: 'hsl(var(--playground-element-text))' }}
+        />
+        <InteractiveSelectProperty
+          id="css-border-style"
+          title="border-style: Стиль Рамки (Інтерактивно!)"
+          description="Властивість `border-style` встановлює стиль лінії рамки: `solid` (суцільна), `dotted` (пунктирна), `dashed` (штрихова) та інші."
+          cssProperty="borderStyle"
+          initialValue="solid"
+          options={[
+            { value: "solid", label: "Solid (Суцільна)" },
+            { value: "dotted", label: "Dotted (Пунктирна)" },
+            { value: "dashed", label: "Dashed (Штрихова)" },
+            { value: "double", label: "Double (Подвійна)" },
+            { value: "groove", label: "Groove" },
+            { value: "ridge", label: "Ridge" },
+            { value: "inset", label: "Inset" },
+            { value: "outset", label: "Outset" },
+            { value: "none", label: "None (Без рамки)" },
+          ]}
+          exampleContent={<div style={{ width: '150px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', borderWidth: '3px', borderColor: 'blue' }}>Стиль рамки</div>}
+          baseStyle={{ backgroundColor: 'hsl(var(--playground-element-bg))', color: 'hsl(var(--playground-element-text))' }}
+        />
+        <InteractiveColorInputProperty
+          id="css-border-color"
+          title="border-color: Колір Рамки (Інтерактивно!)"
+          description="Властивість `border-color` встановлює колір рамки елемента."
+          cssProperty="borderColor"
+          initialValue="#FF0000" // Red
+          exampleContent={<div style={{ width: '150px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', borderWidth: '3px', borderStyle: 'solid' }}>Колір рамки</div>}
+          baseStyle={{ backgroundColor: 'hsl(var(--playground-element-bg))', color: 'hsl(var(--playground-element-text))' }}
         />
 
         <InteractiveCssProperty
-          id="css-border-radius" // Added ID
+          id="css-border-radius"
           title="border-radius: Заокруглення Кутів (Інтерактивно!)"
           description="Властивість `border-radius` заокруглює кути елемента. Перетягни повзунок, щоб побачити, як змінюється заокруглення!"
           cssProperty="borderRadius"
@@ -128,20 +168,24 @@ const CssProperties: React.FC = () => {
           baseStyle={{ border: '2px solid hsl(var(--playground-element-border))', backgroundColor: 'hsl(var(--playground-element-bg))', color: 'hsl(var(--playground-element-text))' }}
         />
 
-        <LessonCard
-          id="css-text-decoration" // Added ID
-          title="text-decoration: Оформлення Тексту"
+        <InteractiveSelectProperty
+          id="css-text-decoration"
+          title="text-decoration: Оформлення Тексту (Інтерактивно!)"
           description="Властивість `text-decoration` додає або видаляє лінії під текстом, над текстом або через текст. Наприклад, `none` видаляє підкреслення у посилань."
-          codeExample={`a {
-  text-decoration: none;
-  color: green;
-}`}
-          language="css"
-          result={<a href="#" style={{ textDecoration: 'none', color: 'hsl(var(--brand-primary))' }}>Посилання без підкреслення.</a>}
+          cssProperty="textDecoration"
+          initialValue="none"
+          options={[
+            { value: "none", label: "None (Без ліній)" },
+            { value: "underline", label: "Underline (Підкреслення)" },
+            { value: "overline", label: "Overline (Надкреслення)" },
+            { value: "line-through", label: "Line-through (Закреслення)" },
+          ]}
+          exampleContent={<a href="#" style={{ fontSize: '20px', color: 'hsl(var(--brand-primary))' }}>Посилання з оформленням.</a>}
+          baseStyle={{}}
         />
 
         <InteractiveCssProperty
-          id="css-opacity" // Added ID
+          id="css-opacity"
           title="opacity: Прозорість (Інтерактивно!)"
           description="Властивість `opacity` встановлює рівень прозорості елемента. Значення від 0 (повністю прозорий) до 1 (повністю непрозорий). Перетягни повзунок, щоб змінити прозорість!"
           cssProperty="opacity"
@@ -154,7 +198,7 @@ const CssProperties: React.FC = () => {
         />
 
         <InteractiveCssProperty
-          id="css-width" // Added ID
+          id="css-width"
           title="width: Ширина (Інтерактивно!)"
           description="Властивість `width` встановлює ширину елемента. Перетягни повзунок, щоб змінити ширину!"
           cssProperty="width"
@@ -167,7 +211,7 @@ const CssProperties: React.FC = () => {
         />
 
         <InteractiveCssProperty
-          id="css-height" // Added ID
+          id="css-height"
           title="height: Висота (Інтерактивно!)"
           description="Властивість `height` встановлює висоту елемента. Перетягни повзунок, щоб змінити висоту!"
           cssProperty="height"
@@ -179,7 +223,6 @@ const CssProperties: React.FC = () => {
           baseStyle={{ backgroundColor: 'hsl(var(--playground-element-bg))', color: 'hsl(var(--playground-element-text))', border: '1px solid hsl(var(--playground-element-border))' }}
         />
 
-        {/* NEW INTERACTIVE PROPERTIES */}
         <InteractiveCssProperty
           id="css-line-height"
           title="line-height: Міжрядковий Інтервал (Інтерактивно!)"
@@ -217,23 +260,6 @@ const CssProperties: React.FC = () => {
           initialValue={10}
           exampleContent={<div style={{ width: '150px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>Блок з тінню</div>}
           baseStyle={{ backgroundColor: 'hsl(var(--playground-element-bg))', color: 'hsl(var(--playground-element-text))', border: '1px solid hsl(var(--playground-element-border))', borderRadius: '8px', boxShadow: '0 0 10px rgba(0,0,0,0.5)' }}
-          // Custom logic for boxShadow to only change blur radius
-          // The `unit` prop is used for the slider value, but the actual CSS string needs to be constructed.
-          // This is handled by the `getKebabCase` and `dynamicStyle` in InteractiveCssProperty.
-          // For box-shadow, we'll pass a function to `exampleContent` or adjust `InteractiveCssProperty`
-          // For now, I'll simplify the `boxShadow` property to just blur.
-          // The `dynamicStyle` in InteractiveCssProperty will apply `boxShadow: "10px"` which is not correct.
-          // I need to adjust `InteractiveCssProperty` to handle `box-shadow` specifically, or simplify the example.
-          // Let's simplify the example to just change the blur radius of a fixed shadow.
-          // The `cssProperty` should be `boxShadow` and `unit` can be `px`.
-          // The `dynamicStyle` will be `{ boxShadow: `${value[0]}px` }` which is wrong.
-          // I need to pass a custom style function or modify InteractiveCssProperty.
-
-          // Re-thinking box-shadow:
-          // The `InteractiveCssProperty` currently applies `[cssProperty]: currentCssValue`.
-          // For `boxShadow`, `currentCssValue` would be `10px`. This is not a valid `box-shadow` value.
-          // It needs to be `0 0 10px rgba(0,0,0,0.5)`.
-          // I will modify `InteractiveCssProperty` to handle `boxShadow` as a special case.
         />
       </div>
       <LessonNavigation />
